@@ -153,6 +153,7 @@ Comment.prototype.setContent = function (data) {
     data = this._data;
     this._element.data('postId', data.id);
     this._element.attr('data-post-id', data.id);
+    this._element.prop('id', 'js-post-' + data.id);
 
     // 1) create the votes element if it is not there
     var vote = this._voteButton;

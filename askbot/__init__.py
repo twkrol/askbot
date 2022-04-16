@@ -23,7 +23,7 @@ REQUIREMENTS = {
     'django': 'django>=1.11,<4.0',
     'django_countries': 'django-countries>=3.3',
     'django_jinja': 'django-jinja>=2.0',
-    'followit': 'django-followit==0.4.1',
+    'followit': 'django-followit==0.5.0',
     'html5lib': 'html5lib==0.9999999',
     'jinja2': 'Jinja2>=2.10',
     'jsonfield': 'jsonfield>=2.0.0',
