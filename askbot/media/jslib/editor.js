@@ -48,7 +48,6 @@ function ajaxFileUpload(options) {
         fileElementId: uploadInputId,
         dataType: 'xml',
         success: function (data, status) {
-
             var fileURL = $(data).find('file_url').text();
             /*
             * hopefully a fix for the "fakepath" issue
@@ -59,7 +58,7 @@ function ajaxFileUpload(options) {
             if(error != ''){
                 alert(error);
             } else {
-                urlInput.attr('value', fileURL);
+                urlInput.val(fileURL);
             }
 
             /* re-install this as the upload extension
