@@ -20,7 +20,11 @@ class Command(BaseCommand): #pylint: disable=missing-docstring
         revs = PostRevision.objects.all()
         for rev in ProgressBar(revs.iterator(), revs.count(), message=message):
             rev.text = md(rev.text)
-            rev.save()
+            try:
+                rev.save()
+            except Exception as error: #pylint: disable=broad-except
+                print(f'error converting post revision id={rev.id} {error}')
+
             transaction.commit()
 
         message = 'Converting posts'
@@ -29,7 +33,11 @@ class Command(BaseCommand): #pylint: disable=missing-docstring
             post.text = md(post.html)
             post.html = post.parse_post_text()['html']
             post.summary = post.get_snippet()
-            post.save()
+            try:
+                post.save()
+            except Exception as error: #pylint: disable=broad-except
+                print(f'error converting post revision id={post.id} {error}')
+
             transaction.commit()
             if post.thread:
                 post.thread.clear_cached_data()

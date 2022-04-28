@@ -45,6 +45,7 @@
   // define reputation needs for comments
   askbot['urls']['getPostHtml'] = '{{ url('get_post_html') }}';
   askbot['urls']['retag'] = "{{ url('retag_question',  question.id ) }}";
+  PostVote.init();
 
   {# IMPORTANT !!! the same number for avatar size as in below two lines must be set in the comment macro #}
   {% if request.user.is_authenticated %}
