@@ -21,11 +21,7 @@ class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
             }
         )
         self.group = models.Group.objects.get_or_create(name='jockeys')
-        self.admin.edit_group_membership(
-            group = self.group,
-            user = self.admin,
-            action = 'add'
-        )
+        self.admin.join_group(self.group)
 
     def tearDown(self):
         askbot_settings.update('GROUPS_ENABLED', self.groups_enabled_backup)

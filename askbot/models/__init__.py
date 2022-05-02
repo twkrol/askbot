@@ -2881,20 +2881,11 @@ def user_join_default_groups(self):
     #and Askbot groups are not populated
     #In Askbot user by default must by a member of "global" group
     #and of "personal" group - which is created for each user individually
-    self.edit_group_membership(
-        group=Group.objects.get_global_group(),
-        user=self,
-        action='add',
-        force=True
-    )
+    group = Group.objects.get_global_group()
+    self.join_group(group, force=True)
     group_name = format_personal_group_name(self)
-    group = Group.objects.get_or_create(
-        name=group_name, user=self
-    )
-    self.edit_group_membership(
-        group=group, user=self, action='add', force=True
-    )
-
+    group = Group.objects.get_or_create(name=group_name, user=self)
+    self.join_group(group, force=True)
 
 def user_get_personal_group(self):
     group_name = format_personal_group_name(self)
@@ -3490,6 +3481,7 @@ def user_edit_group_membership(self, user=None, group=None,
     """
     if not force:
         self.assert_can_join_or_leave_group()
+
     if action == 'add':
         #calculate new level
         openness = group.get_openness_level_for_user(user)
@@ -3510,16 +3502,20 @@ def user_edit_group_membership(self, user=None, group=None,
         else:
             level = level or GroupMembership.FULL
 
+        auth_group = group.group_ptr
+        user.groups.add(auth_group)
         membership, created = GroupMembership.objects.get_or_create(
                         user=user, group=group, level=level
                     )
         return membership
 
-    elif action == 'remove':
+    if action == 'remove':
+        auth_group = group.group_ptr
         GroupMembership.objects.get(user=user, group=group).delete()
+        user.groups.remove(auth_group)
         return None
-    else:
-        raise ValueError('invalid action')
+
+    raise ValueError('invalid action')
 
 def user_join_group(self, group, force=False, level=None):
     return self.edit_group_membership(group=group, user=self,

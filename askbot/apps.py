@@ -20,6 +20,7 @@ def init_badges_once(sender, **kwargs):
 class AskbotConfig(AppConfig):
     name = 'askbot'
     verbose_name = 'Askbot Q&A platform'
+    default_auto_field = 'django.db.models.AutoField'
     badges_ready = False
 
     def ready(self):
