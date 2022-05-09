@@ -58,7 +58,6 @@ def upload(request):#ajax upload file to a question or answer
     # check upload permission
     result = ''
     error = ''
-    new_file_name = ''
     try:
         #may raise exceptions.PermissionDenied
         result, error, file_url, orig_file_name = None, '', None, None
@@ -95,7 +94,7 @@ def upload(request):#ajax upload file to a question or answer
 
         # rewind the file and store
         uploaded_file.seek(0)
-        file_url = store_file(new_file_name, uploaded_file)
+        file_url = store_file(uploaded_file.name, uploaded_file)
 
     except exceptions.PermissionDenied as e:
         error = str(e)
