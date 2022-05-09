@@ -219,13 +219,13 @@ def process_attachment(attachment):
     link to file in the markdown format and the
     file storage object
     """
-    file_storage, file_name, file_url = store_file(attachment)
+    file_url = store_file(attachment.name, attachment)
     markdown_link = '[%s](%s) ' % (attachment.name, file_url)
     file_extension = os.path.splitext(attachment.name)[1]
     #todo: this is a hack - use content type
     if file_extension.lower() in ('.png', '.jpg', '.jpeg', '.gif'):
         markdown_link = '!' + markdown_link
-    return markdown_link, file_storage
+    return markdown_link
 
 def extract_user_signature(text, reply_code):
     """extracts email signature as text trailing
@@ -263,7 +263,6 @@ def process_parts(parts, reply_code=None, from_address=None):
     of uploaded files.
     """
     body_text = ''
-    stored_files = list()
     attachments_markdown = ''
 
     if DEBUG_EMAIL:
@@ -273,8 +272,7 @@ def process_parts(parts, reply_code=None, from_address=None):
         if part_type == 'attachment':
             if DEBUG_EMAIL:
                 sys.stderr.write('REGULAR ATTACHMENT:\n')
-            markdown, stored_file = process_attachment(content)
-            stored_files.append(stored_file)
+            markdown = process_attachment(content)
             attachments_markdown += '\n\n' + markdown
         elif part_type == 'body':
             if DEBUG_EMAIL:
@@ -285,8 +283,7 @@ def process_parts(parts, reply_code=None, from_address=None):
         elif part_type == 'inline':
             if DEBUG_EMAIL:
                 sys.stderr.write('INLINE ATTACHMENT:\n')
-            markdown, stored_file = process_attachment(content)
-            stored_files.append(stored_file)
+            markdown = process_attachment(content)
             body_text += markdown
 
     if DEBUG_EMAIL:
@@ -313,11 +310,11 @@ def process_parts(parts, reply_code=None, from_address=None):
                                                     )
 
     body_text = body_text.strip()
-    return body_text, stored_files, signature
+    return body_text, signature
 
 
 def process_emailed_question(
-    from_address, subject, body_text, stored_files,
+    from_address, subject, body_text,
     tags=None, group_id=None
 ):
     """posts question received by email or bounces the message"""

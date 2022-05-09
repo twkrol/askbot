@@ -622,6 +622,11 @@ class Post(models.Model):
 
         return {'diff': diff, 'newly_mentioned_users': newly_mentioned_users}
 
+    def render(self):
+        """Rerenders post html and snippet, no saving."""
+        self.html = self.parse_post_text()['html']
+        self.summary = self.get_snippet()
+
     def is_question(self):
         return self.post_type == 'question'
 
@@ -1116,8 +1121,8 @@ class Post(models.Model):
             # the expander work
             from askbot.utils.html import sanitize_html
             return sanitize_html('<div class="js-snippet">' + snippet + '</div>')
-        else:
-            return self.html
+
+        return self.html
 
     def filter_authorized_users(self, candidates):
         """returns list of users who are allowed to see this post"""

@@ -85,18 +85,17 @@ def upload(request):#ajax upload file to a question or answer
                     {'file_types': file_types}
             raise exceptions.PermissionDenied(msg)
 
-        # generate new file name and storage object
-        file_storage, new_file_name, file_url = store_file(
-                                            uploaded_file, file_name_prefix
-                                        )
-        # check file size
-        # byte
-        size = file_storage.size(new_file_name)
+        # get file size, make sure that the file is not too large
+        uploaded_file.seek(0, 2)
+        size = uploaded_file.tell()
         if size > settings.ASKBOT_MAX_UPLOAD_FILE_SIZE:
-            file_storage.delete(new_file_name)
-            msg = _("maximum upload file size is %(file_size)sK") % \
+            msg = _("maximum upload file size is %(file_size)s bytes") % \
                     {'file_size': settings.ASKBOT_MAX_UPLOAD_FILE_SIZE}
             raise exceptions.PermissionDenied(msg)
+
+        # rewind the file and store
+        uploaded_file.seek(0)
+        file_url = store_file(new_file_name, uploaded_file)
 
     except exceptions.PermissionDenied as e:
         error = str(e)

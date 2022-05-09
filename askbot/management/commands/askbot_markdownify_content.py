@@ -1,9 +1,11 @@
 """Management command that builds Post.text and PostRevison.text in
 Markdown format, from the html markup.
 """
+import sys
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from markdownify import markdownify as md
+from askbot.conf import settings as askbot_settings
 from askbot.models import Post, PostRevision
 from askbot.utils.console import get_yes_or_no, ProgressBar
 
@@ -12,9 +14,19 @@ Are you sure you want to proceed?"""
 
 class Command(BaseCommand): #pylint: disable=missing-docstring
     def handle(self, *args, **kwargs): # pylint: disable=unused-argument
-        response = get_yes_or_no(ARE_YOU_SURE_MESSAGE)
-        if response == 'no':
-            return
+
+        if askbot_settings.EDITOR_TYPE != 'markdown':
+            print("Update livesetting EDITOR_TYPE='markdown' and rerun this command")
+            sys.exit(1)
+
+        if askbot_settings.COMMENTS_EDITOR_TYPE != 'markdown':
+            print("Update livesetting COMMENTS_EDITOR_TYPE='markdown' and rerun this command")
+            sys.exit(1)
+
+        if kwargs['verbosity'] > 0:
+            response = get_yes_or_no(ARE_YOU_SURE_MESSAGE)
+            if response == 'no':
+                return
 
         message = 'Converting post revisions'
         revs = PostRevision.objects.all()
