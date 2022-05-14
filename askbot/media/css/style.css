@@ -9256,6 +9256,11 @@ ul.tags li {
   margin-bottom: 0.5rem;
 }
 
+.questions-blank-state {
+  text-align: center;
+  margin: 4rem 0;
+}
+
 .js-questions-header {
   margin-bottom: 0.5rem;
   position: sticky;
