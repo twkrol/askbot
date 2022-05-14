@@ -26,7 +26,7 @@ class AskbotConfig(AppConfig):
 
     def ready(self):
         # too bad there isn't an "all_django_apps_ready" signal
-        if django_settings.get('ASKBOT_AUTO_INIT_BADGES', False):
+        if getattr(django_settings, 'ASKBOT_AUTO_INIT_BADGES', False):
             request_started.connect(
                 init_badges_once,
                 dispatch_uid='init_askbot_badges_once')
