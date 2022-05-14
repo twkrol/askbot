@@ -12,6 +12,7 @@ else:
 class AskbotStaticSettings(AppConf):
     ALLOWED_UPLOAD_FILE_TYPES = ('.jpg', '.jpeg', '.gif',
                                 '.bmp', '.png', '.tiff')
+    AUTO_INIT_BADGES = True
     CAS_USER_FILTER = None
     CAS_USER_FILTER_DENIED_MSG = None
     CAS_GET_USERNAME = None # python path to function

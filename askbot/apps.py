@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.conf import settings as django_settings
 from django.contrib.auth import get_user_model
 from django.core.signals import request_started
 
@@ -25,9 +26,10 @@ class AskbotConfig(AppConfig):
 
     def ready(self):
         # too bad there isn't an "all_django_apps_ready" signal
-        request_started.connect(
-            init_badges_once,
-            dispatch_uid='init_askbot_badges_once')
+        if django_settings.get('ASKBOT_AUTO_INIT_BADGES', False):
+            request_started.connect(
+                init_badges_once,
+                dispatch_uid='init_askbot_badges_once')
 
         import followit
         user_model = get_user_model()
