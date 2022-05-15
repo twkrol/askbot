@@ -34,7 +34,7 @@ from askbot.utils import markup
 from askbot.utils.html import (get_word_count, has_moderated_tags,
                                moderate_tags, sanitize_html,
                                site_url)
-from askbot.utils.transaction import defer_celery_task
+from askbot.utils.celery_utils import defer_celery_task
 from askbot.models.base import (AnonymousContent, BaseQuerySetManager,
                                 DraftContent)
 

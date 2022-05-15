@@ -72,7 +72,7 @@ from askbot.utils.decorators import auto_now_timestamp
 from askbot.utils.decorators import reject_forbidden_phrases
 from askbot.utils.markup import URL_RE
 from askbot.utils.slug import slugify, ascii_slugify
-from askbot.utils.transaction import defer_celery_task
+from askbot.utils.celery_utils import defer_celery_task
 from askbot.utils.translation import get_language
 from askbot.utils.html import replace_links_with_text
 from askbot.utils import functions

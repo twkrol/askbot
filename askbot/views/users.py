@@ -41,7 +41,7 @@ from django.views.decorators import csrf
 from askbot.utils.slug import slugify
 from askbot.utils.html import sanitize_html
 from askbot.utils.functions import encode_jwt
-from askbot.utils.transaction import defer_celery_task
+from askbot.utils.celery_utils import defer_celery_task
 from askbot.mail import send_mail
 from askbot.utils.translation import get_language
 from askbot.mail.messages import UnsubscribeLink
