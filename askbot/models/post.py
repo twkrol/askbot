@@ -831,7 +831,7 @@ class Post(models.Model):
             args=(
                 update_activity.pk,
                 self.id,
-                notify_sets['for_email']
+                list(notify_sets['for_email'])
             ),
             countdown=django_settings.NOTIFICATION_DELAY_TIME
         )

@@ -19,8 +19,8 @@ class Command(BaseCommand): #pylint: disable=missing-docstring
             print("Update livesetting EDITOR_TYPE='markdown' and rerun this command")
             sys.exit(1)
 
-        if askbot_settings.COMMENTS_EDITOR_TYPE != 'markdown':
-            print("Update livesetting COMMENTS_EDITOR_TYPE='markdown' and rerun this command")
+        if askbot_settings.COMMENTS_EDITOR_TYPE != 'rich-text':
+            print("Update livesetting COMMENTS_EDITOR_TYPE='rich-text' and rerun this command")
             sys.exit(1)
 
         if kwargs['verbosity'] > 0:
