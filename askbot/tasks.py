@@ -270,7 +270,7 @@ def record_question_visit(
 def send_instant_notifications_about_activity_in_post(
         activity_id=None, post_id=None, recipient_ids=None):
 
-    if recipients is None:
+    if recipient_ids is None:
         recipients = set()
     else:
         recipients = User.objects.filter(pk__in=recipient_ids)
