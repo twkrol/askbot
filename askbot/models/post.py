@@ -826,12 +826,13 @@ class Post(models.Model):
             cache.cache.set(cache_key, True, django_settings.NOTIFICATION_DELAY_TIME)
 
         from askbot.tasks import send_instant_notifications_about_activity_in_post
+        recipient_ids = [user.id for user in notify_sets['for_email']]
         defer_celery_task(
             send_instant_notifications_about_activity_in_post,
             args=(
                 update_activity.pk,
                 self.id,
-                list(notify_sets['for_email'])
+                recipient_ids
             ),
             countdown=django_settings.NOTIFICATION_DELAY_TIME
         )
