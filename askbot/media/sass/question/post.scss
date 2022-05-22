@@ -7,6 +7,7 @@
   margin: var(--question-margin);
   h1 {
     font-size: var(--question-detail-title-font-size);
+    line-height: var(--question-detail-title-line-height);
     margin: var(--question-detail-title-margin);
     .js-editable-content,
     .js-editable-controls,
@@ -22,6 +23,9 @@
     }
     textarea {
       font-weight: var(--heading-font-weight);
+      font-size: var(--question-detail-title-font-size);
+      line-height: var(--question-detail-title-line-height);
+      padding: 3px var(--input-horizontal-padding);
     }
   }
 }

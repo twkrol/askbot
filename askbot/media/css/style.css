@@ -788,6 +788,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
   --reputation-badge-border-radius: calc(0.5 * var(--reputation-badge-height));
   --reputation-badge-box-shadow: 0 0 0 1px var(--bg-color);
   --question-detail-title-font-size: var(--extra-large-font-size);
+  --question-detail-title-line-height: 1.75rem;
   --question-detail-title-margin: 0 0 0.3625rem;
   --question-padding: 0.5rem 0 0;
   --question-margin: 0 0 1rem;
@@ -9258,7 +9259,7 @@ ul.tags li {
 
 .questions-blank-state {
   text-align: center;
-  margin: 4rem 0;
+  margin: 4rem 0 4.5rem;
 }
 
 .js-questions-header {
@@ -9505,6 +9506,7 @@ ul.tags li {
 }
 .js-post.js-question h1 {
   font-size: var(--question-detail-title-font-size);
+  line-height: var(--question-detail-title-line-height);
   margin: var(--question-detail-title-margin);
 }
 .js-post.js-question h1 .js-editable-content,
@@ -9521,6 +9523,9 @@ ul.tags li {
 }
 .js-post.js-question h1 textarea {
   font-weight: var(--heading-font-weight);
+  font-size: var(--question-detail-title-font-size);
+  line-height: var(--question-detail-title-line-height);
+  padding: 3px var(--input-horizontal-padding);
 }
 
 .js-post.js-answer {
