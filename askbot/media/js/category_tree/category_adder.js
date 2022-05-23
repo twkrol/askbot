@@ -120,7 +120,8 @@ CategoryAdder.prototype.createDom = function () {
     this._trigger = trigger;
     trigger.html(gettext('add category'));
     this._element.append(trigger);
-    //add input box and the add button
+
+    //add input box
     var input = this.makeElement('input');
     this._input = input;
     input.addClass('add-category');
@@ -129,16 +130,21 @@ CategoryAdder.prototype.createDom = function () {
         'type': 'text'
     });
     this._element.append(input);
+
+    var buttonsBox = this.makeElement('span');
+    buttonsBox.addClass('js-category-btns');
+    this._element.append(buttonsBox);
+
     //add save category button
     var save_button = this.makeElement('button');
     this._save_button = save_button;
     save_button.html(gettext('save'));
-    this._element.append(save_button);
+    buttonsBox.append(save_button);
 
     var cancel_button = this.makeElement('button');
     this._cancel_button = cancel_button;
     cancel_button.html('x');
-    this._element.append(cancel_button);
+    buttonsBox.append(cancel_button);
 
     this.setState(this._state);
 

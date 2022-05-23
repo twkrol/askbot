@@ -102,16 +102,24 @@ CategorySelectorLoader.prototype.getRetagHandler = function () {
 
 CategorySelectorLoader.prototype.drawNewTags = function (new_tags) {
     var container = this._display_tags_container;
-    container.html('');
+
+    container.children().each(function(_, item) {
+      var elem = $(item)
+      if (!elem.hasClass('js-retag-btn-ctr')) {
+        elem.remove();
+      }
+    });
+
     if (new_tags === '') {
         return;
     }
 
     new_tags = new_tags.split(/\s+/);
     var me = this;
+    var retagBtnCtr = container.find('.js-retag-btn-ctr');
     $.each(new_tags, function (index, name) {
         var li = me.makeElement('li');
-        container.append(li);
+        retagBtnCtr.before(li);
         var tag = new Tag();
         tag.setName(name);
         li.append(tag.getElement());

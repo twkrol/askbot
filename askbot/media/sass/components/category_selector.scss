@@ -4,11 +4,12 @@
   table-layout: fixed;
   width: 100%;
   tbody td {
-    border: 1px solid black;
+    border: 1px solid var(--input-border-color);
     width: calc(33.3333% - 4px);
     vertical-align: top;
   }
   th {
+    padding-bottom: 0.25rem;
     text-align: left;
   }
   ul {
@@ -21,12 +22,21 @@
     padding: 0 0.25rem;
     white-space: nowrap;
     overflow: hidden;
+    position: relative;
     text-overflow: ellipsis;
     &.js-active {
       color: white;
       background: var(--clr-neutral-60);
     }
+    input[type="text"] {
+      height: 100%;
+    }
   }
+}
+
+.js-category-btns {
+  position: absolute;
+  right: 0;
 }
 
 .js-save-category-btn {

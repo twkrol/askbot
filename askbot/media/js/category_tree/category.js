@@ -176,12 +176,16 @@ Category.prototype.addControls = function () {
     this._input_box = input_box;
     this._element.append(input_box);
 
+    var buttonsBox = this.makeElement('span');
+    buttonsBox.addClass('js-category-btns');
+    this._element.append(buttonsBox);
+
     var save_button = this.makeButton(
         gettext('save'),
         this.getSaveHandler()
     );
     this._save_button = save_button;
-    this._element.append(save_button);
+    buttonsBox.append(save_button);
 
     var me = this;
     var cancel_button = this.makeButton(
@@ -193,7 +197,7 @@ Category.prototype.addControls = function () {
         }
     );
     this._cancel_button = cancel_button;
-    this._element.append(cancel_button);
+    buttonsBox.append(cancel_button);
 
     var edit_button = this.makeButton(
         gettext('edit'),
@@ -210,13 +214,13 @@ Category.prototype.addControls = function () {
         }
     );
     this._edit_button = edit_button;
-    this._element.append(edit_button);
+    buttonsBox.append(edit_button);
 
     var delete_button = this.makeButton(
         'x', this.getDeleteHandler()
     );
     this._delete_button = delete_button;
-    this._element.append(delete_button);
+    buttonsBox.append(delete_button);
 };
 
 Category.prototype.getOriginalName = function () {

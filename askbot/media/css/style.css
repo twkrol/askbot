@@ -7708,11 +7708,12 @@ input[type=reset] input[type=button].action-link {
   width: 100%;
 }
 .js-category-selector tbody td {
-  border: 1px solid black;
+  border: 1px solid var(--input-border-color);
   width: calc(33.3333% - 4px);
   vertical-align: top;
 }
 .js-category-selector th {
+  padding-bottom: 0.25rem;
   text-align: left;
 }
 .js-category-selector ul {
@@ -7725,11 +7726,20 @@ input[type=reset] input[type=button].action-link {
   padding: 0 0.25rem;
   white-space: nowrap;
   overflow: hidden;
+  position: relative;
   text-overflow: ellipsis;
 }
 .js-category-selector li.js-active {
   color: white;
   background: var(--clr-neutral-60);
+}
+.js-category-selector li input[type=text] {
+  height: 100%;
+}
+
+.js-category-btns {
+  position: absolute;
+  right: 0;
 }
 
 .js-save-category-btn {

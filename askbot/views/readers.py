@@ -649,6 +649,7 @@ def question(request, id):#refactor - long subroutine. display question body, an
         'user_post_id_list': user_post_id_list,
         'user_flag_counts_by_post_id': thread.get_flag_counts_by_post_id(request.user),
         'user_can_post_comment': user_can_post_comment,#in general
+        'question_detail_page': True
     }
     #shared with ...
     if askbot_settings.GROUPS_ENABLED:

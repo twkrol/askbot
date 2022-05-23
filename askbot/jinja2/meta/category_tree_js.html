@@ -21,7 +21,7 @@
 
       var tag_editor = new TagEditor();
       tag_editor.decorate($('.tag-editor'));
-      {% if page_class == 'question-page' %}
+      {% if question_detail_page == True %}
         {% for tag_name in question.get_tag_names() %}
           tag_editor.addTag('{{ tag_name }}');
         {% endfor %}
