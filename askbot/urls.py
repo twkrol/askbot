@@ -65,6 +65,11 @@ urlpatterns = [
         name='tags'
     ),
     url(
+        r'^%s$' % pgettext('urls', 'search-posts/'),
+        views.readers.search_posts,
+        name='search_posts'
+    ),
+    url(
         r'^%s$' % pgettext('urls', 'users/'),
         views.users.users_list,
         name='users'

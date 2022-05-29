@@ -15,6 +15,7 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.http import Http404
 from django.http import HttpResponseNotAllowed
+from django.http import HttpResponseForbidden
 from django.http import HttpResponseBadRequest
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.template.loader import get_template
@@ -773,3 +774,63 @@ def get_post_html(request):
     post = models.Post.objects.get(id=request.GET['post_id'])
     post.assert_is_visible_to(request.user)
     return {'post_html': post.html}
+
+
+def search_posts(request):
+    """Allows searching for posts by text and post id,
+    browsing matching posts forwards and backwards by ID.
+    """
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden()
+
+    if not request.user.is_admin_or_mod():
+        return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        request_data = request.POST
+    else:
+        request_data = request.GET
+
+    query_string = request_data.get('q', '')
+
+    try:
+        post_id = int(request_data.get('post_id', ''))
+    except ValueError:
+        post_id = None
+
+    post_types = ('question', 'answer', 'comment')
+    posts = Post.objects.filter(post_type__in=post_types).order_by('id')
+
+    if query_string:
+        posts = posts.filter(text__icontains=query_string)
+
+    posts_count = posts.count()
+
+    post = None
+    if post_id:
+        try:
+            post = posts.get(pk=post_id)
+        except Post.DoesNotExist:
+            post = None
+    elif posts_count:
+        post = posts[0]
+
+    prev_post, next_post = None, None
+    if post:
+        prev_posts = posts.filter(pk__lt=post.pk).order_by('-id')
+        if prev_posts.count():
+            prev_post = prev_posts[0]
+
+        next_posts = posts.filter(pk__gt=post.pk).order_by('id')
+        if next_posts.count():
+            next_post = next_posts[0]
+
+    template_data = {
+        'post': post,
+        'next_post': next_post,
+        'prev_post': prev_post,
+        'query_string': query_string,
+        'posts_count': posts_count
+    }
+
+    return render(request, 'search_posts/index.html', template_data)

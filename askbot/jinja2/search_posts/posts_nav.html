@@ -1,0 +1,20 @@
+{% if prev_post or next_post %}
+  <div class="search-posts-nav">
+    {% if prev_post %}
+      <a 
+        class="search-posts-prev with-caret-left-icon"
+        href="{{ url('search_posts') }}?post_id={{prev_post.pk}}{% if query_string %}&q={{ query_string|safe_urlquote}}{% endif %}"
+      >
+        {% trans %}previous{% endtrans %}
+      </a>
+    {% endif %}
+    {% if next_post %}
+      <a 
+        class="search-posts-next with-caret-right-icon"
+        href="{{ url('search_posts') }}?post_id={{next_post.pk}}{% if query_string %}&q={{ query_string|safe_urlquote}}{% endif %}"
+      >
+        {% trans %}next{% endtrans %}
+      </a>
+    {% endif %}
+  </div>
+{% endif %}

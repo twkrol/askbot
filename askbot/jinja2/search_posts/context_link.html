@@ -1,0 +1,10 @@
+<div class="search-posts-context-link">
+  <span class="search-posts-context-type">{% if post.post_type == 'question' -%}
+    {%- trans -%}question{%- endtrans -%}
+  {%- elif post.post_type == 'answer' -%}
+    {%- trans -%}answer{%- endtrans -%}
+  {%- elif post.post_type == 'comment' -%}
+    {%- trans -%}comment{%- endtrans -%}
+  {%- endif -%}</span>:
+  <a href="{{post.get_absolute_url()}}">{{ post.thread.title }}</a>
+</div>
