@@ -21,7 +21,7 @@ from askbot.utils.html import strip_tags
 from askbot.utils.html import urlize_html
 
 # URL taken from http://regexlib.com/REDetails.aspx?regexp_id=501
-URL_RE = re.compile("((?<!(href|.src|data)=['\"])((http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*))")
+URL_RE = re.compile("((?<!(href|.src|data)=['\"])((http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*))") # pylint: disable=line-too-long
 
 
 def get_parser(markdown_class_addr=None):
@@ -302,3 +302,26 @@ def markdown_extract_inline_images(text):
         return f'![{file_display_name}]({file_url})'
 
     return re.sub(MARKDOWN_INLINE_IMAGE_RE, repl_func, text, flags=re.MULTILINE)
+
+
+def markdown_split_paragraphs(text):
+    """
+    Returns list of paragraphs.
+    """
+    pars = []
+    cpar_lines = []
+    for line in text.split('\n'):
+        if re.match(r' *$', line):
+            if cpar_lines:
+                cpar = '\n'.join(cpar_lines)
+                pars.append(cpar)
+            cpar_lines = []
+            continue
+
+        cpar_lines.append(line)
+
+    if cpar_lines:
+        cpar = '\n'.join(cpar_lines)
+        pars.append(cpar)
+
+    return pars

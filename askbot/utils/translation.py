@@ -12,11 +12,14 @@ HAS_ASKBOT_LOCALE_MIDDLEWARE = 'askbot.middleware.locale.LocaleMiddleware' in \
 
 def get_language():
     if askbot.is_multilingual():
-        return translation.get_language()
-    elif HAS_ASKBOT_LOCALE_MIDDLEWARE:
+        lang = translation.get_language()
+        if lang:
+            return lang
+
+    if HAS_ASKBOT_LOCALE_MIDDLEWARE:
         return askbot_settings.ASKBOT_LANGUAGE
-    else:
-        return django_settings.LANGUAGE_CODE
+
+    return django_settings.LANGUAGE_CODE
 
 LANGUAGES_DICT = dict(django_settings.LANGUAGES)
 

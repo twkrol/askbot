@@ -23,8 +23,8 @@ from askbot.utils.translation import get_language
 # For now, we do not want to root django_jinja as deeply into askbot as Coffin
 # used to be.
 
-from   django_jinja import library as Library
-from   django_jinja.builtins import DEFAULT_EXTENSIONS
+from django_jinja import library as Library
+from django_jinja.builtins import DEFAULT_EXTENSIONS
 import django_jinja.backend
 
 # django_jinja is also past its time, but we will keep it around for a
