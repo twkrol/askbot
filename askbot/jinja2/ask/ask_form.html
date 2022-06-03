@@ -62,7 +62,7 @@
     %}
       {{ macros.checkbox_in_div(form.post_privately) }}
     {% endif %}
-    {% if settings.MULTILINGUAL %}
+    {% if settings.MULTILINGUAL and settings.LANGUAGES|length > 1 %}
       <div class="lang-selector">
         <label for="id_language">{% trans %}Select language{% endtrans %}</label>
         {{ form.language }}

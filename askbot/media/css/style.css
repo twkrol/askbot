@@ -941,20 +941,20 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
  */
 .fa,
 .fas,
-.wmd-button-bar .wmd-help-button::before,
-.wmd-button-bar .wmd-redo-button::before,
-.wmd-button-bar .wmd-undo-button::before,
-.wmd-button-bar .wmd-hr-button::before,
-.wmd-button-bar .wmd-heading-button::before,
-.wmd-button-bar .wmd-ulist-button::before,
-.wmd-button-bar .wmd-olist-button::before,
-.wmd-button-bar .wmd-attachment-button::before,
-.wmd-button-bar .wmd-image-button::before,
-.wmd-button-bar .wmd-code-button::before,
-.wmd-button-bar .wmd-quote-button::before,
-.wmd-button-bar .wmd-link-button::before,
-.wmd-button-bar .wmd-italic-button::before,
-.wmd-button-bar .wmd-bold-button::before,
+.wmd-help-button::before,
+.wmd-redo-button::before,
+.wmd-undo-button::before,
+.wmd-hr-button::before,
+.wmd-heading-button::before,
+.wmd-ulist-button::before,
+.wmd-olist-button::before,
+.wmd-attachment-button::before,
+.wmd-image-button::before,
+.wmd-code-button::before,
+.wmd-quote-button::before,
+.wmd-link-button::before,
+.wmd-italic-button::before,
+.wmd-bold-button::before,
 .with-check-icon::before,
 .with-slashed-icon::after,
 .with-bullhorn-icon::before,
@@ -1014,7 +1014,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
   line-height: 1;
 }
 
-.wmd-button-bar .wmd-help-button::before, .wmd-button-bar .wmd-redo-button::before, .wmd-button-bar .wmd-undo-button::before, .wmd-button-bar .wmd-hr-button::before, .wmd-button-bar .wmd-heading-button::before, .wmd-button-bar .wmd-ulist-button::before, .wmd-button-bar .wmd-olist-button::before, .wmd-button-bar .wmd-attachment-button::before, .wmd-button-bar .wmd-image-button::before, .wmd-button-bar .wmd-code-button::before, .wmd-button-bar .wmd-quote-button::before, .wmd-button-bar .wmd-link-button::before, .wmd-button-bar .wmd-italic-button::before, .wmd-button-bar .wmd-bold-button::before, .with-check-icon::before, .with-slashed-icon::after, .with-bullhorn-icon::before, .with-accept-answer-icon::before, .with-link-icon::before, .with-convert-post-icon::before, .with-comment-upvote-icon::before, .with-merge-icon::before, .with-reopen-icon::after, .with-reopen-icon::before, .with-close-icon::before, .with-flag-icon.js-post-unflag-btn::after, .with-flag-icon::before, .with-edit-icon::before, .with-twitter-icon::before, .with-linkedin-icon::before, .with-facebook-icon::before, .with-caret-down-icon::before,
+.wmd-help-button::before, .wmd-redo-button::before, .wmd-undo-button::before, .wmd-hr-button::before, .wmd-heading-button::before, .wmd-ulist-button::before, .wmd-olist-button::before, .wmd-attachment-button::before, .wmd-image-button::before, .wmd-code-button::before, .wmd-quote-button::before, .wmd-link-button::before, .wmd-italic-button::before, .wmd-bold-button::before, .with-check-icon::before, .with-slashed-icon::after, .with-bullhorn-icon::before, .with-accept-answer-icon::before, .with-link-icon::before, .with-convert-post-icon::before, .with-comment-upvote-icon::before, .with-merge-icon::before, .with-reopen-icon::after, .with-reopen-icon::before, .with-close-icon::before, .with-flag-icon.js-post-unflag-btn::after, .with-flag-icon::before, .with-edit-icon::before, .with-twitter-icon::before, .with-linkedin-icon::before, .with-facebook-icon::before, .with-caret-down-icon::before,
 .with-downvote-icon::before, .with-upvote-icon::before, .with-arrow-left-icon::before, .with-comment-icon::before, .with-caret-right-icon::before, .with-caret-left-icon::before, .with-ellipsis-icon::before, .with-globe-icon::before, .with-bars-icon::before, .js-with-sort-ascending-icon::before, .js-with-sort-descending-icon::before, .with-rss-icon::before, .with-selected-scope-icon::before, .with-search-icon::before, .with-home-icon::before, .with-times-circle-icon::before, .with-delete-icon::before,
 .with-times-icon::before, .with-bronze-badge-icon::before,
 .with-silver-badge-icon::before,
@@ -1122,20 +1122,20 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
 
 .fa.fa-pull-left,
 .fas.fa-pull-left,
-.wmd-button-bar .fa-pull-left.wmd-help-button::before,
-.wmd-button-bar .fa-pull-left.wmd-redo-button::before,
-.wmd-button-bar .fa-pull-left.wmd-undo-button::before,
-.wmd-button-bar .fa-pull-left.wmd-hr-button::before,
-.wmd-button-bar .fa-pull-left.wmd-heading-button::before,
-.wmd-button-bar .fa-pull-left.wmd-ulist-button::before,
-.wmd-button-bar .fa-pull-left.wmd-olist-button::before,
-.wmd-button-bar .fa-pull-left.wmd-attachment-button::before,
-.wmd-button-bar .fa-pull-left.wmd-image-button::before,
-.wmd-button-bar .fa-pull-left.wmd-code-button::before,
-.wmd-button-bar .fa-pull-left.wmd-quote-button::before,
-.wmd-button-bar .fa-pull-left.wmd-link-button::before,
-.wmd-button-bar .fa-pull-left.wmd-italic-button::before,
-.wmd-button-bar .fa-pull-left.wmd-bold-button::before,
+.fa-pull-left.wmd-help-button::before,
+.fa-pull-left.wmd-redo-button::before,
+.fa-pull-left.wmd-undo-button::before,
+.fa-pull-left.wmd-hr-button::before,
+.fa-pull-left.wmd-heading-button::before,
+.fa-pull-left.wmd-ulist-button::before,
+.fa-pull-left.wmd-olist-button::before,
+.fa-pull-left.wmd-attachment-button::before,
+.fa-pull-left.wmd-image-button::before,
+.fa-pull-left.wmd-code-button::before,
+.fa-pull-left.wmd-quote-button::before,
+.fa-pull-left.wmd-link-button::before,
+.fa-pull-left.wmd-italic-button::before,
+.fa-pull-left.wmd-bold-button::before,
 .fa-pull-left.with-check-icon::before,
 .fa-pull-left.with-slashed-icon::after,
 .fa-pull-left.with-bullhorn-icon::before,
@@ -1189,20 +1189,20 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
 }
 .fa.fa-pull-right,
 .fas.fa-pull-right,
-.wmd-button-bar .fa-pull-right.wmd-help-button::before,
-.wmd-button-bar .fa-pull-right.wmd-redo-button::before,
-.wmd-button-bar .fa-pull-right.wmd-undo-button::before,
-.wmd-button-bar .fa-pull-right.wmd-hr-button::before,
-.wmd-button-bar .fa-pull-right.wmd-heading-button::before,
-.wmd-button-bar .fa-pull-right.wmd-ulist-button::before,
-.wmd-button-bar .fa-pull-right.wmd-olist-button::before,
-.wmd-button-bar .fa-pull-right.wmd-attachment-button::before,
-.wmd-button-bar .fa-pull-right.wmd-image-button::before,
-.wmd-button-bar .fa-pull-right.wmd-code-button::before,
-.wmd-button-bar .fa-pull-right.wmd-quote-button::before,
-.wmd-button-bar .fa-pull-right.wmd-link-button::before,
-.wmd-button-bar .fa-pull-right.wmd-italic-button::before,
-.wmd-button-bar .fa-pull-right.wmd-bold-button::before,
+.fa-pull-right.wmd-help-button::before,
+.fa-pull-right.wmd-redo-button::before,
+.fa-pull-right.wmd-undo-button::before,
+.fa-pull-right.wmd-hr-button::before,
+.fa-pull-right.wmd-heading-button::before,
+.fa-pull-right.wmd-ulist-button::before,
+.fa-pull-right.wmd-olist-button::before,
+.fa-pull-right.wmd-attachment-button::before,
+.fa-pull-right.wmd-image-button::before,
+.fa-pull-right.wmd-code-button::before,
+.fa-pull-right.wmd-quote-button::before,
+.fa-pull-right.wmd-link-button::before,
+.fa-pull-right.wmd-italic-button::before,
+.fa-pull-right.wmd-bold-button::before,
 .fa-pull-right.with-check-icon::before,
 .fa-pull-right.with-slashed-icon::after,
 .fa-pull-right.with-bullhorn-icon::before,
@@ -7211,20 +7211,20 @@ readers do not read off random characters that represent icons */
 }
 .fa,
 .fas,
-.wmd-button-bar .wmd-help-button::before,
-.wmd-button-bar .wmd-redo-button::before,
-.wmd-button-bar .wmd-undo-button::before,
-.wmd-button-bar .wmd-hr-button::before,
-.wmd-button-bar .wmd-heading-button::before,
-.wmd-button-bar .wmd-ulist-button::before,
-.wmd-button-bar .wmd-olist-button::before,
-.wmd-button-bar .wmd-attachment-button::before,
-.wmd-button-bar .wmd-image-button::before,
-.wmd-button-bar .wmd-code-button::before,
-.wmd-button-bar .wmd-quote-button::before,
-.wmd-button-bar .wmd-link-button::before,
-.wmd-button-bar .wmd-italic-button::before,
-.wmd-button-bar .wmd-bold-button::before,
+.wmd-help-button::before,
+.wmd-redo-button::before,
+.wmd-undo-button::before,
+.wmd-hr-button::before,
+.wmd-heading-button::before,
+.wmd-ulist-button::before,
+.wmd-olist-button::before,
+.wmd-attachment-button::before,
+.wmd-image-button::before,
+.wmd-code-button::before,
+.wmd-quote-button::before,
+.wmd-link-button::before,
+.wmd-italic-button::before,
+.wmd-bold-button::before,
 .with-check-icon::before,
 .with-slashed-icon::after,
 .with-bullhorn-icon::before,
@@ -7535,59 +7535,59 @@ readers do not read off random characters that represent icons */
 }
 
 /* wmd editor button icons */
-.wmd-button-bar .wmd-bold-button::before {
+.wmd-bold-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-italic-button::before {
+.wmd-italic-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-link-button::before {
+.wmd-link-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-quote-button::before {
+.wmd-quote-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-code-button::before {
+.wmd-code-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-image-button::before {
+.wmd-image-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-attachment-button::before {
+.wmd-attachment-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-olist-button::before {
+.wmd-olist-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-ulist-button::before {
+.wmd-ulist-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-heading-button::before {
+.wmd-heading-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-hr-button::before {
+.wmd-hr-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-undo-button::before {
+.wmd-undo-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-redo-button::before {
+.wmd-redo-button::before {
   content: "";
 }
 
-.wmd-button-bar .wmd-help-button::before {
+.wmd-help-button::before {
   content: "";
 }
 
@@ -7964,8 +7964,8 @@ form.repost-comment-as-answer {
   position: relative;
   display: flex;
   align-items: center;
-  margin: var(--wmd-button-row-margin);
-  padding: var(--wmd-button-row-padding);
+  margin: var(--wmd-button-row-margin) !important;
+  padding: var(--wmd-button-row-padding) !important;
 }
 
 .wmd-spacer {
@@ -8036,23 +8036,16 @@ form.repost-comment-as-answer {
 }
 
 .wmd-preview,
-.post-body,
 .js-editable-content {
   padding: var(--wmd-preview-padding);
   margin: var(--wmd-preview-margin);
 }
 .wmd-preview ul, .wmd-preview ol,
-.post-body ul,
-.post-body ol,
 .js-editable-content ul,
 .js-editable-content ol {
   padding: var(--wmd-preview-list-padding);
 }
 .wmd-preview ul, .wmd-preview ol, .wmd-preview p, .wmd-preview pre,
-.post-body ul,
-.post-body ol,
-.post-body p,
-.post-body pre,
 .js-editable-content ul,
 .js-editable-content ol,
 .js-editable-content p,
@@ -8060,7 +8053,6 @@ form.repost-comment-as-answer {
   margin: var(--wmd-preview-block-margin);
 }
 .wmd-preview > :last-child,
-.post-body > :last-child,
 .js-editable-content > :last-child {
   margin-bottom: 0;
 }
@@ -8072,6 +8064,16 @@ form.repost-comment-as-answer {
 .wmd-preview {
   background: var(--wmd-preview-background) !important;
   border: var(--wmd-preview-border);
+}
+
+.wmd-help {
+  padding: 0.25rem 0 0.5rem 0.25rem;
+}
+.wmd-help p {
+  margin-bottom: 0.25rem;
+}
+.wmd-help ul {
+  padding-left: 1rem;
 }
 
 .empty-content-box {

@@ -324,85 +324,85 @@
 }
 
 /* wmd editor button icons */
-.wmd-button-bar .wmd-bold-button::before {
+.wmd-bold-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-bold);
 }
   
-.wmd-button-bar .wmd-italic-button::before {
+.wmd-italic-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-italic);
 }
 
-.wmd-button-bar .wmd-link-button::before {
+.wmd-link-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-link);
 }
 
-.wmd-button-bar .wmd-quote-button::before {
+.wmd-quote-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-quote-right);
 }
 
-.wmd-button-bar .wmd-code-button::before {
+.wmd-code-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-code);
 }
 
-.wmd-button-bar .wmd-image-button::before {
+.wmd-image-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-image);
 }
 
-.wmd-button-bar .wmd-attachment-button::before {
+.wmd-attachment-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-paperclip);
 }
 
-.wmd-button-bar .wmd-olist-button::before {
+.wmd-olist-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-list-ol);
 }
 
-.wmd-button-bar .wmd-ulist-button::before {
+.wmd-ulist-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-list);
 }
 
-.wmd-button-bar .wmd-heading-button::before {
+.wmd-heading-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-heading);
 }
 
-.wmd-button-bar .wmd-hr-button::before {
+.wmd-hr-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-divide);
 }
 
-.wmd-button-bar .wmd-undo-button::before {
+.wmd-undo-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-undo);
 }
 
-.wmd-button-bar .wmd-redo-button::before {
+.wmd-redo-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-redo);
 }
 
-.wmd-button-bar .wmd-help-button::before {
+.wmd-help-button::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-question);

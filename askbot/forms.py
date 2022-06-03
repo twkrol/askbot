@@ -1018,9 +1018,9 @@ class AskForm(PostAsSomeoneForm, PostPrivatelyForm):
         self.fields['tags'] = TagNamesField()
 
         if askbot_settings.MIN_QUESTION_BODY_LENGTH == 0:
-            label = _('Add details (optional)')
+            label = _('Add details below (optional)')
         else:
-            label = _('Add details')
+            label = _('Add details below')
 
         self.fields['text'] = QuestionEditorField(user=user, label=label)
 

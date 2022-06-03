@@ -59,6 +59,10 @@ WMD.prototype.createDom = function () {
                         .addClass('wmd-panel');
     wmd_container.append(wmd_buttons);
 
+    var help = getTemplate('.wmd-help');
+
+    wmd_container.append(help);
+
     var editor = this.makeElement('textarea')
                         .attr('id', this.makeId('editor'));
     addExtraCssClasses(editor, 'editorClasses');
