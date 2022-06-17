@@ -655,7 +655,9 @@ def get_question_title(request):
 @decorators.get_only
 def get_post_body(request):
     post_id = request.GET['post_id']
-    post = get_object_or_404(models.Post, pk=post_id)
+    form = forms.GetDataForPostForm(request.GET)
+    form.full_clean()
+    post = get_object_or_404(models.Post, pk=form.cleaned_data['post_id'])
     return {'body_text': post.text}
 
 
@@ -669,8 +671,11 @@ def set_post_body(request):
             {'perform_action': _('make edits')}
         raise exceptions.PermissionDenied(message)
 
-    post_id = request.POST['post_id']
-    body_text = request.POST['body_text']
+    form = forms.SetPostBodyForm(request.POST)
+    form.full_clean()
+    post_id = form.cleaned_data['post_id']
+    body_text = form.cleaned_data['body_text']
+    suppress_email = form.cleaned_data['suppress_email']
 
     post = get_object_or_404(models.Post, pk=post_id)
     text = post.get_text_content(body_text=body_text)
@@ -678,7 +683,7 @@ def set_post_body(request):
         message = _('Spam was detected on your post, sorry if it was a mistake')
         raise exceptions.PermissionDenied(message)
 
-    request.user.edit_post(post, body_text=body_text)
+    request.user.edit_post(post, body_text=body_text, suppress_email=suppress_email)
     return {'body_html': post.html}
 
 

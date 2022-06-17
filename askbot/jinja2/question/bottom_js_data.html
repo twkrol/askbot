@@ -15,10 +15,13 @@
   askbot['urls']['publishAnswer'] = '{{ url('publish_answer') }}';
   askbot['urls']['apiV1Questions'] = '{{ url('api_v1_questions') }}';
   askbot['urls']['mergeQuestions'] = '{{ url('merge_questions') }}';
+  askbot['urls']['getPostHtml'] = '{{ url('get_post_html') }}';
+  askbot['urls']['retag'] = "{{ url('retag_question',  question.id ) }}";
   {# already added on top askbot['data']['userIsThreadModerator'] = {{ user_is_thread_moderator|as_js_bool }}; #}
   askbot['data']['questionAuthorId'] = {{ question.author_id }};
   askbot['data']['answersSortTab'] = '{{ tab_id }}';
   askbot['data']['questionId'] = {{ question.id }};
+  askbot['data']['threadId'] = {{ thread.id }};
   askbot['data']['threadSlug'] = '{{ thread.title|slugify }}';
   askbot['messages']['addComment'] = '{{ gettext('add a comment')|escapejs }}';
   askbot['messages']['userNamePrompt'] = '{{ gettext('User name:')|escapejs }}';
@@ -31,4 +34,10 @@
   askbot['settings']['saveCommentOnEnter'] = {{ settings.SAVE_COMMENT_ON_ENTER|as_js_bool }};
   askbot['settings']['tagSource'] = '{{ settings.TAG_SOURCE }}';
   askbot['settings']['enableEmailAlerts'] = {{ settings.ENABLE_EMAIL_ALERTS|as_js_bool }};
+
+  {# IMPORTANT !!! the same number for avatar size as in below two lines must be set in the comment macro #}
+  askbot['settings']['commentAvatarSize'] = 16;
+  {% if request.user.is_authenticated %}
+    askbot['data']['userCommentAvatarUrl'] = '{{ request.user.get_avatar_url(16)|escapejs }}';
+  {% endif %}
 </script>

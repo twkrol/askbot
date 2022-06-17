@@ -7920,6 +7920,12 @@ form.repost-comment-as-answer {
   padding-bottom: 0.125rem;
 }
 
+.js-editable-controls input[type=checkbox] {
+  position: relative;
+  top: 0.125rem;
+  margin-right: 0.25rem;
+}
+
 .js-folded-editor-editor {
   display: none;
 }

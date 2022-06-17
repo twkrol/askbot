@@ -1642,6 +1642,12 @@ class GetDataForPostForm(forms.Form):
     post_id = forms.IntegerField()
 
 
+class SetPostBodyForm(forms.Form):
+    post_id = forms.IntegerField()
+    body_text = forms.CharField()
+    suppress_email = SuppressEmailField()
+
+
 class GetCommentDataForPostForm(GetDataForPostForm):
     avatar_size = forms.IntegerField()
 

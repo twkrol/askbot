@@ -45,14 +45,12 @@ Editable.prototype.setState = function(state){
     this._state = state;
     this._editorBox.show();
     this._editBtn.hide();
-    this._saveBtn.show();
-    this._cancelBtn.show();
+    this._formControls.show();
     this._hideables.hide();
     this._content.hide();
   } else if (state === 'display'){
     this._editorBox.hide();
-    this._saveBtn.hide();
-    this._cancelBtn.hide();
+    this._formControls.hide();
     this._editBtn.show();
     this._hideables.show();
     this._content.show();
@@ -164,6 +162,10 @@ Editable.prototype.saveText = function () {
   this.setState('display');
   
   var data = this._saveTextUrlParams;
+  if (this._suppressEmailCb) {
+    data['suppress_email'] = this._suppressEmailCb.is(':checked');
+  }
+
   editorText = this._editor.getText();
   data[this._saveTextParamName] = editorText;
   var validatedParamName = this._validatedTextParamName;
@@ -308,6 +310,7 @@ Editable.prototype.decorate = function(element){
 
   //adding two buttons...
   var formControls = element.find('.js-editable-controls');
+  this._formControls = formControls;
   if (formControls.length === 0) {
     formControls = this.makeElement('div');
     formControls.addClass('.js-editable-controls');
@@ -329,6 +332,20 @@ Editable.prototype.decorate = function(element){
   //cancelBtn.addClass('btn');
   formControls.append(cancelBtn);
   this._cancelBtn = cancelBtn;
+
+  if (element.data('withSuppressEmailCheckbox')) {
+    var cb = $('<input type="checkbox" />');
+    var cbId = this._id + '-suppress-email-cb'
+    cb.attr('id', cbId);
+    if (element.data('withSuppressEmailCheckboxChecked')) {
+      cb.prop('checked', true);
+    }
+    this._suppressEmailCb = cb;
+    formControls.append(cb);
+    var label = $('<label>' + gettext("minor edit (don't send alerts)") + '</label>');
+    label.attr('for', cbId);
+    formControls.append(label);
+  }
 
   this.setState('display');
 
