@@ -2,19 +2,14 @@
 {% block title %}{% filter trim %}{% trans %}Post Search{% endtrans %}{% endfilter %}{% endblock %}
 {% block layout_class %}search-posts-page{% endblock %}
 {% block content %}
-  <h1>
-    {% trans %}Post search{% endtrans %}
-    {% if posts_count %}
-      - {% trans %}{{ posts_count }} found{% endtrans %}
-    {% endif %}
-  </h1>
+  <h1>{% trans %}Post search{% endtrans %}</h1>
   <form class="search-posts-form" method="POST">
     {{ csrf_input }}
     <input 
       name="q"
       placeholder="{% trans %}search by text{% endtrans %}"
       type="text"
-      value="{{ query_string|iriencode}}"
+      value="{{ query_string|escape }}"
     /><input
       class="btn"
       type="submit"

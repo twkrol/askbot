@@ -967,6 +967,8 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
 .with-reopen-icon::before,
 .with-close-icon::before,
 .with-flag-icon.js-post-unflag-btn::after,
+.with-clone-icon::before,
+.with-anchor-icon::before,
 .with-flag-icon::before,
 .with-edit-icon::before,
 .with-caret-down-icon::before,
@@ -1014,7 +1016,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
   line-height: 1;
 }
 
-.wmd-help-button::before, .wmd-redo-button::before, .wmd-undo-button::before, .wmd-hr-button::before, .wmd-heading-button::before, .wmd-ulist-button::before, .wmd-olist-button::before, .wmd-attachment-button::before, .wmd-image-button::before, .wmd-code-button::before, .wmd-quote-button::before, .wmd-link-button::before, .wmd-italic-button::before, .wmd-bold-button::before, .with-check-icon::before, .with-slashed-icon::after, .with-bullhorn-icon::before, .with-accept-answer-icon::before, .with-link-icon::before, .with-convert-post-icon::before, .with-comment-upvote-icon::before, .with-merge-icon::before, .with-reopen-icon::after, .with-reopen-icon::before, .with-close-icon::before, .with-flag-icon.js-post-unflag-btn::after, .with-flag-icon::before, .with-edit-icon::before, .with-twitter-icon::before, .with-linkedin-icon::before, .with-facebook-icon::before, .with-caret-down-icon::before,
+.wmd-help-button::before, .wmd-redo-button::before, .wmd-undo-button::before, .wmd-hr-button::before, .wmd-heading-button::before, .wmd-ulist-button::before, .wmd-olist-button::before, .wmd-attachment-button::before, .wmd-image-button::before, .wmd-code-button::before, .wmd-quote-button::before, .wmd-link-button::before, .wmd-italic-button::before, .wmd-bold-button::before, .with-check-icon::before, .with-slashed-icon::after, .with-bullhorn-icon::before, .with-accept-answer-icon::before, .with-link-icon::before, .with-convert-post-icon::before, .with-comment-upvote-icon::before, .with-merge-icon::before, .with-reopen-icon::after, .with-reopen-icon::before, .with-close-icon::before, .with-flag-icon.js-post-unflag-btn::after, .with-clone-icon::before, .with-anchor-icon::before, .with-flag-icon::before, .with-edit-icon::before, .with-twitter-icon::before, .with-linkedin-icon::before, .with-facebook-icon::before, .with-caret-down-icon::before,
 .with-downvote-icon::before, .with-upvote-icon::before, .with-arrow-left-icon::before, .with-comment-icon::before, .with-caret-right-icon::before, .with-caret-left-icon::before, .with-ellipsis-icon::before, .with-globe-icon::before, .with-bars-icon::before, .js-with-sort-ascending-icon::before, .js-with-sort-descending-icon::before, .with-rss-icon::before, .with-selected-scope-icon::before, .with-search-icon::before, .with-home-icon::before, .with-times-circle-icon::before, .with-delete-icon::before,
 .with-times-icon::before, .with-bronze-badge-icon::before,
 .with-silver-badge-icon::before,
@@ -1148,6 +1150,8 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
 .fa-pull-left.with-reopen-icon::before,
 .fa-pull-left.with-close-icon::before,
 .fa-pull-left.with-flag-icon.js-post-unflag-btn::after,
+.fa-pull-left.with-clone-icon::before,
+.fa-pull-left.with-anchor-icon::before,
 .fa-pull-left.with-flag-icon::before,
 .fa-pull-left.with-edit-icon::before,
 .fa-pull-left.with-caret-down-icon::before,
@@ -1215,6 +1219,8 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
 .fa-pull-right.with-reopen-icon::before,
 .fa-pull-right.with-close-icon::before,
 .fa-pull-right.with-flag-icon.js-post-unflag-btn::after,
+.fa-pull-right.with-clone-icon::before,
+.fa-pull-right.with-anchor-icon::before,
 .fa-pull-right.with-flag-icon::before,
 .fa-pull-right.with-edit-icon::before,
 .fa-pull-right.with-caret-down-icon::before,
@@ -7237,6 +7243,8 @@ readers do not read off random characters that represent icons */
 .with-reopen-icon::before,
 .with-close-icon::before,
 .with-flag-icon.js-post-unflag-btn::after,
+.with-clone-icon::before,
+.with-anchor-icon::before,
 .with-flag-icon::before,
 .with-edit-icon::before,
 .with-caret-down-icon::before,
@@ -7461,6 +7469,14 @@ readers do not read off random characters that represent icons */
 
 .with-flag-icon::before {
   content: "";
+}
+
+.with-anchor-icon::before {
+  content: "";
+}
+
+.with-clone-icon::before {
+  content: "";
 }
 
 .with-flag-icon.js-post-unflag-btn {
@@ -10304,24 +10320,61 @@ a.badge-page-link {
   margin-left: 0.125rem;
 }
 
+.search-posts-page {
+  --nav-height: 1.25rem;
+}
 .search-posts-page .post-body {
   padding: 0;
 }
 .search-posts-page .search-posts-form {
   display: flex;
   flex-wrap: nowrap;
-  margin-bottom: 0.25rem;
+  margin-bottom: 1rem;
+}
+.search-posts-page .search-posts-by-ord-form {
+  display: inline-block;
+  position: relative;
+  bottom: -1px;
+}
+.search-posts-page .search-posts-by-ord-form > * {
+  display: inline-block;
+}
+.search-posts-page .search-posts-by-ord-form input[type=text],
+.search-posts-page .search-posts-by-ord-form input.btn {
+  height: var(--nav-height);
+  font-size: 1rem !important;
+  font-weight: var(--font-weight-bold);
+}
+.search-posts-page .search-posts-by-ord-form input.btn {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.search-posts-page .search-posts-by-ord-form input[type=text] {
+  border-left: none;
+  border-right: none;
+  text-align: center;
+  width: 3rem;
+}
+.search-posts-page .search-posts-by-ord-form .search-posts-total-count {
+  --local-bg-color: grey;
+  display: inline-block;
+  color: var(--bg-color);
+  background: var(--local-bg-color);
+  height: var(--nav-height);
+  border-top: 1px solid var(--local-bg-color);
+  border-bottom: 1px solid var(--local-bg-color);
+  padding: 0 0.25rem;
+  font-size: 1rem;
 }
 .search-posts-page .search-posts-context-link {
   margin-bottom: 0.5rem;
 }
 .search-posts-page .search-posts-nav {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: var(--font-weight-bold);
-  word-spacing: 0.25rem;
   margin-bottom: 1rem;
 }
 .search-posts-page .search-posts-nav a {
+  display: inline-block;
   text-decoration: none;
   position: relative;
 }
@@ -10329,17 +10382,33 @@ a.badge-page-link {
   position: absolute;
   top: 3px;
 }
-.search-posts-page .search-posts-nav a.search-posts-prev {
-  padding-left: 0.75rem;
+.search-posts-page .search-posts-nav .search-posts-current {
+  font-size: 0.875rem;
+  transition: font-size var(--transition-params);
+  position: relative;
+  bottom: -0.275rem;
+  border-radius: 0.5rem 0 0 0.5rem;
+  height: var(--nav-height);
+  width: 1.5rem;
 }
-.search-posts-page .search-posts-nav a.search-posts-prev::before {
-  left: 0;
+.search-posts-page .search-posts-nav .search-posts-current:active {
+  font-size: 0.75rem;
+  transition: font-size var(--transition-params);
 }
-.search-posts-page .search-posts-nav a.search-posts-next {
-  padding-right: 0.75rem;
+.search-posts-page .search-posts-nav .search-posts-current::before {
+  left: 0.3625rem;
 }
-.search-posts-page .search-posts-nav a.search-posts-next::before {
-  right: 0;
+.search-posts-page .search-posts-nav .search-posts-prev,
+.search-posts-page .search-posts-nav .search-posts-next {
+  padding: 0 0.3625rem;
+  border-radius: 0.5rem;
+  height: var(--nav-height);
+}
+.search-posts-page .search-posts-nav .search-posts-prev,
+.search-posts-page .search-posts-nav .search-posts-next,
+.search-posts-page .search-posts-nav .search-posts-current {
+  background: var(--link-color);
+  color: var(--bg-color);
 }
 .search-posts-page .search-posts-context-link {
   font-size: 1.125rem;

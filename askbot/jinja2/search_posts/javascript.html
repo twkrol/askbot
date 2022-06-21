@@ -13,4 +13,13 @@
     {% include "meta/markdown_javascript.html" %}
   {% endif %}
   <script src="{{ '/js/pages/question/init_page.js'|media }}"></script>
+  <script>
+    (function() {
+      $('.search-posts-current').click(function(evt) {
+        evt.preventDefault();
+        var url = evt.target.href;
+        copyToClipboard(url);
+      })
+    })();
+  </script>
 {% endcompress %}

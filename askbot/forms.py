@@ -1648,6 +1648,32 @@ class SetPostBodyForm(forms.Form):
     suppress_email = SuppressEmailField()
 
 
+class SearchPostsForm(forms.Form):
+    post_id = forms.IntegerField()
+    q = forms.CharField()
+    post_ord = forms.IntegerField()
+
+    def clean_post_ord(self):
+        post_ord = self.cleaned_data.get('post_ord')
+        if post_ord and post_ord > 0:
+            return post_ord
+        return None
+
+    def clean_post_id(self):
+        post_id = self.cleaned_data.get('post_id')
+        if post_id and post_id > 0:
+            return post_id
+        return None
+
+    def clean(self):
+        """cannot have both post_id and post_ord"""
+        post_ord = self.cleaned_data.get('post_ord')
+        post_id = self.cleaned_data.get('post_id')
+        if post_ord and post_id:
+            self.cleaned_data['post_ord'] = None
+        return self.cleaned_data
+
+
 class GetCommentDataForPostForm(GetDataForPostForm):
     avatar_size = forms.IntegerField()
 

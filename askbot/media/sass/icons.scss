@@ -228,6 +228,18 @@
   content: fa-content($fa-var-flag);
 }
 
+.with-anchor-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-anchor);
+}
+
+.with-clone-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-clone);
+}
+
 .with-flag-icon.js-post-unflag-btn {
   position: relative;
   &::after {

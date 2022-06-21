@@ -6,6 +6,7 @@ By main textual content is meant - text of Questions, Answers and Comments.
 The "read-only" requirement here is not 100% strict, as for example "question" view does
 allow adding new comments via Ajax form post.
 """
+import html
 import logging
 import urllib.request, urllib.parse, urllib.error
 import operator
@@ -40,6 +41,7 @@ from askbot.forms import GetDataForPostForm
 from askbot.forms import GetUserItemsForm
 from askbot.forms import ShowTagsForm
 from askbot.forms import ShowQuestionForm
+from askbot.forms import SearchPostsForm
 from askbot.models.post import MockPost
 from askbot.models.tag import Tag
 from askbot.models.recent_contributors import AvatarsBlockData
@@ -791,12 +793,12 @@ def search_posts(request):
     else:
         request_data = request.GET
 
-    query_string = request_data.get('q', '')
+    form = SearchPostsForm(request_data)
+    form.full_clean()
 
-    try:
-        post_id = int(request_data.get('post_id', ''))
-    except ValueError:
-        post_id = None
+    query_string = form.cleaned_data.get('q', '')
+    post_id = form.cleaned_data.get('post_id', None)
+    post_ord = form.cleaned_data.get('post_ord', None)
 
     post_types = ('question', 'answer', 'comment')
     posts = Post.objects.filter(post_type__in=post_types).order_by('id')
@@ -811,26 +813,40 @@ def search_posts(request):
         try:
             post = posts.get(pk=post_id)
         except Post.DoesNotExist:
-            post = None
+            pass
+    elif post_ord:
+        try:
+            post = posts[post_ord - 1]
+        except IndexError:
+            pass
     elif posts_count:
         post = posts[0]
 
-    prev_post, next_post = None, None
+    if post and not post_ord:
+        post_ord = posts.filter(id__lt=post.pk).count() + 1
+
+    prev_post, next_post = [None] * 2
     if post:
-        prev_posts = posts.filter(pk__lt=post.pk).order_by('-id')
-        if prev_posts.count():
+        prev_posts = posts.filter(pk__lt=post.pk).only('id').order_by('-id')
+        prev_count = prev_posts.count()
+        if prev_count:
             prev_post = prev_posts[0]
 
-        next_posts = posts.filter(pk__gt=post.pk).order_by('id')
-        if next_posts.count():
+        next_posts = posts.filter(pk__gt=post.pk).only('id').order_by('id')
+        next_count = next_posts.count()
+        if next_count:
             next_post = next_posts[0]
 
     template_data = {
         'post': post,
+        'post_ord': post_ord,
         'next_post': next_post,
         'prev_post': prev_post,
         'query_string': query_string,
-        'posts_count': posts_count
+        'posts_count': posts_count,
     }
+
+    if request.method == 'POST' and post:
+        return HttpResponseRedirect(f'{reverse("search_posts")}?post_id={post.pk}&q={urllib.parse.quote(query_string)}')
 
     return render(request, 'search_posts/index.html', template_data)
