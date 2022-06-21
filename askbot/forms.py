@@ -1341,10 +1341,6 @@ class EditUserForm(forms.Form):
             ),
         widget=forms.TextInput(attrs={'size': 35}))
 
-    about = forms.CharField(
-        label=_('Profile'), required=False,
-        widget=forms.Textarea(attrs={'cols': 60}))
-
     def __init__(self, user, *args, **kwargs):
         super(EditUserForm, self).__init__(*args, **kwargs)
 
@@ -1368,7 +1364,6 @@ class EditUserForm(forms.Form):
         if user.date_of_birth is not None:
             self.fields['birthday'].initial = user.date_of_birth
 
-        self.fields['about'].initial = user.get_localized_profile().about
         self.user = user
 
     def clean_email(self):
@@ -1376,6 +1371,10 @@ class EditUserForm(forms.Form):
         email = self.cleaned_data.get('email', '').strip()
         if email == '' and askbot_settings.BLANK_EMAIL_ALLOWED:
             self.cleaned_data['email'] = ''
+            return self.cleaned_data['email']
+
+        if not askbot_settings.EDITABLE_EMAIL:
+            self.cleaned_data['email'] = self.user.email
             return self.cleaned_data['email']
 
         moderated_email_validator(email)
@@ -1690,7 +1689,7 @@ class UserForm(forms.Form):
 
 class UserDescriptionForm(forms.Form):
     user_id = forms.IntegerField()
-    description = forms.CharField()
+    description = forms.CharField(required=False)
 
 
 class NewCommentForm(forms.Form):

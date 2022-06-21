@@ -62,10 +62,6 @@
             <td>{{ form.show_country.label_tag() }}</td>
             <td>{{ form.show_country }} <span class="form-error"> {{ form.show_country.errors }} </span></td>
         </tr>
-        <tr>
-            <td class="about-label">{{ form.about.label_tag() }}</td>
-            <td>{{ form.about }} <span class="form-error"> {{ form.about.errors }} </span></td>
-        </tr>
         {% if marked_tags_setting == 'when-user-wants' %}
         <tr>
             <td>{{ form.show_marked_tags.label_tag() }}</td>

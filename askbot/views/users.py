@@ -521,7 +521,6 @@ def edit_user(request, id):
             user.show_country = form.cleaned_data['show_country']
             user.show_marked_tags = form.cleaned_data['show_marked_tags']
             user.save()
-            user.update_localized_profile(about=sanitize_html(form.cleaned_data['about']))
             # send user updated signal if full fields have been updated
             award_badges_signal.send(None,
                                      event='update_user_profile',
