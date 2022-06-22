@@ -62,11 +62,15 @@
     %}
       {{ macros.checkbox_in_div(form.post_privately) }}
     {% endif %}
-    {% if settings.MULTILINGUAL and settings.LANGUAGES|length > 1 %}
+    {% if settings.MULTILINGUAL %}
+      {% if settings.LANGUAGES|length > 1 %}
       <div class="lang-selector">
         <label for="id_language">{% trans %}Select language{% endtrans %}</label>
         {{ form.language }}
       </div>
+      {% else %}
+        <input type="hidden" name="language" value="{{ settings.LANGUAGE_CODE }}" />
+      {% endif %}
     {% endif %}
   </div>
   {% if form.recaptcha %}
