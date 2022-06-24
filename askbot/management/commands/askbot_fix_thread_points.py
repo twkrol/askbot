@@ -22,4 +22,4 @@ class Command(BaseCommand):
             with override(post.thread.language_code):
                 post.thread.points = post.points
                 post.thread.save()
-                post.thread.invalidate_cached_data()
+                post.thread.clear_cached_data()
