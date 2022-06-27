@@ -700,8 +700,8 @@ def get_comment(request):
     via ajax response requires request method get
     and request must be ajax
     """
-    id = int(request.GET['id'])
-    comment = models.Post.objects.get(post_type='comment', id=id)
+    post_id = int(request.GET['id'])
+    comment = models.Post.objects.get(post_type='comment', id=post_id)
     request.user.assert_can_edit_comment(comment)
 
     try:

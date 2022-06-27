@@ -635,7 +635,7 @@ def set_question_title(request):
     title = request.POST['title']
 
     if akismet_check_spam(question.get_text_content(title=title), request):
-        message = _('Spam was detected on your post, sorry if it was a mistake')
+        message = _('Spam was detected in the post')
         raise exceptions.PermissionDenied(message)
 
     user = request.user
@@ -680,7 +680,7 @@ def set_post_body(request):
     post = get_object_or_404(models.Post, pk=post_id)
     text = post.get_text_content(body_text=body_text)
     if akismet_check_spam(text, request):
-        message = _('Spam was detected on your post, sorry if it was a mistake')
+        message = _('Spam was detected in the post')
         raise exceptions.PermissionDenied(message)
 
     request.user.edit_post(post, body_text=body_text, suppress_email=suppress_email)
@@ -1401,33 +1401,52 @@ def get_editor(request):
 @csrf.csrf_protect
 @decorators.ajax_only
 @decorators.post_only
-def publish_answer(request):
-    """will publish or unpublish answer, if
-    current thread is moderated
-    """
+def publish_post(request):
+    """will publish or unpublish post"""
     denied_msg = _('Sorry, only thread moderators can use this function')
+
     if request.user.is_authenticated:
         if request.user.is_administrator_or_moderator() is False:
             raise exceptions.PermissionDenied(denied_msg)
     #todo: assert permission
-    answer_id = IntegerField().clean(request.POST['answer_id'])
-    answer = models.Post.objects.get(id=answer_id, post_type='answer')
+    post_id = IntegerField().clean(request.POST['post_id'])
+    post = models.Post.objects.get(pk=post_id)
 
-    if answer.thread.has_moderator(request.user) is False:
+    if post.thread.has_moderator(request.user) is False:
         raise exceptions.PermissionDenied(denied_msg)
 
-    enquirer = answer.thread._question_post().author
-    enquirer_group = enquirer.get_personal_group()
+    # there used to be an experiment where questions were asked
+    # privately to a group - i.e. the question was visible to the
+    # inquirer and the group only. When the answer was published
+    # it was shared with the enquirer
+    # Now the code is switched to a simpler mode - 
+    # "published" === visible to the "everyone" group.
+    # (and used to be "published" -> visible to the enquirer).
+    #enquirer = answer.thread._question_post().author
+    #enquirer_group = enquirer.get_personal_group()
 
-    if answer.has_group(enquirer_group):
-        message = _('The answer is now unpublished')
-        answer.remove_from_groups([enquirer_group])
+    if askbot_settings.GROUPS_ENABLED:
+        if post.is_private():
+            #answer.add_to_groups([enquirer_group])
+            if post.post_type == 'question':
+                post.thread.make_public()
+            else:
+                post.make_public()
+                
+            message = _('The post is now published')
+        else:
+            #answer.remove_from_groups([enquirer_group])
+            if post.post_type == 'question':
+                post.thread.make_private(request.user)
+            else:
+                post.make_private(request.user)
+
+            message = _('The post is now unpublished')
     else:
-        answer.add_to_groups([enquirer_group])
-        message = _('The answer is now published')
-        #todo: notify enquirer by email about the post
+        message = _('This feature is disabled')
+
     request.user.message_set.create(message=message)
-    return {'redirect_url': answer.get_absolute_url()}
+    return {'redirect_url': post.get_absolute_url()}
 
 @csrf.csrf_protect
 @decorators.ajax_only

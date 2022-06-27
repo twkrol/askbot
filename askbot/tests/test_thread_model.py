@@ -100,16 +100,15 @@ class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
         #publish the answer
         self.client.login(user_id=self.admin.id, method='force')
         self.client.post(
-            reverse('publish_answer'),
-            data={'answer_id': answer.id},
+            reverse('publish_post'),
+            data={'post_id': answer.id},
             HTTP_X_REQUESTED_WITH='XMLHttpRequest'
         )
-        #todo: test redirect
 
+        # now user should be able to see the answer
         answer = self.reload_object(answer)
         answer_groups = set(answer.groups.all())
         self.assertEqual(len(answer_groups & user_groups), 1)
-
 
 
     def test_permissive_response_publishing(self):

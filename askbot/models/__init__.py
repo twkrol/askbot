@@ -3283,9 +3283,7 @@ def user_approve_post_revision(user, post_revision, timestamp = None):
         post.text = post_revision.text
 
         post_is_new = (post.revisions.count() == 1)
-        parse_results = post.parse_and_save(
-                            author=post_revision.author
-                        )
+        parse_results = post.parse_and_save(author=post_revision.author)
 
         signals.post_updated.send(
             post=post,
@@ -3504,9 +3502,15 @@ def user_edit_group_membership(self, user=None, group=None,
 
         auth_group = group.group_ptr
         user.groups.add(auth_group)
-        membership, created = GroupMembership.objects.get_or_create(
-                        user=user, group=group, level=level
-                    )
+
+        try:
+            membership = GroupMembership.objects.get(user=user, group=group)
+        except GroupMembership.DoesNotExist:
+            membership = GroupMembership.objects.create(user=user, group=group, level=level)
+        else:
+            membership.level = level
+            membership.save()
+
         return membership
 
     if action == 'remove':
@@ -4280,14 +4284,16 @@ def make_invited_moderator(user, **kwargs):
 
 
 def moderate_group_joining(sender, instance=None, created=False, **kwargs):
-    if created and instance.level == GroupMembership.PENDING:
-        user = instance.user
-        group = instance.group
-        user.notify_users(
-                notification_type=const.TYPE_ACTIVITY_ASK_TO_JOIN_GROUP,
-                recipients = group.get_moderators(),
-                content_object = group
-            )
+    if instance.level != GroupMembership.PENDING:
+        return
+
+    user = instance.user
+    group = instance.group
+    user.notify_users(
+            notification_type=const.TYPE_ACTIVITY_ASK_TO_JOIN_GROUP,
+            recipients=group.group.get_moderators(),
+            content_object=group
+        )
 
 #this variable and the signal handler below is
 #needed to work around the issue in the django admin

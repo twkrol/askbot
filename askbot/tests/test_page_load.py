@@ -163,7 +163,7 @@ class PageLoadTestCase(AskbotTestCase):
         self.try_url(
             'ask',
             status_code = status_code,
-            template = 'ask.html'
+            template = 'ask/index.html'
         )
         askbot_settings.update('ALLOW_POSTING_BEFORE_LOGGING_IN', prev_setting)
 
@@ -234,19 +234,19 @@ class PageLoadTestCase(AskbotTestCase):
         self.try_url(
                 'tags',
                 status_code=status_code,
-                template='tags.html')
+                template='tags/index.html')
         self.try_url(
                 'tags',
                 status_code=status_code,
-                data={'sort':'name'}, template='tags.html')
+                data={'sort':'name'}, template='tags/index.html')
         self.try_url(
                 'tags',
                 status_code=status_code,
-                data={'sort':'used'}, template='tags.html')
+                data={'sort':'used'}, template='tags/index.html')
         self.try_url(
                 'badges',
                 status_code=status_code,
-                template='badges.html')
+                template='badges/index.html')
         self.try_url(
                 'answer_revisions',
                 status_code=status_code,
@@ -335,21 +335,21 @@ class PageLoadTestCase(AskbotTestCase):
                 status_code=status_code,
                 kwargs={'id':1},   # INFO: Hardcoded ID, might fail if DB allocates IDs in some non-continuous way
                 follow=True,
-                template='question.html'
+                template='question/index.html'
             )
         self.try_url(
                 'question',
                 status_code=status_code,
                 kwargs={'id':2},   # INFO: Hardcoded ID, might fail if DB allocates IDs in some non-continuous way
                 follow=True,
-                template='question.html'
+                template='question/index.html'
             )
         self.try_url(
                 'question',
                 status_code=status_code,
                 kwargs={'id':3},   # INFO: Hardcoded ID, might fail if DB allocates IDs in some non-continuous way
                 follow=True,
-                template='question.html'
+                template='question/index.html'
             )
         self.try_url(
                 'question_revisions',
@@ -359,7 +359,7 @@ class PageLoadTestCase(AskbotTestCase):
             )
         self.try_url('users',
                 status_code=status_code,
-                template='users.html'
+                template='users/index.html'
             )
         #self.try_url(
         #        'widget_questions',
@@ -371,73 +371,73 @@ class PageLoadTestCase(AskbotTestCase):
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'reputation'},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'newest'},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'last'},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'user'},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'reputation', 'page':2},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'newest', 'page':2},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'last', 'page':2},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'user', 'page':2},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'reputation', 'page':1},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'newest', 'page':1},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'last', 'page':1},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'user', 'page':1},
             )
         self.try_url(
@@ -477,7 +477,7 @@ class PageLoadTestCase(AskbotTestCase):
             kwargs={'id': 2, 'slug': name_slug},   # INFO: Hardcoded ID, might fail if DB allocates IDs in some non-continuous way
             status_code=status_code,
             data={'sort':'recent'},
-            template='user_profile/user_recent.html'
+            template='user_profile/user_activity.html'
         )
         self.try_url(
             'user_profile',
@@ -754,7 +754,7 @@ class CommandViewTests(AskbotTestCase):
                                 HTTP_X_REQUESTED_WITH='XMLHttpRequest'
                             )
             self.assertEqual(response.status_code, 200)
-            self.assertEqual(response.content, b'')
+            self.assertEqual(response.content, b'{}')
 
         self.client.login(user_id=user.id, method='force')
 

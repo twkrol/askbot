@@ -596,6 +596,32 @@ class GroupTests(AskbotTestCase):
         self.assertObjectGroupsEqual(data['answer'], groups)
         self.assertObjectGroupsEqual(data['answer_comment'], groups)
 
+    def test_thread_make_private(self):
+        question = self.post_question(user=self.u1)
+        answer = self.post_answer(question=question, user=self.u1)
+        answer.make_private(self.u1)
+        group = models.Group.objects.get_global_group()
+        self.assertTrue(group in question.thread.groups.all())
+        self.assertTrue(group in question.groups.all())
+        question.thread.make_private(self.u1)
+        self.assertTrue(group not in question.thread.groups.all())
+        self.assertTrue(group not in question.groups.all())
+        self.assertTrue(group not in answer.groups.all())
+        question.thread.make_public()
+        self.assertTrue(group in question.thread.groups.all())
+        self.assertTrue(group in question.groups.all())
+        self.assertTrue(group not in answer.groups.all())
+
+    def test_post_make_private(self):
+        question = self.post_question(user=self.u1)
+        post = self.post_answer(question=question, user=self.u1)
+        group = models.Group.objects.get_global_group()
+        self.assertTrue(group in post.groups.all())
+        post.make_private(self.u1)
+        self.assertTrue(group not in post.groups.all())
+        post.make_public()
+        self.assertTrue(group in post.groups.all())
+
     def test_thread_add_to_groups_recursive(self):
         data = self.post_question_answer_and_comments()
 

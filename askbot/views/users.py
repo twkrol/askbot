@@ -781,7 +781,7 @@ def set_user_description(request):
 
     user = get_object_or_404(models.User, pk=user_id)
     if akismet_check_spam(description, request, user):
-        message = _('Spam was detected on your post, sorry if it was a mistake')
+        message = _('Spam was detected in the post')
         raise django_exceptions.PermissionDenied(message)
 
     if user_id == request.user.pk or request.user.is_admin_or_mod():

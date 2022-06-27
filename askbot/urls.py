@@ -391,9 +391,9 @@ urlpatterns = [
         name='repost_answer_as_comment_under_previous_answer'
     ),
     service_url(  # post only
-        r'^answer/publish/$',
-        views.commands.publish_answer,
-        name='publish_answer'
+        r'^publish-post/$',
+        views.commands.publish_post,
+        name='publish_post'
     ),
     service_url(
         r'^%s%s$' % (pgettext('urls', 'tags/'), pgettext('urls', 'subscriptions/')),

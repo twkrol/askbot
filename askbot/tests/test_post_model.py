@@ -484,7 +484,7 @@ class ThreadRenderCacheUpdateTests(AskbotTestCase):
         html = self._html_for_question(question)
         self.assertEqual(html, question.thread.get_cached_summary_html())
 
-    def test_edit_question(self):
+    def test_edit_question_body(self):
         self.assertEqual(0, Post.objects.count())
         question = self.post_question()
 
@@ -495,23 +495,18 @@ class ThreadRenderCacheUpdateTests(AskbotTestCase):
 
         time.sleep(1.5) # compensate for 1-sec time resolution in some databases
 
+        edited_text = 'edited body text'
         response = self.client.post(
-            reverse('edit_question', kwargs={'id': question.id}),
+            reverse('set_post_body'),
             data={
-                'title': 'edited title',
-                'text': 'edited body text',
-                'tags': 'tag1 tag2',
-                'summary': 'just some edit',
-                'select_revision': 'false'
-            }
+                'post_id': question.id,
+                'body_text': edited_text
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
         )
         self.assertEqual(1, Post.objects.count())
         question = Post.objects.all()[0]
-        self.assertRedirects(
-            response=response,
-            expected_url=question.get_absolute_url()
-        )
-
+        self.assertEqual(question.text, edited_text)
         thread = question.thread
         self.assertEqual(0, thread.answer_count)
         self.assertTrue(thread.last_activity_at > question.added_at)
@@ -525,15 +520,16 @@ class ThreadRenderCacheUpdateTests(AskbotTestCase):
     def test_retag_question(self):
         self.assertEqual(0, Post.objects.count())
         question = self.post_question()
-        response = self.client.post(reverse('retag_question', kwargs={'id': question.id}), data={
-            'tags': 'tag1 tag2',
-        })
+        retag_url = reverse('retag_question', kwargs={'id': question.id})
+        post_data = {'tags': 'tag1 tag2'}
+        response = self.client.post(
+            retag_url,
+            data=post_data,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
         self.assertEqual(1, Post.objects.count())
         question = Post.objects.all()[0]
-        self.assertRedirects(response=response, expected_url=question.get_absolute_url())
-
         self.assertCountEqual(['tag1', 'tag2'], list(question.thread.tags.values_list('name', flat=True)))
-
         self.assertTrue(question.thread.summary_html_cached())  # <<< make sure that caching backend is set up properly (i.e. it's not dummy)
         html = self._html_for_question(question)
         self.assertEqual(html, question.thread.get_cached_summary_html())

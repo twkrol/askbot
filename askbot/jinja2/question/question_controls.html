@@ -1,9 +1,23 @@
 {% import "macros.html" as macros %}
-<div id="js-post-controls-{{ question.id }}" class="js-question-controls js-post-controls" data-post-id="{{ question.id }}">
+<div id="js-post-controls-{{ question.pk }}" class="js-question-controls js-post-controls" data-post-id="{{ question.pk }}">
   <span id="js-edit-btn-post-body-{{ question.pk }}"
     class="action-link js-edit with-edit-icon"
   >{% trans %}edit{% endtrans %}</span>
   {{ macros.post_flag_buttons(question) }}
+  {% if thread.is_moderated() %}
+    {% set is_published=(not question.is_private()) %}
+    <span
+      id="js-post-publish-btn-{{question.pk}}"
+      class="action-link {% if is_published %}js-unpublish-post with-bullhorn-icon with-slashed-icon{% else %}js-publish-post with-bullhorn-icon{% endif %}"
+      data-post-id={{question.pk}}
+    >
+      {% if is_published %}
+        {% trans %}unpublish{% endtrans %}</a>
+      {% else %}
+        {% trans %}publish{% endtrans %}</a>
+      {% endif %}
+    </span>
+  {% endif %}
   {% if thread.closed %}
     <a id="js-question-close-btn-{{question.id}}"
       class="action-link with-reopen-icon js-post-reopen"

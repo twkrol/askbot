@@ -27,7 +27,7 @@ class SkinTests(TestCase):
                             askbot.get_install_directory(),
                             'tests',
                             'images',
-                            'logo.gif'
+                            'askbot-logo.svg'
                         )
         shutil.copy(test_image_file, skin_image_dir)
 
@@ -58,7 +58,7 @@ class SkinTests(TestCase):
                             askbot.get_install_directory(),
                             'tests',
                             'images',
-                            'logo.gif'
+                            'askbot-logo.svg'
                         )
         logo_file = open(logo_src, 'rb')
         new_logo = UploadedFile(file = logo_file)

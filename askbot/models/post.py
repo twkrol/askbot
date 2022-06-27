@@ -98,14 +98,15 @@ class PostQuerySet(models.query.QuerySet):
     # belong to Thread manager or Query set.
     def get_for_user(self, user):
         from askbot.models.user import Group
-        if askbot_settings.GROUPS_ENABLED:
-            if user is None or user.is_anonymous:
-                groups = [Group.objects.get_global_group()]
-            else:
-                groups = user.get_groups()
-            return self.filter(groups__in=groups).distinct()
-        else:
+        if not askbot_settings.GROUPS_ENABLED:
             return self
+
+        if user is None or user.is_anonymous:
+            groups = [Group.objects.get_global_group()]
+        else:
+            groups = user.get_groups()
+
+        return self.filter(groups__in=groups).distinct()
 
     def get_by_text_query(self, search_query):
         """returns a query set of questions,
@@ -875,7 +876,7 @@ class Post(models.Model):
                 self.remove_from_groups((global_group,))
         else:
             if self.thread_id and self.is_question() is False:
-                # for thread-related responses we base
+                # for thread-related answers and comments we base
                 # privacy scope on thread + add a personal group
                 personal_group = user.get_personal_group()
                 thread_groups = self.thread.get_groups_shared_with()
@@ -981,7 +982,7 @@ class Post(models.Model):
 
     def needs_moderation(self):
         # TODO: do we need this, can't we just use is_approved()?
-        return self.is_approved() is False
+        return not self.is_approved()
 
     def get_absolute_url(self, no_slug=False, question_post=None,
                          language=None, thread=None):

@@ -227,7 +227,7 @@ def ask(request):#view used to ask a new question
 
             content = '{}\n\n{}\n\n{}'.format(title, tagnames, text)
             if akismet_check_spam(content, request):
-                message = _('Spam was detected on your post, sorry if it was a mistake')
+                message = _('Spam was detected in the post')
                 raise exceptions.PermissionDenied(message)
 
             if request.user.is_authenticated:
@@ -342,33 +342,33 @@ def retag_question(request, id):
         request.user.assert_can_retag_question(question)
         form = forms.RetagQuestionForm(question, request.POST)
 
-        if form.is_valid():
-            if form.has_changed():
-                text = question.get_text_content(tags=form.cleaned_data['tags'])
-                if akismet_check_spam(text, request):
-                    message = _('Spam was detected on your post, sorry if it was a mistake')
-                    raise exceptions.PermissionDenied(message)
-
-                request.user.retag_question(question=question, tags=form.cleaned_data['tags'])
-
-            response_data = {
-                'success': True,
-                'new_tags': question.thread.tagnames
-            }
-            if request.user.message_set.count() > 0:
-                #todo: here we will possibly junk messages
-                message = request.user.get_and_delete_messages()[-1]
-                response_data['message'] = message
-
-            data = json.dumps(response_data)
-            return HttpResponse(data, content_type="application/json")
-        else:
+        if not form.is_valid():
             response_data = {
                 'message': format_errors(form.errors['tags']),
                 'success': False
             }
             data = json.dumps(response_data)
             return HttpResponse(data, content_type="application/json")
+
+        if form.has_changed():
+            text = question.get_text_content(tags=form.cleaned_data['tags'])
+            if akismet_check_spam(text, request):
+                message = _('Spam was detected in the post')
+                raise exceptions.PermissionDenied(message)
+
+            request.user.retag_question(question=question, tags=form.cleaned_data['tags'])
+
+        response_data = {
+            'success': True,
+            'new_tags': question.thread.tagnames
+        }
+        if request.user.message_set.count() > 0:
+            message = request.user.get_and_delete_messages()[-1]
+            response_data['message'] = message
+
+        data = json.dumps(response_data)
+        return HttpResponse(data, content_type="application/json")
+
     except exceptions.PermissionDenied as e:
         response_data = {
             'message': str(e),
@@ -435,7 +435,7 @@ def edit_answer(request, id):
 
                         text = form.cleaned_data['text']
                         if akismet_check_spam(text, request):
-                            message = _('Spam was detected on your post, sorry if it was a mistake')
+                            message = _('Spam was detected in the post')
                             raise exceptions.PermissionDenied(message)
 
                         user.edit_answer(
@@ -523,7 +523,7 @@ def answer(request, id, form_class=forms.AnswerForm):#process a new answer
                 try:
                     text = form.cleaned_data['text']
                     if akismet_check_spam(text, request):
-                        message = _('Spam was detected on your post, sorry if it was a mistake')
+                        message = _('Spam was detected in the post')
                         raise exceptions.PermissionDenied(message)
 
                     answer = form.save(
@@ -669,7 +669,7 @@ def post_comments(request):#generic ajax handler to load comments to an object
 
             text = form.cleaned_data['comment']
             if akismet_check_spam(text, request):
-                message = _('Spam was detected on your post, sorry if it was a mistake')
+                message = _('Spam was detected in the post')
                 raise exceptions.PermissionDenied(message)
 
             comment = user.post_comment(
@@ -702,7 +702,7 @@ def edit_comment(request):
         raise exceptions.PermissionDenied('This content is forbidden')
 
     if akismet_check_spam(form.cleaned_data['comment'], request):
-        message = _('Spam was detected on your post, sorry if it was a mistake')
+        message = _('Spam was detected in the post')
         raise exceptions.PermissionDenied(message)
 
     comment_post = models.Post.objects.get(
