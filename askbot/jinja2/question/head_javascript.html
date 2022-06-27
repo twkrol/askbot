@@ -158,14 +158,12 @@
       }
     }
 
-    function hidePublishAnswerLink(postId) {
+    function hidePublishPostLinks() {
       if (data['userIsThreadModerator'] === false) {
-        //hide publish/unpublish answer links
-        var answerId = 'post-' + postId + '-publish';
-        var pubBtn = document.getElementById(answerId);
-        if (pubBtn) {
-          removeNode(pubBtn);
-        }
+        document.querySelectorAll('.js-publish-post')
+          .forEach(function(el) { el.remove(); });
+        document.querySelectorAll('.js-unpublish-post')
+          .forEach(function(el) { el.remove(); });
       }
     }
 
@@ -338,6 +336,6 @@
     askbot['functions']['renderAddAnswerButton'] = renderAddAnswerButton;
     askbot['functions']['hideConvertLinks'] = hideConvertLinks;
     askbot['functions']['hideConvertAnswerLinks'] = hideConvertAnswerLinks;
-    askbot['functions']['hidePublishAnswerLink'] = hidePublishAnswerLink;
+    askbot['functions']['hidePublishPostLinks'] = hidePublishPostLinks;
   })();
 </script>

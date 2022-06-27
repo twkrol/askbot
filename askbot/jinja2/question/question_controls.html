@@ -39,6 +39,7 @@
     data-post-id="{{question.id}}"
   >{% if question.deleted %}{% trans %}undelete{% endtrans %}{% else %}{% trans %}delete{% endtrans %}{% endif %}</a>
   <script type="text/javascript">
-    askbot['functions']['renderPostControls']('{{question.id}}'{{ ', true' if question.wiki }});
+    askbot.functions.renderPostControls('{{question.id}}'{{ ', true' if question.wiki }});
+    askbot.functions.hidePublishPostLinks();
   </script>
 </div>

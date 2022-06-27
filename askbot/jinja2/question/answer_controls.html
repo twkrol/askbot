@@ -63,7 +63,7 @@
   </div>
   <script type="text/javascript">
       askbot['functions']['hideConvertAnswerLinks']('{{ answer.id }}');
-      askbot['functions']['hidePublishAnswerLink']('{{ answer.id }}');
+      askbot['functions']['hidePublishPostLinks']();
       askbot['functions']['renderPostControls']('{{ answer.id }}'{{ ', true' if answer.wiki }});
   </script>
 </div>
