@@ -155,7 +155,7 @@
   content: fa-content($fa-var-globe-europe);
 }
 
-.with-ellipsis-icon::before {
+.with-ellipsis-h-icon::before {
   @extend %fa-icon;
   @extend .fas;
   content: fa-content($fa-var-ellipsis-h);

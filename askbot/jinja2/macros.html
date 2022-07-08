@@ -630,14 +630,11 @@ for the purposes of the AJAX comment editor #}
   {% endif %}
 {%- endmacro -%}
 
-{%- macro paginator(p, position='left', anchor='') -%}{# p is paginator context dictionary #}
+{%- macro paginator(p, anchor='') -%}{# p is paginator context dictionary #}
   {% filter trim %}
     {% if p.is_paginated %}
       <div class="paginator" data-num-pages="{{ p.pages }}">
-        <a class="js-prev-page prev-page with-caret-left-icon"
-          {% if not p.has_previous %}
-            style="display: none"
-          {% endif %}
+        <a class="js-prev-page prev-page with-caret-left-icon{% if p and not p.has_previous %} js-disabled{% endif %}"
           href="{{p.base_url}}page={{ p.previous }}{{ anchor }}"
           aria-label="{% trans %}previous{% endtrans %}"
         ></a>
@@ -684,9 +681,7 @@ for the purposes of the AJAX comment editor #}
             {{ p.pages }}
           </a>
         </span>
-
-        <a class="js-next-page next-page with-caret-right-icon"
-          {% if not p.has_next %}style="display: none"{% endif %}
+        <a class="js-next-page next-page with-caret-right-icon{% if p and not p.has_next %} js-disabled{% endif %}"
           href="{{p.base_url}}page={{ p.next }}{{ anchor }}"
           aria-label="{% trans %}next page{% endtrans %}"
         ></a>
@@ -695,17 +690,81 @@ for the purposes of the AJAX comment editor #}
   {% endfilter %}
 {%- endmacro -%}
 
+{# p is paginator context dictionary #}
+{%- macro ajax_paginator(p, class="js-paginator", data_url=None, result_placement_selector=None, request_params=None) -%}
+  <div class="{{ class }}"
+    {% if not p or not p.is_paginated %}style="display: none"{% endif %}
+    {% if p and p.pages %}data-num-pages="{{ p.pages }}"{% endif %}
+    {% if data_url %}data-data-url="{{ data_url }}"{% endif %}
+    {% if result_placement_selector %}data-result-placement-selector="{{ result_placement_selector }}"{% endif %}
+    {% if request_params %}data-request-params='{{ request_params|as_json }}'{% endif %}
+  >
+    <a class="js-prev-page with-caret-left-icon{% if p and not p.has_previous %} js-disabled{% endif %}"
+      {% if p and p.previous %}data-page="{{ p.previous }}"{% endif %}
+      aria-label="{% trans %}previous{% endtrans %}"
+    ></a>
+
+    <span class="js-first-page-block"
+      {% if p and p.in_leading_range %}style="display: none"{% endif %}
+    >
+      <a class="js-page"
+        aria-label="{% trans %}first page{% endtrans %}"
+        data-page="1"
+      >1</a>
+      <span class="js-paginator-ellipsis with-ellipsis-h-icon"></span>
+    </span>
+
+    <span class="js-main-pages-block"
+      {% if not p or not p.page_numbers %}style="display: none"{% endif %}
+    >
+      {% for num in p.page_numbers %}
+        {% if num == p.page %}
+          <a class="js-page js-current-page"
+            data-page="{{ num }}"
+            aria-label="{% trans %}current page{% endtrans %}"
+          >
+            {{ num }}
+          </a>
+        {% else %}
+          <a class="js-page"
+            data-page="{{ num }}"
+            aria-label="{% trans %}page {{num}}{% endtrans %}"
+          >
+            {{ num }}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </span>
+
+    <span class="js-last-page-block"
+      {% if p.in_trailing_range %}style="display: none"{% endif %}
+    >
+      <span class="js-paginator-ellipsis with-ellipsis-h-icon"></span>
+      <a class="js-page"
+        data-page="{{p.pages}}"
+        aria-label="{% trans num=p.pages %}page {{ num }}{% endtrans %}"
+      >
+        {{ p.pages }}
+      </a>
+    </span>
+
+    <a class="js-next-page with-caret-right-icon{% if p and not p.has_next %} js-disabled{% endif %}"
+      data-page="{{ p.next }}"
+      aria-label="{% trans %}next page{% endtrans %}"
+    ></a>
+  </div>
+{%- endmacro -%}
+
 {%- macro paginator_questions(p, search_state) -%} {# p is paginator context dictionary #}
   {% filter trim %}
     {% if p.is_paginated %}
       <div class='paginator'>
-        {% if p.has_previous %}
-          <a class='with-caret-left-icon prev-page'
-            href='{{ search_state.change_page(p.previous).full_url() }}'
-            aria-label='{% trans %}previous{% endtrans %}'
-          ></a>
-        {% endif %}
+        <a class='with-caret-left-icon prev-page{% if p and not p.has_previous %} js-disabled{% endif %}'
+          href='{{ search_state.change_page(p.previous).full_url() }}'
+          aria-label='{% trans %}previous{% endtrans %}'
+        ></a>
         {% if not p.in_leading_range %}
+        <span class="js-first-page-block">
           {% for num in p.pages_outside_trailing_range %}
             <a class='page'
               href='{{ search_state.change_page(num).full_url() }}'
@@ -715,6 +774,7 @@ for the purposes of the AJAX comment editor #}
             </a>
           {% endfor %}
           <span class='with-ellipsis-h-icon'></span>
+        </span>
         {% endif %}
 
         {% for num in p.page_numbers %}
@@ -731,6 +791,7 @@ for the purposes of the AJAX comment editor #}
         {% endfor %}
 
         {% if not p.in_trailing_range %}
+        <span class="js-last-page-block">
           <span class='with-ellipsis-h-icon'></span>
           {% for num in p.pages_outside_leading_range|reverse %}
             <a class='page'
@@ -740,13 +801,12 @@ for the purposes of the AJAX comment editor #}
               {{ num }}
             </a>
           {% endfor %}
+        </span>
         {% endif %}
-        {% if p.has_next %}
-          <a class='with-caret-right-icon next-page'
-            href="{{ search_state.change_page(p.next).full_url() }}"
-            aria-label="{% trans %}next page{% endtrans %}"
-          ></a>
-        {% endif %}
+        <a class='with-caret-right-icon next-page{% if p and not p.has_next %} js-disabled{% endif %}'
+          href="{{ search_state.change_page(p.next).full_url() }}"
+          aria-label="{% trans %}next page{% endtrans %}"
+        ></a>
       </div>
     {% endif %}
   {% endfilter %}

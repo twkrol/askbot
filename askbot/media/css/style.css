@@ -723,6 +723,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
   --paginator-bg: unset;
   --paginator-current-fg-color: var(--bg-color);
   --paginator-current-bg: var(--forum-header-fg-color);
+  --paginator-disabled-color: var(--clr-neutral-70);
   --paginator-page-height: calc(var(--paginator-font-size) + 0.125rem);
   --paginator-margin: 0 0 1rem;
   --paginator-page-margin: 0 1px;
@@ -977,7 +978,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
 .with-arrow-left-icon::before,
 .with-caret-right-icon::before,
 .with-caret-left-icon::before,
-.with-ellipsis-icon::before,
+.with-ellipsis-h-icon::before,
 .with-globe-icon::before,
 .with-bars-icon::before,
 .js-with-sort-ascending-icon::before,
@@ -1017,7 +1018,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
 }
 
 .wmd-help-button::before, .wmd-redo-button::before, .wmd-undo-button::before, .wmd-hr-button::before, .wmd-heading-button::before, .wmd-ulist-button::before, .wmd-olist-button::before, .wmd-attachment-button::before, .wmd-image-button::before, .wmd-code-button::before, .wmd-quote-button::before, .wmd-link-button::before, .wmd-italic-button::before, .wmd-bold-button::before, .with-check-icon::before, .with-slashed-icon::after, .with-bullhorn-icon::before, .with-accept-answer-icon::before, .with-link-icon::before, .with-convert-post-icon::before, .with-comment-upvote-icon::before, .with-merge-icon::before, .with-reopen-icon::after, .with-reopen-icon::before, .with-close-icon::before, .with-flag-icon.js-post-unflag-btn::after, .with-clone-icon::before, .with-anchor-icon::before, .with-flag-icon::before, .with-edit-icon::before, .with-twitter-icon::before, .with-linkedin-icon::before, .with-facebook-icon::before, .with-caret-down-icon::before,
-.with-downvote-icon::before, .with-upvote-icon::before, .with-arrow-left-icon::before, .with-comment-icon::before, .with-caret-right-icon::before, .with-caret-left-icon::before, .with-ellipsis-icon::before, .with-globe-icon::before, .with-bars-icon::before, .js-with-sort-ascending-icon::before, .js-with-sort-descending-icon::before, .with-rss-icon::before, .with-selected-scope-icon::before, .with-search-icon::before, .with-home-icon::before, .with-times-circle-icon::before, .with-delete-icon::before,
+.with-downvote-icon::before, .with-upvote-icon::before, .with-arrow-left-icon::before, .with-comment-icon::before, .with-caret-right-icon::before, .with-caret-left-icon::before, .with-ellipsis-h-icon::before, .with-globe-icon::before, .with-bars-icon::before, .js-with-sort-ascending-icon::before, .js-with-sort-descending-icon::before, .with-rss-icon::before, .with-selected-scope-icon::before, .with-search-icon::before, .with-home-icon::before, .with-times-circle-icon::before, .with-delete-icon::before,
 .with-times-icon::before, .with-bronze-badge-icon::before,
 .with-silver-badge-icon::before,
 .with-gold-badge-icon::before, .with-tags-icon::before, .with-users-icon::before,
@@ -1160,7 +1161,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
 .fa-pull-left.with-arrow-left-icon::before,
 .fa-pull-left.with-caret-right-icon::before,
 .fa-pull-left.with-caret-left-icon::before,
-.fa-pull-left.with-ellipsis-icon::before,
+.fa-pull-left.with-ellipsis-h-icon::before,
 .fa-pull-left.with-globe-icon::before,
 .fa-pull-left.with-bars-icon::before,
 .fa-pull-left.js-with-sort-ascending-icon::before,
@@ -1229,7 +1230,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
 .fa-pull-right.with-arrow-left-icon::before,
 .fa-pull-right.with-caret-right-icon::before,
 .fa-pull-right.with-caret-left-icon::before,
-.fa-pull-right.with-ellipsis-icon::before,
+.fa-pull-right.with-ellipsis-h-icon::before,
 .fa-pull-right.with-globe-icon::before,
 .fa-pull-right.with-bars-icon::before,
 .fa-pull-right.js-with-sort-ascending-icon::before,
@@ -7253,7 +7254,7 @@ readers do not read off random characters that represent icons */
 .with-arrow-left-icon::before,
 .with-caret-right-icon::before,
 .with-caret-left-icon::before,
-.with-ellipsis-icon::before,
+.with-ellipsis-h-icon::before,
 .with-globe-icon::before,
 .with-bars-icon::before,
 .js-with-sort-ascending-icon::before,
@@ -7422,7 +7423,7 @@ readers do not read off random characters that represent icons */
   content: "";
 }
 
-.with-ellipsis-icon::before {
+.with-ellipsis-h-icon::before {
   content: "";
 }
 
@@ -8801,15 +8802,35 @@ code.hljs {
     -webkit-transform: scaleY(1);
   }
 }
-.paginator {
+.paginator,
+.js-paginator {
   display: flex;
   font-size: var(--paginator-font-size);
   margin: var(--paginator-margin);
 }
 
+.js-first-page-block {
+  padding-right: 0.25rem;
+}
+
+.js-last-page-block {
+  padding-left: 0.25rem;
+}
+
+.js-first-page-block .with-ellipsis-h-icon,
+.js-last-page-block .with-ellipsis-h-icon {
+  font-size: 0.75rem;
+  position: relative;
+  top: 3px;
+  color: var(--paginator-fg-color);
+}
+
 .page,
+.js-page,
 .next-page,
-.prev-page {
+.js-next-page,
+.prev-page,
+.js-prev-page {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -8825,25 +8846,40 @@ code.hljs {
   transition: color var(--transition-params), background var(--transition-params);
 }
 
-.page.current-page,
-.page:hover,
+/*.page:hover,
+.js-page:hover,
 .next-page:hover,
-.prev-page:hover {
+.js-next-page:hover,
+.prev-page:hover,
+.js-prev-page:hover {*/
+.current-page,
+.js-current-page {
   color: var(--paginator-current-fg-color);
   background: var(--paginator-current-bg);
   transition: color var(--transition-params), background var(--transition-params);
 }
 
 .prev-page,
-.next-page {
+.js-prev-page,
+.next-page,
+.js-next-page {
   font-size: var(--font-size);
 }
+.prev-page.js-disabled,
+.js-prev-page.js-disabled,
+.next-page.js-disabled,
+.js-next-page.js-disabled {
+  color: var(--paginator-disabled-color);
+  cursor: not-allowed;
+}
 
-.prev-page {
+.prev-page,
+.js-prev-page {
   padding: var(--paginator-prev-page-padding);
 }
 
-.next-page {
+.next-page,
+.js-next-page {
   padding: var(--paginator-next-page-padding);
 }
 
@@ -10035,6 +10071,14 @@ a.badge-page-link {
 }
 .user-profile-answers .paginator {
   margin-top: 1rem;
+}
+
+.js-user-answers {
+  margin-bottom: 0.75rem;
+}
+
+.js-user-questions {
+  margin-bottom: 0.25rem;
 }
 
 .js-inbox-forum .js-manage-messages {

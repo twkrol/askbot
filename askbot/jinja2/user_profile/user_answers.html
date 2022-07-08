@@ -9,6 +9,11 @@
     {% include "user_profile/user_answers_list.html" %}
   </div>
   {% if top_answer_count > page_size %}
-    {{ macros.paginator(a_paginator_context) }}
+    {{ macros.ajax_paginator(
+      a_paginator_context,
+      data_url=url('get_top_answers'),
+      request_params={'user_id': view_user.id},
+      result_placement_selector='.js-user-answers'
+    )}}
   {% endif %}
 </section>
