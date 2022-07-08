@@ -9,16 +9,17 @@ var PostVote = (function () {
     answerDownVote:6,
   };
 
-  function updateBtnIcon(undo, button) {
-    var wasActive = $(button).hasClass('js-active');
+  function updateBtnIcon(button, undo) {
     if (undo) {
       var btnGroup = $(button).closest('.js-post-vote-btn-group');
       btnGroup.find('.js-post-vote-btn').removeClass('js-active');
-    }
-    if (wasActive) {
-      $(button).removeClass('js-active');
     } else {
-      $(button).addClass('js-active');
+      var wasActive = $(button).hasClass('js-active');
+      if (wasActive) {
+        $(button).removeClass('js-active');
+      } else {
+        $(button).addClass('js-active');
+      }
     }
   }
 
