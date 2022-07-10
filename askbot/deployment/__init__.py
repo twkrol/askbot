@@ -235,7 +235,6 @@ class AskbotSetup:
             dest='database_engine',
             action='store',
             choices=[eng[0] for eng in const.DATABASE_ENGINE_CHOICES],
-            type=int,
             help=const.DATABASE_ENGINE_HELP
         )
 
