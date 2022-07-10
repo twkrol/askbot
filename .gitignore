@@ -6,6 +6,7 @@ askbot_site
 fetch
 push
 propagate
+the.diff
 askbot/media/style/.sass-cache/
 .sass-cache
 db
