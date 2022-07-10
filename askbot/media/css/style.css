@@ -749,6 +749,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
   --question-summary-count-box-width: 3rem;
   --question-summary-stats-gap: 0.5rem;
   --question-summary-stats-height: 2.5rem;
+  --question-summary-min-height: 3.75rem;
   --tag-bg: var(--search-btn-bg-color);
   --tag-fg-color: var(--forum-header-fg-color);
   --tag-border-color: var(--sort-nav-sep-color);
@@ -9444,6 +9445,7 @@ ul.tags li {
 .question-summary {
   border-bottom: var(--border-width) var(--border-style) var(--sort-nav-sep-color);
   margin-bottom: 0.25rem;
+  min-height: var(--question-summary-min-height);
 }
 .question-summary h2 {
   display: block;

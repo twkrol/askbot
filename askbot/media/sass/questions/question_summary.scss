@@ -1,6 +1,7 @@
 .question-summary {
   border-bottom: var(--border-width) var(--border-style) var(--sort-nav-sep-color);
   margin-bottom: 0.25rem;
+  min-height: var(--question-summary-min-height);
   h2 {
     display: block;
     font-size: var(--large-font-size) !important;
