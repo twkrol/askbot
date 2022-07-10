@@ -195,7 +195,7 @@ The commands from this section will help fix those issues.
 +------------------------------------------+-------------------------------------------------------------+
 | `fix_revisionless_posts`                 | adds a revision record to posts that lack them              |
 +------------------------------------------+-------------------------------------------------------------+
-| `fix_question_tags`                      | takes tag names from the record on the question table       |
+| `askbot_fix_tags`                        | takes tag names from the record on the question table       |
 |                                          | and stores them in the tag table. This defect may show when |
 |                                          | the server process is interrupted after the question was    |
 |                                          | saved, but tags were not updated, and the symptom is that   |

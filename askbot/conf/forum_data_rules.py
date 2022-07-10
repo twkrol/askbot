@@ -315,7 +315,7 @@ settings.register(
         help_text=_(
             'Attention: after checking this, please back up the database, '
             'and run a management command: '
-            '<code>python manage.py fix_question_tags</code> to globally '
+            '<code>python manage.py askbot_fix_tags</code> to globally '
             'rename the tags'
          )
     )
