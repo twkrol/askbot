@@ -64,6 +64,30 @@ GroupSettingsEditor.prototype.decorate = function (element) {
   btn = element.find('.js-read-only-access-toggle');
   readOnlyToggle.decorate(btn);
 
+  var postQuestionsToggle = new AjaxToggle();
+  postQuestionsToggle.setPostData({
+    group_id: this.getObjectId(),
+    property_name: 'can_post_questions'
+  });
+  btn = element.find('.js-can-post-questions-toggle');
+  postQuestionsToggle.decorate(btn);
+
+  var postAnswersToggle = new AjaxToggle();
+  postAnswersToggle.setPostData({
+    group_id: this.getObjectId(),
+    property_name: 'can_post_answers'
+  });
+  btn = element.find('.js-can-post-answers-toggle');
+  postAnswersToggle.decorate(btn);
+
+  var postCommentsToggle = new AjaxToggle();
+  postCommentsToggle.setPostData({
+    group_id: this.getObjectId(),
+    property_name: 'can_post_comments'
+  });
+  btn = element.find('.js-can-post-comments-toggle');
+  postCommentsToggle.decorate(btn);
+
   var opennessSelector = new DropdownSelect();
   var selectorElement = element.find('.js-group-openness-selector');
   opennessSelector.setPostData({

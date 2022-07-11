@@ -125,6 +125,45 @@
       </label>
     </div>
 
+    <div class="row with-checkbox">
+      <input
+        type="checkbox"
+        id="can-post-questions-toggle"
+        class="js-can-post-questions-toggle"
+        {% if group.can_post_questions %}checked="checked"{% endif %}
+        data-toggle-url="{{ url('toggle_group_profile_property') }}"
+      />
+      <label for="can-post-questions-toggle">
+        {% trans %}Can post questions{% endtrans %}
+      </label>
+    </div>
+
+    <div class="row with-checkbox">
+      <input
+        type="checkbox"
+        id="can-post-answers-toggle"
+        class="js-can-post-answers-toggle"
+        {% if group.can_post_answers %}checked="checked"{% endif %}
+        data-toggle-url="{{ url('toggle_group_profile_property') }}"
+      />
+      <label for="can-post-answers-toggle">
+        {% trans %}Can post answers{% endtrans %}
+      </label>
+    </div>
+
+    <div class="row with-checkbox">
+      <input
+        type="checkbox"
+        id="can-post-comments-toggle"
+        class="js-can-post-comments-toggle"
+        {% if group.can_post_comments %}checked="checked"{% endif %}
+        data-toggle-url="{{ url('toggle_group_profile_property') }}"
+      />
+      <label for="can-post-comments-toggle">
+        {% trans %}Can post comments{% endtrans %}
+      </label>
+    </div>
+
     <div class="row">
       <a
         id="preapproved-emails"

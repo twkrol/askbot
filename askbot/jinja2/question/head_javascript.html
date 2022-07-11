@@ -2,6 +2,9 @@
   askbot['data']['userIsThreadModerator'] = {{ user_is_thread_moderator|as_js_bool }};
   askbot['data']['oldestAnswerId'] = {% if oldest_answer_id %}{{ oldest_answer_id }}{% else %}-1{% endif %};
   askbot['data']['threadIsClosed'] = {{ thread.closed|as_js_bool }};
+  askbot['data']['userCanPostQuestions'] = {{ (request.user.is_authenticated and request.user.can_post_question())|as_js_bool }};
+  askbot['data']['userCanPostAnswers'] = {{ (request.user.is_authenticated and request.user.can_post_answer())|as_js_bool }};
+  askbot['data']['userCanPostComments'] = {{ (request.user.is_authenticated and request.user.can_post_comment())|as_js_bool }};
   askbot['settings']['readOnlyModeEnabled'] = {{ settings.READ_ONLY_MODE_ENABLED|as_js_bool }};
   (function(){
 

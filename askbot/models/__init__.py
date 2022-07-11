@@ -486,6 +486,22 @@ def user_has_affinity_to_question(self, question = None, affinity_type = None):
     return False
 
 
+def user_has_group_permission(self, permission): #pylint: disable=missing-docstring
+    if not askbot_settings.GROUPS_ENABLED:
+        return True
+        
+    if permission == 'post_questions':
+        return self.get_groups().filter(can_post_questions=True).exists()
+
+    if permission == 'post_answers':
+        return self.get_groups().filter(can_post_answers=True).exists()
+
+    if permission == 'post_comments':
+        return self.get_groups().filter(can_post_comments=True).exists()
+
+    return True
+
+
 def user_has_ignored_wildcard_tags(self):
     """True if wildcard tags are on and
     user has some"""
@@ -964,6 +980,11 @@ def user_assert_can_post_question(self):
         suspended_user_cannot=True,
     )
 
+    if not self.has_group_permission('post_questions'):
+        error_message_tpl = _('Sorry, you cannot %(perform_action)s')
+        error_message = error_message_tpl % {'perform_action': askbot_settings.WORDS_ASK_QUESTIONS}
+        raise django_exceptions.PermissionDenied(error_message)
+
 
 def user_assert_can_post_answer(self, thread=None):
     """same as user_can_post_question
@@ -983,6 +1004,11 @@ def user_assert_can_post_answer(self, thread=None):
         blocked_user_cannot=True,
         suspended_user_cannot=True,
     )
+
+    if not self.has_group_permission('post_answers'):
+        error_message_tpl = _('Sorry, you cannot %(perform_action)s')
+        error_message = error_message_tpl % {'perform_action': askbot_settings.WORDS_POST_ANSWERS}
+        raise django_exceptions.PermissionDenied(error_message)
 
 
 def user_assert_can_edit_comment(self, comment=None):
@@ -1048,19 +1074,19 @@ def user_can_post_comment(self, parent_post=None):
     if self.is_administrator_or_moderator():
         return True
 
-    elif parent_post.thread and parent_post.thread.closed:
+    if parent_post.thread and parent_post.thread.closed:
         if askbot_settings.COMMENTING_CLOSED_QUESTIONS_ENABLED == False:
             return False
 
-    elif self.is_suspended():
+    if self.is_suspended():
         if parent_post and self.pk == parent_post.author_id:
             return True
-        else:
-            return False
-    elif self.is_blocked():
         return False
 
-    return True
+    if self.is_blocked():
+        return False
+
+    return self.has_group_permission('post_comment')
 
 def user_assert_can_post_comment(self, parent_post=None):
     """raises exceptions.PermissionDenied if
@@ -1084,6 +1110,12 @@ def user_assert_can_post_comment(self, parent_post=None):
         if askbot_settings.COMMENTING_CLOSED_QUESTIONS_ENABLED == False:
             error_message = _('Sorry, commenting closed entries is not allowed')
             raise django_exceptions.PermissionDenied(error_message)
+
+    if not self.has_group_permission('post_comments'):
+        error_message_tpl = _('Sorry, you cannot %(perform_action)s')
+        error_message = error_message_tpl % {'perform_action': _('post comments')}
+        raise django_exceptions.PermissionDenied(error_message)
+
 
 def user_assert_can_see_deleted_post(self, post=None):
 
@@ -2916,6 +2948,23 @@ def user_get_primary_group(self):
             return group
     return None
 
+
+def user_can_post_question(self):
+    """`True` if user can post questions"""
+    try:
+        self.assert_can_post_question()
+    except django_exceptions.PermissionDenied:
+        return False
+
+
+def user_can_post_answer(self, thread=None):
+    """`True` if user can post questions"""
+    try:
+        self.assert_can_post_answer(thread=thread)
+    except django_exceptions.PermissionDenied:
+        return False
+    
+
 def user_can_make_group_private_posts(self):
     """simplest implementation: user belongs to at least one group"""
     return (self.get_primary_group() != None)
@@ -3638,7 +3687,9 @@ User.add_to_class('can_anonymize_account', user_can_anonymize_account)
 User.add_to_class('can_create_tags', user_can_create_tags)
 User.add_to_class('can_have_strong_url', user_can_have_strong_url)
 User.add_to_class('can_post_by_email', user_can_post_by_email)
+User.add_to_class('can_post_answer', user_can_post_answer)
 User.add_to_class('can_post_comment', user_can_post_comment)
+User.add_to_class('can_post_question', user_can_post_question)
 User.add_to_class('can_make_group_private_posts', user_can_make_group_private_posts)
 User.add_to_class('is_administrator', user_is_administrator)
 User.add_to_class('is_administrator_or_moderator', user_is_administrator_or_moderator)
@@ -3666,6 +3717,7 @@ User.add_to_class('can_moderate_user', user_can_moderate_user)
 User.add_to_class('can_see_karma', user_can_see_karma)
 User.add_to_class('has_affinity_to_question', user_has_affinity_to_question)
 User.add_to_class('has_badge', user_has_badge)
+User.add_to_class('has_group_permission', user_has_group_permission)
 User.add_to_class('moderate_user_reputation', user_moderate_user_reputation)
 User.add_to_class('set_status', user_set_status)
 User.add_to_class('get_badge_summary', user_get_badge_summary)

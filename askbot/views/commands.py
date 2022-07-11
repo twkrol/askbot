@@ -989,6 +989,9 @@ def toggle_group_profile_property(request):
     property_name = CharField().clean(request.POST['property_name'])
     assert property_name in (
                         'moderate_email',
+                        'can_post_questions',
+                        'can_post_answers',
+                        'can_post_comments',
                         'moderate_answers_to_enquirers',
                         'is_vip',
                         'read_only'
