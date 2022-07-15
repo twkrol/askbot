@@ -1017,6 +1017,11 @@ class EmailAlertTestsWithGroupsEnabled(utils.AskbotTestCase):
     def setUp(self):
         self.backup = askbot_settings.GROUPS_ENABLED
         askbot_settings.update('GROUPS_ENABLED', True)
+        everyone = models.Group.objects.get_global_group()
+        everyone.can_post_questions = True
+        everyone.can_post_answers = True
+        everyone.can_post_comments = True
+        everyone.save()
 
     def tearDown(self):
         askbot_settings.update('GROUPS_ENABLED', self.backup)

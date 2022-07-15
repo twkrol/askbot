@@ -10,10 +10,18 @@ class PrivateQuestionViewsTests(AskbotTestCase):
 
     def setUp(self):
         self._backup = askbot_settings.GROUPS_ENABLED
+        everyone = models.Group.objects.get_global_group()
+        everyone.can_post_questions = True
+        everyone.can_post_answers = True
+        everyone.can_post_comments = True
         askbot_settings.update('GROUPS_ENABLED', True)
         self.user = self.create_user('user')
         self.group = models.Group.objects.create(
-                        name='the group', openness=models.Group.OPEN
+                        name='the group',
+                        openness=models.Group.OPEN,
+                        can_post_questions=True,
+                        can_post_answers=True,
+                        can_post_comments=True
                     )
         self.user.join_group(self.group)
         self.qdata = {
@@ -120,9 +128,18 @@ class PrivateAnswerViewsTests(AskbotTestCase):
     def setUp(self):
         self._backup = askbot_settings.GROUPS_ENABLED
         askbot_settings.update('GROUPS_ENABLED', True)
+        everyone = models.Group.objects.get_global_group()
+        everyone.can_post_questions = True
+        everyone.can_post_answerss = True
+        everyone.can_post_comments = True
+        everyone.save()
         self.user = self.create_user('user')
         group = models.Group.objects.create(
-            name='the group', openness=models.Group.OPEN
+            name='the group',
+            openness=models.Group.OPEN,
+            can_post_questions=True,
+            can_post_answers=True,
+            can_post_comments=True
         )
         self.user.join_group(group)
         self.question = self.post_question(user=self.user)

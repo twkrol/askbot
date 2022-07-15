@@ -427,6 +427,11 @@ class GroupTests(AskbotTestCase):
     def setUp(self):
         self.u1 = self.create_user('u1')
         askbot_settings.update('GROUPS_ENABLED', True)
+        everyone = models.Group.objects.get_global_group()
+        everyone.can_post_questions = True
+        everyone.can_post_answers = True
+        everyone.can_post_comments = True
+        everyone.save()
 
     def tearDown(self):
         askbot_settings.update('GROUPS_ENABLED', False)
@@ -477,6 +482,10 @@ class GroupTests(AskbotTestCase):
 
     def test_posts_added_to_private_group(self):
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
         self.u1.join_group(group)
 
         q = self.post_question(user=self.u1, is_private=True)
@@ -515,6 +524,10 @@ class GroupTests(AskbotTestCase):
         question = self.post_question(user=self.u1)
         comment = self.post_comment(parent_post=question, user=self.u1)
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
         self.u1.join_group(group)
         self.edit_question(question=question, user=self.u1, is_private=True)
         self.assertEqual(question.groups.count(), 2)
@@ -528,6 +541,11 @@ class GroupTests(AskbotTestCase):
         answer = self.post_answer(question=question, user=self.u1)
         comment = self.post_comment(parent_post=answer, user=self.u1)
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
+
         self.u1.join_group(group)
 
         #membership in `group` should not affect things,
@@ -549,6 +567,10 @@ class GroupTests(AskbotTestCase):
 
         u2 = self.create_user('u2')
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
         u2.join_group(group)
 
         answer = self.post_answer(question=question, user=u2, is_private=True)
@@ -568,6 +590,10 @@ class GroupTests(AskbotTestCase):
     def test_thread_answer_count_for_multiple_groups(self):
         question = self.post_question(self.u1)
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
         self.u1.join_group(group)
         answer = self.post_answer(question=question, user=self.u1)
         answer.add_to_groups((group,))
@@ -576,6 +602,10 @@ class GroupTests(AskbotTestCase):
 
     def test_thread_make_public_recursive(self):
         private_group = self.create_group(group_name='private')
+        private_group.can_post_questions = True
+        private_group.can_post_answers = True
+        private_group.can_post_commentss = True
+        private_group.save()
         self.u1.join_group(private_group)
         data = self.post_question_answer_and_comments(is_private=True)
 
@@ -626,6 +656,10 @@ class GroupTests(AskbotTestCase):
         data = self.post_question_answer_and_comments()
 
         private_group = self.create_group(group_name='private')
+        private_group.can_post_questions = True
+        private_group.can_post_answers = True
+        private_group.can_post_comments = True
+        private_group.save()
         thread = data['thread']
         thread.add_to_groups([private_group], recursive=True)
 
@@ -639,6 +673,10 @@ class GroupTests(AskbotTestCase):
 
     def test_private_thread_is_invisible_to_anonymous_user(self):
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
         self.u1.join_group(group)
         self.post_question(user=self.u1, is_private=True)
 

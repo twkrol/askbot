@@ -9,6 +9,11 @@ class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
     def setUp(self):
         self.groups_enabled_backup = askbot_settings.GROUPS_ENABLED
         askbot_settings.update('GROUPS_ENABLED', True)
+        global_group = models.Group.objects.get_global_group()
+        global_group.can_post_questions = True
+        global_group.can_post_answers = True
+        global_group.can_post_comments = True
+        global_group.save()
         self.admin = self.create_user('admin', status = 'd')
         self.user = self.create_user(
             'user',
@@ -21,6 +26,10 @@ class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
             }
         )
         self.group = models.Group.objects.get_or_create(name='jockeys')
+        self.group.can_post_questions = True
+        self.group.can_post_answers = True
+        self.group.can_post_comments = True
+        self.group.save()
         self.admin.join_group(self.group)
 
     def tearDown(self):
@@ -83,11 +92,17 @@ class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
                         name='common',
                         openness=models.Group.OPEN
                     )
+        common_group.can_post_questions = True
+        common_group.can_post_answers = True
+        common_group.can_post_comments = True
         common_group.save()
         self.admin.join_group(common_group)
         self.user.join_group(common_group)
 
         self.group.moderate_answers_to_enquirers = True
+        self.group.can_post_questions = True
+        self.group.can_post_answers = True
+        self.group.can_post_comments = True
         self.group.save()
         question = self.post_question(user=self.user, group_id=self.group.id)
         answer = self.post_answer(question=question, user=self.admin)

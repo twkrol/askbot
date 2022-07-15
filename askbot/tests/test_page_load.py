@@ -55,6 +55,11 @@ class PageLoadTestCase(AskbotTestCase):
     @classmethod
     def setUpClass(cls):
         management.call_command('flush', verbosity=0, interactive=False)
+        everyone = models.Group.objects.get_global_group()
+        everyone.can_post_questions = True
+        everyone.can_post_answers = True
+        everyone.can_post_comments = True
+        everyone.save()
         activate_language(settings.LANGUAGE_CODE)
         management.call_command('askbot_add_test_content', verbosity=0, interactive=False)
         super(PageLoadTestCase, cls).setUpClass()
@@ -180,8 +185,11 @@ class PageLoadTestCase(AskbotTestCase):
     @with_settings(GROUPS_ENABLED=True)
     def test_title_search_groups_enabled(self):
 
-        group = models.Group(name='secret group', openness=models.Group.OPEN)
-        group.save()
+        group = models.Group.objects.create(name='secret group',
+                                            openness=models.Group.OPEN,
+                                            can_post_questions=True,
+                                            can_post_answers=True,
+                                            can_post_comments=True)
         user = self.create_user('user')
         user.join_group(group)
         question = self.post_question(user=user, title='alibaba', group_id=group.id)

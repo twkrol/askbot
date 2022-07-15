@@ -1074,7 +1074,7 @@ def user_can_post_comment(self, parent_post=None):
     if self.is_administrator_or_moderator():
         return True
 
-    if parent_post.thread and parent_post.thread.closed:
+    if parent_post and parent_post.thread and parent_post.thread.closed:
         if askbot_settings.COMMENTING_CLOSED_QUESTIONS_ENABLED == False:
             return False
 
