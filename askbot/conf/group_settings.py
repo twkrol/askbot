@@ -19,19 +19,28 @@ settings.register(
     )
 )
 
-# def group_name_update_callback(old_name, new_name):
-#     from askbot.models.tag import clean_group_name
-#     from askbot.models import Group
-#     cleaned_new_name = clean_group_name(new_name.strip())
-#
-#     if new_name == '':
-#         #name cannot be empty
-#         return old_name
-#
-#     group = Group.objects.get_global_group()
-#     group.name = cleaned_new_name
-#     group.save()
-#     return new_name
+def group_name_update_callback(old_name, new_name):
+    from askbot.models.tag import clean_group_name #pylint: disable=import-outside-toplevel
+    from askbot.models import Group #pylint: disable=import-outside-toplevel
+    cleaned_new_name = clean_group_name(new_name.strip())
+
+    if new_name == '':
+        #name cannot be empty
+        return old_name
+
+    global_group = Group.objects.get_global_group()
+
+    if cleaned_new_name == global_group.name:
+        # name did not change
+        return old_name
+
+    if Group.objects.filter(name=cleaned_new_name).exists():
+        #name already taken
+        return old_name
+
+    global_group.name = cleaned_new_name
+    global_group.save()
+    return new_name
 
 
 settings.register(
@@ -41,7 +50,7 @@ settings.register(
         default=_('everyone'),
         description=_('Global user group name'),
         help_text=_('All users belong to this group automatically'),
-        # update_callback=group_name_update_callback
+        update_callback=group_name_update_callback
     )
 )
 
