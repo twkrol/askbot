@@ -369,6 +369,68 @@ def tags(request):#view showing a listing of available tags - plain list
     else:
         return render(request, 'tags/index.html', data)
 
+
+def should_show_answer_form(user, thread, answers):
+    """A utility function, used in the question detail view.
+    Thread and answers are given as separate arguments
+    with a purpose of performance optimization (i.e. we cannot do thread.get_answers(), etc.)
+    """
+    if thread.closed:
+        return False
+
+    if askbot_settings.READ_ONLY_MODE_ENABLED:
+        return False
+
+    if not user.is_authenticated:
+        # we don't know if user has previous answers
+        if askbot_settings.LIMIT_ONE_ANSWER_PER_USER:
+            return False
+        
+    if askbot_settings.GROUPS_ENABLED:
+        if user.is_authenticated:
+            if not user.can_post_answer(thread):
+                return False
+
+        if askbot_settings.ALLOW_POSTING_BEFORE_LOGGING_IN:
+            if models.Group.objects.get_global_group().can_post_answers:
+                return True
+
+    if user.is_authenticated and askbot_settings.LIMIT_ONE_ANSWER_PER_USER:
+        for answer in answers:
+            if answer.author_id == user.pk:
+                return False
+
+    if user.is_authenticated:
+        return True
+
+    if askbot_settings.ALLOW_POSTING_BEFORE_LOGGING_IN:
+        return True
+
+    return False
+
+
+def should_hide_answer_ui(user, thread):
+    """Hide answer form and any buttons related
+    to answers - only when we are not sure if
+    the user will be able to post an answer.
+    This applies only when there are groups
+    that are not allowed to post answers.
+    """
+    if thread.closed:
+        return True
+
+    if askbot_settings.READ_ONLY_MODE_ENABLED:
+        return True
+
+    if not askbot_settings.GROUPS_ENABLED:
+        return False
+
+    if user.is_anonymous:
+        return True
+
+    return not user.has_group_permission('post_answers')
+
+
 @csrf.csrf_protect
 def question(request, id):#refactor - long subroutine. display question body, answers and comments
     """view that displays body of the question and
@@ -602,15 +664,11 @@ def question(request, id):#refactor - long subroutine. display question body, an
         and request.user.can_post_comment(question_post)
     )
 
-    new_answer_allowed = True
     previous_answer = None
-    if request.user.is_authenticated:
-        if askbot_settings.LIMIT_ONE_ANSWER_PER_USER:
-            for answer in answers:
-                if answer.author_id == request.user.pk:
-                    new_answer_allowed = False
-                    previous_answer = answer
-                    break
+    if request.user.is_authenticated and askbot_settings.LIMIT_ONE_ANSWER_PER_USER:
+        for answer in answers:
+            if answer.author_id == request.user.pk:
+                previous_answer = answer
 
     if request.user.is_authenticated and askbot_settings.GROUPS_ENABLED:
         group_read_only = request.user.is_read_only()
@@ -634,7 +692,8 @@ def question(request, id):#refactor - long subroutine. display question body, an
         'is_cacheable': False,#is_cacheable, #temporary, until invalidation fix
         'language_code': translation.get_language(),
         'long_time': const.LONG_TIME,#"forever" caching
-        'new_answer_allowed': new_answer_allowed,
+        'show_answer_form': should_show_answer_form(request.user, thread, answers),
+        'hide_answer_ui': should_hide_answer_ui(request.user, thread),
         'oldest_answer_id': thread.get_oldest_answer_id(request.user),
         'paginator_context' : paginator_context,
         'previous_answer': previous_answer,

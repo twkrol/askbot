@@ -30,20 +30,19 @@
   {% endif %}
 {% endif %}
 
-{% if not (thread.closed or settings.READ_ONLY_MODE_ENABLED) %}
-  {% if new_answer_allowed %}{# show answer input or not #}
-    {% if request.user.is_authenticated or settings.ALLOW_POSTING_BEFORE_LOGGING_IN %}
-      {% include "question/new_answer_form.html" %}
-    {% else %}
-      <a class="button submit"
-        href="{{settings.LOGIN_URL}}?next={{ encode_jwt({'next_url': url('question', question.id)}) }}"
-      >{{ settings.WORDS_LOGIN_SIGNUP_TO_ANSWER|escape }}</a>
-    {% endif %}
-  {% else %}
-    {% include "question/new_answer_form_title.html" %}
-    <div class="info-box">
-      <div class="mb-2">{{ settings.WORDS_ONLY_ONE_ANSWER_PER_USER_IS_ALLOWED|escape }}</div>
-      <a class="btn" href="{{ url('edit_answer',  previous_answer.id ) }}">{{ settings.WORDS_EDIT_YOUR_PREVIOUS_ANSWER|escape }}</a>
-    </div>
-  {% endif %}
+{% if hide_answer_ui %}
+  {# Empty branch - no form or answer-related buttons. Please do not delete this comment #}
+{% elif show_answer_form %}
+  {% include "question/new_answer_form.html" %}
+{% elif not request.user.is_authenticated and not settings.ALLOW_POSTING_BEFORE_LOGGING_IN %}
+  {% include "question/new_answer_form_title.html" %}
+  <a class="button submit"
+    href="{{settings.LOGIN_URL}}?next={{ encode_jwt({'next_url': url('question', question.id)}) }}"
+  >{{ settings.WORDS_LOGIN_SIGNUP_TO_ANSWER|escape }}</a>
+{% elif request.user.is_authenticated and askbot_settings.LIMIT_ONE_ANSWER_PER_USER %}
+  {% include "question/new_answer_form_title.html" %}
+  <div class="info-box">
+    <div class="mb-2">{{ settings.WORDS_ONLY_ONE_ANSWER_PER_USER_IS_ALLOWED|escape }}</div>
+    <a class="btn" href="{{ url('edit_answer',  previous_answer.id ) }}">{{ settings.WORDS_EDIT_YOUR_PREVIOUS_ANSWER|escape }}</a>
+  </div>
 {% endif %}

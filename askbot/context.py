@@ -20,6 +20,18 @@ from askbot.utils.slug import slugify
 from askbot.utils.html import site_url
 from askbot.utils.translation import get_language
 
+def should_show_ask_button(user): #pylint: disable=missing-docstring
+    # without groups we always show the ASK button
+    if not askbot_settings.GROUPS_ENABLED:
+        return True
+
+    # with groups - users must be logged in to ask
+    if not user.is_authenticated:
+        return False
+
+    # get permission to ask based on the group memberships
+    return user.can_post_question()
+
 def make_group_list():
     """Returns list of dictionaries with keys 'name' and 'link'"""
     if not askbot_settings.GROUPS_ENABLED:
@@ -109,6 +121,7 @@ def application_settings(request):
         'need_scope_links': need_scope_links,
         'now': timezone.now(),
         'noscript_url': const.DEPENDENCY_URLS['noscript'],
+        'show_ask_button': should_show_ask_button(request.user)
     }
 
     use_askbot_login = 'askbot.deps.django_authopenid' in settings.INSTALLED_APPS

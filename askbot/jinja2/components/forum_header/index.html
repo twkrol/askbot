@@ -14,7 +14,9 @@
           {% include "components/forum_header/search_bar.html" %}
         </div>
         <div class="ask-btn-col">
+          {% if show_ask_button %}
           {% include "components/forum_header/ask_button.html" %}
+          {% endif %}
         </div>
       </div>
     {% endif %}

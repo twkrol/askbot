@@ -208,6 +208,8 @@ def ask(request):#view used to ask a new question
             referer = request.META.get("HTTP_REFERER", reverse('questions'))
             request.user.message_set.create(message=_('Sorry, but you have only read access'))
             return HttpResponseRedirect(referer)
+        if not request.user.can_post_question():
+            return HttpResponseForbidden()
 
     if askbot_settings.READ_ONLY_MODE_ENABLED:
         return HttpResponseRedirect(reverse('index'))
@@ -222,7 +224,7 @@ def ask(request):#view used to ask a new question
             text = form.cleaned_data['text']
             ask_anonymously = form.cleaned_data['ask_anonymously']
             post_privately = form.cleaned_data['post_privately']
-            group_id = form.cleaned_data.get('group_id', None)
+            #group_id = form.cleaned_data.get('group_id', None)
             language = form.cleaned_data.get('language', None)
 
             content = '{}\n\n{}\n\n{}'.format(title, tagnames, text)
@@ -250,7 +252,7 @@ def ask(request):#view used to ask a new question
                         is_anonymous=ask_anonymously,
                         is_private=post_privately,
                         timestamp=timestamp,
-                        group_id=group_id,
+                        #group_id=group_id,
                         language=language,
                         ip_addr=request.META.get('REMOTE_ADDR')
                     )
@@ -307,12 +309,12 @@ def ask(request):#view used to ask a new question
         'language': get_language(),
         'wiki': getattr(request,request.method).get('wiki', False),
     }
-    if 'group_id' in getattr(request,request.method):
-        try:
-            group_id = int(request.GET.get('group_id', None))
-            form.initial['group_id'] = group_id
-        except Exception:
-            pass
+    #if 'group_id' in getattr(request,request.method):
+    #    try:
+    #        group_id = int(request.GET.get('group_id', None))
+    #        form.initial['group_id'] = group_id
+    #    except Exception:
+    #        pass
 
     editor_is_folded = (askbot_settings.QUESTION_BODY_EDITOR_MODE=='folded' and \
                         askbot_settings.MIN_QUESTION_BODY_LENGTH==0 and \

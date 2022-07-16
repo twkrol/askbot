@@ -2955,6 +2955,7 @@ def user_can_post_question(self):
         self.assert_can_post_question()
     except django_exceptions.PermissionDenied:
         return False
+    return True
 
 
 def user_can_post_answer(self, thread=None):
@@ -2963,6 +2964,7 @@ def user_can_post_answer(self, thread=None):
         self.assert_can_post_answer(thread=thread)
     except django_exceptions.PermissionDenied:
         return False
+    return True
     
 
 def user_can_make_group_private_posts(self):
