@@ -351,10 +351,17 @@
 {# Warning! Any changes to the comment markup here must be duplicated in post.js
 for the purposes of the AJAX comment editor #}
 
-{%- macro comments_widget_buttons(post = None, max_comments = None) -%}
+{%- macro comments_widget_buttons(post=None, max_comments=None) -%}
   {% set more_comments = post.comment_count > max_comments %}
-  <a class="js-add-comment-btn action-link {% if more_comments %}js-hidden{% endif %}">{% trans %}add a comment{% endtrans %}</a>
+  <a id="js-add-comment-for-post-{{ post.id }}-btn" class="js-add-comment-btn action-link {% if more_comments %}js-hidden{% endif %}"
+  >{% trans %}add a comment{% endtrans %}</a>
   <a class="js-load-comments-btn action-link {% if not more_comments %}js-hidden{% endif %}">{% trans %}see more comments{% endtrans %}</a>
+  <script type="text/javascript">
+    if (!askbot.data.userCanPostComments) {
+      var btn = document.getElementById('js-add-comment-for-post-' + {{ post.id }} + '-btn');
+      btn.style.display = 'none'
+    }
+  </script>
 {%- endmacro -%}
 
 {%- macro csrf_middleware_token(csrf_token) -%}

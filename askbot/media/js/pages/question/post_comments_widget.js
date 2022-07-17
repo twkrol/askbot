@@ -32,11 +32,13 @@
     }
 
     this._openEditorButton = element.find('.js-add-comment-btn');
-    if (this._openEditorButton.length) {
-      setupButtonEventHandlers(
-        this._openEditorButton,
-        this.getOpenEditorHandler(this._openEditorButton)
-      );
+    if (askbot.data.userCanPostComments) {
+      if (this._openEditorButton.length) {
+        setupButtonEventHandlers(
+          this._openEditorButton,
+          this.getOpenEditorHandler(this._openEditorButton)
+        );
+      }
     }
 
     this._isTruncated = this._openEditorButton.hasClass('js-hidden');
@@ -50,6 +52,10 @@
       comment.decorate(element);
     });
     this._comments = comments;
+
+    if (!askbot.data.userCanPostComments) {
+      this.hideOpenEditorButton();
+    }
 
     this._commentsTitle = element.find('.js-comments-list-title');
     $(document).on('askbot.afterEditCommentFormCancel', this.getCloseEditorHandler());
@@ -137,7 +143,9 @@
         me.reRenderComments(json);
         //2) change button text to "post a comment"
         me.getLoadCommentsButton().remove();
-        me.showOpenEditorButton();
+        if (askbot.data.userCanPostComments) {
+          me.showOpenEditorButton();
+        }
       });
     };
   };

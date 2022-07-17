@@ -1086,7 +1086,7 @@ def user_can_post_comment(self, parent_post=None):
     if self.is_blocked():
         return False
 
-    return self.has_group_permission('post_comment')
+    return self.has_group_permission('post_comments')
 
 def user_assert_can_post_comment(self, parent_post=None):
     """raises exceptions.PermissionDenied if

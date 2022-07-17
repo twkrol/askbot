@@ -23,6 +23,7 @@
   }
   .action-link {
     display: block;
+    height: var(--toolbar-dropdown-menu-item-height);
     &:last-child {
       margin-bottom: 0;
     }

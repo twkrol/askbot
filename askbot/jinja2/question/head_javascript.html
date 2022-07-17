@@ -136,7 +136,8 @@
       var data = askbot['data'];
       var isAuthenticated = data['userIsAuthenticated'];
       var isMod = data['userIsAdminOrMod'];
-      if (isAuthenticated && (isMod || isAuthorOfPost(post_id))) {
+      var canPostComments = data['userCanPostComments'];
+      if (canPostComments && isAuthenticated && (isMod || isAuthorOfPost(post_id))) {
         //still may need to hide because answer may be too long
         var answer_container = getPost(post_id);
         var answerBody = findChildrenByClassName(answer_container, 'post-body')[0];

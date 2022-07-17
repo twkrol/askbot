@@ -204,12 +204,13 @@
   --rss-link-hover-color: var(--clr-danger);
 
   --toolbar-dropdown-menu-padding-left: 0;
-  --toolbar-dropdown-menu-padding: 0.3625rem 0 0.5rem var(--toolbar-dropdown-menu-padding-left);
+  --toolbar-dropdown-menu-padding: 0.3625rem 0 0.3625rem var(--toolbar-dropdown-menu-padding-left);
   --toolbar-dropdown-menu-border-color: var(--clr-neutral-70);
   --toolbar-dropdown-menu-border: var(--border-width) var(--border-style) var(--toolbar-dropdown-menu-border-color);
   --toolbar-dropdown-menu-border-radius: 0.25rem;
   --toolbar-dropdown-menu-box-shadow: var(--box-shadow);
   --toolbar-dropdown-menu-item-padding: 0.25rem 0.75rem;
+  --toolbar-dropdown-menu-item-height: 1rem;
   --toolbar-dropdown-menu-item-hover-bg: var(--clr-neutral-40);
 
   --post-comments-margin: 0 0 0.5rem;
