@@ -1,0 +1,25 @@
+{% compress js %}
+  <script src="{{ '/jslib/editor.js'|media }}"></script>
+  <script src="{{ '/jslib/jquery.validate.js'|media }}"></script>
+  <script src="{{ '/jslib/highlight.min.js'|media }}"></script>
+  <script src="{{ '/js/validators/question_validators.js'|media }}"></script>
+  <script src="{{ '/js/validators/answer_validators.js'|media }}"></script>
+  <script src="{{ '/js/editors/simple_editor.js'|media }}"></script>
+  <script src="{{ '/js/utils/expander_toggle.js'|media }}"></script>
+  <script src="{{ '/js/editors/wmd_expander_toggle.js'|media }}"></script>
+  <script src="{{ '/js/editors/wmd.js'|media }}"></script>
+  <script src="{{ '/js/utils/editable.js'|media }}"></script>
+  {% if settings.EDITOR_TYPE == 'markdown' %}
+    {% include "meta/markdown_javascript.html" %}
+  {% endif %}
+  <script src="{{ '/js/pages/question/init_page.js'|media }}"></script>
+  <script>
+    (function() {
+      $('.search-posts-current').click(function(evt) {
+        evt.preventDefault();
+        var url = evt.target.href;
+        copyToClipboard(url);
+      })
+    })();
+  </script>
+{% endcompress %}

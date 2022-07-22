@@ -334,7 +334,7 @@ class ThreadRenderLowLevelCachingTests(AskbotTestCase):
             'search_state': ss,
             'visitor': None
         }
-        proper_html = get_template('widgets/question_summary.html').render(Context(context))
+        proper_html = get_template('questions/question_summary.html').render(Context(context))
         self.assertEqual(test_html, proper_html)
 
         # Make double-check that all tags are included
@@ -360,7 +360,7 @@ class ThreadRenderLowLevelCachingTests(AskbotTestCase):
         ss = ss.add_tag('mini-mini')
         context['search_state'] = ss
         test_html = thread.get_summary_html(search_state=ss)
-        proper_html = get_template('widgets/question_summary.html').render(Context(context))
+        proper_html = get_template('questions/question_summary.html').render(Context(context))
 
         self.assertEqual(test_html, proper_html)
 
@@ -392,7 +392,7 @@ class ThreadRenderLowLevelCachingTests(AskbotTestCase):
             'search_state': DummySearchState(),
             'visitor': None
         }
-        html = get_template('widgets/question_summary.html').render(Context(context))
+        html = get_template('questions/question_summary.html').render(Context(context))
         filled_html = html.replace('<<<tag1>>>', SearchState.get_empty().add_tag('tag1').full_url())\
                           .replace('<<<tag2>>>', SearchState.get_empty().add_tag('tag2').full_url())\
                           .replace('<<<tag3>>>', SearchState.get_empty().add_tag('tag3').full_url())
@@ -461,7 +461,7 @@ class ThreadRenderCacheUpdateTests(AskbotTestCase):
             'visitor': None
         }
         return get_template(
-            'widgets/question_summary.html'
+            'questions/question_summary.html'
         ).render(Context(context))
 
     def test_post_question(self):
@@ -484,7 +484,7 @@ class ThreadRenderCacheUpdateTests(AskbotTestCase):
         html = self._html_for_question(question)
         self.assertEqual(html, question.thread.get_cached_summary_html())
 
-    def test_edit_question(self):
+    def test_edit_question_body(self):
         self.assertEqual(0, Post.objects.count())
         question = self.post_question()
 
@@ -495,23 +495,18 @@ class ThreadRenderCacheUpdateTests(AskbotTestCase):
 
         time.sleep(1.5) # compensate for 1-sec time resolution in some databases
 
+        edited_text = 'edited body text'
         response = self.client.post(
-            reverse('edit_question', kwargs={'id': question.id}),
+            reverse('set_post_body'),
             data={
-                'title': 'edited title',
-                'text': 'edited body text',
-                'tags': 'tag1 tag2',
-                'summary': 'just some edit',
-                'select_revision': 'false'
-            }
+                'post_id': question.id,
+                'body_text': edited_text
+            },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
         )
         self.assertEqual(1, Post.objects.count())
         question = Post.objects.all()[0]
-        self.assertRedirects(
-            response=response,
-            expected_url=question.get_absolute_url()
-        )
-
+        self.assertEqual(question.text, edited_text)
         thread = question.thread
         self.assertEqual(0, thread.answer_count)
         self.assertTrue(thread.last_activity_at > question.added_at)
@@ -525,15 +520,16 @@ class ThreadRenderCacheUpdateTests(AskbotTestCase):
     def test_retag_question(self):
         self.assertEqual(0, Post.objects.count())
         question = self.post_question()
-        response = self.client.post(reverse('retag_question', kwargs={'id': question.id}), data={
-            'tags': 'tag1 tag2',
-        })
+        retag_url = reverse('retag_question', kwargs={'id': question.id})
+        post_data = {'tags': 'tag1 tag2'}
+        response = self.client.post(
+            retag_url,
+            data=post_data,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
         self.assertEqual(1, Post.objects.count())
         question = Post.objects.all()[0]
-        self.assertRedirects(response=response, expected_url=question.get_absolute_url())
-
         self.assertCountEqual(['tag1', 'tag2'], list(question.thread.tags.values_list('name', flat=True)))
-
         self.assertTrue(question.thread.summary_html_cached())  # <<< make sure that caching backend is set up properly (i.e. it's not dummy)
         html = self._html_for_question(question)
         self.assertEqual(html, question.thread.get_cached_summary_html())
@@ -614,7 +610,7 @@ class ThreadRenderCacheUpdateTests(AskbotTestCase):
         html = self._html_for_question(thread._question_post())
         self.assertEqual(html, thread.get_cached_summary_html())
 
-    @skipIf(django_settings.CELERY_ALWAYS_EAGER == True, 'celery deamon not running')
+    @skipIf(getattr(django_settings, 'CELERY_TASK_ALWAYS_EAGER', False) == True, 'celery deamon not running')
     def test_view_count(self):
         question = self.post_question()
         self.assertEqual(0, question.thread.view_count)

@@ -1,0 +1,31 @@
+.bent-arrow {
+  --height: 0.5rem;
+  --width: 0.575rem;
+  --border-width: 2px;
+  --tip-length: 7px;
+  --tip-translate-y: 4.625px;
+  --radius: 6px;
+  --color: var(--comment-upvote-btn-color);
+  height: var(--height);
+  width: var(--width);
+}
+
+.bent-arrow-borders {
+  height: var(--height);
+  width: var(--width);
+  border-left: var(--border-width) solid var(--color);
+  border-bottom: var(--border-width) solid var(--color);
+  border-bottom-left-radius: var(--radius);
+  position: relative;
+}
+
+.bent-arrow-tip {
+  position: absolute;
+  width: var(--tip-length);
+  height: var(--tip-length);
+  right: 0;
+  bottom: 0;
+  transform: translateY(var(--tip-translate-y)) rotate(315deg);
+  border-right: var(--border-width) solid var(--color);
+  border-bottom: var(--border-width) solid var(--color);
+}

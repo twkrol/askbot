@@ -123,7 +123,6 @@ def show_list(request, user_id=None, extra_context=None, avatar_size=128):
         'avatar_data': avatar_data,
         'has_uploaded_avatar': has_uploaded_avatar,
         'can_upload': can_upload,
-        'page_class': 'user-profile-page',
         'upload_avatar_form': UploadAvatarForm(user=user),
         'status_message': status_message,
         'view_user': user

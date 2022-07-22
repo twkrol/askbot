@@ -1,0 +1,43 @@
+<script>
+  (function() {
+
+    function disableDevGrid() {
+      var doc = window.document.documentElement;
+      doc.style.setProperty('--debug-transparency', '1');
+      doc.style.setProperty('background-size', 'unset');
+      doc.style.setProperty('background-image', 'unset');
+      doc.style.setProperty('background-position-y', 'unset');
+    }
+
+    function enableDevGrid() {
+      var doc = window.document.documentElement;
+      doc.style.setProperty('--debug-transparency', '0.5');
+      doc.style.setProperty('background-size', '100% 0.5rem');
+      doc.style.setProperty('background-image', 'linear-gradient(#ccc 1px, transparent .05em)');
+      doc.style.setProperty('background-position-y', '-1px');
+    }
+
+    function toggleDevGrid() {
+      var doc = window.document.documentElement;
+      var style = getComputedStyle(doc);
+      var transp = style.getPropertyValue('--debug-transparency').trim();
+      if (transp === '1') {
+        enableDevGrid();
+        window.localStorage.setItem('enableDevGrid', 'true');
+      } else {
+        disableDevGrid();
+        window.localStorage.removeItem('enableDevGrid');
+      }
+    }
+
+    function handleKeyDown(evt) {
+      if (evt.keyCode == 27 && evt.shiftKey ) toggleDevGrid();
+    }
+
+    if (window.localStorage.getItem('enableDevGrid')) {
+      enableDevGrid();
+    }
+
+    window.document.addEventListener('keyup', handleKeyDown);
+  })();
+</script>

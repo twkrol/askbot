@@ -1,0 +1,37 @@
+<form class="js-search-form"
+  {% if active_tab == "tags" %}
+    action="{{ url('tags') }}"
+  {% elif page_class == 'user-profile-page' %}
+    action="{{ url('questions') }}"
+  {% elif active_tab == "users" %}
+    action=""
+  {% else %}
+    action="{{ url('questions') }}"
+  {% endif %}
+  method="get"
+>
+  <div class="js-search-bar{% if query %} js-cancelable{% endif %}">
+    {% if not settings.SEARCH_FRONTEND_SRC_URL %}
+      {% if active_tab == "tags" %}
+        <input type="hidden" name="t" value="tag"/>
+        {% set query=stag %}
+      {% elif active_tab == "users" %}
+        <input type="hidden" name="t" value="user"/>
+      {% endif %}
+      <input
+        class="js-search-input"
+        type="text"
+        autocomplete="off"
+        value="{{ query|escape if query != None else '' }}"
+        name="query"
+        placeholder="{% trans %}Type your question or search{% endtrans %}"
+      />
+      <button class="btn js-cancel-search-btn with-times-icon"
+        {% if not query %}{# query is only defined by questions view (active_tab) #}
+            style="display: none;"
+        {% endif %}
+      ></button>
+      <button value="search" name="search" class="btn js-search-btn with-search-icon"></button>
+    {% endif %}
+  </div>
+</form>

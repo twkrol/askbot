@@ -1,0 +1,32 @@
+{% extends "two_column_body.html" %}
+{% import "macros.html" as macros %}
+<!-- questions.html -->
+{% block forejs %}
+  {% include "questions/custom_head_javascript.html" ignore missing %}
+{% endblock %}
+{% block title %}{% filter trim %}{% trans %}Questions{% endtrans %}{% endfilter %}{% endblock %}
+{% block layout_class %}{{ super() }} questions-page{% endblock %}
+{% block content %}
+  {% include "questions/questions_header.html" %}
+  {% if questions_count > 0 %}
+    {% include "questions/questions.html" %}
+    {% include "questions/paginator.html" %}
+  {% else %}
+    {% include "questions/blank_state.html" %}
+  {% endif %}
+{% endblock %}
+{% block sidebar %}
+  {% include "questions/sidebar.html" %}
+{% endblock %}
+{% block js_templates %}
+  {{ macros.tag_widget('dummy', deletable=True) }}
+{% endblock %}
+{% block endjs %}
+  <script type="text/javascript">
+    {# cant cache this #}
+    askbot['settings']['showSortByRelevance'] = {{ show_sort_by_relevance|as_js_bool }};
+  </script>
+  {% include "questions/javascript.html" %}
+  {% include "questions/custom_javascript.html" ignore missing %}
+{% endblock %}
+<!-- end questions.html -->

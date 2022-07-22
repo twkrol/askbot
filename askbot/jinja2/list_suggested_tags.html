@@ -2,6 +2,7 @@
 {% import "macros.html" as macros %}
 <!-- tags.html -->
 {% block title %}{{ page_title }}{% endblock %}
+{% block page_class %}moderated-tags-page{% endblock %}
 {% block content %}
     {% include "tags/header.html" %}
     {% if tags %}
@@ -19,7 +20,7 @@
                 <tr class="suggested-tag-row" data-tag-id="{{ tag.id }}">
                     <td class="tags-col">
                         {{ macros.tag_widget(tag.name, is_link = False) }}
-                        <span class="tag-number">&#215;{{ tag.used_count }}</span>
+                        {{ macros.used_count(tag.used_count) }}
                     </td>
                     <td class="users-col">
                         {% for user in tag.suggested_by.all() %}

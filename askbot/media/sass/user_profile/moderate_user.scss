@@ -1,0 +1,42 @@
+.moderate-user-page {
+  h2 {
+    font-size: var(--large-font-size);
+  }
+  table {
+    max-width: 30rem;
+    margin-bottom: 0.5rem;
+  }
+  th {
+    font-weight: normal;
+  }
+  th, td {
+    text-align: left;
+    padding-bottom: 0.3625rem;
+  }
+  section {
+    margin-bottom: 1.25rem;
+  }
+  .send-email {
+    max-width: 30rem;
+    label {
+      display: block;
+      margin-bottom: 0.125rem;
+    }
+    input,
+    textarea {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    input.btn {
+      width: fit-content;
+    }
+  }
+  .change-account-status,
+  .change-reputation {
+    input[type="number"],
+    input[type="text"],
+    select {
+      width: 10rem;
+    }
+  }
+}

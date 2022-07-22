@@ -1,10 +1,11 @@
 {% extends "two_column_body.html" %}
 <!-- template static_page.html -->
 {% block title %}{% filter trim %}{{title}}{% endfilter %}{% endblock %}
+{% block layout_class %}{{ super () }} {{ page_class }}{% endblock %}
 {% block content %}
-<div class="content">
-    <h1 class="section-title">{{title}}</h1>
-    {{content}}
-</div>
+  <h1>{{ title }}</h1>
+  <section>
+    {{ content }}
+  </section>
 {% endblock %}
 <!-- end template static_page.html -->

@@ -3,7 +3,7 @@
 {% block before_css %}
     {{ super() }}
     {% compress css %}
-    <link href="{{ '/style/group_messaging.css'|media }}" rel="stylesheet" type="text/css" />
+    <link href="{{ '/css/group_messaging.css'|media }}" rel="stylesheet" type="text/css" />
     {% endcompress %}
 {% endblock %}
 {% block profilesection %}{% trans %}private messages{% endtrans %}{% endblock %}

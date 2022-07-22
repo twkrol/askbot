@@ -46,6 +46,15 @@ settings.register(
 )
 
 settings.register(
+    livesettings.IntegerValue(
+        QA_SITE_SETTINGS,
+        'APP_COPYRIGHT_YEAR_START',
+        default=2010,
+        description=_('Starting year of Copyright')
+    )
+)
+
+settings.register(
     livesettings.StringValue(
         QA_SITE_SETTINGS,
         'APP_DESCRIPTION',

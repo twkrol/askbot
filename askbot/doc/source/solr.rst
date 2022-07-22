@@ -196,5 +196,5 @@ must be installed, enabled and configured and the Haystack signal processor conf
 in the `settings.py` file::
 
     HAYSTACK_SIGNAL_PROCESSOR = 'askbot.search.haystack.signals.AskbotCelerySignalProcessor'
-    #modify CELERY_ALWAYS_EAGER to:
-    CELERY_ALWAYS_EAGER = False
+    #modify CELERY_TASK_ALWAYS_EAGER to:
+    CELERY_TASK_ALWAYS_EAGER = False

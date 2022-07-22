@@ -13,10 +13,10 @@ var AutoCompleter = function (options) {
         promptText: '',
         autocompleteMultiple: true,
         multipleSeparator: ' ',//a single character
-        inputClass: 'acInput',
-        loadingClass: 'acLoading',
-        resultsClass: 'acResults',
-        selectClass: 'acSelect',
+        inputClass: 'js-ac-input',
+        loadingClass: 'js-ac-loading',
+        resultsClass: 'js-ac-results',
+        selectClass: 'js-ac-select',
         queryParamName: 'q',
         limitParamName: 'limit',
         extraParams: {},
@@ -162,7 +162,8 @@ AutoCompleter.prototype.decorate = function (element) {
         this._results.addClass(this.options.resultsClass);
     }
     this._results.css({
-        position: 'absolute'
+        position: 'absolute',
+        width: this._element.outerWidth()
     });
     $('body').append(this._results);
 
@@ -557,10 +558,11 @@ AutoCompleter.prototype.sortValueAlpha = function (a, b, filter) {
 };
 
 AutoCompleter.prototype.showResults = function (results, filter) {
+    var numResults = results.length;
+    if (numResults === 0) return;
     var self = this;
     var $ul = $('<ul></ul>');
     var i, result, $li, extraWidth, first = false, $first = false;
-    var numResults = results.length;
     for (i = 0; i < numResults; i++) {
         result = results[i];
         $li = $('<li>' + this.showResult(result.value, result.data) + '</li>');
@@ -591,8 +593,10 @@ AutoCompleter.prototype.showResults = function (results, filter) {
     this.position();
 
     this._results.html($ul).show();
+    /*
     extraWidth = this._results.outerWidth() - this._results.width();
     this._results.width(this._element.outerWidth() - extraWidth);
+    */
     $('li', this._results).hover(
         function () { self.focusItem(this); },
         function () { /* void */ }
@@ -801,4 +805,3 @@ AutoCompleter.prototype.selectRange = function (start, end) {
 AutoCompleter.prototype.setCaret = function (pos) {
     this.selectRange(pos, pos);
 };
-

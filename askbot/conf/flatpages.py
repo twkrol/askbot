@@ -104,8 +104,7 @@ settings.register(
     )
 )
 
-# TODO: merge this with mandatory tags
-settings.register(  # this field is not editable manually
+settings.register( # this field is not editable manually
     LongStringValue(
         FLATPAGES,
         'CATEGORY_TREE',

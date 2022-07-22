@@ -1,3 +1,5 @@
+/* global askbot, jQuery, ngettext, gettext, interpolate, MathJax */
+
 /**
  * attention - this function needs to be retired
  * as it cannot accurately give url to the media file
@@ -5,6 +7,14 @@
 var mediaUrl = function (resource) {
     return askbot.settings.static_url + 'default' + '/' + resource;
 };
+
+
+function fixedEncodeURIComponent(str) {
+  return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
+    return '%' + c.charCodeAt(0).toString(16);
+  });
+}
+
 
 /** todo: look up available alternatives
  * this makes assumption that url is path?param1=value1&param2=value2...
@@ -68,6 +78,30 @@ var getFontProps =  function (elm) {
 var csrfSafeMethod = function(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 };
+
+function copyToClipboard(textToCopy) {
+    // navigator clipboard api needs a secure context (https)
+    if (navigator.clipboard && window.isSecureContext) {
+        // navigator clipboard api method'
+        return navigator.clipboard.writeText(textToCopy);
+    } else {
+        // text area method
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        // make the textarea out of viewport
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        return new Promise((res, rej) => {
+            // here the magic happens
+            document.execCommand('copy') ? res() : rej();
+            textArea.remove();
+        });
+    }
+}
 
 var sameOrigin = function(url) {
     var host = document.location.host;
@@ -288,25 +322,26 @@ var inArray = function (item, itemsList) {
 };
 
 var showMessage = function (element, msg, where) {
-    var div = $('<div class="vote-notification"><h3>' + msg + '</h3>(' +
-    gettext('click to close') + ')</div>');
-    where = where || 'parent';
+  var div = $('<div class="js-error-popup">' + msg + 
+              '<p class="js-error-popup-hint">(' + gettext('click to close') + ')</p>' +
+              '</div>');
+  where = where || 'parent';
 
-    div.click(function (event) {
-        if (event.target.nodeName === 'A') {
-            return true;
-        }
-        $('.vote-notification').fadeOut('fast', function () { $(this).remove(); });
-        return false;
-    });
-
-    if (where === 'parent') {
-        element.parent().append(div);
-    } else {
-        element.after(div);
+  div.click(function (event) {
+    if (event.target.nodeName === 'A') {
+      return true;
     }
+    $('.js-error-popup').fadeOut('fast', function () { $(this).remove(); });
+    return false;
+  });
 
-    div.fadeIn('fast');
+  if (where === 'parent') {
+    element.parent().append(div);
+  } else {
+    element.append(div);
+  }
+
+  div.fadeIn('fast');
 };
 
 //outer html hack - https://github.com/brandonaaron/jquery-outerhtml/
@@ -389,11 +424,11 @@ var notify = (function () {
         show: function (html, autohide) {
             if (html) {
                 $('body').addClass('user-messages');
-                var par = $('<p class="notification"></p>');
+                var par = $('<p class="js-system-message"></p>');
                 par.html(html);
-                $('.notify').prepend(par);
+                $('.js-system-messages').prepend(par);
             }
-            $('.notify').fadeIn('slow');
+            $('.js-system-messages').fadeIn('slow');
             visible = true;
             if (autohide) {
                 setTimeout(
@@ -406,7 +441,7 @@ var notify = (function () {
             }
         },
         clear: function () {
-            $('.notify').empty();
+            $('.js-system-messages').empty();
         },
         close: function (doPostback) {
             if (doPostback) {
@@ -415,7 +450,7 @@ var notify = (function () {
                     { formdata: 'required' }
                 );
             }
-            $('.notify').fadeOut('fast');
+            $('.js-system-messages').fadeOut('fast');
             $('body').removeClass('user-messages');
             visible = false;
         },

@@ -60,22 +60,3 @@ settings.register(
         default=const.DEPENDENCY_URLS['cc-by-sa']
     )
 )
-
-settings.register(
-    livesettings.BooleanValue(
-        LICENSE_SETTINGS,
-        'LICENSE_USE_LOGO',
-        description=_('Use license logo'),
-        default=True
-    )
-)
-
-settings.register(
-    livesettings.ImageValue(
-        LICENSE_SETTINGS,
-        'LICENSE_LOGO_URL',
-        description=_('License logo image'),
-        default='/images/cc-by-sa.png',
-        url_resolver=skin_utils.get_media_url
-    )
-)

@@ -1,3 +1,4 @@
+import collections
 import datetime
 import logging
 import operator
@@ -8,6 +9,7 @@ from django.conf import settings as django_settings
 from django.db import models
 from django.db.models import F, Q
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.core import cache  # import cache, not from cache import cache, to be able to monkey-patch cache.cache in test cases
 from django.core import exceptions as django_exceptions
 from django.template.loader import get_template
@@ -26,7 +28,7 @@ from askbot.models.tag import filter_accepted_tags, filter_suggested_tags
 from askbot.models.tag import separate_unused_tags
 from askbot.models.base import BaseQuerySetManager
 from askbot.models.base import DraftContent, AnonymousContent
-from askbot.models.user import Group, PERSONAL_GROUP_NAME_PREFIX
+from askbot.models.user import Activity, Group, PERSONAL_GROUP_NAME_PREFIX
 from askbot.models.fields import LanguageCodeField
 from askbot import signals
 from askbot import const
@@ -734,6 +736,23 @@ class Thread(models.Model):
         answers = self.get_answers(user=user)
         return [answer.id for answer in answers]
 
+    def get_flag_counts_by_post_id(self, user):
+        """Returns a dictionary post_id -> flag_count"""
+        if user.is_anonymous:
+            return {}
+
+        from askbot.models import Post
+        post_ids = Post.objects.filter(thread_id=self.pk).only('pk')
+        flags = Activity.objects.filter(object_id__in=post_ids,
+                                        content_type=ContentType.objects.get_for_model(Post),
+                                        user_id=user.pk,
+                                        activity_type=const.TYPE_ACTIVITY_MARK_OFFENSIVE)
+        flags = flags.only('pk', 'object_id')
+        result = collections.defaultdict(int)
+        for flag in flags:
+            result[flag.object_id] += 1
+        return dict(result)
+
     def get_latest_revision(self, user=None):
         # TODO: add denormalized field to Thread model
         from askbot.models import Post, PostRevision
@@ -835,7 +854,7 @@ class Thread(models.Model):
 
         ####################################################################
         self.invalidate_cached_summary_html()
-        if not django_settings.CELERY_ALWAYS_EAGER:
+        if not getattr(django_settings, 'CELERY_TASK_ALWAYS_EAGER', False):
             self.update_summary_html()  # proactively regenerate thread summary html
         ####################################################################
 
@@ -969,13 +988,7 @@ class Thread(models.Model):
         """true if ``user`` is also a thread moderator"""
         if user.is_anonymous:
             return False
-        if user.is_administrator_or_moderator():
-            if askbot_settings.GROUPS_ENABLED:
-                user_groups = user.get_groups(private=True)
-                thread_groups = self.get_groups_shared_with()
-                return bool(set(user_groups) & set(thread_groups))
-            return True
-        return False
+        return user.is_administrator_or_moderator()
 
     def requires_response_moderation(self, author):
         """true, if answers by a given author must be moderated
@@ -1085,8 +1098,6 @@ class Thread(models.Model):
 
         post_data = self.get_cached_post_data(user=user, sort_method=sort_method)
         if user.is_anonymous:
-            if askbot_settings.COMMENTS_REVERSED:
-                reverse_comments(post_data)
             return post_data
 
         if askbot_settings.CONTENT_MODERATION_MODE == 'premoderation' and user.is_watched():
@@ -1149,8 +1160,6 @@ class Thread(models.Model):
                             post_data[0] = post
                             all_posts.append(post)
 
-        if askbot_settings.COMMENTS_REVERSED:
-            reverse_comments(post_data)
         return post_data
 
     def get_cached_post_data(self, user=None, sort_method=None):
@@ -1178,12 +1187,14 @@ class Thread(models.Model):
         return self.posts.filter(**kwargs)
 
     def get_post_data(self, sort_method=None, user=None):
-        """returns question, answers as list and a list of post ids
-        for the given thread, and the list of published post ids
-        (four values)
+        """returns a tuple of four values:
+        * question
+        * answers as list
+        * list of post ids 
+        * list of published post ids
+
         the returned posts are pre-stuffed with the comments
-        all (both posts and the comments sorted in the correct
-        order)
+        the posts and the comments sorted in the correct order
         """
         sort_method = sort_method or askbot_settings.DEFAULT_ANSWER_SORT_METHOD
 
@@ -1221,6 +1232,10 @@ class Thread(models.Model):
         post_to_author = dict()
         question_post = None
         for post in thread_posts:
+
+            if post.post_type not in ('question', 'answer', 'comment'):
+                continue
+
             # precache some revision data
             first_rev = post.get_earliest_revision()
             last_rev = post.get_latest_revision()
@@ -1238,11 +1253,13 @@ class Thread(models.Model):
             if post.post_type == 'answer':
                 answers.append(post)
                 post_map[post.id] = post
-            elif post.post_type == 'comment':
+
+            if post.post_type == 'comment':
                 if post.parent_id not in comment_map:
                     comment_map[post.parent_id] = list()
                 comment_map[post.parent_id].append(post)
-            elif post.post_type == 'question':
+
+            if post.post_type == 'question':
                 assert(question_post is None)
                 post_map[post.id] = post
                 question_post = post
@@ -1267,31 +1284,26 @@ class Thread(models.Model):
                     answers.remove(accepted_answer)
                     answers.insert(0, accepted_answer)
 
-        # if user is not an inquirer, and thread is moderated,
-        # put published answers first
-        # TODO: there may be > 1 enquirers
-        published_answer_ids = list()
-        if question_post and not question_post.is_approved() and user != question_post.author:
-            # if moderated - then author is guaranteed to be the
-            # limited visibility enquirer
-            # TODO: may be > 1 user
-            published_answer_ids = self.posts\
-                .get_answers(user=question_post.author)\
-                .filter(deleted=False)\
-                .order_by(*order_by)\
-                .values_list('id', flat=True)
+        # when there was the "private forum" feature,
+        # this block below was under an if branch - if the
+        # if question_post and not question_post.is_approved() and user != question_post.author:
+        published_answer_ids = self.posts\
+            .get_answers()\
+            .filter(deleted=False)\
+            .order_by(*order_by)\
+            .values_list('id', flat=True)
 
-            published_answer_ids = reversed(published_answer_ids)
-            # now put those answers first
-            answer_map = dict([(answer.id, answer) for answer in answers])
-            for answer_id in published_answer_ids:
-                # note that answer map may not contain answers publised
-                # to the question enquirer, because current user may
-                # not have access to that answer, so we use the .get() method
-                answer = answer_map.get(answer_id, None)
-                if answer:
-                    answers.remove(answer)
-                    answers.insert(0, answer)
+        published_answer_ids = list(reversed(published_answer_ids))
+        # now put those answers first
+        answer_map = dict([(answer.id, answer) for answer in answers])
+        for answer_id in published_answer_ids:
+            # note that answer map may not contain answers publised
+            # to the question enquirer, because current user may
+            # not have access to that answer, so we use the .get() method
+            answer = answer_map.get(answer_id, None)
+            if answer:
+                answers.remove(answer)
+                answers.insert(0, answer)
 
         return (question_post, answers, post_to_author, published_answer_ids)
 
@@ -1396,12 +1408,7 @@ class Thread(models.Model):
     def is_moderated(self):
         """True, if tread has SHOW_PUBLISHED_RESPONSES
         group memberships"""
-        if askbot_settings.GROUPS_ENABLED:
-            return ThreadToGroup.objects.filter(
-                            thread=self,
-                            visibility=ThreadToGroup.SHOW_PUBLISHED_RESPONSES
-                        ).count() > 0
-        return False
+        return askbot_settings.GROUPS_ENABLED
 
     def add_child_posts_to_groups(self, groups):
         """adds questions and answers of the thread to
@@ -1721,7 +1728,7 @@ class Thread(models.Model):
         }
         from askbot.views.context import get_extra as get_extra_context
         context.update(get_extra_context('ASKBOT_QUESTION_SUMMARY_EXTRA_CONTEXT', None, context))
-        template = get_template('widgets/question_summary.html')
+        template = get_template('questions/question_summary.html')
         html = template.render(Context(context))
         # INFO: Timeout is set to 30 days:
         # * timeout=0/None is not a reliable cross-backend way to set infinite timeout

@@ -13,11 +13,11 @@ inherits(PostModerationControls, WrappedElement);
 */
 PostModerationControls.prototype.showMessage = function (message) {
   this._notification.html(message);
-  this._notification.parent().fadeIn('fast');
+  this._notification.fadeIn('fast');
 };
 
 PostModerationControls.prototype.hideMessage = function () {
-  this._notification.parent().hide();
+  this._notification.hide();
 };
 
 /**
@@ -43,7 +43,7 @@ PostModerationControls.prototype.getEntryCount = function () {
 };
 
 PostModerationControls.prototype.getCheckBoxes = function () {
-  return this._element.find('.messages input[type="checkbox"]');
+  return this._element.find('.js-messages input[type="checkbox"]');
 };
 
 PostModerationControls.prototype.getSelectedEditIds = function () {
@@ -53,7 +53,7 @@ PostModerationControls.prototype.getSelectedEditIds = function () {
   for (var i = 0; i < num; i++) {
     var cb = $(checkBoxes[i]);
     if (cb.is(':checked')) {
-      var msg = cb.closest('.message-details');
+      var msg = cb.closest('.js-message-details');
       var msgId = msg.data('messageId');
       idList.push(msgId);
     }
@@ -214,7 +214,7 @@ PostModerationControls.prototype.setupIntersectionObserver = function () {
     threshold: 0.3
   };
   var obs = new IntersectionObserver(obsCallback, opts);
-  var messages = document.getElementsByClassName('message');
+  var messages = document.getElementsByClassName('js-message');
   for (var i = 0; i < messages.length; i++) {
     obs.observe(messages[i]);
   }
@@ -242,7 +242,7 @@ PostModerationControls.prototype.setupMessageExpanders = function () {
 
 PostModerationControls.prototype.decorate = function (element) {
   this._element = element;
-  this._notification = element.find('.action-status span');
+  this._notification = element.find('.js-action-status');
   this.hideMessage();
 
   var cbSet = this.getCheckBoxes();

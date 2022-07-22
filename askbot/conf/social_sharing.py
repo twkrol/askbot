@@ -62,12 +62,3 @@ settings.register(
         description=_('Check to enable sharing of questions on LinkedIn')
     )
 )
-
-settings.register(
-    BooleanValue(
-        SOCIAL_SHARING,
-        'ENABLE_SHARING_IDENTICA',
-        default=True,
-        description=_('Check to enable sharing of questions on Identi.ca')
-    )
-)

@@ -1,6 +1,7 @@
 {% import "macros.html" as macros %}
 {% extends "two_column_body.html" %}
 {% block title %}{% trans %}Groups{% endtrans %}{% endblock %}
+{% block page_class %}groups-page{% endblock %}
 {% block content %}
     <div id="content-header">
         <h1 class="section-title">{% trans %}Groups{% endtrans %}</h1>
@@ -45,11 +46,11 @@
 {% endblock %}
 {% block endjs %}
     {% compress js %}
-    <script type="text/javascript" src="{{ '/jslib/jquery.validate.min.js'|media }}"></script>
-    <script type="text/javascript" src="{{ '/jslib/prettify.js'|media }}"></script>
-    <script type="text/javascript" src="{{ '/js/utils/toggle.js'|media }}"></script>
-    <script type="text/javascript" src="{{ '/js/utils/expander_toggle.js'|media }}"></script>
-    <script type="text/javascript" src="{{ '/js/post.js'|media }}"></script>
+    <script src="{{ '/jslib/jquery.validate.min.js'|media }}"></script>
+    <script src="{{ '/jslib/highlight.min.js'|media }}"></script>
+    <script src="{{ '/js/utils/toggle.js'|media }}"></script>
+    <script src="{{ '/js/utils/expander_toggle.js'|media }}"></script>
+    <script src="{{ '/js/utils/group_join_button.js'|media }}"></script>
     {% endcompress %}
     {% if request.user.is_authenticated %}
     <script type="text/javascript">

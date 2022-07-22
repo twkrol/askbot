@@ -12,6 +12,7 @@ else:
 class AskbotStaticSettings(AppConf):
     ALLOWED_UPLOAD_FILE_TYPES = ('.jpg', '.jpeg', '.gif',
                                 '.bmp', '.png', '.tiff')
+    AUTO_INIT_BADGES = True
     CAS_USER_FILTER = None
     CAS_USER_FILTER_DENIED_MSG = None
     CAS_GET_USERNAME = None # python path to function
@@ -42,6 +43,9 @@ class AskbotStaticSettings(AppConf):
     SELF_TEST = True # if true - run startup self-test
     TRANSLATE_URL = True # set true to localize urls
     USER_DATA_EXPORT_DIR = const.DEFAULT_USER_DATA_EXPORT_DIR
+    USE_LOCAL_FONTS = False
+    SEARCH_FRONTEND_SRC_URL = None
+    SEARCH_FRONTEND_CSS_URL = None
     WHITELISTED_IPS = tuple() # a tuple of whitelisted ips for moderation
 
     class Meta:

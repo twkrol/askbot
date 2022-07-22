@@ -25,7 +25,7 @@ ModalDialog.prototype.show = function () {
 };
 
 ModalDialog.prototype.hide = function () {
-    this._element.modal('hide');
+    $.modal.close();
 };
 
 ModalDialog.prototype.setClass = function (cls) {
@@ -112,7 +112,7 @@ ModalDialog.prototype.createDom = function () {
         element.addClass(this._cssClass);
     }
 
-    element.addClass('modal');
+    element.addClass('js-modal');
     if (this._className) {
         element.addClass(this._className);
     }
@@ -121,12 +121,14 @@ ModalDialog.prototype.createDom = function () {
     var close_link = this.makeElement('div');
     if (this._headerEnabled) {
         var header = this.makeElement('div');
-        header.addClass('modal-header');
+        header.addClass('js-modal-header');
         element.append(header);
-        close_link.addClass('close');
+        /*
+        close_link.addClass('js-close');
         close_link.attr('data-dismiss', 'modal');
         close_link.html('x');
         header.append(close_link);
+        */
         var title = this.makeElement('h3');
         title.html(this._heading_text);
         header.append(title);
@@ -134,7 +136,7 @@ ModalDialog.prototype.createDom = function () {
 
     //2) create content
     var body = this.makeElement('div');
-    body.addClass('modal-body');
+    body.addClass('js-modal-body');
     element.append(body);
     this._content_element = body;
     if (this._initial_content) {
@@ -143,21 +145,21 @@ ModalDialog.prototype.createDom = function () {
 
     //3) create footer with accept and reject buttons (ok/cancel).
     var footer = this.makeElement('div');
-    footer.addClass('modal-footer');
+    footer.addClass('js-modal-footer');
     element.append(footer);
 
     var accept_btn = this.makeElement('button');
     if (this._acceptBtnEnabled === false) {
         accept_btn.prop('disabled', true);
     }
-    accept_btn.addClass('submit');
+    accept_btn.addClass('btn');
     accept_btn.html(this._accept_button_text);
     footer.append(accept_btn);
     this._acceptBtn = accept_btn;
 
     var reject_btn = this.makeElement('button');
     if (this._reject_button_text) {
-        reject_btn.addClass('submit cancel');
+        reject_btn.addClass('btn');
         reject_btn.html(this._reject_button_text);
         footer.append(reject_btn);
         this._rejectBtn = reject_btn;

@@ -72,6 +72,15 @@ settings.register(
 settings.register(
     livesettings.BooleanValue(
         FORUM_DATA_RULES,
+        'QUESTION_SUMMARY_SHOW_ZERO_COUNTS',
+        default=True,
+        description=_('Show zero (votes, answers, view) counts in the question lists')
+    )
+)
+
+settings.register(
+    livesettings.BooleanValue(
+        FORUM_DATA_RULES,
         'WIKI_ON',
         default=True,
         description=_('Check to enable community wiki feature')
@@ -306,7 +315,7 @@ settings.register(
         help_text=_(
             'Attention: after checking this, please back up the database, '
             'and run a management command: '
-            '<code>python manage.py fix_question_tags</code> to globally '
+            '<code>python manage.py askbot_fix_tags</code> to globally '
             'rename the tags'
          )
     )
@@ -405,15 +414,6 @@ settings.register(
         description=_(
             'Default max number of comments to display under posts'
         )
-    )
-)
-
-settings.register(
-    livesettings.BooleanValue(
-        FORUM_DATA_RULES,
-        'COMMENTS_REVERSED',
-        default=False,
-        description=_('Reverse ordering of comments')
     )
 )
 

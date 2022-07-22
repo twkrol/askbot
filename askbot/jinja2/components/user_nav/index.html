@@ -1,0 +1,14 @@
+<nav class="user-nav">
+  {%- if request.user.is_authenticated -%}
+    <a class="profile-link" href="{{ request.user.get_absolute_url() }}">{{ request.user.username|escape }}</a>
+    {%- if user.is_read_only() -%}
+      <span class="read-only-label">({% trans %}read only access{% endtrans %})</span>
+    {%- else -%}
+      {% include "components/user_nav/karma_and_badges.html" %}
+    {%- endif -%}
+    {% include "components/user_nav/inbox_link.html" %}
+    {% include "components/user_nav/moderation_queue_link.html" %}
+  {% elif settings.USE_ASKBOT_LOGIN_SYSTEM %}
+    {% include "components/login_link.html" %}
+  {% endif %}
+</nav>

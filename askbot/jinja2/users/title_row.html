@@ -1,0 +1,44 @@
+<div class="title-row">
+  <h1>
+  {% if group %}
+    {% trans name = group.name|replace('-', ' ')|escape %}Users in group {{name}}{% endtrans %}
+  {% else %}
+    {% trans %}Users{% endtrans %}
+  {% endif %}
+  </h1>
+  <nav class="components--sort-nav">
+    {% if False and settings.GROUPS_ENABLED and user_groups %}
+      <span class="components--sort-nav--label">{% trans %}Select/Sort by &raquo;{% endtrans %}</span>
+      {% for a_group in user_groups %}
+        <a href="{{ url('users_by_group', group_id=a_group.id, group_slug=a_group.name|slugify) }}"
+          {% if group.name == a_group.name  %}class="on"{% endif %}
+          title="{% trans name=a_group.name|escape %}people in group {{name}}{% endtrans %}"
+        >{{ a_group.name|replace('-',' ')|escape }}</a>
+      {% endfor %}
+    {% else %}
+        <span class="compoents--sort-nav--label">{% trans %}Sort by &raquo;{% endtrans %}</span>
+    {% endif %}
+    {% if settings.KARMA_MODE == 'public' %}
+    <a id="sort_reputation"
+      href="{{ request.path|escape }}?sort=reputation"
+      {% if tab_id == 'reputation' %}class="js-selected"{% endif %}
+      title="{% trans %}see people with the highest reputation{% endtrans %}"
+    >{% trans %}karma{% endtrans %}</a>
+    {% endif %}
+    <a id="sort_newest"
+      href="{{ request.path|escape }}?sort=newest"
+      {% if tab_id == 'newest' %}class="js-selected"{% endif %}
+      title="{% trans %}see people who joined most recently{% endtrans %}"
+    >{% trans %}recent{% endtrans %}</a>
+    <a id="sort_last"
+      href="{{ request.path|escape }}?sort=last"
+      {% if tab_id == 'last' %}class="js-selected"{% endif %}
+      title="{% trans %}see people who joined the site first{% endtrans %}"
+    >{% trans %}oldest{% endtrans %}</a>
+    <a id="sort_user"
+      href="{{ request.path|escape }}?sort=name"
+      {% if tab_id == 'name' %}class="js-selected"{% endif %}
+      title="{% trans %}see people sorted by name{% endtrans %}"
+    >{% trans %}by username{% endtrans %}</a>
+  </nav>
+</div>

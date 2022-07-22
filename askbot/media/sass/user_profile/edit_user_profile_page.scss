@@ -1,0 +1,26 @@
+.edit-user-profile-page {
+  main {
+    margin-bottom: 1rem;
+    --avatar-size: 128px;
+  }
+  td {
+    text-align: left;
+    padding-bottom: 0.25rem;
+  }
+  td:first-child {
+    padding-right: 1rem;
+  }
+  table {
+    margin-bottom: 0.25rem;
+    input:not([type="checkbox"]),
+    select,
+    textarea {
+      width: 100%;
+    }
+  }
+  .avatar {
+    display: inline-block;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+}

@@ -1080,26 +1080,6 @@ $.format = $.validator.format;
 
 })(jQuery);
 
-// ajax mode: abort
-// usage: $.ajax({ mode: "abort"[, port: "uniqueport"]});
-// if mode:"abort" is used, the previous request on that port (port can be undefined) is aborted via XMLHttpRequest.abort() 
-;(function($) {
-	var ajax = $.ajax;
-	var pendingRequests = {};
-	$.ajax = function(settings) {
-		// create settings for compatibility with ajaxSetup
-		settings = $.extend(settings, $.extend({}, $.ajaxSettings, settings));
-		var port = settings.port;
-		if (settings.mode == "abort") {
-			if ( pendingRequests[port] ) {
-				pendingRequests[port].abort();
-			}
-			return (pendingRequests[port] = ajax.apply(this, arguments));
-		}
-		return ajax.apply(this, arguments);
-	};
-})(jQuery);
-
 // provides cross-browser focusin and focusout events
 // IE has native support, in other browsers, use event caputuring (neither bubbles)
 

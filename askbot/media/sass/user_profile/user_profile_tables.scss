@@ -1,0 +1,13 @@
+.user-profile-activity,
+.user-profile-votes {
+  table {
+    margin-bottom: 1rem;
+  }
+  th, td {
+    padding: 0.25rem 1rem 0.25rem 0;
+    vertical-align: top;
+  }
+  .timestamp {
+    width: 7rem;
+  }
+}

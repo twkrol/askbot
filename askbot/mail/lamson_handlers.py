@@ -205,11 +205,9 @@ def ASK(message, host = None, addr = None):
 
     #why lamson does not give it normally?
     subject = message['Subject'].strip('\n\t ')
-    body_text, stored_files, unused = mail.process_parts(parts)
+    body_text, _ = mail.process_parts(parts)
     if addr == 'ask':
-        mail.process_emailed_question(
-            from_address, subject, body_text, stored_files
-        )
+        mail.process_emailed_question(from_address, subject, body_text)
     else:
         #this is the Ask the group branch
         if askbot_settings.GROUP_EMAIL_ADDRESSES_ENABLED == False:
@@ -217,7 +215,7 @@ def ASK(message, host = None, addr = None):
         try:
             group = Group.objects.get(name__iexact=addr)
             mail.process_emailed_question(
-                from_address, subject, body_text, stored_files,
+                from_address, subject, body_text,
                 group_id = group.id
             )
         except Group.DoesNotExist:
@@ -246,7 +244,7 @@ def VALIDATE_EMAIL(
         sys.stderr.write(msg.encode('utf-8'))
 
     try:
-        content, stored_files, signature = mail.process_parts(parts, reply_code)
+        content, signature = mail.process_parts(parts, reply_code)
 
         user = reply_address_object.user
 
@@ -288,7 +286,7 @@ def PROCESS(
     #1) get actual email content
     #   todo: factor this out into the process_reply decorator
     reply_code = reply_address_object.address
-    body_text, stored_files, signature = mail.process_parts(parts, reply_code, from_address)
+    body_text, signature = mail.process_parts(parts, reply_code, from_address)
 
     #2) process body text and email signature
     user = reply_address_object.user

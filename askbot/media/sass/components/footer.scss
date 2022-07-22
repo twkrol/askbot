@@ -1,0 +1,14 @@
+footer {
+  background: var(--footer-bg);
+  color: var(--footer-fg-color);
+  padding: var(--footer-padding);
+  .footer-row {
+    margin: var(--footer-row-margin);
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  a {
+    text-decoration: none;
+  }
+}

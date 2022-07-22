@@ -20,7 +20,7 @@ from urllib.parse import urlparse
 from django.db import connection
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
-from django.utils import timezone, six
+from django.utils import timezone
 from askbot.utils.loading import load_module
 from askbot.utils.functions import enumerate_string_list
 from askbot.utils.url_utils import urls_equal
@@ -102,7 +102,7 @@ def test_askbot_url():
     url = django_settings.ASKBOT_URL
     if url != '':
 
-        if not isinstance(url, six.string_types):
+        if not isinstance(url, str):
             msg = 'setting ASKBOT_URL must be of string or unicode type'
             raise AskbotConfigError(msg)
 
@@ -352,8 +352,6 @@ def test_celery():
     that correct name is used for the setting
     and that a valid value is chosen
     """
-    broker_backend = getattr(django_settings, 'BROKER_BACKEND', None)
-    broker_transport = getattr(django_settings, 'BROKER_TRANSPORT', None)
     delay_time = getattr(django_settings, 'NOTIFICATION_DELAY_TIME', None)
     delay_setting_info = 'The delay is in seconds - used to throttle ' + \
         'instant notifications note that this delay will work only if ' + \
@@ -370,29 +368,6 @@ def test_celery():
         raise AskbotConfigError(
             '\nNOTIFICATION_DELAY_TIME setting must have a numeric value\n' + \
             delay_setting_info
-        )
-
-
-    if (broker_backend is None) and (broker_transport is None):
-        raise AskbotConfigError(
-            "\nPlease add\n"
-            'An appropriate BROKER_TRANSPORT value to settings.py. '
-            'Refer to the Celery project documentation to see what '
-            'values are supported.'
-        )
-
-    if broker_backend and broker_backend != broker_transport:
-        raise AskbotConfigError(
-            "\nPlease rename setting BROKER_BACKEND to BROKER_TRANSPORT\n"
-            "in your settings.py file\n"
-            "If you have both in your settings.py - then\n"
-            "delete the BROKER_BACKEND setting and leave the BROKER_TRANSPORT"
-        )
-
-    if hasattr(django_settings, 'BROKER_BACKEND') and not hasattr(django_settings, 'BROKER_TRANSPORT'):
-        raise AskbotConfigError(
-            "\nPlease rename setting BROKER_BACKEND to BROKER_TRANSPORT\n"
-            "in your settings.py file"
         )
 
 
@@ -1008,10 +983,14 @@ def test_versions():
 
     dj_ver = django.VERSION
     upgrade_msg = 'About upgrades, please read http://askbot.org/doc/upgrade.html'
-    if dj_ver < (2, 2) or dj_ver >= (2, 3):
-        errors.append('This version of Askbot supports only django 2.2 ' + upgrade_msg)
+    if dj_ver < (2, 2) or dj_ver >= (4, 0):
+        errors.append('This version of Askbot supports django 2.2 - 3.2 ' + upgrade_msg)
     elif py_ver[:3] < (3, 6, 0):
-        errors.append('Askbot requires Python 3.6')
+        errors.append('Askbot requires Python 3.6 or 3.7')
+    elif py_ver[:3] > (3, 8, 0):
+        errors.append("""Askbot was not tested with Python > 3.7
+Try adding ASKBOT_SELF_TEST = False to the settings.py
+to test if your version of Python works and please let us know.""")
 
     print_errors(errors)
 
@@ -1040,7 +1019,7 @@ and for making posts by email"""
     test_celery()
     test_compressor()
     test_custom_user_profile_tab()
-    test_group_messaging()
+    #test_group_messaging()
     test_haystack()
     test_jinja2()
     #test_longerusername()

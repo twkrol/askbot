@@ -3,6 +3,7 @@
 {% block title %}
     {% trans %}Moderation queue{% endtrans %}
 {% endblock %}
+{% block page_class %}moderation-queue-page{% endblock %}
 {% block content %}
     <h1 class="section-title">{% trans %}Moderation queue{% endtrans %}</h1>
     <div class="moderation-header">
@@ -82,7 +83,6 @@
     <script type="text/javascript" src="{{ '/js/user/user_groups_editor.js'|media }}"></script>
     <script type="text/javascript" src="{{ '/js/user/tweeting.js'|media }}"></script>
     <script type="text/javascript" src="{{ '/js/user/user_questions_paginator.js'|media }}"></script>
-    <script type="text/javascript" src="{{ '/js/user/user_answer_paginator.js'|media }}"></script>
     <script type="text/javascript" src="{{ '/js/user.js'|media }}"></script>
     {% endcompress %}
     <script type="text/javascript">

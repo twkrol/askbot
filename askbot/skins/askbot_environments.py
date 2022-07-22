@@ -60,17 +60,15 @@ class SkinEnvironment(MultilingualEnvironment):
         super(SkinEnvironment, self).__init__(*args, **kwargs)
 
     @classmethod
-    def build_sibling_key(cls,parts):
+    def build_sibling_key(cls, parts):
         return "-".join(parts)
 
     @classmethod
     def get_skin(cls):
         """retreives the skin environment
         for a given request (request var is not used at this time)"""
-        key = cls.build_sibling_key([
-            askbot_settings.ASKBOT_DEFAULT_SKIN,
-            get_language()
-            ])
+        key = cls.build_sibling_key([askbot_settings.ASKBOT_DEFAULT_SKIN,
+                                     get_language()])
         try:
             return cls.siblings[key]
         except KeyError:

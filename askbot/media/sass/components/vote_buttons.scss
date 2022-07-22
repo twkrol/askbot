@@ -1,0 +1,39 @@
+.js-post-vote-btn-group {
+  position: relative;
+  text-align: center;
+  margin: var(--post-vote-btn-group-margin);
+  .js-error-popup {
+    left: calc(1.5 * var(--post-vote-btn-width));
+    top: 0;
+  }
+}
+
+.js-post-vote-btn {
+  font-size: calc(1.5 * var(--post-vote-btn-width));
+  width: var(--post-vote-btn-width);
+  height: var(--post-vote-btn-height);
+  cursor: pointer;
+  color: var(--post-vote-btn-inactive-color);
+  transition: color var(--transition-params);
+  &::before {
+    display: flex;
+    align-items: center;
+    width: var(--post-vote-btn-width);
+    height: var(--post-vote-btn-height);
+  }
+  &:hover {
+    color: var(--post-vote-btn-inactive-hover-color);
+  }
+}
+
+.js-post-upvote-btn.js-active {
+  color: var(--post-upvote-btn-active-color);
+}
+
+.js-post-downvote-btn.js-active {
+  color: var(--post-downvote-btn-active-color);
+}
+
+.js-post-vote-number {
+  font-size: var(--post-votes-font-size);
+}

@@ -4,6 +4,8 @@ from askbot.deployment.exceptions import DeploymentError
 from .manage_py import ManagePy
 from .settings_py import SettingsPy
 from .urls_py import UrlsPy
+from .celery_py import CeleryPy
+from .init_py import InitPy
 
 def get_root_path(path):
     """Returns root of the path, w/o the leading separator."""

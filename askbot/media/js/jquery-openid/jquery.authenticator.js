@@ -473,7 +473,7 @@ $.fn.authenticator = function () {
         }
 
         setup_event_handlers(
-            signin_page.find('input.oauth, input.oauth2, input.openid-direct, input.cas, input.discourse'),
+            signin_page.find('input.oauth, input.oauth2, input.openid-direct, input.cas, input.discourse, input.oidc'),
             start_simple_login
         );
 

@@ -1,0 +1,17 @@
+.info-box {
+  background: var(--info-box-bg);
+  border-radius: var(--border-radius);
+  border: var(--info-box-border);
+  box-shadow: var(--info-box-box-shadow);
+  color: var(--info-box-color);
+  font-size: var(--info-box-font-size);
+  padding: var(--info-box-padding);
+  margin: var(--info-box-margin);
+}
+
+.info-box {
+  ul {
+    list-style: disc;
+    padding-left: 1rem;
+  }
+}

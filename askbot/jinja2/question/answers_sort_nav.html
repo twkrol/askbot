@@ -1,0 +1,17 @@
+<div class="answers-header">
+  <h2 class"js-answers-count">
+    {% set pluralized_item_term=settings.WORDS_ANSWERS_COUNTABLE_FORMS|py_pluralize(answer_count)|capitalize|escape %}
+    {% set item_count=answer_count %}
+    {% trans %}<span class="count">{{ item_count }}</span> {{ pluralized_item_term }}{% endtrans %}
+  </h2>
+  <ul class="components--sort-nav">
+    <span class="components--sort-nav--label">{% trans %}Sort by{% endtrans %}
+    </span>
+    <a id="js-answers-sort-oldest" href="{{ question.get_absolute_url() }}?sort=oldest#sort-top"
+    >{% trans %}oldest{% endtrans %}</a>
+    <a id="js-answers-sort-latest" href="{{ question.get_absolute_url() }}?sort=latest#sort-top"
+    >{% trans %}newest{% endtrans %}</a>
+    <a id="js-answers-sort-votes" href="{{ question.get_absolute_url() }}?sort=votes#sort-top"
+    >{% trans %}most voted{% endtrans %}</a>
+  </ul>
+</div>

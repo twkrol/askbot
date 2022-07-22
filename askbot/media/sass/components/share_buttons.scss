@@ -1,0 +1,26 @@
+.share-btn {
+  cursor: pointer;
+  font-size: var(--post-share-btn-width);
+  margin-bottom: 0.125rem;
+}
+
+.js-twitter-share {
+  color: hsl(202, 89.5%, 56.6%);
+  &:hover {
+    color: hsl(202, 89.5%, 40%);
+  }
+}
+
+.js-facebook-share {
+  color: hsl(220, 45.9%, 47.8%);
+  &:hover {
+    color: hsl(220, 45.9%, 55%);
+  }
+}
+
+.js-linkedin-share {
+  color: hsl(213, 63.3%, 42.7%);
+  &:hover {
+    color: hsl(213, 63.3%, 57%);
+  }
+}

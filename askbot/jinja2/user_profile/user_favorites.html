@@ -1,7 +1,5 @@
 {% extends "user_profile/user.html" %}
-<!-- user_favorites.html -->
 {% block profilesection %}{{ settings.WORDS_FOLLOWED_QUESTIONS|escape }}{% endblock %}
 {% block usercontent %}
-{% include "user_profile/users_questions.html" %}
+  {% include "user_profile/user_questions.html" %}
 {% endblock %}
-<!-- end user_favorites.html -->

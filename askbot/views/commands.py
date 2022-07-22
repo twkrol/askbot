@@ -64,22 +64,19 @@ def process_vote(user = None, vote_direction = None, post = None):
             'Sorry, anonymous users cannot vote'
         ))
 
-    user.assert_can_vote_for_post(post = post, direction = vote_direction)
     vote = user.get_old_vote_for_post(post)
     response_data = {}
-    if vote != None:
+    if vote:
         user.assert_can_revoke_old_vote(vote)
         score_delta = vote.cancel()
         response_data['count'] = post.points + score_delta
         post.points = response_data['count'] #assign here too for correctness
         response_data['status'] = 1 #this means "cancel"
     else:
-        #this is a new vote
+        user.assert_can_vote_for_post(post=post, direction=vote_direction)
         votes_left = user.get_unused_votes_today()
         if votes_left <= 0:
-            raise exceptions.PermissionDenied(
-                            _('Sorry you ran out of votes for today')
-                        )
+            raise exceptions.PermissionDenied(_('Sorry you ran out of votes for today'))
 
         votes_left -= 1
         if votes_left <= \
@@ -109,7 +106,7 @@ def process_vote(user = None, vote_direction = None, post = None):
 
 
 @csrf.csrf_protect
-def vote(request):
+def legacy_vote_view(request):
     """
     TODO: This subroutine needs serious refactoring it's too long and is
           hard to understand.
@@ -159,6 +156,7 @@ def vote(request):
                 _('Sorry, but anonymous users cannot perform this action.'))
 
         vote_type = request.POST.get('type')
+
         if (vote_type not in const.VOTE_TYPES
                 or vote_type == const.VOTE_FAVORITE):
             # TODO: Favoriting a question is not handled!
@@ -184,8 +182,7 @@ def vote(request):
 
             post.thread.update_summary_html()
         elif vote_type in const.VOTE_TYPES_VOTING:
-            response_data = process_vote(
-                user=user, vote_direction=vote_args[1], post=post)
+            response_data = process_vote(user=user, vote_direction=vote_args[1], post=post)
 
             if vote_args[0] == 'question':
                 post.thread.update_summary_html()
@@ -296,7 +293,7 @@ def get_thread_shared_users(request):
     data = {
         'users': users,
     }
-    html = render_into_skin_as_string('widgets/user_list.html', data, request)
+    html = render_into_skin_as_string('components/users_list.html', data, request)
     re_data = json.dumps({
         'html': html,
         'users_count': users.count(),
@@ -638,7 +635,7 @@ def set_question_title(request):
     title = request.POST['title']
 
     if akismet_check_spam(question.get_text_content(title=title), request):
-        message = _('Spam was detected on your post, sorry if it was a mistake')
+        message = _('Spam was detected in the post')
         raise exceptions.PermissionDenied(message)
 
     user = request.user
@@ -658,7 +655,9 @@ def get_question_title(request):
 @decorators.get_only
 def get_post_body(request):
     post_id = request.GET['post_id']
-    post = get_object_or_404(models.Post, pk=post_id)
+    form = forms.GetDataForPostForm(request.GET)
+    form.full_clean()
+    post = get_object_or_404(models.Post, pk=form.cleaned_data['post_id'])
     return {'body_text': post.text}
 
 
@@ -672,16 +671,19 @@ def set_post_body(request):
             {'perform_action': _('make edits')}
         raise exceptions.PermissionDenied(message)
 
-    post_id = request.POST['post_id']
-    body_text = request.POST['body_text']
+    form = forms.SetPostBodyForm(request.POST)
+    form.full_clean()
+    post_id = form.cleaned_data['post_id']
+    body_text = form.cleaned_data['body_text']
+    suppress_email = form.cleaned_data['suppress_email']
 
     post = get_object_or_404(models.Post, pk=post_id)
     text = post.get_text_content(body_text=body_text)
     if akismet_check_spam(text, request):
-        message = _('Spam was detected on your post, sorry if it was a mistake')
+        message = _('Spam was detected in the post')
         raise exceptions.PermissionDenied(message)
 
-    request.user.edit_post(post, body_text=body_text)
+    request.user.edit_post(post, body_text=body_text, suppress_email=suppress_email)
     return {'body_html': post.html}
 
 
@@ -753,7 +755,7 @@ def set_tag_filter_strategy(request):
         assert(filter_value in allowed_values_dict)
         request.user.email_tag_filter_strategy = filter_value
     request.user.save()
-    return HttpResponse('', content_type="application/json")
+    return HttpResponse('{}', content_type="application/json") #curly braces required to make jquery happy
 
 
 @login_required
@@ -987,6 +989,9 @@ def toggle_group_profile_property(request):
     property_name = CharField().clean(request.POST['property_name'])
     assert property_name in (
                         'moderate_email',
+                        'can_post_questions',
+                        'can_post_answers',
+                        'can_post_comments',
                         'moderate_answers_to_enquirers',
                         'is_vip',
                         'read_only'
@@ -1399,33 +1404,52 @@ def get_editor(request):
 @csrf.csrf_protect
 @decorators.ajax_only
 @decorators.post_only
-def publish_answer(request):
-    """will publish or unpublish answer, if
-    current thread is moderated
-    """
+def publish_post(request):
+    """will publish or unpublish post"""
     denied_msg = _('Sorry, only thread moderators can use this function')
+
     if request.user.is_authenticated:
         if request.user.is_administrator_or_moderator() is False:
             raise exceptions.PermissionDenied(denied_msg)
     #todo: assert permission
-    answer_id = IntegerField().clean(request.POST['answer_id'])
-    answer = models.Post.objects.get(id=answer_id, post_type='answer')
+    post_id = IntegerField().clean(request.POST['post_id'])
+    post = models.Post.objects.get(pk=post_id)
 
-    if answer.thread.has_moderator(request.user) is False:
+    if post.thread.has_moderator(request.user) is False:
         raise exceptions.PermissionDenied(denied_msg)
 
-    enquirer = answer.thread._question_post().author
-    enquirer_group = enquirer.get_personal_group()
+    # there used to be an experiment where questions were asked
+    # privately to a group - i.e. the question was visible to the
+    # inquirer and the group only. When the answer was published
+    # it was shared with the enquirer
+    # Now the code is switched to a simpler mode - 
+    # "published" === visible to the "everyone" group.
+    # (and used to be "published" -> visible to the enquirer).
+    #enquirer = answer.thread._question_post().author
+    #enquirer_group = enquirer.get_personal_group()
 
-    if answer.has_group(enquirer_group):
-        message = _('The answer is now unpublished')
-        answer.remove_from_groups([enquirer_group])
+    if askbot_settings.GROUPS_ENABLED:
+        if post.is_private():
+            #answer.add_to_groups([enquirer_group])
+            if post.post_type == 'question':
+                post.thread.make_public()
+            else:
+                post.make_public()
+                
+            message = _('The post is now published')
+        else:
+            #answer.remove_from_groups([enquirer_group])
+            if post.post_type == 'question':
+                post.thread.make_private(request.user)
+            else:
+                post.make_private(request.user)
+
+            message = _('The post is now unpublished')
     else:
-        answer.add_to_groups([enquirer_group])
-        message = _('The answer is now published')
-        #todo: notify enquirer by email about the post
+        message = _('This feature is disabled')
+
     request.user.message_set.create(message=message)
-    return {'redirect_url': answer.get_absolute_url()}
+    return {'redirect_url': post.get_absolute_url()}
 
 @csrf.csrf_protect
 @decorators.ajax_only

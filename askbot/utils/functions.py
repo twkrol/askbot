@@ -16,13 +16,12 @@ from django.core.validators import validate_email
 from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 from django.utils.html import escape
-from django.utils import six
 from django.utils.functional import lazy
 from django.utils.safestring import mark_safe
 from django.utils import timezone
 from django import forms
 
-mark_safe_lazy = lazy(mark_safe, six.text_type) #pylint: disable=invalid-name
+mark_safe_lazy = lazy(mark_safe, str) #pylint: disable=invalid-name
 
 def decode_and_loads(input_str):
     """utf-8 decodes the input, then runs json loads"""

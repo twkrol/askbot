@@ -4,7 +4,7 @@ var liveSearchNewThreadInit = function (auto_focus_out) {
     var prev_text = $.trim(query.val());
     var search_url = askbot.urls.apiGetQuestions;
     var running = false;
-    var q_list_sel = 'question-list'; //id of question listing div
+    var qListId = 'js-questions'; //id of question listing div
 
     running = false;
     var ask_page_eval_handle;
@@ -24,7 +24,7 @@ var liveSearchNewThreadInit = function (auto_focus_out) {
 
     var restart_query = function () {
         /* restart query */
-        $('#' + q_list_sel).css('height', 0).children().remove();
+        $('#' + qListId).css('height', 0).children().remove();
         running = false;
         prev_text = '';
     };
@@ -41,7 +41,7 @@ var liveSearchNewThreadInit = function (auto_focus_out) {
     };
 
     var render_result = function (data, text_status, xhr) {
-        var container = $('#' + q_list_sel);
+        var container = $('#' + qListId);
         container.fadeOut(200, function () {
             container.children().remove();
             $.each(data, function (idx, question) {

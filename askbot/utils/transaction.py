@@ -15,17 +15,3 @@ class DummyTransaction(object):
 
 #a utility instance to use instead of the normal transaction object
 dummy_transaction = DummyTransaction()
-
-def defer_celery_task(task, **task_kwargs):
-    if django_settings.CELERY_ALWAYS_EAGER:
-        task.apply(**task_kwargs)
-    else:
-        from celery import current_task
-        if current_task:
-            #TODO: look into task chains in celery
-            return task.apply(**task_kwargs)
-        task.apply_async(**task_kwargs)
-
-        #def schedule_task(sender, **task_kwargs):
-        #    task.apply_async(**task_kwargs)
-        #request_finished.connect(schedule_task)

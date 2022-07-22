@@ -1,0 +1,26 @@
+{% set asc_tooltip = gettext('most relevant questions') %}
+{% set desc_tooltip = gettext('click to see most relevant questions') %}
+{% set label = gettext('relevance') %}
+<a id="by_relevance"
+    {% if sort == "relevance-desc" %}
+        class="js-sort-by-relevance js-selected js-with-sort-descending-icon"
+        href="{{ search_state.change_sort('relevance-desc').full_url() }}"
+        title="{{asc_tooltip}}"
+    {% else %}
+        class="js-sort-by-relevance"
+        href="{{ search_state.change_sort('relevance-desc').full_url() }}"
+        title="{{desc_tooltip}}"
+    {% endif %}
+    style="display: {% if query %}inline{% else %}none{% endif %};"
+    data-sort-by="relevance"
+>
+  {{ label }}
+</a>
+<script type="text/javascript">
+    askbot['data']['sortButtonData'] = askbot['data']['sortButtonData'] || {};
+    askbot['data']['sortButtonData']['relevance'] = {
+        asc_tooltip: "{{asc_tooltip}}",
+        desc_tooltip: "{{desc_tooltip}}",
+        label: "{{label}}"
+    };
+</script>

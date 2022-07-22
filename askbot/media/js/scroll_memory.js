@@ -1,5 +1,5 @@
 (function() {
-  $(window).unload(function() {
+  $(window).on('unload', function() {
     $('#scroll-mem').val($(window).scrollTop());
     console.log('New scroll value is:' + $('#scroll-mem').val());
   });

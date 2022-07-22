@@ -1,13 +1,17 @@
 """functions that send email in askbot
 these automatically catch email-related exceptions
 """
-from django.conf import settings as django_settings
-
-DEBUG_EMAIL = django_settings.ASKBOT_DEBUG_INCOMING_EMAIL
-
 import logging
 import os
 import sys
+from django.conf import settings as django_settings
+from django.core import mail
+from django.core.exceptions import PermissionDenied
+from django.forms import ValidationError
+from django.utils.text import format_lazy
+from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy
+from django.utils.html import strip_tags
 from askbot import exceptions
 from askbot import const
 from askbot.conf import settings as askbot_settings
@@ -16,15 +20,9 @@ from askbot.utils import url_utils
 from askbot.utils.file_utils import store_file
 from askbot.utils.html import absolutize_urls
 from askbot.utils.html import get_text_from_html
-from django.core import mail
-from django.core.exceptions import PermissionDenied
-from django.forms import ValidationError
-from django.utils.text import format_lazy
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy
-from django.utils.html import strip_tags
 
-#todo: maybe send_mail functions belong to models
+DEBUG_EMAIL = django_settings.ASKBOT_DEBUG_INCOMING_EMAIL
+
 #or the future API
 def prefix_the_subject_line(subject):
     """prefixes the subject line with the
@@ -44,10 +42,10 @@ def extract_first_email_address(text):
     match = const.EMAIL_REGEX.search(text)
     if match:
         return match.group(0)
-    else:
-        return None
+    return None
 
-def _send_mail(subject_line, body_text, sender_email, recipient_list, headers=None, attachments=None):
+def _send_mail(subject_line, body_text, sender_email, recipient_list, # pylint: disable=too-many-arguments
+               headers=None, attachments=None):
     """base send_mail function, which will attach email in html format
     if html email is enabled"""
     html_enabled = askbot_settings.HTML_EMAIL_ENABLED
@@ -56,9 +54,9 @@ def _send_mail(subject_line, body_text, sender_email, recipient_list, headers=No
     else:
         message_class = mail.EmailMessage
 
-    from askbot.models import User
-    from askbot.models.user import InvitedModerator
-    email_list = list()
+    from askbot.models import User # pylint: disable=import-outside-toplevel
+    from askbot.models.user import InvitedModerator # pylint: disable=import-outside-toplevel
+    email_list = []
     for recipient in recipient_list:
         if isinstance(recipient, (User, InvitedModerator)):
             email_list.append(recipient.email)
@@ -78,7 +76,7 @@ def _send_mail(subject_line, body_text, sender_email, recipient_list, headers=No
 
     msg.send()
 
-def send_mail(
+def send_mail( # pylint: disable=too-many-arguments
             subject_line=None,
             body_text=None,
             from_email=None,
@@ -97,11 +95,11 @@ def send_mail(
     if raise_on_failure is True, exceptions.EmailNotSent is raised
     `attachments` is a tuple of triples ((filename, filedata, mimetype), ...)
     """
-    from_email = from_email or askbot_settings.ADMIN_EMAIL \
-                            or django_settings.DEFAULT_FROM_EMAIL
+    from_email = from_email or askbot_settings.FROM_EMAIL
     body_text = absolutize_urls(body_text)
     try:
-        assert(subject_line is not None)
+        have_subject = subject_line is not None
+        assert have_subject
         subject_line = prefix_the_subject_line(subject_line)
         _send_mail(
             subject_line,
@@ -112,9 +110,9 @@ def send_mail(
             attachments=attachments
         )
         logging.debug('sent update to %s' % ','.join(map(str, recipient_list)))
-    except Exception as error:
+    except Exception as error: # pylint: disable=broad-except
         sys.stderr.write('\n' + str(error) + '\n')
-        if raise_on_failure == True:
+        if raise_on_failure:
             raise exceptions.EmailNotSent(str(error))
 
 INSTRUCTIONS_PREAMBLE = ugettext_lazy('<p>To post by email, please:</p>')
@@ -219,13 +217,13 @@ def process_attachment(attachment):
     link to file in the markdown format and the
     file storage object
     """
-    file_storage, file_name, file_url = store_file(attachment)
+    file_url = store_file(attachment.name, attachment)
     markdown_link = '[%s](%s) ' % (attachment.name, file_url)
     file_extension = os.path.splitext(attachment.name)[1]
     #todo: this is a hack - use content type
     if file_extension.lower() in ('.png', '.jpg', '.jpeg', '.gif'):
         markdown_link = '!' + markdown_link
-    return markdown_link, file_storage
+    return markdown_link
 
 def extract_user_signature(text, reply_code):
     """extracts email signature as text trailing
@@ -235,7 +233,7 @@ def extract_user_signature(text, reply_code):
     signature = ''
     if reply_code in stripped_text:
         #extract the signature
-        tail = list()
+        tail = []
         for line in reversed(stripped_text.splitlines()):
             #scan backwards from the end until the magic line
             if reply_code in line:
@@ -263,7 +261,6 @@ def process_parts(parts, reply_code=None, from_address=None):
     of uploaded files.
     """
     body_text = ''
-    stored_files = list()
     attachments_markdown = ''
 
     if DEBUG_EMAIL:
@@ -273,8 +270,7 @@ def process_parts(parts, reply_code=None, from_address=None):
         if part_type == 'attachment':
             if DEBUG_EMAIL:
                 sys.stderr.write('REGULAR ATTACHMENT:\n')
-            markdown, stored_file = process_attachment(content)
-            stored_files.append(stored_file)
+            markdown = process_attachment(content)
             attachments_markdown += '\n\n' + markdown
         elif part_type == 'body':
             if DEBUG_EMAIL:
@@ -285,8 +281,7 @@ def process_parts(parts, reply_code=None, from_address=None):
         elif part_type == 'inline':
             if DEBUG_EMAIL:
                 sys.stderr.write('INLINE ATTACHMENT:\n')
-            markdown, stored_file = process_attachment(content)
-            stored_files.append(stored_file)
+            markdown = process_attachment(content)
             body_text += markdown
 
     if DEBUG_EMAIL:
@@ -313,18 +308,18 @@ def process_parts(parts, reply_code=None, from_address=None):
                                                     )
 
     body_text = body_text.strip()
-    return body_text, stored_files, signature
+    return body_text, signature
 
 
 def process_emailed_question(
-    from_address, subject, body_text, stored_files,
+    from_address, subject, body_text,
     tags=None, group_id=None
 ):
     """posts question received by email or bounces the message"""
     #a bunch of imports here, to avoid potential circular import issues
-    from askbot.forms import AskByEmailForm
-    from askbot.models import ReplyAddress, User
-    from askbot.mail.messages import (
+    from askbot.forms import AskByEmailForm # pylint: disable=import-outside-toplevel
+    from askbot.models import ReplyAddress, User # pylint: disable=import-outside-toplevel
+    from askbot.mail.messages import ( # pylint: disable=import-outside-toplevel
                             AskForSignature,
                             InsufficientReputation
                         )
@@ -395,22 +390,22 @@ def process_emailed_question(
         else:
             raise ValidationError('unable to post question by email')
 
-    except User.DoesNotExist:
+    except User.DoesNotExist: # pylint: disable=no-member
         bounce_email(email_address, subject, reason = 'unknown_user')
-    except User.MultipleObjectsReturned:
+    except User.MultipleObjectsReturned: # pylint: disable=no-member
         bounce_email(email_address, subject, reason = 'problem_posting')
     except PermissionDenied as error:
         bounce_email(
             email_address,
             subject,
-            reason = 'permission_denied',
-            body_text = str(error),
-            reply_to = reply_to
+            reason='permission_denied',
+            body_text=str(error),
+            reply_to=reply_to
         )
     except ValidationError:
         if from_address:
             bounce_email(
                 from_address,
                 subject,
-                reason = 'problem_posting',
+                reason='problem_posting'
             )

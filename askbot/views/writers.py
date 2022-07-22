@@ -58,7 +58,6 @@ def upload(request):#ajax upload file to a question or answer
     # check upload permission
     result = ''
     error = ''
-    new_file_name = ''
     try:
         #may raise exceptions.PermissionDenied
         result, error, file_url, orig_file_name = None, '', None, None
@@ -85,18 +84,17 @@ def upload(request):#ajax upload file to a question or answer
                     {'file_types': file_types}
             raise exceptions.PermissionDenied(msg)
 
-        # generate new file name and storage object
-        file_storage, new_file_name, file_url = store_file(
-                                            uploaded_file, file_name_prefix
-                                        )
-        # check file size
-        # byte
-        size = file_storage.size(new_file_name)
+        # get file size, make sure that the file is not too large
+        uploaded_file.seek(0, 2)
+        size = uploaded_file.tell()
         if size > settings.ASKBOT_MAX_UPLOAD_FILE_SIZE:
-            file_storage.delete(new_file_name)
-            msg = _("maximum upload file size is %(file_size)sK") % \
+            msg = _("maximum upload file size is %(file_size)s bytes") % \
                     {'file_size': settings.ASKBOT_MAX_UPLOAD_FILE_SIZE}
             raise exceptions.PermissionDenied(msg)
+
+        # rewind the file and store
+        uploaded_file.seek(0)
+        file_url = store_file(uploaded_file.name, uploaded_file)
 
     except exceptions.PermissionDenied as e:
         error = str(e)
@@ -210,12 +208,14 @@ def ask(request):#view used to ask a new question
             referer = request.META.get("HTTP_REFERER", reverse('questions'))
             request.user.message_set.create(message=_('Sorry, but you have only read access'))
             return HttpResponseRedirect(referer)
+        if not request.user.can_post_question():
+            return HttpResponseForbidden()
 
     if askbot_settings.READ_ONLY_MODE_ENABLED:
         return HttpResponseRedirect(reverse('index'))
 
     if request.method == 'POST':
-        form = forms.AskForm(request.POST, user=request.user)
+        form = forms.AskForm(request.POST, user=request.user, label_suffix='')
         if form.is_valid():
             timestamp = timezone.now()
             title = form.cleaned_data['title']
@@ -224,12 +224,12 @@ def ask(request):#view used to ask a new question
             text = form.cleaned_data['text']
             ask_anonymously = form.cleaned_data['ask_anonymously']
             post_privately = form.cleaned_data['post_privately']
-            group_id = form.cleaned_data.get('group_id', None)
+            #group_id = form.cleaned_data.get('group_id', None)
             language = form.cleaned_data.get('language', None)
 
             content = '{}\n\n{}\n\n{}'.format(title, tagnames, text)
             if akismet_check_spam(content, request):
-                message = _('Spam was detected on your post, sorry if it was a mistake')
+                message = _('Spam was detected in the post')
                 raise exceptions.PermissionDenied(message)
 
             if request.user.is_authenticated:
@@ -252,7 +252,7 @@ def ask(request):#view used to ask a new question
                         is_anonymous=ask_anonymously,
                         is_private=post_privately,
                         timestamp=timestamp,
-                        group_id=group_id,
+                        #group_id=group_id,
                         language=language,
                         ip_addr=request.META.get('REMOTE_ADDR')
                     )
@@ -309,12 +309,12 @@ def ask(request):#view used to ask a new question
         'language': get_language(),
         'wiki': getattr(request,request.method).get('wiki', False),
     }
-    if 'group_id' in getattr(request,request.method):
-        try:
-            group_id = int(request.GET.get('group_id', None))
-            form.initial['group_id'] = group_id
-        except Exception:
-            pass
+    #if 'group_id' in getattr(request,request.method):
+    #    try:
+    #        group_id = int(request.GET.get('group_id', None))
+    #        form.initial['group_id'] = group_id
+    #    except Exception:
+    #        pass
 
     editor_is_folded = (askbot_settings.QUESTION_BODY_EDITOR_MODE=='folded' and \
                         askbot_settings.MIN_QUESTION_BODY_LENGTH==0 and \
@@ -322,7 +322,6 @@ def ask(request):#view used to ask a new question
 
     data = {
         'active_tab': 'ask',
-        'page_class': 'ask-page',
         'form' : form,
         'editor_is_folded': editor_is_folded,
         'mandatory_tags': models.tag.get_mandatory_tags(),
@@ -331,10 +330,11 @@ def ask(request):#view used to ask a new question
         'tag_names': forms.split_tags(form.initial['tags'])
     }
     data.update(context.get_for_tag_editor())
-    return render(request, 'ask.html', data)
+    return render(request, 'ask/index.html', data)
 
 @login_required
 @csrf.csrf_protect
+@decorators.ajax_only
 def retag_question(request, id):
     """retag question view
     """
@@ -342,181 +342,43 @@ def retag_question(request, id):
 
     try:
         request.user.assert_can_retag_question(question)
-        if request.method == 'POST':
-            form = forms.RetagQuestionForm(question, request.POST)
+        form = forms.RetagQuestionForm(question, request.POST)
 
-            if form.is_valid():
-                if form.has_changed():
-                    text = question.get_text_content(tags=form.cleaned_data['tags'])
-                    if akismet_check_spam(text, request):
-                        message = _('Spam was detected on your post, sorry if it was a mistake')
-                        raise exceptions.PermissionDenied(message)
-
-                    request.user.retag_question(question=question, tags=form.cleaned_data['tags'])
-                if request.is_ajax():
-                    response_data = {
-                        'success': True,
-                        'new_tags': question.thread.tagnames
-                    }
-
-                    if request.user.message_set.count() > 0:
-                        #todo: here we will possibly junk messages
-                        message = request.user.get_and_delete_messages()[-1]
-                        response_data['message'] = message
-
-                    data = json.dumps(response_data)
-                    return HttpResponse(data, content_type="application/json")
-                else:
-                    return HttpResponseRedirect(question.get_absolute_url())
-            elif request.is_ajax():
-                response_data = {
-                    'message': format_errors(form.errors['tags']),
-                    'success': False
-                }
-                data = json.dumps(response_data)
-                return HttpResponse(data, content_type="application/json")
-        else:
-            form = forms.RetagQuestionForm(question)
-
-        data = {
-            'active_tab': 'questions',
-            'question': question,
-            'form' : form,
-        }
-        return render(request, 'question_retag.html', data)
-    except exceptions.PermissionDenied as e:
-        if request.is_ajax():
+        if not form.is_valid():
             response_data = {
-                'message': str(e),
+                'message': format_errors(form.errors['tags']),
                 'success': False
             }
             data = json.dumps(response_data)
             return HttpResponse(data, content_type="application/json")
-        else:
-            request.user.message_set.create(message = str(e))
-            return HttpResponseRedirect(question.get_absolute_url())
 
-@login_required
-@csrf.csrf_protect
-def edit_question(request, id):
-    """edit question view
-    """
-    question = get_object_or_404(models.Post, id=id)
+        if form.has_changed():
+            text = question.get_text_content(tags=form.cleaned_data['tags'])
+            if akismet_check_spam(text, request):
+                message = _('Spam was detected in the post')
+                raise exceptions.PermissionDenied(message)
 
-    if askbot_settings.READ_ONLY_MODE_ENABLED:
-        return HttpResponseRedirect(question.get_absolute_url())
+            request.user.retag_question(question=question, tags=form.cleaned_data['tags'])
 
-    try:
-        revision = question.revisions.get(revision=0)
-    except models.PostRevision.DoesNotExist:
-        revision = question.get_latest_revision()
-
-    revision_form = None
-
-    try:
-        request.user.assert_can_edit_question(question)
-        if request.method == 'POST':
-            if request.POST['select_revision'] == 'true':
-                #revert-type edit - user selected previous revision
-                revision_form = forms.RevisionForm(
-                                                question,
-                                                revision,
-                                                request.POST
-                                            )
-                if revision_form.is_valid():
-                    # Replace with those from the selected revision
-                    rev_id = revision_form.cleaned_data['revision']
-                    revision = question.revisions.get(revision = rev_id)
-                    form = forms.EditQuestionForm(
-                                            question=question,
-                                            user=request.user,
-                                            revision=revision
-                                        )
-                else:
-                    form = forms.EditQuestionForm(
-                                            request.POST,
-                                            question=question,
-                                            user=question.user,
-                                            revision=revision
-                                        )
-            else:#new content edit
-                # Always check modifications against the latest revision
-                form = forms.EditQuestionForm(
-                                        request.POST,
-                                        question=question,
-                                        revision=revision,
-                                        user=request.user,
-                                    )
-                revision_form = forms.RevisionForm(question, revision)
-                if form.is_valid():
-                    if form.has_changed():
-
-                        if form.can_edit_anonymously() and form.cleaned_data['reveal_identity']:
-                            question.thread.remove_author_anonymity()
-                            question.is_anonymous = False
-
-                        is_wiki = form.cleaned_data.get('wiki', question.wiki)
-                        post_privately = form.cleaned_data['post_privately']
-                        suppress_email = form.cleaned_data['suppress_email']
-
-                        user = form.get_post_user(request.user)
-
-                        content = question.get_text_content(title=form.cleaned_data['title'],
-                                                            body_text=form.cleaned_data['text'],
-                                                            tags=form.cleaned_data['tags'])
-                        if akismet_check_spam(content, request):
-                            message = _('Spam was detected on your post, sorry if it was a mistake')
-                            raise exceptions.PermissionDenied(message)
-
-                        user.edit_question(
-                            question=question,
-                            title=form.cleaned_data['title'],
-                            body_text=form.cleaned_data['text'],
-                            revision_comment=form.cleaned_data['summary'],
-                            tags=form.cleaned_data['tags'],
-                            wiki=is_wiki,
-                            edit_anonymously=form.cleaned_data['edit_anonymously'],
-                            is_private=post_privately,
-                            suppress_email=suppress_email,
-                            ip_addr=request.META.get('REMOTE_ADDR')
-                        )
-
-                        if 'language' in form.cleaned_data:
-                            question.thread.set_language_code(form.cleaned_data['language'])
-
-                    return HttpResponseRedirect(question.get_absolute_url())
-        else:
-            #request type was "GET"
-            revision_form = forms.RevisionForm(question, revision)
-            initial = {
-                'language': question.thread.language_code,
-                'post_privately': question.is_private(),
-                'wiki': question.wiki
-            }
-            form = forms.EditQuestionForm(
-                                    question=question,
-                                    revision=revision,
-                                    user=request.user,
-                                    initial=initial
-                                )
-
-        data = {
-            'page_class': 'edit-question-page',
-            'active_tab': 'questions',
-            'question': question,
-            'revision': revision,
-            'revision_form': revision_form,
-            'mandatory_tags': models.tag.get_mandatory_tags(),
-            'form' : form,
-            'tag_names': question.thread.get_tag_names(),
-            'category_tree_data': askbot_settings.CATEGORY_TREE
+        response_data = {
+            'success': True,
+            'new_tags': question.thread.tagnames
         }
-        data.update(context.get_for_tag_editor())
-        return render(request, 'question_edit.html', data)
+        if request.user.message_set.count() > 0:
+            message = request.user.get_and_delete_messages()[-1]
+            response_data['message'] = message
+
+        data = json.dumps(response_data)
+        return HttpResponse(data, content_type="application/json")
 
     except exceptions.PermissionDenied as e:
-        request.user.message_set.create(message = str(e))
-        return HttpResponseRedirect(question.get_absolute_url())
+        response_data = {
+            'message': str(e),
+            'success': False
+        }
+        data = json.dumps(response_data)
+        return HttpResponse(data, content_type="application/json")
+
 
 @login_required
 @csrf.csrf_protect
@@ -575,7 +437,7 @@ def edit_answer(request, id):
 
                         text = form.cleaned_data['text']
                         if akismet_check_spam(text, request):
-                            message = _('Spam was detected on your post, sorry if it was a mistake')
+                            message = _('Spam was detected in the post')
                             raise exceptions.PermissionDenied(message)
 
                         user.edit_answer(
@@ -602,7 +464,6 @@ def edit_answer(request, id):
                 form.initial['post_privately'] = answer.is_private()
 
         data = {
-            'page_class': 'edit-answer-page',
             'active_tab': 'questions',
             'answer': answer,
             'revision': revision,
@@ -664,7 +525,7 @@ def answer(request, id, form_class=forms.AnswerForm):#process a new answer
                 try:
                     text = form.cleaned_data['text']
                     if akismet_check_spam(text, request):
-                        message = _('Spam was detected on your post, sorry if it was a mistake')
+                        message = _('Spam was detected in the post')
                         raise exceptions.PermissionDenied(message)
 
                     answer = form.save(
@@ -810,7 +671,7 @@ def post_comments(request):#generic ajax handler to load comments to an object
 
             text = form.cleaned_data['comment']
             if akismet_check_spam(text, request):
-                message = _('Spam was detected on your post, sorry if it was a mistake')
+                message = _('Spam was detected in the post')
                 raise exceptions.PermissionDenied(message)
 
             comment = user.post_comment(
@@ -843,7 +704,7 @@ def edit_comment(request):
         raise exceptions.PermissionDenied('This content is forbidden')
 
     if akismet_check_spam(form.cleaned_data['comment'], request):
-        message = _('Spam was detected on your post, sorry if it was a mistake')
+        message = _('Spam was detected in the post')
         raise exceptions.PermissionDenied(message)
 
     comment_post = models.Post.objects.get(

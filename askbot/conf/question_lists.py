@@ -36,7 +36,7 @@ settings.register(
     livesettings.BooleanValue(
         QUESTION_LISTS,
         'FOLLOWED_SCOPE_ENABLED',
-        default=True,
+        default=False,
         description=_('Enable "Followed Questions" selector'),
         help_text=_('At least one of these selectors must be enabled')
     )

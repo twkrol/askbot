@@ -53,7 +53,7 @@ settings.register(
         SIDEBAR_MAIN,
         'SIDEBAR_MAIN_AVATAR_LIMIT',
         description=_('Limit how many avatars will be displayed on the sidebar'),
-        default=16
+        default=20
     )
 )
 

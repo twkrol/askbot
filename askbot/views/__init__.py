@@ -9,7 +9,6 @@ from askbot.views import moderation
 from askbot.views import readers
 from askbot.views import sharing
 from askbot.views import users
-from askbot.views import widgets
 from askbot.views import writers
 from django.conf import settings as django_settings
 if 'avatar' in django_settings.INSTALLED_APPS:

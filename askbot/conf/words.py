@@ -96,7 +96,7 @@ settings.register(
             'This space is reserved only for answers. '
             'If you would like to engage in a discussion, '
             'please instead post a comment under the question or '
-            'an answer that you would like to discuss'
+            'an answer that you would like to discuss.'
         ),
         description=_('Instruction to give answers'),
         help_text=_('HTML is allowed'),
@@ -473,7 +473,7 @@ settings.register(
     values.StringValue(
         WORDS,
         'WORDS_SHOW_ONLY_QUESTIONS_FROM',
-        default=_('Show only questions from'),
+        default=_('Show questions from'),
         description=_('Show only questions from'),
         localized=True
     )
@@ -523,8 +523,8 @@ settings.register(
     values.StringValue(
         WORDS,
         'WORDS_ONLY_ONE_ANSWER_PER_USER_IS_ALLOWED',
-        default=_('(only one answer per user is allowed)'),
-        description=_('Only one answer per user is allowed'),
+        default=_('You already gave an answer and only one answer per user is allowed.'),
+        description=_('You already gave an answer and only one answer per user is allowed.'),
         localized=True
     )
 )
@@ -704,8 +704,8 @@ settings.register(
     values.StringValue(
         WORDS,
         'WORDS_COMMUNITY_GIVES_YOU_AWARDS',
-        default=_('Community gives you awards for your questions, answers and votes'),
-        description=_('Community gives you awards for your questions, answers and votes'),
+        default=_('Community gives you awards for your questions, answers and votes.'),
+        description=_('Community gives you awards for your questions, answers and votes.'),
         localized=True
     )
 )

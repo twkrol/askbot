@@ -68,8 +68,8 @@
         var data = prepareData(this);
         if (!isNaN(data.datetime)) {
             $(this)
-                .text(inWords(data.datetime))
-                .fadeIn();
+            .text(inWords(data.datetime))
+            .fadeIn().css('display', 'inline-block');
         }
         return this;
     }
@@ -139,4 +139,4 @@
     document.createElement("time");
 })(jQuery);
 //run timeago
-$("abbr.timeago").timeago();
+$("abbr.js-timeago").timeago();

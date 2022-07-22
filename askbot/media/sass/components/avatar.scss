@@ -1,0 +1,15 @@
+.js-avatar-box {
+  position: relative;
+  text-decoration: none;
+}
+.js-avatar {
+  border-radius: 50%;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+}
+.reputation-badge {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: 0;
+}

@@ -1,0 +1,35 @@
+<div class="user-info-avatar-block">
+  {{ macros.gravatar(view_user, 128, hide_rep=True) }}
+  {% if request.user.pk == view_user.pk %}
+    <a
+      {% if support_custom_avatars %}
+        href="{{ url('askbot_avatar_show_list',  view_user.id ) }}"
+      {% else %}
+        href="{{ url('faq') }}#gravatar"
+      {% endif %}
+    >{% trans %}change picture{% endtrans %}</a>
+  {% endif %}
+  {% if user_follow_feature_on and request.user != view_user %}
+    {# User follow button #}
+    {% if request.user.is_authenticated %}
+      {% set is_following = request.user.is_following(view_user) %}
+    {% else %}
+      {% set is_following = False %}
+    {% endif %}
+    <button class="js-follow-user btn"
+      data-is-on="{{ is_following|as_js_bool }}"
+      data-off-prompt-text="{% trans %}unfollow{% endtrans %}"
+      data-on-prompt-text="{% trans %}follow{% endtrans %}"
+      data-min-lines="10"
+      data-on-state-text="{% trans %}following{% endtrans %}"
+      data-off-state-text="{% trans %}follow{% endtrans %}"
+      data-toggle-url="{{ url('toggle_follow_object', model_name='user', object_id=view_user.id) }}"
+    >
+      {% if is_following %}
+        {% trans %}following{% endtrans %}
+      {% else %}
+        {% trans %}follow{% endtrans %}
+      {% endif %}
+    </button>
+  {% endif %}
+</div>

@@ -1,0 +1,59 @@
+<nav class="js-meta-nav">
+  <div class="meta-nav-trigger with-bars-icon js-dropdown-trigger"></div>
+  <ul class="js-dropdown-target">
+    <li>
+      <a href="{{ url('tags') }}"
+        class="with-tags-icon{% if active_tab == 'tags' %} selected{% endif %}"
+      >
+        {% trans %}tags{% endtrans %}
+      </a>
+    </li>
+    <li>
+      <a href="{{ url('users') }}"
+        class="with-users-icon{% if active_tab == 'users' %} selected{% endif %}"
+      >
+        {% trans %}users{% endtrans %}
+      </a>
+    </li>
+    {% if settings.BADGES_MODE == 'public' %}
+    <li>
+      <a
+        href="{{ url('badges') }}"
+        class="with-badges-icon{% if active_tab == 'badges' %} selected{% endif %}"
+      >
+        {% trans %}badges{% endtrans %}
+      </a>
+    </li>
+    {% endif %}
+    {% if request.user.is_authenticated and request.user.is_administrator() %}
+    <li>
+      <a class="with-settings-icon" href="{{ url('satchmo_site_settings') }}">
+        {% trans %}settings{% endtrans %}
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+  <script>
+    (function() {
+      var metaNav = document.getElementsByClassName('js-meta-nav')[0];
+      var doc = window.document.documentElement;
+      var style = getComputedStyle(doc);
+      var breakpoint = parseInt(style.getPropertyValue('--meta-nav-dropdown-breakpoint'));
+      if (window.innerWidth <= breakpoint) {
+        metaNav.classList.add('js-dropdown-menu');
+      }
+      var ro = new ResizeObserver(function() {
+        if (window.innerWidth <= breakpoint) {
+          metaNav.classList.add('js-dropdown-menu');
+          if (typeof DropdownMenu !== 'undefined') {
+            var menu = new DropdownMenu();
+            menu.decorate(metaNav);
+          }
+        } else {
+          metaNav.classList.remove('js-dropdown-menu');
+        }
+      })
+      ro.observe(document.body);
+    })();
+  </script>
+</nav>

@@ -443,7 +443,7 @@ EXCLUDE_IGNORED = 1
 INCLUDE_INTERESTING = 2
 INCLUDE_SUBSCRIBED = 3
 TAG_DISPLAY_FILTER_STRATEGY_MINIMAL_CHOICES = (
-    (INCLUDE_ALL, _('show all tags')),
+    (INCLUDE_ALL, _('all tags')),
     (EXCLUDE_IGNORED, _('exclude ignored tags')),
     (INCLUDE_INTERESTING, _('only interesting tags'))
 )
@@ -452,19 +452,19 @@ TAG_DISPLAY_FILTER_STRATEGY_CHOICES = \
     ((INCLUDE_SUBSCRIBED, _('only subscribed tags')),)
 
 TAG_EMAIL_FILTER_SIMPLE_STRATEGY_CHOICES = (
-    (INCLUDE_ALL, _('subscribe to all tags')),
+    (INCLUDE_ALL, _('all tags')),
     (EXCLUDE_IGNORED, _('exclude ignored tags')),
     (INCLUDE_INTERESTING, _('only interesting tags')),
 )
 
 TAG_EMAIL_FILTER_ADVANCED_STRATEGY_CHOICES = (
-    (INCLUDE_ALL, _('subscribe to all tags')),
+    (INCLUDE_ALL, _('all tags')),
     (EXCLUDE_IGNORED, _('exclude ignored tags')),
     (INCLUDE_SUBSCRIBED, _('only subscribed tags')),
 )
 
 TAG_EMAIL_FILTER_FULL_STRATEGY_CHOICES = (
-    (INCLUDE_ALL, _('subscribe to all tags')),
+    (INCLUDE_ALL, _('all tags')),
     (EXCLUDE_IGNORED, _('exclude ignored tags')),
     (INCLUDE_INTERESTING, _('only interesting tags')),
     (INCLUDE_SUBSCRIBED, _('only subscribed tags')),
@@ -554,9 +554,9 @@ BADGE_TYPE_CHOICES = ((GOLD_BADGE, _('gold')),
                       (BRONZE_BADGE, _('bronze')))
 
 BADGE_CSS_CLASSES = {
-    GOLD_BADGE: 'badge1',
-    SILVER_BADGE: 'badge2',
-    BRONZE_BADGE: 'badge3',
+    GOLD_BADGE: 'badge with-gold-badge-icon',
+    SILVER_BADGE: 'badge with-silver-badge-icon',
+    BRONZE_BADGE: 'badge with-bronze-badge-icon',
 }
 BADGE_DISPLAY_SYMBOL = '&#9679;'
 

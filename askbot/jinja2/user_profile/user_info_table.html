@@ -1,0 +1,87 @@
+<table class="user-info-table">
+  <tr>
+    <th>
+      <h3>{{ view_user.get_status_display() }}</h3>
+    </th>
+    <th>
+      <a href="{{ url('edit_user',  view_user.id ) }}">
+        {% trans %}update profile{% endtrans %}
+      </a>
+    </th>
+  </tr>
+  {% if view_user.real_name %}
+  <tr>
+      <td>{% trans %}real name{% endtrans %}</td>
+      <td><b>{{view_user.real_name|escape}}</b></td>
+  </tr>
+  {% endif %}
+  {% if request.user|can_see_private_user_data(view_user) %}
+  <tr>
+    <td>{% trans %}email{% endtrans %}</td>
+    <td>{{view_user.email}}</td>
+  </tr>
+  {% endif %}
+  {% if settings.GROUPS_ENABLED %}
+  <tr>
+    <td>{% trans %}groups{% endtrans %}</td>
+    <td>
+      <div class='js-user-groups'>
+        {% for group in user_groups %}
+          {{ macros.user_group_link(group) }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+        <a class="js-add-group">({% trans %}edit{% endtrans %})</a>
+      </div>
+    </td>
+  </tr>
+  {% endif %}
+  <tr>
+    <td>{% trans %}member since{% endtrans %}</td>
+    <td><strong>{{ macros.timeago(view_user.date_joined) }}</strong></td>
+  </tr>
+  {% if view_user.last_seen %}
+    <tr>
+      <td>{% trans %}last seen{% endtrans %}</td>
+      <td><strong title="{{ view_user.last_seen }}">{{ macros.timeago(view_user.last_seen) }}</strong></td>
+    </tr>
+  {% endif %}
+  {% if view_user.website and show_profile_info %}
+    <tr>
+      <td>{% trans %}website{% endtrans %}</td>
+      <td>
+        {{ macros.user_website_link(
+          view_user,
+          max_display_length=30,
+          force_show=show_profile_info
+        )}}
+      </td>
+    </tr>
+  {% endif  %}
+  {% if request.user == view_user and
+      settings.TWITTER_SECRET and
+      settings.TWITTER_KEY and
+      settings.ENABLE_SHARING_TWITTER
+  %}
+      {% include "user_profile/twitter_sharing_controls.html" %}
+  {% endif %}
+  {% if view_user.location or (view_user.country and view_user.country.code != 'none') %}
+  <tr>
+    <td>{% trans %}location{% endtrans %}</td>
+    <td>{{ macros.user_full_location(view_user) }}</td>
+  </tr>
+  {% endif %}
+  {% if votes_today_left %}
+  <tr>
+    <td>{% trans %}todays unused votes{% endtrans %}</td>
+    <td>{{ votes_today_left }}</td>
+  </tr>
+  {% endif %}
+  {% if total_votes %}
+    <tr>
+      <td>{% trans %}votes{% endtrans %}</td>
+      <td>
+        <span class='with-upvote-icon'>{{ up_votes }}</span>
+        <span class='with-downvote-icon'>{{ down_votes }}</span>
+      </td>
+    </tr>
+  {% endif %}
+</table>

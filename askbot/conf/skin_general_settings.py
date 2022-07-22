@@ -52,7 +52,7 @@ settings.register(
         help_text=_(
             'To change the logo, select new file, then submit '
             'this whole form.'),
-        default='/images/logo.gif',
+        default='/images/askbot-logo.svg',
         url_resolver=skin_utils.get_media_url
     )
 )
@@ -83,7 +83,7 @@ settings.register(
             'Check if you want to show logo in the forum header '
             'or uncheck in the case you do not want the logo to '
             'appear in the default location'),
-        default=False
+        default=True
     )
 )
 

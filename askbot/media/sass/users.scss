@@ -1,0 +1,14 @@
+.js-group-settings {
+  label[for="group-openness-selector"] {
+    display: block;
+    margin-bottom: 0.125rem;
+  }
+  .row.with-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    input[type="checkbox"] {
+      margin: 1px 0.25rem 0 0;
+    }
+  }
+}

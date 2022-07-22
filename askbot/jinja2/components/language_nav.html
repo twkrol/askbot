@@ -1,0 +1,16 @@
+<nav class="language-nav js-dropdown-menu">
+  <div class="current-language with-globe-icon js-dropdown-trigger">{{ settings.LANGUAGES_DICT[current_language_code] }}</div>
+  <ul class="js-dropdown-target">
+    {% for lang in settings.LANGUAGES_DICT %}
+      {% if lang != current_language_code %}
+      <li>
+        <a href="/{{ lang }}/{{ settings.ASKBOT_URL }}"
+           data-lang="{{ lang }}"
+        >
+          {{ settings.LANGUAGES_DICT[lang] }}
+        </a>
+      </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</span>

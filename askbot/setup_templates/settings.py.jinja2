@@ -87,7 +87,6 @@ ASKBOT_LANGUAGE_MODE = 'single-lang' #'single-lang', 'url-lang', 'user-lang'
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'askbot', 'upfiles')
 MEDIA_URL = '/upfiles/' # url to uploaded media. This is expected to start with a /
 STATIC_URL = '/m/'#this must be different from MEDIA_URL
-USE_LOCAL_FONTS = False
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')#path to files collected by collectstatic
 
@@ -203,6 +202,7 @@ INSTALLED_APPS = (
     'livesettings',
     'robots',
     'tinymce',
+    'djcelery'
 )
 
 
@@ -299,8 +299,7 @@ ALLOW_UNICODE_SLUGS = False
 ASKBOT_USE_STACKEXCHANGE_URLS = False #mimic url scheme of stackexchange
 
 #Celery Settings
-BROKER_TRANSPORT = "kombu.transport.memory.Transport"
-CELERY_ALWAYS_EAGER = True
+CELERY_TASK_ALWAYS_EAGER = True
 
 DOMAIN_NAME = ''
 
@@ -338,7 +337,7 @@ TINYMCE_JS_URL = STATIC_URL + 'default/media/tinymce/tiny_mce.js'
 TINYMCE_DEFAULT_CONFIG = {
     'convert_urls': False,
     'theme': 'advanced',
-    'content_css': STATIC_URL + 'default/media/style/tinymce/content.css',
+    'content_css': STATIC_URL + 'default/media/css/tinymce/content.css',
     'force_br_newlines': True,
     'force_p_newlines': False,
     'forced_root_block': '',
@@ -386,6 +385,9 @@ VERIFIER_EXPIRE_DAYS = 3
 AVATAR_AUTO_GENERATE_SIZES = (16, 32, 48, 128) #change if avatars are sized differently
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+import djcelery
+djcelery.setup_loader()
 
 #class DisableMigrations(object):
 #    def __contains__(self, item):

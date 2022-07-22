@@ -1,0 +1,30 @@
+{% if badges %}
+<section id="badges" class="user-stats-badges">
+  <h2>{% trans counter=total_badges %}<span class="count">{{counter}}</span> Badge{% pluralize %}<span class="count">{{counter}}</span> Badges{% endtrans %}</h2>
+  <div class="badges-list">
+    {% for badge, badge_user_awards in badges %}
+      <div class="nowrap">
+        <a href="{{badge.get_absolute_url()}}"
+           title="{% trans description=badge.get_description() %}{{description}}{% endtrans %}"
+           class="{{ badge.get_css_class() }}"
+        >{{ badge.get_name() }}
+        </a>
+        {{ macros.used_count(badge_user_awards|length|intcomma) }}
+      </div>
+      {#
+      <ul id="badge-context-{{ badge.id }}" class="badge-context-list" style="display:none">
+          {% for award in badge_user_awards %}
+              {% if award.content_object and award.content_object_is_post %}
+              <li>
+                  <a
+                      href="{{ award.content_object.get_absolute_url() }}"
+                  >{% if award.content_type.post_type == 'answer' %}{% trans %}Answer to:{% endtrans %}{% endif %} {{ award.content_object.thread.title|escape }}</a>
+              </li>
+              {% endif %}
+          {% endfor %}
+      </ul>
+      #}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

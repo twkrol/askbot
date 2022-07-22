@@ -1,0 +1,33 @@
+<div class="search-posts-nav">
+  {% if prev_post %}
+    <a 
+      class="search-posts-prev"
+      href="{{ url('search_posts') }}?post_id={{prev_post.pk}}{% if query_string %}&q={{ query_string|safe_urlquote}}{% endif %}"
+    >{% trans %}prev.{% endtrans %}</a>
+  {% endif %}
+  <form class="search-posts-by-ord-form" method="POST">
+    {{ csrf_input }}
+    <input 
+      name="q"
+      type="hidden"
+      value="{{ query_string }}"
+    />
+    <a class="search-posts-current with-clone-icon" href="{{ url('search_posts') }}?post_id={{post.pk}}{% if query_string %}&q={{ query_string|safe_urlquote}}{% endif %}">
+    </a><input 
+      name="post_ord"
+      type="text"
+      value="{{ post_ord }}"
+    /><span class="search-posts-total-count">
+      {% trans %}of{% endtrans %} {{ posts_count }}
+    </span><input
+      class="btn"
+      type="submit"
+      value="{% trans %}go{% endtrans %}"
+    />
+  </form>
+  {% if next_post %}
+    <a class="search-posts-next"
+      href="{{ url('search_posts') }}?post_id={{next_post.pk}}{% if query_string %}&q={{ query_string|safe_urlquote}}{% endif %}"
+    >next</a>
+  {% endif %}
+</div>

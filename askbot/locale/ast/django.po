@@ -412,8 +412,8 @@ msgid "subscribe-for-tags/"
 msgstr "suscribite-a-etiquetes/"
 
 #: urls.py:201 urls.py:207 urls.py:213 urls.py:221
-#: skins/default/templates/main_page/javascript.html:39
-#: skins/default/templates/main_page/javascript.html:42
+#: skins/default/templates/questions/javascript.html:39
+#: skins/default/templates/questions/javascript.html:42
 msgid "users/"
 msgstr "usuarios/"
 
@@ -445,8 +445,8 @@ msgstr "xubir/"
 msgid "feedback/"
 msgstr "comentarios/"
 
-#: urls.py:300 skins/default/templates/main_page/javascript.html:38
-#: skins/default/templates/main_page/javascript.html:41
+#: urls.py:300 skins/default/templates/questions/javascript.html:38
+#: skins/default/templates/questions/javascript.html:41
 #: skins/default/templates/question/javascript.html:15
 #: skins/default/templates/question/javascript.html:18
 msgid "question/"
@@ -4929,7 +4929,7 @@ msgstr ""
 msgid "%(seen)s flagged posts"
 msgstr ""
 
-#: skins/default/templates/main_page.html:11
+#: skins/default/templates/questions.html:11
 msgid "Questions"
 msgstr ""
 
@@ -5036,7 +5036,7 @@ msgid "Tags, matching \"%(stag)s\""
 msgstr ""
 
 #: skins/default/templates/tags.html:14 skins/default/templates/users.html:9
-#: skins/default/templates/main_page/tab_bar.html:14
+#: skins/default/templates/questions/tab_bar.html:14
 msgid "Sort by &raquo;"
 msgstr ""
 
@@ -5102,104 +5102,104 @@ msgstr ""
 msgid "Nothing found."
 msgstr ""
 
-#: skins/default/templates/main_page/headline.html:4 views/readers.py:160
+#: skins/default/templates/questions/headline.html:4 views/readers.py:160
 #, python-format
 msgid "%(q_num)s question"
 msgid_plural "%(q_num)s questions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: skins/default/templates/main_page/headline.html:6
+#: skins/default/templates/questions/headline.html:6
 #, python-format
 msgid "with %(author_name)s's contributions"
 msgstr ""
 
-#: skins/default/templates/main_page/headline.html:12
+#: skins/default/templates/questions/headline.html:12
 msgid "Tagged"
 msgstr ""
 
-#: skins/default/templates/main_page/headline.html:23
+#: skins/default/templates/questions/headline.html:23
 msgid "Search tips:"
 msgstr ""
 
-#: skins/default/templates/main_page/headline.html:26
+#: skins/default/templates/questions/headline.html:26
 msgid "reset author"
 msgstr ""
 
-#: skins/default/templates/main_page/headline.html:28
-#: skins/default/templates/main_page/headline.html:31
-#: skins/default/templates/main_page/nothing_found.html:18
-#: skins/default/templates/main_page/nothing_found.html:21
+#: skins/default/templates/questions/headline.html:28
+#: skins/default/templates/questions/headline.html:31
+#: skins/default/templates/questions/nothing_found.html:18
+#: skins/default/templates/questions/nothing_found.html:21
 msgid " or "
 msgstr ""
 
-#: skins/default/templates/main_page/headline.html:29
+#: skins/default/templates/questions/headline.html:29
 msgid "reset tags"
 msgstr ""
 
-#: skins/default/templates/main_page/headline.html:32
-#: skins/default/templates/main_page/headline.html:35
+#: skins/default/templates/questions/headline.html:32
+#: skins/default/templates/questions/headline.html:35
 msgid "start over"
 msgstr ""
 
-#: skins/default/templates/main_page/headline.html:37
+#: skins/default/templates/questions/headline.html:37
 msgid " - to expand, or dig in by adding more tags and revising the query."
 msgstr ""
 
-#: skins/default/templates/main_page/headline.html:40
+#: skins/default/templates/questions/headline.html:40
 msgid "Search tip:"
 msgstr ""
 
-#: skins/default/templates/main_page/headline.html:40
+#: skins/default/templates/questions/headline.html:40
 msgid "add tags and a query to focus your search"
 msgstr ""
 
-#: skins/default/templates/main_page/nothing_found.html:4
+#: skins/default/templates/questions/nothing_found.html:4
 msgid "There are no unanswered questions here"
 msgstr ""
 
-#: skins/default/templates/main_page/nothing_found.html:7
+#: skins/default/templates/questions/nothing_found.html:7
 msgid "No questions here. "
 msgstr ""
 
-#: skins/default/templates/main_page/nothing_found.html:8
+#: skins/default/templates/questions/nothing_found.html:8
 msgid "Please follow some questions or follow some users."
 msgstr ""
 
-#: skins/default/templates/main_page/nothing_found.html:13
+#: skins/default/templates/questions/nothing_found.html:13
 msgid "You can expand your search by "
 msgstr ""
 
-#: skins/default/templates/main_page/nothing_found.html:16
+#: skins/default/templates/questions/nothing_found.html:16
 msgid "resetting author"
 msgstr ""
 
-#: skins/default/templates/main_page/nothing_found.html:19
+#: skins/default/templates/questions/nothing_found.html:19
 msgid "resetting tags"
 msgstr ""
 
-#: skins/default/templates/main_page/nothing_found.html:22
-#: skins/default/templates/main_page/nothing_found.html:25
+#: skins/default/templates/questions/nothing_found.html:22
+#: skins/default/templates/questions/nothing_found.html:25
 msgid "starting over"
 msgstr ""
 
-#: skins/default/templates/main_page/nothing_found.html:30
+#: skins/default/templates/questions/nothing_found.html:30
 msgid "Please always feel free to ask your question!"
 msgstr ""
 
-#: skins/default/templates/main_page/questions_loop.html:12
+#: skins/default/templates/questions/questions_loop.html:12
 msgid "Did not find what you were looking for?"
 msgstr ""
 
-#: skins/default/templates/main_page/questions_loop.html:13
+#: skins/default/templates/questions/questions_loop.html:13
 msgid "Please, post your question!"
 msgstr ""
 
-#: skins/default/templates/main_page/tab_bar.html:9
+#: skins/default/templates/questions/tab_bar.html:9
 msgid "subscribe to the questions feed"
 msgstr ""
 
-#: skins/default/templates/main_page/tab_bar.html:10
+#: skins/default/templates/questions/tab_bar.html:10
 msgid "RSS"
 msgstr ""
 
@@ -5984,19 +5984,19 @@ msgstr ""
 msgid "please try provide enough details"
 msgstr ""
 
-#: skins/default/templates/widgets/question_summary.html:12
+#: skins/default/templates/questions/question_summary.html:12
 msgid "view"
 msgid_plural "views"
 msgstr[0] ""
 msgstr[1] ""
 
-#: skins/default/templates/widgets/question_summary.html:29
+#: skins/default/templates/questions/question_summary.html:29
 msgid "answer"
 msgid_plural "answers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: skins/default/templates/widgets/question_summary.html:40
+#: skins/default/templates/questions/question_summary.html:40
 msgid "vote"
 msgid_plural "votes"
 msgstr[0] ""

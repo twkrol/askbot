@@ -1,0 +1,16 @@
+.user-info-table,
+.user-votes-list {
+  .with-upvote-icon,
+  .with-downvote-icon {
+    color: var(--bg-color);
+    display: inline-block;
+    height: 1.5rem;
+    padding: 0.125rem 0.25rem;
+  }
+  .with-upvote-icon {
+    background: var(--clr-green-40);
+  }
+  .with-downvote-icon {
+    background: var(--clr-danger);
+  }
+}

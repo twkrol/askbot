@@ -1017,6 +1017,11 @@ class EmailAlertTestsWithGroupsEnabled(utils.AskbotTestCase):
     def setUp(self):
         self.backup = askbot_settings.GROUPS_ENABLED
         askbot_settings.update('GROUPS_ENABLED', True)
+        everyone = models.Group.objects.get_global_group()
+        everyone.can_post_questions = True
+        everyone.can_post_answers = True
+        everyone.can_post_comments = True
+        everyone.save()
 
     def tearDown(self):
         askbot_settings.update('GROUPS_ENABLED', self.backup)
@@ -1074,15 +1079,15 @@ class PostApprovalTests(utils.AskbotTestCase):
         self.assertEqual(outbox[0].recipients(), [self.u1.email])
 
     def test_moderated_question_answerable_approval_notification(self):
-        u1 = self.create_user('user1', status = 'w')
-        question = self.post_question(user = u1, by_email = True)
+        u1 = self.create_user('user1', status='w')
+        question = self.post_question(user=u1, by_email=True)
 
         self.assertEqual(question.approved, False)
 
-        u2 = self.create_user('admin', status = 'd')
+        u2 = self.create_user('admin', status='d')
 
         self.assertEqual(question.revisions.count(), 1)
-        u2.approve_post_revision(question.get_latest_revision())
+        u2.approve_post_revision(question.revisions.all()[0])
 
         outbox = django.core.mail.outbox
         self.assertEqual(len(outbox), 2)

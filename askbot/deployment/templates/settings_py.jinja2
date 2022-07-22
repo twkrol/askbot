@@ -186,8 +186,8 @@ ALLOW_UNICODE_SLUGS = False
 ASKBOT_USE_STACKEXCHANGE_URLS = False #mimic url scheme of stackexchange
 
 #Celery Settings
-BROKER_TRANSPORT = "kombu.transport.memory.Transport"
-CELERY_ALWAYS_EAGER = True
+CELERY_BROKER_TRANSPORT = "kombu.transport.memory.Transport"
+CELERY_TASK_ALWAYS_EAGER = True
 
 CSRF_COOKIE_NAME = '_csrf'
 
@@ -231,8 +231,8 @@ TINYMCE_DEFAULT_CONFIG = {
     'height': '250'
 }
 
-#delayed notifications, time in seconds, 15 mins by default
-NOTIFICATION_DELAY_TIME = 60 * 15
+#delayed notifications, time in seconds, 5 mins by default
+NOTIFICATION_DELAY_TIME = 60 * 5
 
 GROUP_MESSAGING = {
     'BASE_URL_GETTER_FUNCTION': 'askbot.models.user_get_profile_url',
@@ -252,7 +252,9 @@ JINJA2_TEMPLATES = ('captcha',) # FIXME: unused but checked in startup_procedure
 
 VERIFIER_EXPIRE_DAYS = 3
 AVATAR_AUTO_GENERATE_SIZES = (16, 32, 48, 128) #change if avatars are sized differently
+AVATAR_THUMB_FORMAT = 'PNG'
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 {{ extra_settings }}

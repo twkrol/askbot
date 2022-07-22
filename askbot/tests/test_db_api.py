@@ -18,11 +18,7 @@ from askbot import models
 from askbot import const
 from askbot.conf import settings as askbot_settings
 
-class DBApiTests(AskbotTestCase):
-    """tests methods on User object,
-    that were added for askbot
-    """
-
+class DBApiTestsBase(AskbotTestCase):
     def setUp(self):
         self.create_user()
         self.create_user(username = 'other_user')
@@ -35,11 +31,14 @@ class DBApiTests(AskbotTestCase):
         if question is None:
             question = self.question
 
-        self.answer = super(DBApiTests, self).post_answer(
-                                                user = user,
-                                                question = question,
-                                            )
+        self.answer = super().post_answer(user=user, question=question)
         return self.answer
+
+
+class DBApiTests(DBApiTestsBase):
+    """tests methods on User object,
+    that were added for askbot
+    """
 
     def assert_post_is_deleted(self, post):
         self.assertTrue(post.deleted == True)
@@ -56,23 +55,6 @@ class DBApiTests(AskbotTestCase):
         self.assertEqual(
             models.Tag.objects.filter(name='').count(),
             0
-        )
-
-    def test_flag_question(self):
-        self.user.set_status('m')
-        self.user.flag_post(self.question)
-        self.assertEqual(
-            self.user.get_flags().count(),
-            1
-        )
-
-    def test_flag_answer(self):
-        self.post_answer()
-        self.user.set_status('m')
-        self.user.flag_post(self.answer)
-        self.assertEqual(
-            self.user.get_flags().count(),
-            1
         )
 
     def ask_anonymous_question(self):
@@ -445,6 +427,11 @@ class GroupTests(AskbotTestCase):
     def setUp(self):
         self.u1 = self.create_user('u1')
         askbot_settings.update('GROUPS_ENABLED', True)
+        everyone = models.Group.objects.get_global_group()
+        everyone.can_post_questions = True
+        everyone.can_post_answers = True
+        everyone.can_post_comments = True
+        everyone.save()
 
     def tearDown(self):
         askbot_settings.update('GROUPS_ENABLED', False)
@@ -495,6 +482,10 @@ class GroupTests(AskbotTestCase):
 
     def test_posts_added_to_private_group(self):
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
         self.u1.join_group(group)
 
         q = self.post_question(user=self.u1, is_private=True)
@@ -533,6 +524,10 @@ class GroupTests(AskbotTestCase):
         question = self.post_question(user=self.u1)
         comment = self.post_comment(parent_post=question, user=self.u1)
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
         self.u1.join_group(group)
         self.edit_question(question=question, user=self.u1, is_private=True)
         self.assertEqual(question.groups.count(), 2)
@@ -546,6 +541,11 @@ class GroupTests(AskbotTestCase):
         answer = self.post_answer(question=question, user=self.u1)
         comment = self.post_comment(parent_post=answer, user=self.u1)
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
+
         self.u1.join_group(group)
 
         #membership in `group` should not affect things,
@@ -567,6 +567,10 @@ class GroupTests(AskbotTestCase):
 
         u2 = self.create_user('u2')
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
         u2.join_group(group)
 
         answer = self.post_answer(question=question, user=u2, is_private=True)
@@ -586,6 +590,10 @@ class GroupTests(AskbotTestCase):
     def test_thread_answer_count_for_multiple_groups(self):
         question = self.post_question(self.u1)
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
         self.u1.join_group(group)
         answer = self.post_answer(question=question, user=self.u1)
         answer.add_to_groups((group,))
@@ -594,6 +602,10 @@ class GroupTests(AskbotTestCase):
 
     def test_thread_make_public_recursive(self):
         private_group = self.create_group(group_name='private')
+        private_group.can_post_questions = True
+        private_group.can_post_answers = True
+        private_group.can_post_commentss = True
+        private_group.save()
         self.u1.join_group(private_group)
         data = self.post_question_answer_and_comments(is_private=True)
 
@@ -614,10 +626,40 @@ class GroupTests(AskbotTestCase):
         self.assertObjectGroupsEqual(data['answer'], groups)
         self.assertObjectGroupsEqual(data['answer_comment'], groups)
 
+    def test_thread_make_private(self):
+        question = self.post_question(user=self.u1)
+        answer = self.post_answer(question=question, user=self.u1)
+        answer.make_private(self.u1)
+        group = models.Group.objects.get_global_group()
+        self.assertTrue(group in question.thread.groups.all())
+        self.assertTrue(group in question.groups.all())
+        question.thread.make_private(self.u1)
+        self.assertTrue(group not in question.thread.groups.all())
+        self.assertTrue(group not in question.groups.all())
+        self.assertTrue(group not in answer.groups.all())
+        question.thread.make_public()
+        self.assertTrue(group in question.thread.groups.all())
+        self.assertTrue(group in question.groups.all())
+        self.assertTrue(group not in answer.groups.all())
+
+    def test_post_make_private(self):
+        question = self.post_question(user=self.u1)
+        post = self.post_answer(question=question, user=self.u1)
+        group = models.Group.objects.get_global_group()
+        self.assertTrue(group in post.groups.all())
+        post.make_private(self.u1)
+        self.assertTrue(group not in post.groups.all())
+        post.make_public()
+        self.assertTrue(group in post.groups.all())
+
     def test_thread_add_to_groups_recursive(self):
         data = self.post_question_answer_and_comments()
 
         private_group = self.create_group(group_name='private')
+        private_group.can_post_questions = True
+        private_group.can_post_answers = True
+        private_group.can_post_comments = True
+        private_group.save()
         thread = data['thread']
         thread.add_to_groups([private_group], recursive=True)
 
@@ -631,6 +673,10 @@ class GroupTests(AskbotTestCase):
 
     def test_private_thread_is_invisible_to_anonymous_user(self):
         group = self.create_group(group_name='private')
+        group.can_post_questions = True
+        group.can_post_answers = True
+        group.can_post_comments = True
+        group.save()
         self.u1.join_group(group)
         self.post_question(user=self.u1, is_private=True)
 
@@ -688,6 +734,7 @@ class GroupTests(AskbotTestCase):
         self.assertEqual(acts[0].recipients.count(), 1)
         recipient = acts[0].recipients.all()[0]
         self.assertEqual(recipient, mod)
+
 
 class LinkPostingTests(AskbotTestCase):
 

@@ -687,7 +687,7 @@ class ChangeUserReputationForm(forms.Form):
 
     user_reputation_delta = forms.IntegerField(
         min_value=1, max_value=32767,
-        label=_('Enter number of points to add or subtract'))
+        label=_('Enter number of points'))
     comment = forms.CharField(label=_('Comment'), max_length=128)
 
     def clean_comment(self):
@@ -1018,9 +1018,9 @@ class AskForm(PostAsSomeoneForm, PostPrivatelyForm):
         self.fields['tags'] = TagNamesField()
 
         if askbot_settings.MIN_QUESTION_BODY_LENGTH == 0:
-            label = _('Add details (optional)')
+            label = _('Add details below (optional)')
         else:
-            label = _('Add details')
+            label = _('Add details below')
 
         self.fields['text'] = QuestionEditorField(user=user, label=label)
 
@@ -1276,67 +1276,6 @@ class RevisionForm(forms.Form):
         self.fields['revision'].initial = latest_revision.revision
 
 
-class EditQuestionForm(PostAsSomeoneForm, PostPrivatelyForm):
-    summary = SummaryField()
-    wiki = WikiField()
-    suppress_email = SuppressEmailField()
-
-    # TODO: this is odd that this form takes question as an argument
-    def __init__(self, *args, **kwargs):
-        """populate EditQuestionForm with initial data"""
-        self.question = kwargs.pop('question')
-        self.user = kwargs.get('user')#preserve for superclass
-        revision = kwargs.pop('revision')
-        super(EditQuestionForm, self).__init__(*args, **kwargs)
-        # it is important to add this field dynamically
-        self.fields['text'] = QuestionEditorField(user=self.user)
-        self.fields['title'] = TitleField()
-        self.fields['title'].initial = revision.title
-        self.fields['text'].initial = revision.text
-        self.fields['text'].label = _('Details')
-        self.fields['tags'] = TagNamesField()
-        self.fields['tags'].initial = revision.tagnames
-        self.fields['wiki'].initial = self.question.wiki
-        # hide the reveal identity field
-        if self.can_edit_anonymously():
-            self.fields['reveal_identity'] = forms.BooleanField(
-                    label=_('remove anonymity'), required=False,)
-
-        if askbot.is_multilingual():
-            self.fields['language'] = LanguageField()
-
-        if should_use_recaptcha(self.user):
-            self.fields['recaptcha'] = AskbotReCaptchaField()
-
-    def clean(self):
-        edit_anonymously = not self.cleaned_data.get('reveal_identity', True)
-        self.cleaned_data['edit_anonymously'] = edit_anonymously
-        return self.cleaned_data
-
-    def has_changed(self):
-        if super(EditQuestionForm, self).has_changed():
-            return True
-
-        if askbot_settings.GROUPS_ENABLED:
-            was_private = self.question.is_private()
-            if was_private != self.cleaned_data['post_privately']:
-                return True
-
-        if askbot.is_multilingual():
-            old_language = self.question.thread.language_code
-            if old_language != self.cleaned_data['language']:
-                return True
-        else:
-            return False
-
-    def can_edit_anonymously(self):
-        """determines if the user cat keep editing the question
-        anonymously"""
-        return (askbot_settings.ALLOW_ASK_ANONYMOUSLY and
-                self.question.is_anonymous and
-                self.user.is_owner_of(self.question))
-
-
 class EditAnswerForm(PostAsSomeoneForm, PostPrivatelyForm):
     summary = SummaryField()
     wiki = WikiField()
@@ -1356,7 +1295,6 @@ class EditAnswerForm(PostAsSomeoneForm, PostPrivatelyForm):
             self.fields['recaptcha'] = AskbotReCaptchaField()
 
     def has_changed(self):
-        # TODO: this function is almost copy/paste of EditQuestionForm.has_changed()
         if super(EditAnswerForm, self).has_changed():
             return True
         if askbot_settings.GROUPS_ENABLED:
@@ -1403,10 +1341,6 @@ class EditUserForm(forms.Form):
             ),
         widget=forms.TextInput(attrs={'size': 35}))
 
-    about = forms.CharField(
-        label=_('Profile'), required=False,
-        widget=forms.Textarea(attrs={'cols': 60}))
-
     def __init__(self, user, *args, **kwargs):
         super(EditUserForm, self).__init__(*args, **kwargs)
 
@@ -1430,7 +1364,6 @@ class EditUserForm(forms.Form):
         if user.date_of_birth is not None:
             self.fields['birthday'].initial = user.date_of_birth
 
-        self.fields['about'].initial = user.get_localized_profile().about
         self.user = user
 
     def clean_email(self):
@@ -1438,6 +1371,10 @@ class EditUserForm(forms.Form):
         email = self.cleaned_data.get('email', '').strip()
         if email == '' and askbot_settings.BLANK_EMAIL_ALLOWED:
             self.cleaned_data['email'] = ''
+            return self.cleaned_data['email']
+
+        if not askbot_settings.EDITABLE_EMAIL:
+            self.cleaned_data['email'] = self.user.email
             return self.cleaned_data['email']
 
         moderated_email_validator(email)
@@ -1704,6 +1641,38 @@ class GetDataForPostForm(forms.Form):
     post_id = forms.IntegerField()
 
 
+class SetPostBodyForm(forms.Form):
+    post_id = forms.IntegerField()
+    body_text = forms.CharField()
+    suppress_email = SuppressEmailField()
+
+
+class SearchPostsForm(forms.Form):
+    post_id = forms.IntegerField()
+    q = forms.CharField()
+    post_ord = forms.IntegerField()
+
+    def clean_post_ord(self):
+        post_ord = self.cleaned_data.get('post_ord')
+        if post_ord and post_ord > 0:
+            return post_ord
+        return None
+
+    def clean_post_id(self):
+        post_id = self.cleaned_data.get('post_id')
+        if post_id and post_id > 0:
+            return post_id
+        return None
+
+    def clean(self):
+        """cannot have both post_id and post_ord"""
+        post_ord = self.cleaned_data.get('post_ord')
+        post_id = self.cleaned_data.get('post_id')
+        if post_ord and post_id:
+            self.cleaned_data['post_ord'] = None
+        return self.cleaned_data
+
+
 class GetCommentDataForPostForm(GetDataForPostForm):
     avatar_size = forms.IntegerField()
 
@@ -1720,7 +1689,7 @@ class UserForm(forms.Form):
 
 class UserDescriptionForm(forms.Form):
     user_id = forms.IntegerField()
-    description = forms.CharField()
+    description = forms.CharField(required=False)
 
 
 class NewCommentForm(forms.Form):

@@ -1,0 +1,13 @@
+.feedback-page {
+  div {
+    margin-bottom: 0.5rem;
+  }
+  .error {
+    color: var(--clr-danger);
+  }
+  input[type="checkbox"] {
+    position: relative;
+    bottom: -0.125rem;
+    margin-left: 0.125rem;
+  }
+}

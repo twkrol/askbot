@@ -55,6 +55,11 @@ class PageLoadTestCase(AskbotTestCase):
     @classmethod
     def setUpClass(cls):
         management.call_command('flush', verbosity=0, interactive=False)
+        everyone = models.Group.objects.get_global_group()
+        everyone.can_post_questions = True
+        everyone.can_post_answers = True
+        everyone.can_post_comments = True
+        everyone.save()
         activate_language(settings.LANGUAGE_CODE)
         management.call_command('askbot_add_test_content', verbosity=0, interactive=False)
         super(PageLoadTestCase, cls).setUpClass()
@@ -155,7 +160,7 @@ class PageLoadTestCase(AskbotTestCase):
         else:
             raise NotImplementedError()
         self.assertTrue(isinstance(templates, list))
-        self.assertIn('main_page.html', [t.name for t in templates])
+        self.assertIn('questions/index.html', [t.name for t in templates])
 
     def proto_test_ask_page(self, allow_anonymous, status_code):
         prev_setting = askbot_settings.ALLOW_POSTING_BEFORE_LOGGING_IN
@@ -163,7 +168,7 @@ class PageLoadTestCase(AskbotTestCase):
         self.try_url(
             'ask',
             status_code = status_code,
-            template = 'ask.html'
+            template = 'ask/index.html'
         )
         askbot_settings.update('ALLOW_POSTING_BEFORE_LOGGING_IN', prev_setting)
 
@@ -180,8 +185,11 @@ class PageLoadTestCase(AskbotTestCase):
     @with_settings(GROUPS_ENABLED=True)
     def test_title_search_groups_enabled(self):
 
-        group = models.Group(name='secret group', openness=models.Group.OPEN)
-        group.save()
+        group = models.Group.objects.create(name='secret group',
+                                            openness=models.Group.OPEN,
+                                            can_post_questions=True,
+                                            can_post_answers=True,
+                                            can_post_comments=True)
         user = self.create_user('user')
         user.join_group(group)
         question = self.post_question(user=user, title='alibaba', group_id=group.id)
@@ -234,19 +242,19 @@ class PageLoadTestCase(AskbotTestCase):
         self.try_url(
                 'tags',
                 status_code=status_code,
-                template='tags.html')
+                template='tags/index.html')
         self.try_url(
                 'tags',
                 status_code=status_code,
-                data={'sort':'name'}, template='tags.html')
+                data={'sort':'name'}, template='tags/index.html')
         self.try_url(
                 'tags',
                 status_code=status_code,
-                data={'sort':'used'}, template='tags.html')
+                data={'sort':'used'}, template='tags/index.html')
         self.try_url(
                 'badges',
                 status_code=status_code,
-                template='badges.html')
+                template='badges/index.html')
         self.try_url(
                 'answer_revisions',
                 status_code=status_code,
@@ -257,77 +265,77 @@ class PageLoadTestCase(AskbotTestCase):
         self.try_url(
             'questions',
             status_code=status_code,
-            template='main_page.html'
+            template='questions/index.html'
         )
         self.try_url(
             url_name=reverse('questions') + SearchState.get_empty().change_scope('unanswered').query_string(),
             plain_url_passed=True,
 
             status_code=status_code,
-            template='main_page.html',
+            template='questions/index.html',
         )
         self.try_url(
             url_name=reverse('questions') + SearchState.get_empty().change_scope('followed').query_string(),
             plain_url_passed=True,
 
             status_code=status_code,
-            template='main_page.html'
+            template='questions/index.html'
         )
         self.try_url(
             url_name=reverse('questions') + SearchState.get_empty().change_scope('unanswered').change_sort('age-desc').query_string(),
             plain_url_passed=True,
 
             status_code=status_code,
-            template='main_page.html'
+            template='questions/index.html'
         )
         self.try_url(
             url_name=reverse('questions') + SearchState.get_empty().change_scope('unanswered').change_sort('age-asc').query_string(),
             plain_url_passed=True,
 
             status_code=status_code,
-            template='main_page.html'
+            template='questions/index.html'
         )
         self.try_url(
             url_name=reverse('questions') + SearchState.get_empty().change_scope('unanswered').change_sort('activity-desc').query_string(),
             plain_url_passed=True,
 
             status_code=status_code,
-            template='main_page.html'
+            template='questions/index.html'
         )
         self.try_url(
             url_name=reverse('questions') + SearchState.get_empty().change_scope('unanswered').change_sort('activity-asc').query_string(),
             plain_url_passed=True,
 
             status_code=status_code,
-            template='main_page.html'
+            template='questions/index.html'
         )
         self.try_url(
             url_name=reverse('questions') + SearchState.get_empty().change_sort('answers-desc').query_string(),
             plain_url_passed=True,
 
             status_code=status_code,
-            template='main_page.html'
+            template='questions/index.html'
         )
         self.try_url(
             url_name=reverse('questions') + SearchState.get_empty().change_sort('answers-asc').query_string(),
             plain_url_passed=True,
 
             status_code=status_code,
-            template='main_page.html'
+            template='questions/index.html'
         )
         self.try_url(
             url_name=reverse('questions') + SearchState.get_empty().change_sort('votes-desc').query_string(),
             plain_url_passed=True,
 
             status_code=status_code,
-            template='main_page.html'
+            template='questions/index.html'
         )
         self.try_url(
             url_name=reverse('questions') + SearchState.get_empty().change_sort('votes-asc').query_string(),
             plain_url_passed=True,
 
             status_code=status_code,
-            template='main_page.html'
+            template='questions/index.html'
         )
 
         self.try_url(
@@ -335,21 +343,21 @@ class PageLoadTestCase(AskbotTestCase):
                 status_code=status_code,
                 kwargs={'id':1},   # INFO: Hardcoded ID, might fail if DB allocates IDs in some non-continuous way
                 follow=True,
-                template='question.html'
+                template='question/index.html'
             )
         self.try_url(
                 'question',
                 status_code=status_code,
                 kwargs={'id':2},   # INFO: Hardcoded ID, might fail if DB allocates IDs in some non-continuous way
                 follow=True,
-                template='question.html'
+                template='question/index.html'
             )
         self.try_url(
                 'question',
                 status_code=status_code,
                 kwargs={'id':3},   # INFO: Hardcoded ID, might fail if DB allocates IDs in some non-continuous way
                 follow=True,
-                template='question.html'
+                template='question/index.html'
             )
         self.try_url(
                 'question_revisions',
@@ -359,7 +367,7 @@ class PageLoadTestCase(AskbotTestCase):
             )
         self.try_url('users',
                 status_code=status_code,
-                template='users.html'
+                template='users/index.html'
             )
         #self.try_url(
         #        'widget_questions',
@@ -371,73 +379,73 @@ class PageLoadTestCase(AskbotTestCase):
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'reputation'},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'newest'},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'last'},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'user'},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'reputation', 'page':2},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'newest', 'page':2},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'last', 'page':2},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'user', 'page':2},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'reputation', 'page':1},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'newest', 'page':1},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'last', 'page':1},
             )
         self.try_url(
                 'users',
                 status_code=status_code,
-                template='users.html',
+                template='users/index.html',
                 data={'sort':'user', 'page':1},
             )
         self.try_url(
@@ -477,7 +485,7 @@ class PageLoadTestCase(AskbotTestCase):
             kwargs={'id': 2, 'slug': name_slug},   # INFO: Hardcoded ID, might fail if DB allocates IDs in some non-continuous way
             status_code=status_code,
             data={'sort':'recent'},
-            template='user_profile/user_recent.html'
+            template='user_profile/user_activity.html'
         )
         self.try_url(
             'user_profile',
@@ -754,7 +762,7 @@ class CommandViewTests(AskbotTestCase):
                                 HTTP_X_REQUESTED_WITH='XMLHttpRequest'
                             )
             self.assertEqual(response.status_code, 200)
-            self.assertEqual(response.content, b'')
+            self.assertEqual(response.content, b'{}')
 
         self.client.login(user_id=user.id, method='force')
 

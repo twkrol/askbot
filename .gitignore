@@ -2,12 +2,15 @@
 *.swp
 *.log
 *~
+the.diff
 askbot_site
 fetch
 push
 propagate
 the.diff
 askbot/media/style/.sass-cache/
+askbot/media/svelte
+askbot/tests/images
 .sass-cache
 db
 rebuild-locales.pl

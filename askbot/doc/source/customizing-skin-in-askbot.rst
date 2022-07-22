@@ -267,7 +267,7 @@ widgets folder and are called from several places in the templates.
 | answer_controls.html       | question.html                | Answer operation links, edit   | 
 |                            |                              | report as spam and more.       |
 +----------------------------+------------------------------+--------------------------------+
-| contributors.html          | main_page/sidebar.html       | Widget to display contributors | 
+| contributors.html          | questions/sidebar.html       | Widget to display contributors | 
 |                            |                              | avatars.                       |
 +----------------------------+------------------------------+--------------------------------+
 | logo.html                  | widgets/header.html          | Contains the site logo.        | 
@@ -281,7 +281,7 @@ widgets folder and are called from several places in the templates.
 +----------------------------+------------------------------+--------------------------------+
 | question_vote_buttons.html | question.html                | Vote buttons used in question  | 
 +----------------------------+------------------------------+--------------------------------+
-| related_tags.html          | main_page/sidebar.html       | Question operation links, edit | 
+| related_tags.html          | questions/sidebar.html       | Question operation links, edit | 
 |                            |                              | report as spam and more.       |
 +----------------------------+------------------------------+--------------------------------+
 | search_bar.html            | widgets/secondary_header.html| Contains the search bar.       | 
@@ -289,7 +289,7 @@ widgets folder and are called from several places in the templates.
 | share_buttons.html         | question.html                | Widget to show the social      | 
 |                            |                              | sharing buttons.               |
 +----------------------------+------------------------------+--------------------------------+
-| tag_selector.html          | main_page/sidebar.html       | Contains the tag selector for  | 
+| tag_selector.html          | questions/sidebar.html       | Contains the tag selector for  | 
 |                            |                              | search.                        |
 +----------------------------+------------------------------+--------------------------------+
 | user_navigation.html       | widgets/header.html          | User navigation links like     | 
@@ -305,7 +305,7 @@ which file is called is in the following table.
 +----------------------------+-----------------------------+--------------------------------+
 | Page url                   | Template file               | Macros used                    |
 +============================+=============================+================================+
-| /questions/                | main_page.html              |                                |
+| /questions/                | questions.html              |                                |
 +----------------------------+-----------------------------+--------------------------------+
 | /questions/ask/            | ask.html                    |                                |
 +----------------------------+-----------------------------+--------------------------------+

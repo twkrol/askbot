@@ -151,8 +151,8 @@ def truncate_html_post(post_html):
     """truncates html if it is longer than 100 words"""
     post_html = Truncator(post_html).words(5, truncate=' ...', html=True)
     post_html = '<div class="truncated-post">' + post_html
-    post_html += '<span class="expander">(<a>' + _('more') + '</a>)</span>'
-    post_html += '<div class="clearfix"></div></div>'
+    post_html += '<span class="js-expander">(<a>' + _('more') + '</a>)</span>'
+    post_html += '</div>'
     return post_html
 
 @register.filter
@@ -367,8 +367,8 @@ def can_see_offensive_flags(user, post):
 register.filter('can_see_offensive_flags', can_see_offensive_flags)
 
 @register.filter
-def humanize_counter(number):
-    if number == 0:
+def humanize_counter(number, humanize_zero=False):
+    if humanize_zero and number == 0:
         return _('no')
     elif number >= 1000:
         number = number/1000
@@ -474,3 +474,11 @@ def url(viewname, *args, **kwargs):
         except NoReverseMatch:
                 raise
     return url
+
+@register.filter
+def strip_website_url(url):
+    if url.startswith('https://'):
+        url = url.lstrip('https://')
+    elif url.startswith('http://'):
+        url =  url.lstrip('http://')
+    return url.rstrip('/')

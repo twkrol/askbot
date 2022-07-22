@@ -41,7 +41,7 @@ from django.views.decorators import csrf
 from askbot.utils.slug import slugify
 from askbot.utils.html import sanitize_html
 from askbot.utils.functions import encode_jwt
-from askbot.utils.transaction import defer_celery_task
+from askbot.utils.celery_utils import defer_celery_task
 from askbot.mail import send_mail
 from askbot.utils.translation import get_language
 from askbot.mail.messages import UnsubscribeLink
@@ -114,7 +114,7 @@ def delete_notifications(request):
     memo_set.delete()
     request.user.update_response_counts()
 
-def show_users(request, by_group=False, group_id=None, group_slug=None):
+def users_list(request, by_group=False, group_id=None, group_slug=None):
     """Users view, including listing of users by group"""
     if askbot_settings.GROUPS_ENABLED and not by_group:
         default_group = models.Group.objects.get_global_group()
@@ -251,7 +251,6 @@ def show_users(request, by_group=False, group_id=None, group_slug=None):
         'group': group,
         'group_email_moderation_enabled': group_email_moderation_enabled,
         'group_openness_choices': group_openness_choices,
-        'page_class': 'users-page',
         'paginator_context' : paginator_context,
         'search_query' : search_query,
         'tab_id' : sort_method,
@@ -262,7 +261,7 @@ def show_users(request, by_group=False, group_id=None, group_slug=None):
         'users' : users_page,
     }
 
-    return render(request, 'users.html', data)
+    return render(request, 'users/index.html', data)
 
 @csrf.csrf_protect
 def manage_account(request, subject, context):
@@ -308,7 +307,7 @@ def manage_account(request, subject, context):
                 request.user.message_set.create(message=user_msg)
             else:
                 defer_celery_task(export_user_data, args=(subject.pk,))
-                if not django_settings.CELERY_ALWAYS_EAGER:
+                if not getattr(django_settings, 'CELERY_TASK_ALWAYS_EAGER', False):
                     exporting = True
 
     #todo: get backup download link -> context
@@ -316,6 +315,7 @@ def manage_account(request, subject, context):
     context['backup_file_names'] = subject.get_backup_file_names()
     context['exporting'] = exporting
     context['anon_user_name'] = models.get_name_of_anonymous_user()
+    context['tab_name'] = 'manage_account'
     return render(request, 'user_profile/user_manage_account.html', context)
 
 @decorators.ajax_only
@@ -444,7 +444,6 @@ def user_moderate(request, subject, context):
                                     )
     data = {
         'active_tab': 'users',
-        'page_class': 'user-profile-page',
         'tab_name': 'moderation',
         'page_title': _('moderate user'),
         'change_user_status_form': user_status_form,
@@ -522,7 +521,6 @@ def edit_user(request, id):
             user.show_country = form.cleaned_data['show_country']
             user.show_marked_tags = form.cleaned_data['show_marked_tags']
             user.save()
-            user.update_localized_profile(about=sanitize_html(form.cleaned_data['about']))
             # send user updated signal if full fields have been updated
             award_badges_signal.send(None,
                                      event='update_user_profile',
@@ -535,7 +533,6 @@ def edit_user(request, id):
 
     data = {
         'active_tab': 'users',
-        'page_class': 'user-profile-edit-page',
         'form' : form,
         'marked_tags_setting': askbot_settings.MARKED_TAGS_ARE_PUBLIC_WHEN,
         'support_custom_avatars': ('avatar' in django_settings.INSTALLED_APPS),
@@ -708,7 +705,6 @@ def user_stats(request, user, context):
 
     data = {
         'active_tab':'users',
-        'page_class': 'user-profile-page',
         'support_custom_avatars': ('avatar' in django_settings.INSTALLED_APPS),
         'show_moderation_warning': show_moderation_warning,
         'show_profile_info': show_profile_info,
@@ -785,7 +781,7 @@ def set_user_description(request):
 
     user = get_object_or_404(models.User, pk=user_id)
     if akismet_check_spam(description, request, user):
-        message = _('Spam was detected on your post, sorry if it was a mistake')
+        message = _('Spam was detected in the post')
         raise django_exceptions.PermissionDenied(message)
 
     if user_id == request.user.pk or request.user.is_admin_or_mod():
@@ -897,13 +893,12 @@ def user_recent(request, user, context):
 
     data = {
         'active_tab': 'users',
-        'page_class': 'user-profile-page',
         'tab_name' : 'recent',
         'page_title' : _('profile - recent activity'),
         'activities' : activities
     }
     context.update(data)
-    return render(request, 'user_profile/user_recent.html', context)
+    return render(request, 'user_profile/user_activity.html', context)
 
 #not a view - no direct url route here, called by `user_responses`
 @csrf.csrf_protect
@@ -928,7 +923,6 @@ def show_group_join_requests(request, user, context):
     data = {
         'active_tab':'users',
         'inbox_section': 'group-join-requests',
-        'page_class': 'user-profile-page',
         'tab_name' : 'join_requests',
         'page_title' : _('profile - moderation'),
         'groups_dict': groups_dict,
@@ -978,7 +972,6 @@ def user_responses(request, user, context):
         data = {
             'inbox_threads_count': context['threads_count'],#a hackfor the inbox count
             'active_tab':'users',
-            'page_class': 'user-profile-page',
             'tab_name' : 'inbox',
             'inbox_section': section,
             'page_title' : _('profile - messages')
@@ -1075,7 +1068,6 @@ def user_responses(request, user, context):
 
     data = {
         'active_tab':'users',
-        'page_class': 'user-profile-page',
         'tab_name' : 'inbox',
         'inbox_section': section,
         'page_title' : _('profile - responses'),
@@ -1118,7 +1110,6 @@ def user_votes(request, user, context):
 
     data = {
         'active_tab':'users',
-        'page_class': 'user-profile-page',
         'tab_name' : 'votes',
         'page_title' : _('profile - votes'),
         'votes' : votes[:const.USER_VIEW_DATA_SIZE]
@@ -1172,7 +1163,6 @@ def user_reputation(request, user, context):
 
     data = {
         'active_tab':'users',
-        'page_class': 'user-profile-page',
         'tab_name': 'reputation',
         'page_title': _("Profile - User's Karma"),
         'latest_rep_changes': reputes[:100],
@@ -1209,7 +1199,6 @@ def user_favorites(request, user, context):
 
     data = {
         'active_tab':'users',
-        'page_class': 'user-profile-page',
         'tab_name' : 'favorites',
         'page_title' : _('profile - favorites'),
         'questions' : questions,
@@ -1276,7 +1265,6 @@ def user_select_languages(request, id=None, slug=None):
             'view_user': user,
             'languages_form': form,
             'tab_name': 'langs',
-            'page_class': 'user-profile-page',
         }
         return render(request, 'user_profile/user_languages.html', data)
 
@@ -1371,7 +1359,6 @@ def user_email_subscriptions(request, user, context):
     data = {
         'active_tab': 'users',
         'subscribed_tag_names': user.get_marked_tag_names('subscribed'),
-        'page_class': 'user-profile-page',
         'tab_name': 'email_subscriptions',
         'page_title': _('profile - email subscriptions'),
         'email_feeds_form': email_feeds_form,
@@ -1523,6 +1510,5 @@ def groups(request, id = None, slug = None):
         'user_can_add_groups': user_can_add_groups,
         'active_tab': 'groups',#todo vars active_tab and tab_name are too similar
         'tab_name': scope,
-        'page_class': 'groups-page'
     }
     return render(request, 'groups.html', data)

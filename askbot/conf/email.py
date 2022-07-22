@@ -4,10 +4,9 @@ Email related settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.text import format_lazy
 from django.conf import settings as django_settings
-
+from livesettings import values as livesettings
 from askbot.conf.settings_wrapper import settings
 from askbot.conf.super_groups import LOGIN_USERS_COMMUNICATION
-from livesettings import values as livesettings
 from askbot import const
 
 EMAIL_SUBJECT_PREFIX = getattr(django_settings, 'EMAIL_SUBJECT_PREFIX', '')
@@ -45,6 +44,15 @@ settings.register(
         'ADMIN_EMAIL',
         default=get_default_admin_email(),
         description=_('Site administrator email address')
+    )
+)
+
+settings.register(
+    livesettings.StringValue(
+        EMAIL,
+        'FROM_EMAIL',
+        default=getattr(django_settings, 'DEFAULT_FROM_EMAIL', ''),
+        description=_('Notifications "From" email address'),
     )
 )
 

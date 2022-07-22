@@ -7,6 +7,7 @@ import json
 from django.conf import settings
 from django.middleware import csrf
 from django.urls import reverse
+from django.utils import timezone
 
 import askbot
 from askbot import api
@@ -18,6 +19,18 @@ from askbot.utils import url_utils
 from askbot.utils.slug import slugify
 from askbot.utils.html import site_url
 from askbot.utils.translation import get_language
+
+def should_show_ask_button(user): #pylint: disable=missing-docstring
+    # without groups we always show the ASK button
+    if not askbot_settings.GROUPS_ENABLED:
+        return True
+
+    # with groups - users must be logged in to ask
+    if not user.is_authenticated:
+        return False
+
+    # get permission to ask based on the group memberships
+    return user.can_post_question()
 
 def make_group_list():
     """Returns list of dictionaries with keys 'name' and 'link'"""
@@ -69,6 +82,8 @@ def application_settings(request):
     my_settings['ASKBOT_VERSION'] = askbot.get_version()
     my_settings['LOGIN_URL'] = url_utils.get_login_url()
     my_settings['LOGOUT_URL'] = url_utils.get_logout_url()
+    my_settings['SEARCH_FRONTEND_SRC_URL'] = settings.ASKBOT_SEARCH_FRONTEND_SRC_URL
+    my_settings['SEARCH_FRONTEND_CSS_URL'] = settings.ASKBOT_SEARCH_FRONTEND_CSS_URL
 
     if my_settings['EDITOR_TYPE'] == 'tinymce':
         tinymce_plugins = settings.TINYMCE_DEFAULT_CONFIG.get('plugins', '').split(',')
@@ -104,7 +119,9 @@ def application_settings(request):
         'settings': my_settings,
         'moderation_items': api.get_info_on_moderation_items(request.user),
         'need_scope_links': need_scope_links,
+        'now': timezone.now(),
         'noscript_url': const.DEPENDENCY_URLS['noscript'],
+        'show_ask_button': should_show_ask_button(request.user)
     }
 
     use_askbot_login = 'askbot.deps.django_authopenid' in settings.INSTALLED_APPS

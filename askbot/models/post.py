@@ -3,7 +3,6 @@ import operator
 import logging
 
 from django.contrib.sitemaps import ping_google
-from django.utils import html
 from django.conf import settings as django_settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -26,22 +25,22 @@ from askbot import signals
 from askbot.utils.loading import load_plugin, load_function
 from askbot.utils.slug import slugify
 from askbot import const
-from askbot.models.tag import Tag, MarkedTag
+from askbot.models.tag import MarkedTag
 from askbot.models.tag import tags_match_some_wildcard
 from askbot.models.fields import LanguageCodeField
 from askbot.conf import settings as askbot_settings
 from askbot import exceptions
 from askbot.utils import markup
 from askbot.utils.html import (get_word_count, has_moderated_tags,
-                               moderate_tags, sanitize_html, strip_tags,
+                               moderate_tags, sanitize_html,
                                site_url)
-from askbot.utils.transaction import defer_celery_task
+from askbot.utils.celery_utils import defer_celery_task
 from askbot.models.base import (AnonymousContent, BaseQuerySetManager,
                                 DraftContent)
 
 # TODO: maybe merge askbot.utils.markup and forum.utils.html
 from askbot.utils.diff import textDiff as htmldiff
-from askbot.search import mysql
+#from askbot.search import mysql
 
 
 def default_html_moderator(post):
@@ -99,14 +98,15 @@ class PostQuerySet(models.query.QuerySet):
     # belong to Thread manager or Query set.
     def get_for_user(self, user):
         from askbot.models.user import Group
-        if askbot_settings.GROUPS_ENABLED:
-            if user is None or user.is_anonymous:
-                groups = [Group.objects.get_global_group()]
-            else:
-                groups = user.get_groups()
-            return self.filter(groups__in=groups).distinct()
-        else:
+        if not askbot_settings.GROUPS_ENABLED:
             return self
+
+        if user is None or user.is_anonymous:
+            groups = [Group.objects.get_global_group()]
+        else:
+            groups = user.get_groups()
+
+        return self.filter(groups__in=groups).distinct()
 
     def get_by_text_query(self, search_query):
         """returns a query set of questions,
@@ -300,13 +300,8 @@ class PostManager(BaseQuerySetManager):
         qs = Post.objects.get_comments().filter(parent__in=for_posts)\
             .select_related('author')
 
-        comments_reversed = askbot_settings.COMMENTS_REVERSED
-
         if visitor.is_anonymous:
-            if comments_reversed:
-                comments = list(qs.order_by('-added_at'))
-            else:
-                comments = list(qs.order_by('added_at'))
+            comments = list(qs.order_by('added_at'))
         else:
             upvoted_by_user = list(qs.filter(votes__user=visitor).distinct())
             not_upvoted_by_user = list(qs.exclude(votes__user=visitor).distinct())
@@ -315,7 +310,7 @@ class PostManager(BaseQuerySetManager):
                 c.upvoted_by_user = 1  # numeric value to maintain compatibility with previous version of this code
 
             comments = upvoted_by_user + not_upvoted_by_user
-            comments.sort(key=operator.attrgetter('added_at'), reverse=comments_reversed)
+            comments.sort(key=operator.attrgetter('added_at'))
 
         post_map = defaultdict(list)
         for cm in comments:
@@ -628,6 +623,11 @@ class Post(models.Model):
 
         return {'diff': diff, 'newly_mentioned_users': newly_mentioned_users}
 
+    def render(self):
+        """Rerenders post html and snippet, no saving."""
+        self.html = self.parse_post_text()['html']
+        self.summary = self.get_snippet()
+
     def is_question(self):
         return self.post_type == 'question'
 
@@ -646,6 +646,25 @@ class Post(models.Model):
     def is_reject_reason(self):
         return self.post_type == 'reject_reason'
 
+    def get_flag_activity_object(self, user):
+        """Returns flag activity object, preferrably initialized by the user,
+        If user is admin or mod, return any flag object.
+        Raises an exception, if object does not exist.
+        """
+        from askbot.models import Activity
+        try:
+            return Activity.objects.get(object_id=self.pk,
+                                        content_type=ContentType.objects.get_for_model(self),
+                                        user_id=user.pk,
+                                        activity_type=const.TYPE_ACTIVITY_MARK_OFFENSIVE)
+        except Activity.DoesNotExist:
+            if not user.is_administrator_or_moderator:
+                raise
+
+            return Activity.objects.get(object_id=self.pk,
+                                        content_type=ContentType.objects.get_for_model(self),
+                                        activity_type=const.TYPE_ACTIVITY_MARK_OFFENSIVE)
+
     def get_last_edited_date(self):
         """returns date of last edit or date of creation
         if there were no edits"""
@@ -654,7 +673,11 @@ class Post(models.Model):
     def get_latest_revision_diff(self, ins_start=None, ins_end=None,
                                  del_start=None, del_end=None):
         # returns formatted html diff of the latest two revisions
-        revisions = self.revisions.order_by('-id')[:2]
+        revisions = self.revisions.exclude(revision=0).order_by('-id')
+        if revisions.count() < 2:
+            return ''
+
+        revisions = revisions[:2]
         return htmldiff(sanitize_html(revisions[1].html),
                         sanitize_html(revisions[0].html),
                         ins_start=ins_start,
@@ -797,19 +820,20 @@ class Post(models.Model):
                     for_email = [u for u in notify_sets['for_email'] if u.is_administrator()]
                     notify_sets['for_email'] = for_email
 
-        if not django_settings.CELERY_ALWAYS_EAGER:
+        if not getattr(django_settings, 'CELERY_TASK_ALWAYS_EAGER', False):
             cache_key = 'instant-notification-%d-%d' % (self.thread.id, updated_by.id)
             if cache.cache.get(cache_key):
                 return
             cache.cache.set(cache_key, True, django_settings.NOTIFICATION_DELAY_TIME)
 
         from askbot.tasks import send_instant_notifications_about_activity_in_post
+        recipient_ids = [user.id for user in notify_sets['for_email']]
         defer_celery_task(
             send_instant_notifications_about_activity_in_post,
             args=(
                 update_activity.pk,
                 self.id,
-                notify_sets['for_email']
+                recipient_ids
             ),
             countdown=django_settings.NOTIFICATION_DELAY_TIME
         )
@@ -852,7 +876,7 @@ class Post(models.Model):
                 self.remove_from_groups((global_group,))
         else:
             if self.thread_id and self.is_question() is False:
-                # for thread-related responses we base
+                # for thread-related answers and comments we base
                 # privacy scope on thread + add a personal group
                 personal_group = user.get_personal_group()
                 thread_groups = self.thread.get_groups_shared_with()
@@ -958,7 +982,7 @@ class Post(models.Model):
 
     def needs_moderation(self):
         # TODO: do we need this, can't we just use is_approved()?
-        return self.is_approved() is False
+        return not self.is_approved()
 
     def get_absolute_url(self, no_slug=False, question_post=None,
                          language=None, thread=None):
@@ -1089,7 +1113,7 @@ class Post(models.Model):
         new_count = get_word_count(truncated)
         orig_count = get_word_count(self.html)
         if new_count + 1 < orig_count:
-            expander = '<span class="expander"> <a>(' + _('more') + ')</a></span>'
+            expander = '<span class="js-expander"> <a>(' + _('more') + ')</a></span>'
             if truncated.endswith('</p>'):
                 # better put expander inside the paragraph
                 snippet = truncated[:-4] + expander + '</p>'
@@ -1098,9 +1122,9 @@ class Post(models.Model):
             # it is important to have div here, so that we can make
             # the expander work
             from askbot.utils.html import sanitize_html
-            return sanitize_html('<div class="snippet">' + snippet + '</div>')
-        else:
-            return self.html
+            return sanitize_html('<div class="js-snippet">' + snippet + '</div>')
+
+        return self.html
 
     def filter_authorized_users(self, candidates):
         """returns list of users who are allowed to see this post"""
@@ -1512,7 +1536,7 @@ class Post(models.Model):
     def get_latest_revision(self):
         if hasattr(self, '_last_rev_cache'):
             return self._last_rev_cache
-        rev = self.revisions.order_by('-revision')[0]
+        rev = self.revisions.exclude(revision=0).order_by('-revision')[0]
         self.cache_latest_revision(rev)
         return rev
 #       # TODO: remove this method
@@ -1521,11 +1545,12 @@ class Post(models.Model):
     def get_earliest_revision(self):
         if hasattr(self, '_first_rev_cache'):
             return self._first_rev_cache
-        rev = self.revisions.order_by('revision')[0]
+        rev = self.revisions.exclude(revision=0).order_by('revision')[0]
         setattr(self, '_first_rev_cache', rev)
         return rev
 
     def get_latest_revision_number(self):
+        """Returns order number of the latest revision"""
         try:
             return self.get_latest_revision().revision
         except IndexError:
@@ -2186,8 +2211,7 @@ class PostRevision(models.Model):
         """
         if self.post.revisions.count() == 1:
             if self.revision == 0:
-                # call below hides post from the display to the
-                # general public
+                # call below hides post from the display to the general public
                 self.post.set_is_approved(False)
             activity_type = const.TYPE_ACTIVITY_MODERATED_NEW_POST
         else:
@@ -2247,12 +2271,11 @@ class PostRevision(models.Model):
         schedule = askbot_settings.SELF_NOTIFY_EMAILED_POST_AUTHOR_WHEN
         if schedule == const.NEVER:
             return False
-        elif schedule == const.FOR_FIRST_REVISION:
+        if schedule == const.FOR_FIRST_REVISION:
             return self.revision == 1
-        elif schedule == const.FOR_ANY_REVISION:
+        if schedule == const.FOR_ANY_REVISION:
             return True
-        else:
-            raise ValueError()
+        raise ValueError()
 
     def __str__(self):
         return '%s - revision %s of %s' % (self.post.post_type, self.revision,
@@ -2290,14 +2313,31 @@ class PostRevision(models.Model):
 
         return url
 
+    def get_action_label(self):
+        if self.revision == 0:
+            return _('proposed an edit')
+        if self.revision == 1:
+            if self.post.post_type == 'question':
+                return html_utils.escape(askbot_settings.WORDS_ASKED)
+            if self.post.post_type == 'answer':
+                return html_utils.escape(askbot_settings.WORDS_ANSWERED)
+            return _('posted')
+        return _('updated')
+
     def get_question_title(self):
         # INFO: ack-grepping shows that it's only used for Questions,
         #       so there's no code for Answers
         return self.question.thread.title
 
     def get_origin_post(self):
-        """same as Post.get_origin_post()"""
+        """Same as Post.get_origin_post()"""
         return self.post.get_origin_post()
+
+    def get_original_post_author(self):
+        """Returns original author of the post"""
+        if self.post.post_type in ('question', 'answer'):
+            return self.post.author
+        return None
 
     @property
     def html(self, **kwargs):

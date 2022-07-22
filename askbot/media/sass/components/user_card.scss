@@ -1,0 +1,43 @@
+.user-card {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 12rem; 
+  height: 3.25rem;
+  .js-avatar-box {
+    height: 2.25rem;
+    margin-right: 0.5rem;
+  }
+  .user-info {
+    font-size: var(--small-font-size);
+  }
+  a, a:visited {
+    text-decoration: none;
+    color: var(--fg-color);
+  }
+  .with-gold-badge-icon,
+  .with-silver-badge-icon,
+  .with-bronze-badge-icon {
+    &::before {
+      font-size: var(--2extra-small-font-size);
+    }
+  }
+  .user-name-and-country {
+    white-space: nowrap;
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  .user-name-link {
+    max-width: calc(12rem - 2.25rem - 0.5rem - 1rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .user-website-link {
+    display: inline-block;
+    max-width: calc(12rem - 2.75rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

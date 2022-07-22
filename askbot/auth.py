@@ -101,11 +101,16 @@ def onUnFlaggedItem(post, user, timestamp=None):
     if timestamp is None:
         timestamp = timezone.now()
 
+    # delete the activity record
+    flag_activity = post.get_flag_activity_object(user)
+    flag_activity.delete()
+
+    # update denormalized data
     post.offensive_flag_count = post.offensive_flag_count - 1
     post.save()
 
+    # undo rep loss to the flagged user
     flagged_user = post.author
-
     flagged_user.receive_reputation(
         -askbot_settings.REP_LOSS_FOR_RECEIVING_FLAG,  # negative of a negative
         post.language_code)
@@ -121,9 +126,6 @@ def onUnFlaggedItem(post, user, timestamp=None):
         reputation_type=-4,  # TODO: clean up magic number
         reputation=flagged_user.reputation)
     reputation.save()
-
-    signals.remove_flag_offensive.send(sender=post.__class__, instance=post,
-                                       mark_by=user)
 
     if post.post_type == 'comment':
         # do not hide or delete comments automatically yet,

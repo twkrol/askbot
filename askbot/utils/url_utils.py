@@ -103,8 +103,6 @@ def get_logout_redirect_url():
     """returns internal logout redirect url,
     or django_settings.LOGOUT_REDIRECT_URL if it exists
     or url to the main page"""
-    if 'askbot.deps.django_authopenid' in django_settings.INSTALLED_APPS:
-        return reverse('logout')
-    elif hasattr(django_settings, 'LOGOUT_REDIRECT_URL'):
+    if hasattr(django_settings, 'LOGOUT_REDIRECT_URL'):
         return django_settings.LOGOUT_REDIRECT_URL
     return reverse('index')

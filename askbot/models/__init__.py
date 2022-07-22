@@ -12,7 +12,6 @@ import os
 import re
 import urllib.request, urllib.parse, urllib.error
 from functools import partial
-from celery.task import task
 from django.urls import reverse, NoReverseMatch
 from django.core.paginator import Paginator
 from django.db import IntegrityError
@@ -73,7 +72,7 @@ from askbot.utils.decorators import auto_now_timestamp
 from askbot.utils.decorators import reject_forbidden_phrases
 from askbot.utils.markup import URL_RE
 from askbot.utils.slug import slugify, ascii_slugify
-from askbot.utils.transaction import defer_celery_task
+from askbot.utils.celery_utils import defer_celery_task
 from askbot.utils.translation import get_language
 from askbot.utils.html import replace_links_with_text
 from askbot.utils import functions
@@ -487,6 +486,22 @@ def user_has_affinity_to_question(self, question = None, affinity_type = None):
     return False
 
 
+def user_has_group_permission(self, permission): #pylint: disable=missing-docstring
+    if not askbot_settings.GROUPS_ENABLED:
+        return True
+        
+    if permission == 'post_questions':
+        return self.get_groups().filter(can_post_questions=True).exists()
+
+    if permission == 'post_answers':
+        return self.get_groups().filter(can_post_answers=True).exists()
+
+    if permission == 'post_comments':
+        return self.get_groups().filter(can_post_comments=True).exists()
+
+    return True
+
+
 def user_has_ignored_wildcard_tags(self):
     """True if wildcard tags are on and
     user has some"""
@@ -680,8 +695,7 @@ def user_is_read_only(self):
     """True if user is allowed to change content on the site"""
     if askbot_settings.GROUPS_ENABLED:
         return bool(self.get_groups().filter(read_only=True).count())
-    else:
-        return False
+    return False
 
 def user_get_notifications(self, notification_types=None, **kwargs):
     """returns query set of activity audit status objects"""
@@ -873,11 +887,7 @@ def user_assert_can_accept_best_answer(self, answer=None):
     assert getattr(answer, 'post_type', '') == 'answer'
     self.assert_can_unaccept_best_answer(answer)
 
-def user_assert_can_vote_for_post(
-                                self,
-                                post = None,
-                                direction = None,
-                            ):
+def user_assert_can_vote_for_post(self, post=None, direction=None):
     """raises exceptions.PermissionDenied exception
     if user can't in fact upvote
 
@@ -970,6 +980,11 @@ def user_assert_can_post_question(self):
         suspended_user_cannot=True,
     )
 
+    if not self.has_group_permission('post_questions'):
+        error_message_tpl = _('Sorry, you cannot %(perform_action)s')
+        error_message = error_message_tpl % {'perform_action': askbot_settings.WORDS_ASK_QUESTIONS}
+        raise django_exceptions.PermissionDenied(error_message)
+
 
 def user_assert_can_post_answer(self, thread=None):
     """same as user_can_post_question
@@ -989,6 +1004,11 @@ def user_assert_can_post_answer(self, thread=None):
         blocked_user_cannot=True,
         suspended_user_cannot=True,
     )
+
+    if not self.has_group_permission('post_answers'):
+        error_message_tpl = _('Sorry, you cannot %(perform_action)s')
+        error_message = error_message_tpl % {'perform_action': askbot_settings.WORDS_POST_ANSWERS}
+        raise django_exceptions.PermissionDenied(error_message)
 
 
 def user_assert_can_edit_comment(self, comment=None):
@@ -1054,19 +1074,19 @@ def user_can_post_comment(self, parent_post=None):
     if self.is_administrator_or_moderator():
         return True
 
-    elif parent_post.thread and parent_post.thread.closed:
+    if parent_post and parent_post.thread and parent_post.thread.closed:
         if askbot_settings.COMMENTING_CLOSED_QUESTIONS_ENABLED == False:
             return False
 
-    elif self.is_suspended():
+    if self.is_suspended():
         if parent_post and self.pk == parent_post.author_id:
             return True
-        else:
-            return False
-    elif self.is_blocked():
         return False
 
-    return True
+    if self.is_blocked():
+        return False
+
+    return self.has_group_permission('post_comments')
 
 def user_assert_can_post_comment(self, parent_post=None):
     """raises exceptions.PermissionDenied if
@@ -1090,6 +1110,12 @@ def user_assert_can_post_comment(self, parent_post=None):
         if askbot_settings.COMMENTING_CLOSED_QUESTIONS_ENABLED == False:
             error_message = _('Sorry, commenting closed entries is not allowed')
             raise django_exceptions.PermissionDenied(error_message)
+
+    if not self.has_group_permission('post_comments'):
+        error_message_tpl = _('Sorry, you cannot %(perform_action)s')
+        error_message = error_message_tpl % {'perform_action': _('post comments')}
+        raise django_exceptions.PermissionDenied(error_message)
+
 
 def user_assert_can_see_deleted_post(self, post=None):
 
@@ -1344,6 +1370,9 @@ def user_assert_can_follow_question(self, question=None):
 
 def user_assert_can_remove_flag_offensive(self, post=None):
     assert(post is not None)
+
+    if self.is_administrator_or_moderator():
+        return
 
     non_existing_flagging_error_message = _('cannot remove non-existing flag')
 
@@ -2531,7 +2560,7 @@ def user_is_post_moderator(self, post):
         return False
 
 def user_is_administrator_or_moderator(self):
-    return (self.is_administrator() or self.is_moderator())
+    return self.is_administrator() or self.is_moderator()
 
 def user_is_suspended(self):
     return (self.status == 's')
@@ -2720,7 +2749,7 @@ def user_get_status_display(self):
     elif self.is_blocked():
         return _('Blocked User')
     elif self.is_watched():
-        return _('New User')
+        return _('Active User')
     elif self.is_terminated():
         return _('Account terminated')
     else:
@@ -2884,20 +2913,11 @@ def user_join_default_groups(self):
     #and Askbot groups are not populated
     #In Askbot user by default must by a member of "global" group
     #and of "personal" group - which is created for each user individually
-    self.edit_group_membership(
-        group=Group.objects.get_global_group(),
-        user=self,
-        action='add',
-        force=True
-    )
+    group = Group.objects.get_global_group()
+    self.join_group(group, force=True)
     group_name = format_personal_group_name(self)
-    group = Group.objects.get_or_create(
-        name=group_name, user=self
-    )
-    self.edit_group_membership(
-        group=group, user=self, action='add', force=True
-    )
-
+    group = Group.objects.get_or_create(name=group_name, user=self)
+    self.join_group(group, force=True)
 
 def user_get_personal_group(self):
     group_name = format_personal_group_name(self)
@@ -2927,6 +2947,25 @@ def user_get_primary_group(self):
                 continue
             return group
     return None
+
+
+def user_can_post_question(self):
+    """`True` if user can post questions"""
+    try:
+        self.assert_can_post_question()
+    except django_exceptions.PermissionDenied:
+        return False
+    return True
+
+
+def user_can_post_answer(self, thread=None):
+    """`True` if user can post questions"""
+    try:
+        self.assert_can_post_answer(thread=thread)
+    except django_exceptions.PermissionDenied:
+        return False
+    return True
+    
 
 def user_can_make_group_private_posts(self):
     """simplest implementation: user belongs to at least one group"""
@@ -3295,9 +3334,7 @@ def user_approve_post_revision(user, post_revision, timestamp = None):
         post.text = post_revision.text
 
         post_is_new = (post.revisions.count() == 1)
-        parse_results = post.parse_and_save(
-                            author=post_revision.author
-                        )
+        parse_results = post.parse_and_save(author=post_revision.author)
 
         signals.post_updated.send(
             post=post,
@@ -3341,9 +3378,9 @@ def flag_post(
         for flag in all_flags:
             auth.onUnFlaggedItem(post, flag.user, timestamp=timestamp)
 
-    elif cancel:#todo: can't unflag?
+    elif cancel:
         if force == False:
-            user.assert_can_remove_flag_offensive(post = post)
+            user.assert_can_remove_flag_offensive(post=post)
         auth.onUnFlaggedItem(post, user, timestamp=timestamp)
 
     else:
@@ -3493,6 +3530,7 @@ def user_edit_group_membership(self, user=None, group=None,
     """
     if not force:
         self.assert_can_join_or_leave_group()
+
     if action == 'add':
         #calculate new level
         openness = group.get_openness_level_for_user(user)
@@ -3513,16 +3551,26 @@ def user_edit_group_membership(self, user=None, group=None,
         else:
             level = level or GroupMembership.FULL
 
-        membership, created = GroupMembership.objects.get_or_create(
-                        user=user, group=group, level=level
-                    )
+        auth_group = group.group_ptr
+        user.groups.add(auth_group)
+
+        try:
+            membership = GroupMembership.objects.get(user=user, group=group)
+        except GroupMembership.DoesNotExist:
+            membership = GroupMembership.objects.create(user=user, group=group, level=level)
+        else:
+            membership.level = level
+            membership.save()
+
         return membership
 
-    elif action == 'remove':
+    if action == 'remove':
+        auth_group = group.group_ptr
         GroupMembership.objects.get(user=user, group=group).delete()
+        user.groups.remove(auth_group)
         return None
-    else:
-        raise ValueError('invalid action')
+
+    raise ValueError('invalid action')
 
 def user_join_group(self, group, force=False, level=None):
     return self.edit_group_membership(group=group, user=self,
@@ -3641,7 +3689,9 @@ User.add_to_class('can_anonymize_account', user_can_anonymize_account)
 User.add_to_class('can_create_tags', user_can_create_tags)
 User.add_to_class('can_have_strong_url', user_can_have_strong_url)
 User.add_to_class('can_post_by_email', user_can_post_by_email)
+User.add_to_class('can_post_answer', user_can_post_answer)
 User.add_to_class('can_post_comment', user_can_post_comment)
+User.add_to_class('can_post_question', user_can_post_question)
 User.add_to_class('can_make_group_private_posts', user_can_make_group_private_posts)
 User.add_to_class('is_administrator', user_is_administrator)
 User.add_to_class('is_administrator_or_moderator', user_is_administrator_or_moderator)
@@ -3669,6 +3719,7 @@ User.add_to_class('can_moderate_user', user_can_moderate_user)
 User.add_to_class('can_see_karma', user_can_see_karma)
 User.add_to_class('has_affinity_to_question', user_has_affinity_to_question)
 User.add_to_class('has_badge', user_has_badge)
+User.add_to_class('has_group_permission', user_has_group_permission)
 User.add_to_class('moderate_user_reputation', user_moderate_user_reputation)
 User.add_to_class('set_status', user_set_status)
 User.add_to_class('get_badge_summary', user_get_badge_summary)
@@ -4082,20 +4133,6 @@ def record_flag_offensive(instance, mark_by, **kwargs):
 #                                    )
     activity.add_recipients(instance.get_moderators())
 
-def remove_flag_offensive(instance, mark_by, **kwargs):
-    "Remove flagging activity"
-    content_type = ContentType.objects.get_for_model(instance)
-
-    activity = Activity.objects.filter(
-                    user=mark_by,
-                    content_type = content_type,
-                    object_id = instance.id,
-                    activity_type=const.TYPE_ACTIVITY_MARK_OFFENSIVE,
-                    question=instance.get_origin_post()
-                )
-    activity.delete()
-
-
 def record_update_tags(thread, tags, user, timestamp, **kwargs):
     """
     This function sends award badges signal on each updated tag
@@ -4301,14 +4338,16 @@ def make_invited_moderator(user, **kwargs):
 
 
 def moderate_group_joining(sender, instance=None, created=False, **kwargs):
-    if created and instance.level == GroupMembership.PENDING:
-        user = instance.user
-        group = instance.group
-        user.notify_users(
-                notification_type=const.TYPE_ACTIVITY_ASK_TO_JOIN_GROUP,
-                recipients = group.get_moderators(),
-                content_object = group
-            )
+    if instance.level != GroupMembership.PENDING:
+        return
+
+    user = instance.user
+    group = instance.group
+    user.notify_users(
+            notification_type=const.TYPE_ACTIVITY_ASK_TO_JOIN_GROUP,
+            recipients=group.group.get_moderators(),
+            content_object=group
+        )
 
 #this variable and the signal handler below is
 #needed to work around the issue in the django admin
@@ -4509,11 +4548,6 @@ signals.flag_offensive.connect(
     record_flag_offensive,
     sender=Post,
     dispatch_uid='record_flag_offensive_on_post_flag'
-)
-signals.remove_flag_offensive.connect(
-    remove_flag_offensive,
-    sender=Post,
-    dispatch_uid='remove_flag_offensive_on_post_unflag'
 )
 signals.tags_updated.connect(
     record_update_tags,

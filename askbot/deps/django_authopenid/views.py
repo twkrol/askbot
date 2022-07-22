@@ -88,15 +88,12 @@ from askbot import forms as askbot_forms
 from askbot.deps.django_authopenid import util
 from askbot.deps.django_authopenid.models import UserAssociation, UserEmailVerifier
 from askbot.deps.django_authopenid import forms
+from askbot.deps.django_authopenid import protocols
 from askbot.deps.django_authopenid.backends import AuthBackend
 import logging
 from askbot.utils.forms import get_next_url, get_next_jwt
 from askbot.utils.http import get_request_info, get_request_params
 from askbot.signals import user_logged_in, user_registered
-
-
-def get_next_url_from_session(session):
-    return session.pop('next_url', None) or reverse('index')
 
 
 def create_authenticated_user_account(
@@ -182,10 +179,7 @@ def logout(request):
     connect_messages_to_anon_user(request)
 
 def logout_page(request):
-    data = {
-        'page_class': 'meta',
-        'have_federated_login_methods': util.have_enabled_federated_login_methods()
-    }
+    data = {'have_federated_login_methods': util.have_enabled_federated_login_methods()}
     return render(request, 'authopenid/logout.html', data)
 
 def get_url_host(request):
@@ -276,7 +270,7 @@ def complete_discourse_signin(request):
 
 
 def complete_oauth2_signin(request):
-    next_url = get_next_url_from_session(request.session)
+    next_url = util.get_next_url_from_session(request.session)
 
     if 'error' in request.GET:
         return HttpResponseRedirect(reverse('index'))
@@ -376,7 +370,7 @@ def complete_oauth2_signin(request):
 
 def complete_cas_signin(request):
     from askbot.deps.django_authopenid.providers.cas_provider import CASLoginProvider
-    next_url = get_next_url_from_session(request.session)
+    next_url = util.get_next_url_from_session(request.session)
     provider = CASLoginProvider(success_redirect_url=next_url)
     cas_login_url = provider.get_login_url()
 
@@ -433,7 +427,7 @@ def complete_cas_signin(request):
 
 
 def complete_oauth1_signin(request):
-    next_url = get_next_url_from_session(request.session)
+    next_url = util.get_next_url_from_session(request.session)
 
     if 'denied' in request.GET:
         return HttpResponseRedirect(next_url)
@@ -490,7 +484,7 @@ def complete_oauth1_signin(request):
 
 
 @csrf.csrf_protect
-def signin(request, template_name='authopenid/signin.html'):
+def signin(request):
     """
     signin page. It manages the legacy authentification (user/password)
     and openid authentification
@@ -723,6 +717,17 @@ def signin(request, template_name='authopenid/signin.html'):
                         ) % {'provider': provider_name}
                     request.user.message_set.create(message=msg)
 
+            elif login_form.cleaned_data['login_type'] == 'oidc':
+                csrf_token = generate_random_key(length=32)
+                request.session['auth_csrf_token'] = csrf_token
+                request.session['provider_name'] = provider_name
+                request.session['next_url'] = next_url
+                oidc = protocols.get_protocol(provider_name)
+                redirect_url = site_url(reverse('user_complete_oidc_signin'))
+                oidc_auth_url = oidc.get_authentication_url(redirect_url, csrf_token=csrf_token)
+                return HttpResponseRedirect(oidc_auth_url)
+                
+
             elif login_form.cleaned_data['login_type'] == 'wordpress_site':
                 #here wordpress_site means for a self hosted wordpress blog not a wordpress.com blog
                 wp = Client(
@@ -761,23 +766,17 @@ def signin(request, template_name='authopenid/signin.html'):
     else:
         view_subtype = 'default'
 
-    return show_signin_view(
-                            request,
+    return show_signin_view(request,
                             login_form=login_form,
-                            view_subtype=view_subtype,
-                            template_name=template_name
-                           )
+                            view_subtype=view_subtype)
 
 @csrf.csrf_protect
-def show_signin_view(
-                request,
-                login_form = None,
-                account_recovery_form = None,
-                account_recovery_message = None,
-                sticky = False,
-                view_subtype = 'default',
-                template_name='authopenid/signin.html'
-            ):
+def show_signin_view(request,
+                     login_form = None,
+                     account_recovery_form = None,
+                     account_recovery_message = None,
+                     sticky = False,
+                     view_subtype = 'default'):
     """url-less utility function that populates
     context of template 'authopenid/signin.html'
     and returns its rendered output
@@ -850,7 +849,7 @@ def show_signin_view(
 
 
     if view_subtype == 'default':
-        page_title = _('Please click any of the icons below to sign in')
+        page_title = _('Click any of the icons below to sign in')
     elif view_subtype == 'email_sent':
         page_title = _('Account recovery email sent')
     elif view_subtype == 'change_openid':
@@ -866,7 +865,6 @@ def show_signin_view(
 
     logging.debug('showing signin view')
     data = {
-        'page_class': 'openid-signin',
         'view_subtype': view_subtype, #add_openid|default
         'page_title': page_title,
         'question': question,
@@ -915,7 +913,7 @@ def show_signin_view(
     data['major_login_providers'] = list(major_login_providers.values())
     data['minor_login_providers'] = list(minor_login_providers.values())
 
-    return render(request, template_name, data)
+    return render(request, 'authopenid/signin.html', data)
 
 @csrf.csrf_protect
 @askbot_decorators.post_only
@@ -1043,9 +1041,7 @@ def finalize_generic_signin(
 
     if 'in_recovery' in request.session:
         del request.session['in_recovery']
-        redirect_url = getattr(django_settings, 'LOGIN_REDIRECT_URL', None)
-        if redirect_url is None:
-            redirect_url = reverse('questions')
+        redirect_url = getattr(django_settings, 'LOGIN_REDIRECT_URL', reverse('questions'))
 
     if request.user.is_authenticated:
         #this branch is for adding a new association
@@ -1352,9 +1348,7 @@ def verify_email_and_register(request):
             )
             request.user.message_set.create(message=message)
             return HttpResponseRedirect(reverse('index'))
-    else:
-        data = {'page_class': 'validate-email-page'}
-        return render(request, 'authopenid/verify_email.html', data)
+    return render(request, 'authopenid/verify_email.html')
 
 @not_authenticated
 @csrf.csrf_protect
@@ -1409,16 +1403,13 @@ def signup_with_password(request):
 
     context_data = {
         'form': form,
-        'page_class': 'openid-signin',
         'major_login_providers': list(major_login_providers.values()),
         'minor_login_providers': list(minor_login_providers.values()),
         'login_form': login_form
     }
-    return render(
-        request,
-        'authopenid/signup_with_password.html',
-        context_data
-    )
+    return render(request,
+                  'authopenid/signup_with_password.html',
+                  context_data)
 
 @login_required
 def signout(request):
@@ -1427,15 +1418,11 @@ def signout(request):
 
     url : /signout/"
     """
-    logging.debug('')
     try:
-        logging.debug('deleting openid session var')
         del request.session['openid']
     except KeyError:
-        logging.debug('failed')
         pass
     logout(request)
-    logging.debug('user logged out')
     return HttpResponseRedirect(get_next_url(request))
 
 XRDF_TEMPLATE = """<?xml version='1.0' encoding='UTF-8'?>
@@ -1499,8 +1486,7 @@ def recover_account(request):
             user = form.cleaned_data['user']
             send_user_new_email_key(user)
             message = _('Please check your email and visit the enclosed link.')
-            data = {'page_class': 'validate-email-page'}
-            return render(request, 'authopenid/verify_email.html', data)
+            return render(request, 'authopenid/verify_email.html')
         return show_signin_view(request, account_recovery_form=form)
 
     key = get_request_params(request).get('validation_code', None)
@@ -1538,7 +1524,7 @@ def auth_user_by_token(request, key):
 
     data = {
         'account_recovery_form': forms.AccountRecoveryForm(),
-        'message': _('Sorry, this account recovery key has expired or is invalid'),
-        'bad_key': True
+        'bad_key': True,
+        'message': _('Sorry, this account recovery key has expired or is invalid')
     }
     return render(request, 'authopenid/recover_account.html', data)

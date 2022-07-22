@@ -1,0 +1,28 @@
+@use './sass_variables.scss';
+
+@mixin layout-col1 {
+  padding-right: var(--layout-horizontal-padding);
+  width: calc(100% - var(--layout-sidebar-width));
+  @media (max-width: #{sass_variables.$sidebar_breakpoint}) {
+    padding-right: 0;
+    width: 100%;
+  }
+}
+
+@mixin layout-col2 {
+  width: var(--layout-sidebar-width);
+  @media (max-width: #{sass_variables.$sidebar_breakpoint}) {
+    display: none;
+    &:not(.ask-btn-col) {
+      &.js-visible {
+        background: var(--bg-color);
+        display: block;
+        height: calc(100% - var(--sort-nav-height));
+        position: absolute;
+        right: 0;
+        top: var(--sort-nav-height);
+        width: 100%;
+      }
+    }
+  }
+}

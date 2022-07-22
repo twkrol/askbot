@@ -1,0 +1,53 @@
+{% extends "two_column_body.html" %}
+<!-- template badges.html -->
+{% block title %}{% filter trim %}{% trans %}Badges{% endtrans %}{% endfilter %}{% endblock %}
+{% block layout_class %}badges-page{% endblock %}
+{% block content %}
+<h1>{% trans %}Badges{% endtrans %}</h1>
+<p>
+  {{ settings.WORDS_COMMUNITY_GIVES_YOU_AWARDS|escape }}
+</p>
+<p>
+  {% trans %}Below is the list of available badges and number of times each type of badge has been awarded.{% endtrans %}
+</p>
+<table>
+  <tbody class="badges-list">
+    {% for badge in badges %}
+       <tr class="js-badge-row" data-badge-id="{{ badge.id }}">
+         <td>
+          {% if badge.id in my_badge_ids %}
+            <div class="with-check-icon"></div>
+          {% endif %}
+         </td>
+         <td>
+           <a href="{{badge.get_absolute_url()}}"
+             title="{{ badge.get_type_display() }} : {{ badge.get_description() }}"
+             class="badge-page-link"
+           >
+             <span class="{{ badge.get_css_class() }}">{{ badge.get_name() }}</span>
+           </a>
+           <strong class="with-times-icon">{{ badge.awarded_count|intcomma }}</strong>
+         </td>
+         <td>
+          <p class="badge-description">{{ badge.get_description() }}</p>
+         </td>
+       </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+{% block sidebar %}
+    {% include "badges/sidebar.html" %}
+{% endblock %}
+{% block endjs %}
+  {# disable the badge sorting for now #}
+  {# % if request.user.is_authenticated and request.user.is_administrator_or_moderator() %}
+  <script type="text/javascript">
+    askbot['urls']['reorderBadges'] = '{{ url('reorder_badges') }}';
+  </script>
+    {% compress js %}
+      <script type="text/javascript" src="{{ '/jslib/jquery-sortable.js'|media }}"></script>
+      <script type="text/javascript" src="{{ '/js/pages/badges.js'|media }}'"></script>
+    {% endcompress %}
+  {% endif %#}
+{% endblock %}

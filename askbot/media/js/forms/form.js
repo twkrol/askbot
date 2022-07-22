@@ -36,9 +36,13 @@ Form.prototype.validateForm = function () {
 
 Form.prototype.getFormValidationHandler = function () {
     var me = this;
+    var element = this._element;
     return function () {
+        var buttons = element.find('button[type="submit"], button[type="button"], button[type="reset"], input[type="submit"], input[type="reset"], input[type="button"]');
+        buttons.attr('disabled', true);
         me.validateForm();
         if (me.formHasErrors()) {
+            buttons.attr('disabled', false);
             return false;
         }
     };

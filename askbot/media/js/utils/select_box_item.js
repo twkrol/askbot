@@ -62,14 +62,14 @@ SelectBoxItem.prototype.getContent = function () {
 };
 
 SelectBoxItem.prototype.isSelected = function () {
-    return this._element.hasClass('selected');
+    return this._element.hasClass('js-active');
 };
 
 SelectBoxItem.prototype.setSelected = function (is_selected) {
     if (is_selected) {
-        this._element.addClass('selected');
+        this._element.addClass('js-active');
     } else {
-        this._element.removeClass('selected');
+        this._element.removeClass('js-active');
     }
 };
 

@@ -333,6 +333,8 @@ class AskbotSetup:
             deployers.ManagePy(params).deploy()
             deployers.UrlsPy(params).deploy()
             deployers.SettingsPy(params).deploy()
+            deployers.CeleryPy(params).deploy()
+            deployers.InitPy(params).deploy()
             # print next steps help
             #console.print_postamble(params)
 

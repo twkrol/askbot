@@ -65,8 +65,13 @@ urlpatterns = [
         name='tags'
     ),
     url(
+        r'^%s$' % pgettext('urls', 'search-posts/'),
+        views.readers.search_posts,
+        name='search_posts'
+    ),
+    url(
         r'^%s$' % pgettext('urls', 'users/'),
-        views.users.show_users,
+        views.users.users_list,
         name='users'
     ),
     url(
@@ -74,7 +79,7 @@ urlpatterns = [
                                             pgettext('urls', 'users/'),
                                             pgettext('urls', 'by-group/')
                                         ),
-        views.users.show_users,
+        views.users.users_list,
         kwargs={'by_group': True},
         name='users_by_group'
     ),
@@ -146,12 +151,12 @@ urlpatterns = [
     ),
     url(
         r'^%s$' % pgettext('urls', 'badges/'),
-        views.meta.badges,
+        views.meta.badges_page,
         name='badges'
     ),
     url(
-        r'^%s(?P<id>\d+)//*' % pgettext('urls', 'badges/'),
-        views.meta.badge,
+        r'^%s(?P<badge_id>\d+)//*' % pgettext('urls', 'badges/'),
+        views.meta.badge_page,
         name='badge'
     ),
     url(
@@ -194,7 +199,7 @@ urlpatterns = [
         kwargs={'setting_name': 'TERMS', 'page_class': 'terms-page'},
         name='terms'
     ),
-    url(r'^%s$' % pgettext('urls', 'help/'), views.meta.help, name='help'),
+    url(r'^%s$' % pgettext('urls', 'help/'), views.meta.help_page, name='help'),
     service_url(
         r'^%s(?P<id>\d+)/%s$' % (pgettext('urls', 'answers/'), pgettext('urls', 'edit/')),
         views.writers.edit_answer,
@@ -302,23 +307,18 @@ urlpatterns = [
         views.writers.ask,
         name='ask'
     ),
-    url(
-        r'^%s(?P<id>\d+)/%s$' % (MAIN_PAGE_BASE_URL, pgettext('urls', 'edit/')),
-        views.writers.edit_question,
-        name='edit_question'
-    ),
     service_url(  # this url is both regular and ajax
         r'^%s(?P<id>\d+)/%s$' % (MAIN_PAGE_BASE_URL, pgettext('urls', 'retag/')),
         views.writers.retag_question,
         name='retag_question'
     ),
     url(
-        r'^%s(?P<id>\d+)/%s$' % (MAIN_PAGE_BASE_URL, pgettext('urls', 'close/')),
+        r'^%s%s(?P<id>\d+)$' % (MAIN_PAGE_BASE_URL, pgettext('urls', 'close/')),
         views.commands.close,
         name='close'
     ),
     url(
-        r'^%s(?P<id>\d+)/%s$' % (MAIN_PAGE_BASE_URL, pgettext('urls', 'reopen/')),
+        r'^%s%s(?P<id>\d+)$' % (MAIN_PAGE_BASE_URL, pgettext('urls', 'reopen/')),
         views.commands.reopen,
         name='reopen'
     ),
@@ -332,9 +332,9 @@ urlpatterns = [
         views.commands.merge_questions,
         name='merge_questions'
     ),
-    service_url(  # ajax only
+    service_url(# ajax only
         r'^vote$',
-        views.commands.vote,
+        views.commands.legacy_vote_view,
         name='vote'
     ),
     url(
@@ -391,9 +391,9 @@ urlpatterns = [
         name='repost_answer_as_comment_under_previous_answer'
     ),
     service_url(  # post only
-        r'^answer/publish/$',
-        views.commands.publish_answer,
-        name='publish_answer'
+        r'^publish-post/$',
+        views.commands.publish_post,
+        name='publish_post'
     ),
     service_url(
         r'^%s%s$' % (pgettext('urls', 'tags/'), pgettext('urls', 'subscriptions/')),
@@ -592,78 +592,6 @@ urlpatterns = [
         views.commands.join_or_leave_group,
         name='join_or_leave_group'
     ),
-#    service_url(
-#        r'^%s$' % (pgettext('urls', 'widgets/')),
-#        views.widgets.widgets,
-#        name='widgets'
-#    ),
-#    service_url(
-#        r'^%s%s(?P<widget_id>\d+)/$' % (
-#            pgettext('urls', 'widgets/'),
-#            pgettext('urls', 'ask/')
-#        ),
-#        views.widgets.ask_widget,
-#        name='ask_by_widget'
-#    ),
-#    service_url(
-#        r'^%s%s(?P<widget_id>\d+).js$' % (
-#            pgettext('urls', 'widgets/'),
-#            pgettext('urls', 'ask/')
-#        ),
-#        views.widgets.render_ask_widget_js,
-#        name='render_ask_widget'
-#    ),
-#    service_url(
-#        r'^%s%s(?P<widget_id>\d+).css$' % (
-#            pgettext('urls', 'widgets/'),
-#            pgettext('urls', 'ask/')
-#        ),
-#        views.widgets.render_ask_widget_css,
-#        name='render_ask_widget_css'
-#    ),
-#    service_url(
-#        r'^%s%s%s$' % (
-#            pgettext('urls', 'widgets/'),
-#            pgettext('urls', 'ask/'),
-#            pgettext('urls', 'complete/')
-#        ),
-#        views.widgets.ask_widget_complete,
-#        name='ask_by_widget_complete'
-#    ),
-#    service_url(
-#        r'^%s(?P<model>\w+)/%s$' % (
-#            pgettext('urls', 'widgets/'),
-#            pgettext('urls', 'create/')
-#        ),
-#        views.widgets.create_widget,
-#        name='create_widget'
-#    ),
-#    service_url(
-#        r'^%s(?P<model>\w+)/%s(?P<widget_id>\d+)/$' % (
-#            pgettext('urls', 'widgets/'),
-#            pgettext('urls', 'edit/')
-#        ),
-#        views.widgets.edit_widget,
-#        name='edit_widget'
-#    ),
-#    service_url(
-#        r'^%s(?P<model>\w+)/%s(?P<widget_id>\d+)/$' % (
-#            pgettext('urls', 'widgets/'),
-#            pgettext('urls', 'delete/')
-#        ),
-#        views.widgets.delete_widget,
-#        name='delete_widget'
-#    ),
-#    service_url(
-#        r'^%s(?P<model>\w+)/$' % (pgettext('urls', 'widgets/')),
-#        views.widgets.list_widgets,
-#        name='list_widgets'
-#    ),
-#    service_url(
-#        r'^widgets/%s(?P<widget_id>\d+)/$' % MAIN_PAGE_BASE_URL,
-#        views.widgets.question_widget,
-#        name='question_widget'
-#    ),
     service_url(
         r'^get-perms-data/$',
         views.readers.get_perms_data,
@@ -713,6 +641,7 @@ urlpatterns = [
     url('^api/v1/questions/$', views.api_v1.questions, name='api_v1_questions'),
     url('^api/v1/questions/(?P<question_id>\d+)/$', views.api_v1.question, name='api_v1_question'),
     url('^api/v1/answers/(?P<answer_id>\d+)/$', views.api_v1.answer, name='api_v1_answer'),
+    url('^colors/', views.meta.colors, name='colors')
 ]
 
 if 'askbot.deps.django_authopenid' in settings.INSTALLED_APPS:

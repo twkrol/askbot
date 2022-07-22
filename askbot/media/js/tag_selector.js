@@ -1,6 +1,6 @@
-var TagDetailBox = function (box_type) {
+var TagDetailBox = function (boxType) {
     WrappedElement.call(this);
-    this.box_type = box_type;
+    this.boxType = boxType;
     this._is_blank = true;
     this._tags = [];
     this.wildcard = undefined;
@@ -49,6 +49,7 @@ TagDetailBox.prototype.addTag = function (tag) {
     var li = this.makeElement('li');
     li.append(tag.getElement());
     this._tag_list_element.append(li);
+    this._tag_list_element.addClass('js-has-tags');
 };
 
 TagDetailBox.prototype.loadTags = function (wildcard, callback) {
@@ -149,9 +150,13 @@ function pickedTags() {
         var deleteTagLocally = function () {
             var tag = from_target[tagname];
             var li = tag.parent();
+            var ul = li.parent();
             from_target[tagname].remove();
             if (li.prop('tagName') === 'LI') {
                 li.remove();
+            }
+            if (ul.find('li').length === 0) {
+              ul.removeClass('js-has-tags');
             }
             delete from_target[tagname];
         };
@@ -179,12 +184,12 @@ function pickedTags() {
     };
 
     var getTagList = function (reason) {
-        var base_selector = '.marked-tags';
+        var base_selector = '.js-marked-tags';
         var extra_selector = '';
         if (reason === 'good') {
-            extra_selector = '.interesting';
+            extra_selector = '.js-interesting-tags';
         } else if (reason === 'bad') {
-            extra_selector = '.ignored';
+            extra_selector = '.js-ignored-tags';
         } else if (reason === 'subscribed') {
             extra_selector = '.subscribed';
         }
@@ -257,6 +262,7 @@ function pickedTags() {
             var li = $('<li></li>');//assumption that we have a list
             li.append(tag_element);
             to_tag_container.append(li);
+            to_tag_container.addClass('js-has-tags');
             to_target[tag_name] = tag_element;
         });
     };
@@ -267,17 +273,17 @@ function pickedTags() {
         var to_tag_container;
         var input_sel = '';
         if (reason === 'bad') {
-            input_sel = '#ignoredTagInput';
+            input_sel = '#js-ignored-tag-input';
             to_target = ignoredTags;
             from_target = interestingTags;
-            to_tag_container = $('div .tags.ignored');
+            to_tag_container = $('div .js-ignored-tags');
         } else if (reason === 'good') {
-            input_sel = '#interestingTagInput';
-            to_tag_container = $('div .tags.interesting');
+            input_sel = '#js-interesting-tag-input';
+            to_tag_container = $('div .js-interesting-tags');
         } else if (reason === 'subscribed') {
-            input_sel = '#subscribedTagInput';
+            input_sel = '#js-subscribed-tag-input';
             to_target = subscribedTags;
-            to_tag_container = $('div .tags.subscribed');
+            to_tag_container = $('div .js-subscribed-tags');
         } else {
             return;
         }
@@ -336,19 +342,19 @@ function pickedTags() {
     var collectPickedTags = function (section) {
         var reason = '';
         var tag_store;
-        if (section === 'interesting') {
+        if (section === 'js-interesting-tags') {
             reason = 'good';
             tag_store = interestingTags;
-        } else if (section === 'ignored') {
+        } else if (section === 'js-ignored-tags') {
             reason = 'bad';
             tag_store = ignoredTags;
-        } else if (section === 'subscribed') {
+        } else if (section === 'js-subscribed-tags') {
             reason = 'subscribed';
             tag_store = subscribedTags;
         } else {
             return;
         }
-        $('.' + section + '.tags.marked-tags .js-tag').each(
+        $('.' + section + '.js-marked-tags .js-tag').each(
             function (i, item) {
                 var tag = new Tag();
                 tag.decorate($(item));
@@ -372,7 +378,7 @@ function pickedTags() {
     };
 
     var setupTagFilterControl = function (control_type) {
-        var radioButtons = $('#' + control_type + 'TagFilterControl input');
+        var radioButtons = $('#js-' + control_type + '-tag-filter-control input');
         radioButtons.unbind('click');
         radioButtons.click(function () {
             var clickedBtn = $(this);
@@ -402,9 +408,9 @@ function pickedTags() {
 
     return {
         init: function () {
-            collectPickedTags('interesting');
-            collectPickedTags('ignored');
-            collectPickedTags('subscribed');
+            collectPickedTags('js-interesting-tags');
+            collectPickedTags('js-ignored-tags');
+            collectPickedTags('js-subscribed-tags');
             setupTagFilterControl('display');
             setupTagFilterControl('email');
             var ac = new AutoCompleter({
@@ -418,20 +424,20 @@ function pickedTags() {
 
 
             var interestingTagAc = $.extend(true, {}, ac);
-            interestingTagAc.decorate($('#interestingTagInput'));
+            interestingTagAc.decorate($('#js-interesting-tag-input'));
             interestingTagAc.setOption('onItemSelect', getResultCallback('good'));
 
             var ignoredTagAc = $.extend(true, {}, ac);
-            ignoredTagAc.decorate($('#ignoredTagInput'));
+            ignoredTagAc.decorate($('#js-ignored-tag-input'));
             ignoredTagAc.setOption('onItemSelect', getResultCallback('bad'));
 
             var subscribedTagAc = $.extend(true, {}, ac);
-            subscribedTagAc.decorate($('#subscribedTagInput'));
+            subscribedTagAc.decorate($('#js-subscribed-tag-input'));
             subscribedTagAc.setOption('onItemSelect', getResultCallback('subscribed'));
 
-            $('#interestingTagAdd').click(getResultCallback('good'));
-            $('#ignoredTagAdd').click(getResultCallback('bad'));
-            $('#subscribedTagAdd').click(getResultCallback('subscribed'));
+            $('#js-interesting-tag-add').click(getResultCallback('good'));
+            $('#js-ignored-tag-add').click(getResultCallback('bad'));
+            $('#js-subscribed-tag-add').click(getResultCallback('subscribed'));
         }
     };
 }

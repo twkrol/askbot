@@ -181,12 +181,13 @@ def get_yes_or_no(prompt_phrase, default=None):
 
     :returns: (str) 'yes' or 'no'
     """
+    prompt_phrase += ' (yes/no)'
+    if default:
+        prompt_phrase += '[%s] :' % default
+    else:
+        prompt_phrase += ':'
+
     while True:
-        prompt_phrase += ' (yes/no)'
-        if default:
-            prompt_phrase += '[%s] >' % default
-        else:
-            prompt_phrase += '>'
         response = input(prompt_phrase).strip()
         if not response and default:
             return default

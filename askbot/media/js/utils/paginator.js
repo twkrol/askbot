@@ -1,247 +1,287 @@
+/* global inherits, WrappedElement, setupButtonEventHandlers */
+
 var Paginator = function () {
-    WrappedElement.call(this);
+  WrappedElement.call(this);
 };
 inherits(Paginator, WrappedElement);
 
 /**
- * A mandotory method.
- * this method needs to be implemented by the subclass
- * @interface
  * @param data is json dict returted by the server
  */
 Paginator.prototype.renderPage = function (data) {
-    throw 'implement me in the subclass';
+  var target = $(this._resultPlacementSelector);
+  $(target).html(data.html);
 };
 
 /**
- * A mandatory method.
- * @interface - implement in subclass
  * returns url that can be used to retrieve page data
  */
-Paginator.prototype.getPageDataUrl = function (pageNo) {
-    throw 'implement me in the subclass';
+Paginator.prototype.getDataUrl = function (_pageNo) {
+  return this._dataUrl;
 };
 
-/**
- * Optional method
- * @interface - implement in subclass
- * returns url parameters for the page request
- */
-Paginator.prototype.getPageDataUrlParams = function (pageNo) {};
+Paginator.prototype.getRequestParams = function (pageNo) {
+  var params = this._requestParams;
+  params['page_number'] = pageNo;
+  return params;
+};
 
 Paginator.prototype.setIsLoading = function (isLoading) {
-    this._isLoading = isLoading;
+  this._isLoading = isLoading;
 };
 
 Paginator.prototype.startLoadingPageData = function (pageNo) {
-    if (this._isLoading) {
-        return;
+  if (this._isLoading) {
+    return;
+  }
+  var me = this;
+  var currentPageNo = this.getCurrentPageNo()
+  var requestParams = {
+    type: 'GET',
+    dataType: 'json',
+    url: this.getDataUrl(pageNo),
+    cache: false,
+    success: function (data) {
+      try {
+        me.renderPage(data);
+        me.setIsLoading(false);
+      } catch(error) {
+        console.log('Error in Paginator.startLoadingPageData', {error: error});
+      }
+    },
+    failure: function () {
+      me.setIsLoading(false);
+      me.updatePaginator(currentPageNo);
     }
-    var me = this;
-    var requestParams = {
-        type: 'GET',
-        dataType: 'json',
-        url: this.getPageDataUrl(pageNo),
-        cache: false,
-        success: function (data) {
-            me.renderPage(data);
-            me.setCurrentPage(pageNo);
-            me.setIsLoading(false);
-        },
-        failure: function () {
-            me.setIsLoading(false);
-        }
-    };
-    var urlParams = this.getPageDataUrlParams(pageNo);
-    if (urlParams) {
-        requestParams.data = urlParams;
-    }
-    $.ajax(requestParams);
-    me.setIsLoading(true);
-    return false;
+  };
+  var params = this.getRequestParams(pageNo);
+  if (params) {
+    requestParams.data = params;
+  }
+  $.ajax(requestParams);
+  me.updatePaginator(pageNo);
+  me.setIsLoading(true);
+  return false;
 };
 
 Paginator.prototype.getCurrentPageNo = function () {
-    var page = this._element.find('.curr');
-    return parseInt(page.attr('data-page'));
+  var page = this._element.find('.js-current-page');
+  return parseInt(page.data('page'));
 };
 
 Paginator.prototype.getIncrementalPageHandler = function (direction) {
-    var me = this;
-    return function () {
-        var pageNo = me.getCurrentPageNo();
-        if (direction === 'next') {
-            pageNo = pageNo + 1;
-        } else {
-            pageNo = pageNo - 1;
-        }
-        me.startLoadingPageData(pageNo);
-        return false;
-    };
-};
-
-Paginator.prototype.getWindowStart = function (pageNo) {
-    var totalPages = this._numPages;
-    var activePages = this._numActivePages;
-
-    //paginator is "short" w/o prev or next, no need to rerender
-    if (totalPages === activePages) {
-        return 1;
-    }
-
-    //we are in leading range
-    if (pageNo < activePages) {
-        return 1;
-    }
-
-    //we are in trailing range
-    var lastWindowStart = totalPages - activePages + 1;
-    if (pageNo > lastWindowStart) {
-        return lastWindowStart;
-    }
-
-    return pageNo - Math.floor(activePages / 2);
-};
-
-Paginator.prototype.renderPaginatorWindow = function (windowStart) {
-    var anchors = this._paginatorAnchors;
-    for (var i = 0; i < anchors.length; i++) {
-        var anchor = $(anchors[i]);
-        removeButtonEventHandlers(anchor);
-        var pageNo = windowStart + i;
-        //re-render displayed number
-        anchor.html(pageNo);
-        //re-render the tooltip text
-        var labelTpl = gettext('page %s');
-        anchor.attr('title', interpolate(labelTpl, [pageNo]));
-        //re-render the "page" data value
-        anchor.parent().attr('data-page', pageNo);
-        //setup new event handler
-        var pageHandler = this.getPageButtonHandler(pageNo);
-        setupButtonEventHandlers(anchor, pageHandler);
-    }
-};
-
-Paginator.prototype.renderPaginatorEdges = function (windowStart, pageNo) {
-    //first page button
-    var first = this._firstPageNav;
-    if (windowStart === 1) {
-        first.hide();
+  var me = this;
+  return function () {
+    var pageNo = me.getCurrentPageNo();
+    if (direction === 'next') {
+      pageNo = Math.min(me._numPages, pageNo + 1);
     } else {
-        first.show();
+      pageNo = Math.max(1, pageNo - 1);
     }
-
-    //last page button
-    var lastWindowStart = this._numPages - this._numActivePages + 1;
-    var last = this._lastPageNav;
-    if (windowStart === lastWindowStart) {
-        last.hide();
-    } else {
-        last.show();
-    }
-
-    //show or hide "prev" and "next" buttons
-    if (this._numPages === this._numActivePages) {
-        this._prevPageButton.hide();
-        this._nextPageButton.hide();
-    } else {
-        if (pageNo === 1) {
-            this._prevPageButton.hide();
-        } else {
-            this._prevPageButton.show();
-        }
-        if (pageNo === this._numPages) {
-            this._nextPageButton.hide();
-        } else {
-            this._nextPageButton.show();
-        }
-    }
+    me.startLoadingPageData(pageNo);
+    return false;
+  };
 };
 
-Paginator.prototype.setCurrentPage = function (pageNo) {
-
-    var currPageNo = this.getCurrentPageNo();
-    var currWindow = this.getWindowStart(currPageNo);
-    var newWindow = this.getWindowStart(pageNo);
-    if (newWindow !== currWindow) {
-        this.renderPaginatorWindow(newWindow);
-    }
-
-    //select the current page
-    var page = this._mainPagesNav.find('[data-page="' + pageNo + '"]');
-    if (page.length === 1) {
-        var curr = this._element.find('.curr');
-        curr.removeClass('curr');
-        page.addClass('curr');
-    }
-
-    //show or hide ellipses (...) and the last/first page buttons
-    //newWindow is starting page of the new paginator window
-    this.renderPaginatorEdges(newWindow, pageNo);
+Paginator.prototype.getMainPagesRange = function() {
+  var startBtn = $(this._element.find('.js-main-pages-block > :first-child'));
+  var endBtn = $(this._element.find('.js-main-pages-block > :last-child'));
+  return [startBtn.data('page'), endBtn.data('page')];
 };
 
-Paginator.prototype.createButton = function (cls, label) {
-    var btn = this.makeElement('span');
-    btn.addClass(cls);
-    var link = this.makeElement('a');
-    link.html(label);
-    btn.append(link);
-    return btn;
+/*
+ * Returns an array of integers
+ * contiguous page numbers, to be used
+ * in the main pages block.
+ * Attempts to place the current page close
+ * to the center of the list.
+ */
+Paginator.prototype.getNewPageNumbers = function(pageNo) {
+  var length = this._mainPagesBlockLength;
+  var defaultPagesToLeft = Math.floor((length - 1)/2);
+  var defaultPagesToRight = length - 1 - defaultPagesToLeft;
+  /*
+   * determine how many pages are to the left and to
+   * the right of the current page
+   */
+  var pagesToLeft, pagesToRight;
+  if (pageNo <= defaultPagesToLeft) {
+    pagesToLeft = pageNo - 1;
+    pagesToRight = length - 1 - pagesToLeft;
+  } else if (this._numPages - pageNo < defaultPagesToRight) {
+    pagesToRight = this._numPages - pageNo;
+    pagesToLeft = length - 1 - pagesToRight;
+  } else {
+    pagesToLeft = defaultPagesToLeft;
+    pagesToRight = defaultPagesToRight;
+  }
+  var firstPage = pageNo - pagesToLeft;
+  var lastPage = pageNo + pagesToRight;
+  var pages = []
+  for (var page = firstPage; page <= lastPage; page++) {
+    pages.push(page)
+  }
+  return pages;
 };
 
-Paginator.prototype.getPageButtonHandler = function (pageNo) {
-    var me = this;
-    return function () {
-        if (me.getCurrentPageNo() !== pageNo) {
-            me.startLoadingPageData(pageNo);
-        }
-        return false;
-    };
+Paginator.prototype.updateMainPagesBlock = function(pageNo) {
+  var pageNums = this.getNewPageNumbers(pageNo);
+  for (var idx = 0; idx < pageNums.length; idx++) {
+    var num = pageNums[idx];
+    var childIdx = idx + 1
+    var button = $(this._mainPagesBlock.find(':nth-child(' + childIdx + ')'));
+    button.html(num);
+    button.data('page', num);
+  }
+};
+
+Paginator.prototype.getFirstPageNo = function() {
+  return $(this._firstPageBlock.find('a')).data('page');
+}
+
+Paginator.prototype.getLastPageNo = function() {
+  return $(this._lastPageBlock.find('a')).data('page');
+}
+
+Paginator.prototype.setCurrentPage = function(pageNo) {
+  this._mainPagesBlock.find('a').removeClass('js-current-page');
+  this._mainPagesBlock.find('a').each(function(_, item) {
+    if ($(item).data('page') === pageNo) {
+      $(item).addClass('js-current-page');
+    }
+  });
+};
+
+Paginator.prototype.updateIncrementalNavButtons = function(pageNo) {
+  this._prevPageButton.data('page', Math.max(pageNo - 1, 1));
+  this._nextPageButton.data('page', Math.min(this._numPages, pageNo + 1));
+  if (pageNo >= this._numPages) {
+    this._nextPageButton.addClass('js-disabled');
+  } else {
+    this._nextPageButton.removeClass('js-disabled');
+  }
+
+  if (pageNo <= 1) {
+    this._prevPageButton.addClass('js-disabled');
+  } else {
+    this._prevPageButton.removeClass('js-disabled');
+  }
+}
+
+Paginator.prototype.updateEdgePageBlocks = function() {
+  var range = this.getMainPagesRange();
+  var rangeStart = range[0];
+  var rangeEnd = range[range.length - 1];
+
+  if (rangeStart === this.getFirstPageNo()) {
+    this._firstPageBlock.hide();
+  } else {
+    this._firstPageBlock.show();
+  }
+
+  if (rangeEnd === this.getLastPageNo()) {
+    this._lastPageBlock.hide();
+  } else {
+    this._lastPageBlock.show();
+  }
+
+  if (rangeStart == 2) {
+    this._firstPageEllipsis.hide();
+  } else {
+    this._firstPageEllipsis.show();
+  }
+
+  if (this._numPages - rangeEnd == 1) {
+    this._lastPageEllipsis.hide();
+  } else {
+    this._lastPageEllipsis.show();
+  }
+
+};
+
+Paginator.prototype.updatePaginator = function (pageNo) {
+  this.updateMainPagesBlock(pageNo);
+  this.setCurrentPage(pageNo);
+  this.updateIncrementalNavButtons(pageNo);
+  this.updateEdgePageBlocks();
+};
+
+Paginator.prototype.getPageButtonHandler = function () {
+  var me = this;
+  return function (evt) {
+    var pageNo = $(evt.target).data('page');
+    if (me.getCurrentPageNo() !== pageNo) {
+      me.startLoadingPageData(pageNo);
+    }
+    return false;
+  };
 };
 
 Paginator.prototype.decorate = function (element) {
-    this._element = element;
-    var pages = element.find('.page');
-    this._firstPageNav = element.find('.first-page-nav');
-    this._lastPageNav = element.find('.last-page-nav');
-    this._mainPagesNav = element.find('.main-pages-nav');
-    var paginatorButtons = element.find('.paginator');
-    this._numPages = paginatorButtons.data('numPages');
+  /*
+   * <a class="js-prev-page with-caret-left-icon" />
+   * <span class="js-first-page-block" />
+   * [<a class="js-page" />]
+   * <span class="js-main-pages-block" />
+   * <span class="js-last-page-block" />
+   * <a class="js-next-page />
+   */
+  this._element = element;
 
-    var mainNavButtons = element.find('.main-pages-nav a');
-    this._paginatorAnchors =  mainNavButtons;
-    this._numActivePages = mainNavButtons.length;
+  var pages = element.find('.js-page');
+  this._firstPageBlock = element.find('.js-first-page-block');
+  this._firstPageEllipsis = this._firstPageBlock.find('.js-paginator-ellipsis');
+  this._lastPageBlock = element.find('.js-last-page-block');
+  this._lastPageEllipsis = this._lastPageBlock.find('.js-paginator-ellipsis');
+  this._mainPagesBlock = element.find('.js-main-pages-block');
+  this._mainPagesBlockLength = this._mainPagesBlock.find('a').length;
+  this._numPages = element.data('numPages');
+  this._dataUrl = element.data('dataUrl');
+  this._resultPlacementSelector = element.data('resultPlacementSelector');
+  this._requestParams = {};
+  try {
+    var params = element.data('requestParams')
+    this._requestParams = params;
+  } catch(error) {
+    console.log('Paginator: could not parse request params', {error: error});
+  }
 
-    for (var i = 0; i < pages.length; i++) {
-        var page = $(pages[i]);
-        var pageNo = page.data('page');
-        var link = page.find('a');
-        var pageHandler = this.getPageButtonHandler(pageNo);
-        setupButtonEventHandlers(link, pageHandler);
-    }
+  for (var i = 0; i < pages.length; i++) {
+    var page = $(pages[i]);
+    var pageHandler = this.getPageButtonHandler();
+    setupButtonEventHandlers(page, pageHandler);
+  }
 
-    var currPageNo = element.find('.curr').data('page');
+  var currPageNo = this.getCurrentPageNo();
 
-    //next page button
-    var nextPage = element.find('.next');
-    this._nextPageButton = nextPage;
-    if (currPageNo === this._numPages) {
-        this._nextPageButton.hide();
-    }
+  //next page button
+  this._nextPageButton = element.find('.js-next-page');
+  if (currPageNo === this._numPages) {
+    this._nextPageButton.addClass('js-disabled');
+  }
 
-    setupButtonEventHandlers(
-        this._nextPageButton,
-        this.getIncrementalPageHandler('next')
-    );
+  setupButtonEventHandlers(
+    this._nextPageButton,
+    this.getPageButtonHandler()
+  );
 
-    var prevPage = element.find('.prev');
-    this._prevPageButton = prevPage;
-    if (currPageNo === 1) {
-        this._prevPageButton.hide();
-    }
+  this._prevPageButton = element.find('.js-prev-page');
+  if (currPageNo === 1) {
+    this._prevPageButton.addClass('js-disabled');
+  }
 
-    setupButtonEventHandlers(
-        this._prevPageButton,
-        this.getIncrementalPageHandler('prev')
-    );
+  setupButtonEventHandlers(
+    this._prevPageButton,
+    this.getPageButtonHandler()
+  );
 };
+
+(function() {
+  $(document).ready(function() {
+    var paginators = $('.js-paginator');
+    for (var idx = 0; idx < paginators.length; idx++) {
+      var paginator = new Paginator();
+      paginator.decorate($(paginators[idx]));
+    }
+  });
+})();

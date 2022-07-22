@@ -1,0 +1,61 @@
+<footer>
+  <div class="content-wrapper">
+    {% if settings.APP_COPYRIGHT or settings.USE_LICENSE %}
+      <div class="footer-row">
+        {% if settings.APP_COPYRIGHT %}
+          <span class="copyright">
+            {{settings.APP_COPYRIGHT}}, {{settings.APP_COPYRIGHT_YEAR_START}}-{{now.year}}.
+          </span>
+        {% endif %}
+        {% if settings.USE_LICENSE %}{# could be factored out into separate template #}
+          <span class="license">
+            {% if settings.LICENSE_URL %}
+              {% set license='<a href="' ~ settings.LICENSE_URL ~ '">' ~ settings.LICENSE_TITLE ~ '</a>' %}
+            {% else %}
+              {% set license=settings.LICENSE_TITLE %}
+            {% endif %}
+            {% trans license=license -%}
+              Content on this site is licensed under a {{ license }} license.
+            {%- endtrans %}
+          </span>
+        {% endif %}
+      </div>
+    {% endif %}
+    <div class="footer-row" >
+      {% if settings.FORUM_ABOUT.strip() %}
+        <a href="{{ url('about') }}">{% trans %}about{% endtrans %}</a><span class="link-separator"> |</span>
+      {% endif %}
+      <a href="{{ url('faq') }}">{% trans %}faq{% endtrans %}</a><span class="link-separator"> |</span>
+      <a href="{{ url('help') }}" title="{% trans %}help{% endtrans %}">{% trans %}help{% endtrans %}</a>
+      <span class="link-separator"> |</span>
+      {% if settings.FORUM_PRIVACY.strip() %}
+        <a href="{{ url('privacy') }}">{% trans %}privacy policy{% endtrans %}</a><span class="link-separator"> |</span>
+      {% endif %}
+      {% if settings.TERMS.strip() %}
+        <a href="{{ url('terms') }}">{% trans %}terms of service{% endtrans %}</a>
+        <span class="link-separator"> |</span>
+      {% endif %}
+      {% set feedback_mode = settings.FEEDBACK_MODE %}
+      {% if feedback_mode == 'open' or (feedback_mode == 'auth-only' and request.user.is_authenticated) %}
+      <a
+          {% if settings.FEEDBACK_SITE_URL %}
+              href="{{settings.FEEDBACK_SITE_URL}}"
+              target="_blank"
+          {% else %}
+              {% set next_url=request.path|escape %}
+              href="{{ url('feedback') }}?next={{ encode_jwt({'next_url': next_url}) }}"
+          {% endif %}
+      >
+          {% trans %}give feedback{% endtrans %}
+      </a>
+      {% endif %}
+    </div>
+    <div class="footer-row">
+      <a href="http://askbot.com" target="_blank">
+        {% trans version=settings.ASKBOT_VERSION -%}
+          Powered by Askbot version {{version}}
+        {% endtrans %}
+      </a>
+    </div>
+  </div>
+</footer>

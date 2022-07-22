@@ -1,0 +1,96 @@
+@use '../sass_variables.scss';
+
+.js-questions-header {
+  margin-bottom: 0.5rem;
+  position: sticky;
+  top: var(--forum-header-height);
+  z-index: 1;
+}
+
+.js-questions-header-top {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 0 calc(-1 * var(--layout-horizontal-padding)) 0.125rem;
+  padding: 0 var(--layout-horizontal-padding);
+  position:relative;
+
+  /* removed b/c it interferes with the .js-search-tags
+  &.js-scrolled::after {
+    --shadow-height: 0.3625rem;
+    background: linear-gradient(to bottom, hsl(0 0 0 / 0.04), hsl(0 0 0 / 0));
+    border-top: 1px solid var(--crl-neutral-90);
+    border-bottom-left-radius: calc(2 * var(--shadow-height));
+    border-bottom-right-radius: calc(2 * var(--shadow-height));
+    bottom: calc(-1 * var(--shadow-height));
+    left: calc(0.5 * var(--layout-horizontal-padding));
+    content: '';
+    height: var(--shadow-height);
+    position: absolute;
+    width: calc(100% - var(--layout-horizontal-padding));
+  }
+  */
+
+  @media(max-width: 690px) {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.questions-header-top-controls {
+  display: flex;
+  @media (max-width: #{sass_variables.$sidebar_breakpoint}) {
+    width: 100%;
+  }
+}
+
+.js-questions-title {
+  background: var(--semi-transparent-bg-color);
+  flex-grow: 1;
+  font-weight: normal;
+  font-size: var(--large-font-size);
+  height: var(--sort-nav-height);
+  padding: 3px 1rem 0 0;
+  margin: 0;
+  @media(max-width: 690px) {
+    display: none;
+  }
+}
+
+.js-rss-link {
+  align-items: center;
+  color: var(--rss-link-color);
+  display: flex;
+  font-size: var(--small-font-size);
+  padding: 0 0.75rem 2px 0.25rem;
+  background: var(--semi-transparent-bg-color);
+  transition: color var(--transition-params);
+  &:hover {
+    color: var(--rss-link-hover-color);
+    transition: color var(--transition-params);
+  }
+  &::before {
+    font-size: 0.65rem;
+    position: absolute;
+    left: 2.75em;
+  }
+  @media (max-width: #{sass_variables.$sidebar_breakpoint}) {
+    flex-grow: 1;
+  }
+}
+
+.js-search-tags-label {
+  font-size: var(--large-font-size);
+  position: relative;
+  top: 0.125rem;
+}
+
+.js-search-tags {
+  background: var(--semi-transparent-bg-color);
+  display: inline-block;
+  margin: -0.125rem 0 0.25rem;
+  padding: 0.25rem 0;
+  li {
+    margin-bottom: 0;
+  }
+}

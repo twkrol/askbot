@@ -45,8 +45,11 @@ __all__ = ['OpenID', 'DjangoOpenIDStore', 'from_openid_response']
 ALLOWED_LOGIN_TYPES = (
     'password', 'oauth', 'oauth2',
     'openid-direct', 'openid-username', 'wordpress',
-    'discourse-site'
+    'discourse-site', 'oidc'
 )
+
+def get_next_url_from_session(session):
+    return session.pop('next_url', None) or reverse('index')
 
 def email_is_blacklisted(email):
     patterns = askbot_settings.BLACKLISTED_EMAIL_PATTERNS
@@ -281,6 +284,12 @@ class LoginMethod(object):
                 '%s.NAME must be a string of ASCII letters and digits only'
             )
 
+        self.trust_email = getattr(self.mod, 'TRUST_EMAIL', False)
+        if not isinstance(self.trust_email, bool):
+            raise ImproperlyConfigured(
+                '%s.TRUST_EMAIL must be True or False' % self.mod_path
+            )
+
         self.display_name = getattr(self.mod, 'DISPLAY_NAME', None)
         if self.display_name is None or not isinstance(self.display_name, str):
             raise ImproperlyConfigured(
@@ -327,6 +336,13 @@ class LoginMethod(object):
             self.response_parser = getattr(self.mod, 'response_parser', None)
             self.token_transport = getattr(self.mod, 'token_transport', None)
 
+        if self.login_type == 'oidc':
+            for_what = 'custom OpenID-Connect login'
+            self.oidc_provider_url = self.get_required_attr('OIDC_PROVIDER_URL', for_what)
+            self.oidc_client_id = self.get_required_attr('OIDC_CLIENT_ID', for_what)
+            self.oidc_client_secret = self.get_required_attr('OIDC_CLIENT_SECRET', for_what)
+            self.oidc_audience = self.get_required_attr('OIDC_AUDIENCE', for_what)
+
         if self.login_type.startswith('openid'):
             self.openid_endpoint = self.get_required_attr('OPENID_ENDPOINT', 'custom OpenID login')
             if self.login_type == 'openid-username':
@@ -349,7 +365,9 @@ class LoginMethod(object):
             'request_token_url', 'access_token_url', 'authorize_url',
             'get_user_id_function', 'openid_endpoint', 'tooltip_text',
             'check_password', 'auth_endpoint', 'token_endpoint',
-            'resource_endpoint', 'response_parser', 'token_transport'
+            'resource_endpoint', 'response_parser', 'token_transport',
+            'trust_email', 'oidc_provider_url', 'oidc_client_id',
+            'oidc_client_secret', 'oidc_audience'
         )
         #some parameters in the class have different names from those
         #in the dictionary
@@ -1091,6 +1109,7 @@ class OAuthConnection(object):
             raise ImproperlyConfigured('oauth parameters are incorrect')
         return endpoint_url + '?' + self.format_request_params(query_params)
 
+
 def get_oauth2_starter_url(provider_name, csrf_token):
     """returns redirect url for the oauth2 protocol for a given provider"""
     from requests_oauthlib.oauth2_session import OAuth2Session
@@ -1101,9 +1120,8 @@ def get_oauth2_starter_url(provider_name, csrf_token):
     redirect_uri = site_url(reverse('user_complete_oauth2_signin'))
     session = OAuth2Session(client_id, redirect_uri=redirect_uri, state=csrf_token)
 
-    url, csrf = session.authorization_url(params['auth_endpoint'],  **params.get('extra_auth_params', {}))
+    url, _ = session.authorization_url(params['auth_endpoint'],  **params.get('extra_auth_params', {}))
     return url.encode('utf-8')
-
 
 
 def ldap_check_password(username, password):

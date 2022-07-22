@@ -1,7 +1,7 @@
 from askbot.tests.utils import AskbotTestCase, with_settings
 from askbot.utils.akismet_utils import akismet_check_spam
 #from askbot.tasks import submit_spam_posts
-#from askbot.utils.transaction import defer_celery_task
+#from askbot.utils.celery_utils import defer_celery_task
 import responses
 from urllib.parse import parse_qsl
 
