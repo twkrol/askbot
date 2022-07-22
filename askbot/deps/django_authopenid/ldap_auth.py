@@ -5,7 +5,7 @@ from django.forms import EmailField, ValidationError
 from askbot.conf import settings as askbot_settings
 from askbot.deps.django_authopenid.models import UserAssociation
 from askbot.signals import user_registered
-from askbot.utils.loading import load_module
+from askbot.utils.loading import load_function
 
 LOG = logging.getLogger(__name__)
 
@@ -198,12 +198,12 @@ def ldap_create_user_default(user_info, request):
 
 LDAP_AUTH_FUNC_PATH = getattr(django_settings, 'LDAP_AUTHENTICATE_FUNCTION', None)
 if LDAP_AUTH_FUNC_PATH:
-    ldap_authenticate = load_module(LDAP_AUTH_FUNC_PATH)
+    ldap_authenticate = load_function(LDAP_AUTH_FUNC_PATH)
 else:
     ldap_authenticate = ldap_authenticate_default
 
 LDAP_CREATE_FUNC_PATH = getattr(django_settings, 'LDAP_CREATE_USER_FUNCTION', None)
 if LDAP_CREATE_FUNC_PATH:
-    ldap_create_user = load_module(LDAP_CREATE_FUNC_PATH)
+    ldap_create_user = load_function(LDAP_CREATE_FUNC_PATH)
 else:
     ldap_create_user = ldap_create_user_default
