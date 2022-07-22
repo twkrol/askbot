@@ -25,7 +25,7 @@ REQUIREMENTS = {
     'django_jinja': 'django-jinja>=2.0',
     'followit': 'django-followit==0.5.0',
     'html5lib': 'html5lib==0.9999999',
-    'jinja2': 'Jinja2>=2.10',
+    'jinja2': 'Jinja2>=2.10,<3.1',
     'jsonfield': 'jsonfield>=2.0.0',
     'jwt': 'pyjwt<=1.7.1',
     'keyedcache': 'django-keyedcache3>=1.5.1',
