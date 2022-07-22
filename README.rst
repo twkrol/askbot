@@ -21,7 +21,7 @@ Branch `0.9.x` supports Django 1.7
 
 Branch `0.10.x` - supports Django 1.8 - the last version series to support Python 2.7
 
-Branch `master` - released as versions 0.11.x - supports Django 2.2/Python 3
+Branch `master` - released as versions 0.11.x - supports Django 2.2/Python 3 (tested with Python up to 3.7)
 
 Installation
 ============

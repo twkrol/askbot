@@ -1,14 +1,20 @@
 Changes in Askbot
 =================
 
-Develpment version
+0.11.3 (Jul 22, 2022)
 ------------------
-* Anonymize data and isable accounts
-* Remember scroll position for the browser navigation
+* Rewrites the base theme.
+* New theme is responsive across all reasonable screen sizes
+* When groups are enabled - per group permissions
+  to post questions/answers/comments are respected
+* Bug fixes
+
+0.11.2 (Jan 21, 2022)
+------------------
+* Supports Django up to version 3, tested with Python up to 3.7
+* Anonymize data and disable accounts
 * GDPR compliance (export data, cancel/request to cancel account)
-* Updated Facebook login Api to v2.8
-* Implemented "Invited Moderators" feature available
-  via settings -> moderation -> invited moderators
+* Updated Facebook login Api to v3.2
 
 0.10.2 (Dec 21, 2016)
 ---------------------
