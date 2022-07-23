@@ -39,7 +39,7 @@
   <a class="button submit"
     href="{{settings.LOGIN_URL}}?next={{ encode_jwt({'next_url': url('question', question.id)}) }}"
   >{{ settings.WORDS_LOGIN_SIGNUP_TO_ANSWER|escape }}</a>
-{% elif request.user.is_authenticated and askbot_settings.LIMIT_ONE_ANSWER_PER_USER %}
+{% elif request.user.is_authenticated and settings.LIMIT_ONE_ANSWER_PER_USER %}
   {% include "question/new_answer_form_title.html" %}
   <div class="info-box">
     <div class="mb-2">{{ settings.WORDS_ONLY_ONE_ANSWER_PER_USER_IS_ALLOWED|escape }}</div>

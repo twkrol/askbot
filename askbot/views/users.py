@@ -958,40 +958,6 @@ def user_responses(request, user, context):
         activity_types += (const.TYPE_ACTIVITY_MENTION,)
     elif section == 'join_requests':
         return show_group_join_requests(request, user, context)
-    elif section == 'messages':
-        #this is for the private messaging feature
-        if request.user != user:
-            if askbot_settings.ADMIN_INBOX_ACCESS_ENABLED == False:
-                raise Http404
-            elif not(request.user.is_moderator() or request.user.is_administrator()):
-                raise Http404
-
-        from askbot.deps.group_messaging.views import SendersList, ThreadsList
-        context.update(SendersList().get_context(request))
-        context.update(ThreadsList().get_context(request, user))
-        data = {
-            'inbox_threads_count': context['threads_count'],#a hackfor the inbox count
-            'active_tab':'users',
-            'tab_name' : 'inbox',
-            'inbox_section': section,
-            'page_title' : _('profile - messages')
-        }
-        context.update(data)
-        if 'thread_id' in request.GET:
-            from askbot.deps.group_messaging.models import Message
-            from askbot.deps.group_messaging.views import ThreadDetails
-            try:
-                thread_id = request.GET['thread_id']
-                context.update(ThreadDetails().get_context(request, thread_id))
-                context['group_messaging_template_name'] = \
-                    'group_messaging/home_thread_details.html'
-            except Message.DoesNotExist:
-                raise Http404
-        else:
-            context['group_messaging_template_name'] = 'group_messaging/home.html'
-            #here we take shortcut, because we don't care about
-            #all the extra context loaded below
-        return render(request, 'user_inbox/messages.html', context)
     else:
         raise Http404
 
