@@ -1,3 +1,4 @@
+{% import "macros.html" as macros %}
 {% if unique_login_provider %}
   <form method="post" action="{{ settings.LOGIN_URL }}">
     {{ macros.csrf_middleware_token(csrf_token) }}
