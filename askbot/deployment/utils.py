@@ -1,4 +1,5 @@
 """Utility functions for the deployment scripts"""
+import ipaddress
 import os
 import re
 import pytz
@@ -17,13 +18,28 @@ def dir_clashes_with_python_module(path):
             return True
     return False
 
+DOMAIN_NAME_REGEX = r'^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+
 class DomainNameValidator: # pylint: disable=too-few-public-methods
     """Django-style domain name validator"""
     @classmethod
     def __call__(cls, value):
         """Validates the domain name"""
-        if not re.match(r'^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$', value):
+        if not re.match(DOMAIN_NAME_REGEX, value):
             raise ValidationError('Invalid domain name')
+
+class HostNameValidator: # pylint: disable=too-few-public-methods
+    """Accepts domain names, localhost and IPv4 ip addresses"""
+    @classmethod
+    def __call__(cls, value):
+        if value == 'localhost':
+            return
+        if re.match(DOMAIN_NAME_REGEX, value):
+            return
+        try:
+            ipaddress.ip_address(value)
+        except Exception as error: # pylint: disable=broad-except
+            raise ValidationError('Invalid host name') from error
 
 class PortNumberValidator: # pylint: disable=too-few-public-methods
     """Django-style port number validator"""
@@ -41,8 +57,8 @@ class TimezoneValidator: # pylint: disable=too-few-public-methods
         """Validates the timezone"""
         try:
             pytz.timezone(value)
-        except Exception: # pylint: disable=broad-except
-            raise ValidationError('Invalid timezone')
+        except Exception as error: # pylint: disable=broad-except
+            raise ValidationError('Invalid timezone') from error
 
 class LanguageCodeValidator: # pylint: disable=too-few-public-methods
     """Django-style LANGUAGE_CODE validator"""

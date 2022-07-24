@@ -5,7 +5,7 @@ from askbot.utils.console import bold
 from askbot.deployment import const
 from askbot.deployment.console import get_sqlite_db_path_prompt
 from askbot.deployment.validators.option_validator import OptionValidator
-from askbot.deployment.utils import DomainNameValidator, PortNumberValidator
+from askbot.deployment.utils import HostNameValidator, PortNumberValidator
 
 class DbParamsValidator: #pylint: disable=missing-class-docstring
     def __init__(self, console, parser, params=None):
@@ -38,14 +38,16 @@ class DbParamsValidator: #pylint: disable=missing-class-docstring
         if 'sqlite' in db_engine:
             return ''
 
+        invalid_host_message = 'value of --db-host must be a valid host name'
+
         validator = OptionValidator(self.console,
                                     self.parser,
                                     option_name='database_host',
                                     default_value='',
                                     prompt='Enter the ' + bold('database host name'),
-                                    validator=DomainNameValidator,
+                                    validator=HostNameValidator,
                                     cli_error_messages=\
-                                            {'invalid': 'value of --db-host is invalid'},
+                                            {'invalid': invalid_host_message},
                                     interactive_error_messages=\
                                             {'invalid': 'Database host is invalid'})
         return validator.get_value()
@@ -89,7 +91,7 @@ class DbParamsValidator: #pylint: disable=missing-class-docstring
         num_choices = [(str(idx + 1), item) for (idx, item) in enumerate(choices)]
 
         prompt = 'Select the ' + bold('database engine') + ': ' + \
-                ', '.join(['%s - %s' % ch for ch in num_choices]) + '.'
+                ', '.join([f'{ch[0]} - {ch[1]}' for ch in num_choices]) + '.'
         num_choice = self.console.choice_dialog(prompt, choices=dict(num_choices), default='sqlite')
         if num_choice == 'sqlite': # a hack
             num_choice = '2'
