@@ -1,10 +1,10 @@
 """utilities to work with the urls"""
+import imp
 import sys
 import urllib.parse
 from django.urls import reverse
 from django.conf import settings as django_settings
 from django.urls import clear_url_caches
-import imp
 try:
     from django.conf.urls import url
 except ImportError:
@@ -20,7 +20,7 @@ def reload_urlconf():
 
 def reverse_i18n(lang, *args, **kwargs):
     """reverses url in requested language"""
-    assert lang != None
+    assert lang is not None
     current_lang = translation.get_language()
     translation.activate(lang)
     i18n_url = reverse(*args, **kwargs)
@@ -57,7 +57,7 @@ def append_trailing_slash(urlpath):
     """
     if urlpath == '':
         return '/'
-    elif not urlpath.endswith('/'):
+    if not urlpath.endswith('/'):
         return urlpath + '/'
     return urlpath
 
@@ -88,7 +88,7 @@ def get_login_url():
     the corresponding django setting
     """
     if 'askbot.deps.django_authopenid' in django_settings.INSTALLED_APPS:
-        return reverse('user_signin')
+        return getattr(django_settings, 'LOGIN_URL', reverse('user_signin'))
     return django_settings.LOGIN_URL
 
 def get_logout_url():
