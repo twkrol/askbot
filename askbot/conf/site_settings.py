@@ -40,7 +40,7 @@ settings.register(
     livesettings.StringValue(
         QA_SITE_SETTINGS,
         'APP_COPYRIGHT',
-        default='Copyright Askbot, 2010-2022.',
+        default='Copyright Askbot',
         description=_('Copyright message to show in the footer')
     )
 )

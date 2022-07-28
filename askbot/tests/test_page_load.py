@@ -1,4 +1,3 @@
-
 from askbot.search.state_manager import SearchState
 from django.test import signals
 from django.conf import settings
@@ -15,6 +14,7 @@ from bs4 import BeautifulSoup
 import askbot
 from askbot import models
 from askbot.utils.slug import slugify
+from askbot.utils import url_utils
 from askbot.tests.utils import AskbotTestCase
 from askbot.conf import settings as askbot_settings
 from askbot.tests.utils import skipIf
@@ -112,7 +112,7 @@ class PageLoadTestCase(AskbotTestCase):
         # if redirect expected, but we wont' follow
         if status_code == 302 and follow:
             response = self.client.get(url, data=data)
-            self.assertTrue(settings.LOGIN_URL in response['Location'])
+            self.assertTrue(url_utils.get_login_url() in response['Location'])
             return
 
         r = self.client.get(url, data=data, follow=follow)

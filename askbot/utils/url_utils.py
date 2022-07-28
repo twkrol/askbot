@@ -88,7 +88,7 @@ def get_login_url():
     the corresponding django setting
     """
     if 'askbot.deps.django_authopenid' in django_settings.INSTALLED_APPS:
-        return getattr(django_settings, 'LOGIN_URL', reverse('user_signin'))
+        return getattr(django_settings, 'ASKBOT_LOGIN_URL', reverse('user_signin'))
     return django_settings.LOGIN_URL
 
 def get_logout_url():

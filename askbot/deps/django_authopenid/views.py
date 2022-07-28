@@ -55,6 +55,7 @@ import json
 from askbot.mail.messages import AccountActivation, AccountRecovery
 from askbot.utils import decorators as askbot_decorators
 from askbot.utils.functions import format_setting_name
+from askbot.utils import url_utils
 from askbot.utils.html import site_url
 from askbot.deps.django_authopenid.ldap_auth import ldap_create_user
 from askbot.deps.django_authopenid.ldap_auth import ldap_authenticate
@@ -1275,7 +1276,7 @@ def register(request, login_provider_name=None,
     data = {
         'openid_register_form': register_form,
         'account_recovery_form': forms.AccountRecoveryForm(),
-        'default_form_action': django_settings.LOGIN_URL,
+        'default_form_action': url_utils.get_login_url(),
         'provider': mark_safe(provider_logo),
         'username': username,
         'email': email,

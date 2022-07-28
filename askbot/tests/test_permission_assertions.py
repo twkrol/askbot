@@ -11,6 +11,7 @@ from askbot.conf import settings as askbot_settings
 from askbot import models
 from askbot.templatetags import extra_filters_jinja as template_filters
 from askbot.tests.utils import skipIf, AskbotTestCase
+from askbot.utils import url_utils
 
 
 class PermissionAssertionTestCase(AskbotTestCase):
@@ -1581,7 +1582,7 @@ class ClosedForumTests(utils.AskbotTestCase):
         self.other_user.save()
         self.question = self.post_question()
         self.test_url = self.question.get_absolute_url()
-        self.redirect_to = settings.LOGIN_URL
+        self.redirect_to = url_utils.get_login_url()
         self.client = Client()
         askbot_settings.update('ASKBOT_CLOSED_FORUM_MODE', True)
 
