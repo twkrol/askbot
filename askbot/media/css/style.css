@@ -599,6 +599,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
   --clr-highlight-pale-80: hsl(var(--highlight-hue), 15%, 80%, var(--debug-transparency));
   --clr-highlight-pale-90: hsla(var(--highlight-hue), 15%, 90%, var(--debug-transparency));
   --clr-highlight-pale-95: hsla(var(--highlight-hue), 15%, 95%, var(--debug-transparency));
+  --clr-highlight-pale-89-05: hsla(var(--highlight-hue), 15%, 89%, 0.5);
   --clr-highlight-90: hsla(var(--highlight-hue), 100%, 90%, var(--debug-transparency));
   --clr-highlight-70: hsla(var(--highlight-hue), 87%, 70%, var(--debug-transparency));
   --clr-highlight-pale: hsla(var(--highlight-hue), 70%, 91%, var(--debug-transparency));
@@ -774,6 +775,8 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
   --post-votes-font-size: 1rem;
   --post-share-button-width: 1rem;
   --post-update-info-details-color: var(--clr-neutral-40);
+  --post-update-info-bg: var(--clr-highlight-pale-95);
+  --post-update-info-accepted-answer-bg: white;
   --post-update-info-details-hover-color: var(--clr-neutral-20);
   --post-update-info-container-margin: 0;
   --post-update-info-margin: 0 0.5rem 0.5rem 0;
@@ -801,6 +804,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
   --accept-answer-btn-inactive-hover-color: var(--clr-green-50);
   --accept-answer-btn-active-color: var(--clr-green-50);
   --accept-answer-btn-active-hover-color: var(--clr-danger);
+  --accepted-answer-bg: var(--clr-blue-pale);
   --rss-link-color: var(--clr-orange);
   --rss-link-hover-color: var(--clr-danger);
   --toolbar-dropdown-menu-padding-left: 0;
@@ -9537,6 +9541,15 @@ ul.tags li {
 .question-answers-count {
   background: linear-gradient(to top, var(--clr-highlight-pale), var(--bg-color));
   color: var(--answers-count-color);
+  position: relative;
+}
+
+.question-answers-count.with-accept-answer-icon::before {
+  color: var(--accept-answer-btn-active-color);
+  font-size: 0.75rem;
+  position: absolute;
+  right: 3px;
+  top: 3px;
 }
 
 .question-votes-count {
@@ -9613,6 +9626,10 @@ ul.tags li {
 
 .js-post.js-answer {
   margin: var(--answer-margin);
+}
+
+.js-accepted-answer {
+  background: var(--accepted-answer-bg);
 }
 
 .post-body {
@@ -9703,7 +9720,7 @@ ul.tags li {
   margin: var(--post-update-info-margin);
   min-width: 11rem;
   padding: 0.3625rem;
-  background: var(--clr-neutral-95);
+  background: var(--post-update-info-bg);
 }
 .post-update-info:last-child {
   margin-right: 0;
@@ -9714,6 +9731,10 @@ ul.tags li {
     margin-right: 0;
     width: 100%;
   }
+}
+
+.js-accepted-answer .post-update-info {
+  background: var(--post-update-info-accepted-answer-bg);
 }
 
 .post-update-info-avatar {

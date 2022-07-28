@@ -12,7 +12,7 @@
   margin: var(--post-update-info-margin);
   min-width: 11rem;
   padding: 0.3625rem;
-  background: var(--clr-neutral-95);
+  background: var(--post-update-info-bg);
   &:last-child {
     margin-right: 0;
   }
@@ -20,6 +20,12 @@
     align-items: center;
     margin-right: 0;
     width: 100%;
+  }
+}
+
+.js-accepted-answer {
+  .post-update-info {
+    background: var(--post-update-info-accepted-answer-bg);
   }
 }
 

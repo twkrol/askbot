@@ -34,6 +34,10 @@
   margin: var(--answer-margin);
 }
 
+.js-accepted-answer {
+  background: var(--accepted-answer-bg);
+}
+
 .post-body {
   margin: var(--post-body-margin);
   img {

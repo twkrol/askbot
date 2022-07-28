@@ -88,6 +88,17 @@
 .question-answers-count {
   background: linear-gradient(to top, var(--clr-highlight-pale), var(--bg-color));
   color: var(--answers-count-color);
+  position: relative;
+}
+
+.question-answers-count.with-accept-answer-icon {
+  &::before {
+    color: var(--accept-answer-btn-active-color);
+    font-size: 0.75rem;
+    position: absolute;
+    right: 3px;
+    top: 3px;
+  }
 }
 
 .question-votes-count {

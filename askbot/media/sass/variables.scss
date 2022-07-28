@@ -169,6 +169,8 @@
   --post-share-button-width: 1rem;
 
   --post-update-info-details-color: var(--clr-neutral-40);
+  --post-update-info-bg: var(--clr-highlight-pale-95);
+  --post-update-info-accepted-answer-bg: white;
   --post-update-info-details-hover-color: var(--clr-neutral-20);
   --post-update-info-container-margin: 0;
   --post-update-info-margin: 0 0.5rem 0.5rem 0;
@@ -199,6 +201,7 @@
   --accept-answer-btn-inactive-hover-color: var(--clr-green-50);
   --accept-answer-btn-active-color: var(--clr-green-50);
   --accept-answer-btn-active-hover-color: var(--clr-danger);
+  --accepted-answer-bg: var(--clr-blue-pale);
 
   --rss-link-color: var(--clr-orange);
   --rss-link-hover-color: var(--clr-danger);
