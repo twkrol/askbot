@@ -986,9 +986,9 @@ def test_versions():
     if dj_ver < (2, 2) or dj_ver >= (4, 0):
         errors.append('This version of Askbot supports django 2.2 - 3.2 ' + upgrade_msg)
     elif py_ver[:3] < (3, 6, 0):
-        errors.append('Askbot requires Python 3.6 - 3.9')
+        errors.append('Askbot requires Python 3.6 - 3.10')
     elif py_ver[:3] > (3, 11, 0):
-        errors.append("""Askbot was not tested with Python > 3.9
+        errors.append("""Askbot was not tested with Python > 3.10.x
 Try adding ASKBOT_SELF_TEST = False to the settings.py
 to test if your version of Python works and please let us know.""")
 
