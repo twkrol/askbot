@@ -149,27 +149,12 @@ class GetParserTest(TestCase):
 
 
 class SanitizeHtml(TestCase):
-    def test_sanitize_html(self):
+    def test_strip_forbidden_attributes(self):
         html = '<p id="foo" class="bar">TEXT</p>'
         new_html = sanitize_html(html)
-        self.assertNotIn('foo', new_html)
-        self.assertIn('bar', new_html)
+        self.assertEqual(new_html, '<p>TEXT</p>')
 
-    def test_sanitize_html_with_extra_elements(self):
-        setattr(django_settings, 'ASKBOT_ALLOWED_HTML_ELEMENTS',
-                html_utils.ALLOWED_HTML_ELEMENTS + ('ham',))
-        html = '<p id="foo" class="bar">TEXT</p><p><ham></ham></p>'
+    def test_strip_forbidden_tags(self):
+        html = '<button onClick="javascript:alert(\'foobar\')">click me</button>'
         new_html = sanitize_html(html)
-        self.assertIn('<ham>', new_html)
-        self.assertNotIn('foo', new_html)
-        self.assertIn('bar', new_html)
-        delattr(django_settings, 'ASKBOT_ALLOWED_HTML_ELEMENTS')
-
-    def test_sanitize_html_with_extra_attrs(self):
-        setattr(django_settings, 'ASKBOT_ALLOWED_HTML_ATTRIBUTES',
-                html_utils.ALLOWED_HTML_ATTRIBUTES + ('id',))
-        html = '<p id="foo" class="bar">TEXT</p>'
-        new_html = sanitize_html(html)
-        self.assertIn('id="foo"', new_html)
-        self.assertIn('class="bar"', new_html)
-        delattr(django_settings, 'ASKBOT_ALLOWED_HTML_ATTRIBUTES')
+        self.assertEqual(new_html, 'click me')

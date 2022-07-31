@@ -17,6 +17,7 @@ REQUIREMENTS = {
     'appconf': 'django-appconf==1.0.3',
     'akismet': 'akismet==1.0.1',
     'avatar': 'django-avatar>=4.0',
+    'bleach': 'bleach==5.0.1',
     'bs4': 'beautifulsoup4<=4.7.1',
     'compressor': 'django-compressor>=2.0,<=2.4',
     'celery': 'celery==5.1.2',
@@ -24,7 +25,7 @@ REQUIREMENTS = {
     'django_countries': 'django-countries>=3.3',
     'django_jinja': 'django-jinja>=2.0',
     'followit': 'django-followit==0.5.0',
-    'html5lib': 'html5lib==0.9999999',
+    'html5lib': 'html5lib==1.1',
     'jinja2': 'Jinja2>=2.10,<3.1',
     'jsonfield': 'jsonfield>=2.0.0',
     'jwt': 'pyjwt<=1.7.1',
@@ -62,7 +63,7 @@ def get_askbot_module_path(relative_path):
     and must not start with a slash
     """
     root_dir = get_install_directory()
-    assert(relative_path[0] != 0)
+    assert relative_path[0] != 0
     path_bits = relative_path.split('/')
     return os.path.join(root_dir, *path_bits)
 

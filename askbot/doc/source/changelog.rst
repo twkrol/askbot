@@ -1,9 +1,9 @@
 Changes in Askbot
 =================
 
-0.11.3 (Jul 22, 2022)
-------------------
-* Works with python 3.7-3.9
+Development version
+-------------------
+* Works with python 3.7-3.10
 * Rewrites the base theme.
 * New theme is responsive across all reasonable screen sizes
 * When groups are enabled - per group permissions

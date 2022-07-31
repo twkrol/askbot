@@ -56,10 +56,7 @@ class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
         user = self.reload_object(self.user)
         self.assertEqual(user.new_response_count, 0)
 
-        self.admin.edit_answer(
-            self.answer,
-            is_private = False
-        )
+        self.admin.edit_answer(self.answer, is_private=False)
         self.assertEqual(len(django.core.mail.outbox), 1)
         user = self.reload_object(self.user)
         self.assertEqual(user.new_response_count, 1)

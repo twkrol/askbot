@@ -2,83 +2,30 @@
 import functools
 import re
 from urllib.parse import urlparse
-
-from bs4 import BeautifulSoup
-import html5lib
-from html5lib import sanitizer, serializer, tokenizer, treebuilders,\
-    treewalkers
 import html.entities
 
+import bleach
+from bs4 import BeautifulSoup
+
 from django.conf import settings as django_settings
-from django.urls import reverse
 from django.template.loader import get_template
+from django.urls import reverse
 from django.utils.html import strip_tags as strip_all_tags
 from django.utils.html import urlize
 from django.utils.translation import ugettext as _
 
-
-ALLOWED_HTML_ELEMENTS = ('a', 'abbr', 'acronym', 'address', 'b', 'big',
-        'blockquote', 'br', 'caption', 'center', 'cite', 'code', 'col',
-        'colgroup', 'dd', 'del', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'font',
-        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd',
-        'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'small', 'span', 'strike',
-        'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead',
-        'tr', 'tt', 'u', 'ul', 'var', 'param')
+from askbot.conf import settings as askbot_settings
+from askbot.utils.url_utils import get_login_url
 
 
-ALLOWED_HTML_ATTRIBUTES = ('abbr', 'align', 'alt', 'axis', 'border', 'class',
-        'cellpadding', 'cellspacing', 'char', 'charoff', 'charset', 'cite',
-        'cols', 'colspan', 'datetime', 'dir', 'frame', 'headers', 'height',
-        'href', 'hreflang', 'hspace', 'lang', 'longdesc', 'name', 'nohref',
-        'noshade', 'nowrap', 'rel', 'rev', 'rows', 'rowspan', 'rules', 'scope',
-        'span', 'src', 'start', 'summary', 'title', 'type', 'valign', 'vspace',
-        'width')
-
-
-class HTMLSanitizerMixin(sanitizer.HTMLSanitizerMixin):
-    allowed_css_properties = ()
-    allowed_css_keywords = ()
-    allowed_svg_properties = ()
-
-    def __init__(self, *args, **kwargs):
-        self.allowed_elements = tuple(getattr(django_settings,
-                                           'ASKBOT_ALLOWED_HTML_ELEMENTS',
-                                           ALLOWED_HTML_ELEMENTS
-                                           ))
-
-        self.allowed_attributes = tuple(getattr(django_settings,
-                                           'ASKBOT_ALLOWED_HTML_ATTRIBUTES',
-                                           ALLOWED_HTML_ATTRIBUTES
-                                           ))
-
-
-class HTMLSanitizer(tokenizer.HTMLTokenizer, HTMLSanitizerMixin):
-    def __init__(self, stream, encoding=None, parseMeta=True, useChardet=True,
-                 lowercaseElementName=True, lowercaseAttrName=True, **kwargs):
-        tokenizer.HTMLTokenizer.__init__(self, stream, encoding, parseMeta,
-                                         useChardet, lowercaseElementName,
-                                         lowercaseAttrName, **kwargs)
-
-    def __iter__(self):
-        for token in tokenizer.HTMLTokenizer.__iter__(self):
-            token = self.sanitize_token(token)
-            if token:
-                yield token
-
-
-def sanitize_html(html):
+def sanitize_html(html_string):
     """Sanitizes an HTML fragment.
     from forbidden markup
     """
-    p = html5lib.HTMLParser(tokenizer=HTMLSanitizer,
-                            tree=treebuilders.getTreeBuilder("dom"))
-    dom_tree = p.parseFragment(html)
-    walker = treewalkers.getTreeWalker("dom")
-    stream = walker(dom_tree)
-    s = serializer.HTMLSerializer(omit_optional_tags=False,
-                                  quote_attr_values=True)
-    output_generator = s.serialize(stream)
-    return ''.join(output_generator)
+    return bleach.clean(html_string,
+                        tags=django_settings.ASKBOT_ALLOWED_HTML_ELEMENTS,
+                        attributes=django_settings.ASKBOT_ALLOWED_HTML_ATTRIBUTES,
+                        strip=True)
 
 
 def sanitized(func):
@@ -88,7 +35,7 @@ def sanitized(func):
     return wrapped
 
 
-def absolutize_urls(html):
+def absolutize_urls(html_string):
     """turns relative urls in <img> and <a> tags to absolute,
     starting with the ``askbot_settings.APP_URL``"""
     # temporal fix for bad regex with wysiwyg editor
@@ -97,18 +44,18 @@ def absolutize_urls(html):
     url_re3 = re.compile(r'(?P<prefix><a[^<]+href=)"(?P<url>/[^"]+)"', re.I)
     url_re4 = re.compile(r"(?P<prefix><a[^<]+href=)'(?P<url>/[^']+)'", re.I)
     base_url = site_url('')  # important to have this without the slash
-    img_replacement = '\g<prefix>"%s/\g<url>"' % base_url
-    replacement = '\g<prefix>"%s\g<url>"' % base_url
-    html = url_re1.sub(img_replacement, html)
-    html = url_re2.sub(img_replacement, html)
-    html = url_re3.sub(replacement, html)
+    img_replacement = rf'\g<prefix>"{base_url}/\g<url>"'
+    replacement = rf'\g<prefix>"{base_url}\g<url>"'
+    html_string = url_re1.sub(img_replacement, html_string)
+    html_string = url_re2.sub(img_replacement, html_string)
+    html_string = url_re3.sub(replacement, html_string)
     # temporal fix for bad regex with wysiwyg editor
-    return url_re4.sub(replacement, html)\
-        .replace('%s//' % base_url, '%s/' % base_url)
+    return url_re4.sub(replacement, html_string)\
+        .replace(f'{base_url}//', f'{base_url}/')
 
 
-def get_word_count(html):
-    return len(strip_all_tags(html).split())
+def get_word_count(html_string):
+    return len(strip_all_tags(html_string).split())
 
 
 def format_url_replacement(url, text):
@@ -116,17 +63,17 @@ def format_url_replacement(url, text):
     text = text.strip()
     url_domain = urlparse(url).netloc
     if url and text and url_domain != text and url != text:
-        return '%s (%s)' % (url, text)
+        return f'{url} ({text})'
     return url or text or ''
 
 
 @sanitized
-def urlize_html(html, trim_url_limit=40):
+def urlize_html(html_string, trim_url_limit=40):
     """will urlize html, while ignoring link
     patterns inside anchors, <pre> and <code> tags
     """
-    soup = BeautifulSoup(html, 'html5lib')
-    extract_nodes = list()
+    soup = BeautifulSoup(html_string, 'html5lib')
+    extract_nodes = []
     for node in soup.findAll(text=True):
         parent_tags = [p.name for p in node.parents]
         skip_tags = ['a', 'img', 'pre', 'code']
@@ -142,7 +89,7 @@ def urlize_html(html, trim_url_limit=40):
         sub_soup = BeautifulSoup(urlized_text, 'html5lib')
         contents = sub_soup.find('body').contents
         num_items = len(contents)
-        for i in range(num_items):
+        for _idx in range(num_items):
             # there is strange thing in bs4, can't iterate
             # as the tag seemingly can't belong to >1 soup object
             child = contents[0]  # always take first element
@@ -161,18 +108,18 @@ def urlize_html(html, trim_url_limit=40):
         node.extract()
 
     result = str(soup.find('body').renderContents(), 'utf8')
-    if html.endswith('\n') and not result.endswith('\n'):
+    if html_string.endswith('\n') and not result.endswith('\n'):
         result += '\n'
 
     return result
 
 
 @sanitized
-def replace_links_with_text(html):
+def replace_links_with_text(html_string):
     """any absolute links will be replaced with the
     url in plain text, same with any img tags
     """
-    soup = BeautifulSoup(html, 'html5lib')
+    soup = BeautifulSoup(html_string, 'html5lib')
     abs_url_re = r'^http(s)?://'
 
     images = soup.find_all('img')
@@ -217,38 +164,40 @@ def get_text_from_html(html_text):
 
     #extract and join phrases
     body_element = soup.find('body')
-    filter_func = lambda s: bool(s.strip())
+
+    def filter_func(string):
+        return bool(string.strip())
+
     phrases = [s.strip() for s in list(filter(filter_func, body_element.get_text().split('\n')))]
     return '\n\n'.join(phrases)
 
 
 @sanitized
-def strip_tags(html, tags=None):
+def strip_tags(html_string, tags=None):
     """strips tags from given html output"""
     #a corner case
-    if html.strip() == '':
-        return html
+    if html_string.strip() == '':
+        return html_string
 
-    assert(tags != None)
+    assert tags is not None
 
-    soup = BeautifulSoup(html, 'html5lib')
+    soup = BeautifulSoup(html_string, 'html5lib')
     for tag in tags:
         tag_matches = soup.find_all(tag)
         list(map(lambda v: v.replaceWith(''), tag_matches))
     return str(soup.find('body').renderContents(), 'utf-8')
 
 
-def has_moderated_tags(html):
+def has_moderated_tags(html_string):
     """True, if html contains tags subject to moderation
     (images and/or links)"""
-    from askbot.conf import settings
-    soup = BeautifulSoup(html, 'html5lib')
-    if settings.MODERATE_LINKS:
+    soup = BeautifulSoup(html_string, 'html5lib')
+    if askbot_settings.MODERATE_LINKS:
         links = soup.find_all('a')
         if links:
             return True
 
-    if settings.MODERATE_IMAGES:
+    if askbot_settings.MODERATE_IMAGES:
         images = soup.find_all('img')
         if images:
             return True
@@ -257,14 +206,13 @@ def has_moderated_tags(html):
 
 
 @sanitized
-def moderate_tags(html):
+def moderate_tags(html_string):
     """replaces instances of <a> and <img>
     with "item in moderation" alerts
     """
-    from askbot.conf import settings
-    soup = BeautifulSoup(html, 'html5lib')
+    soup = BeautifulSoup(html_string, 'html5lib')
     replaced = False
-    if settings.MODERATE_LINKS:
+    if askbot_settings.MODERATE_LINKS:
         links = soup.find_all('a')
         if links:
             template = get_template('widgets/moderated_link.html')
@@ -272,7 +220,7 @@ def moderate_tags(html):
             list(map(lambda v: v.replaceWith(aviso), links))
             replaced = True
 
-    if settings.MODERATE_IMAGES:
+    if askbot_settings.MODERATE_IMAGES:
         images = soup.find_all('img')
         if images:
             template = get_template('widgets/moderated_link.html')
@@ -283,12 +231,11 @@ def moderate_tags(html):
     if replaced:
         return str(soup.find('body').renderContents(), 'utf-8')
 
-    return html
+    return html_string
 
 
 def site_url(url):
-    from askbot.conf import settings
-    base_url = urlparse(settings.APP_URL or 'http://localhost/')
+    base_url = urlparse(askbot_settings.APP_URL or 'http://localhost/')
     return base_url.scheme + '://' + base_url.netloc + url
 
 
@@ -304,7 +251,7 @@ def internal_link(url_name, title, kwargs=None, anchor=None, absolute=False):
         url += '#' + anchor
     if absolute:
         url = site_url(url)
-    return '<a href="%s">%s</a>' % (url, title)
+    return f'<a href="{url}">{title}</a>'
 
 
 def site_link(url_name, title, kwargs=None, anchor=None):
@@ -315,18 +262,18 @@ def site_link(url_name, title, kwargs=None, anchor=None):
 
 
 def get_login_link(text=None):
-    from askbot.utils.url_utils import get_login_url
     text = text or _('please login')
-    return '<a href="%s">%s</a>' % (get_login_url(), text)
+    url = get_login_url()
+    return f'<a href="{url}">{text}</a>'
 
 
-def get_visible_text(html):
+def get_visible_text(html_string):
     """returns visible text from html
     http://stackoverflow.com/a/19760007/110274
     """
-    soup = BeautifulSoup(html, 'html5lib')
-    [s.extract()
-     for s in soup(['style', 'script', '[document]', 'head', 'title'])]
+    soup = BeautifulSoup(html_string, 'html5lib')
+    for item in soup(['style', 'script', '[document]', 'head', 'title']):
+        item.extract()
     return soup.get_text()
 
 
@@ -336,15 +283,14 @@ def unescape(text):
     @param text The HTML (or XML) source text.
     @return The plain text, as a Unicode string, if necessary.
     """
-    def fixup(m):
-        text = m.group(0)
+    def fixup(match):
+        text = match.group(0)
         if text[:2] == "&#":
             # character reference
             try:
                 if text[:3] == "&#x":
                     return chr(int(text[3:-1], 16))
-                else:
-                    return chr(int(text[2:-1]))
+                return chr(int(text[2:-1]))
             except ValueError:
                 pass
         else:
@@ -354,4 +300,4 @@ def unescape(text):
             except KeyError:
                 pass
         return text  # leave as is
-    return re.sub("&#?\w+;", fixup, text)
+    return re.sub(r'&#?\w+;', fixup, text)
