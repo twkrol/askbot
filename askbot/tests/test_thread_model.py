@@ -1,3 +1,4 @@
+from unittest import skip
 from askbot.tests.utils import AskbotTestCase
 from askbot.conf import settings as askbot_settings
 from askbot import models
@@ -25,6 +26,9 @@ class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
                 'm_and_c': 'i'
             }
         )
+        self.user.new_response_count = 0
+        self.user.seen_response_count = 0
+        self.user.save()
         self.group = models.Group.objects.get_or_create(name='jockeys')
         self.group.can_post_questions = True
         self.group.can_post_answers = True
@@ -39,11 +43,9 @@ class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
         # post question, answer, add answer to the group
         self.question = self.post_question(self.user)
 
-        self.answer = self.post_answer(
-            user = self.admin,
-            question = self.question,
-            is_private = True
-        )
+        self.answer = self.post_answer(user=self.admin,
+                                       question=self.question,
+                                       is_private=True)
 
         thread = self.question.thread
 
@@ -54,6 +56,7 @@ class ThreadModelTestsWithGroupsEnabled(AskbotTestCase):
         #test mail outbox
         self.assertEqual(len(django.core.mail.outbox), 0)
         user = self.reload_object(self.user)
+        # error below
         self.assertEqual(user.new_response_count, 0)
 
         self.admin.edit_answer(self.answer, is_private=False)

@@ -2478,16 +2478,15 @@ def user_visit_question(self, question = None, timestamp = None):
 
     try:
         QuestionView.objects.filter(
-            who=self, question=question
+            who=self,
+            question=question
         ).update(
-            when = timestamp
+            when=timestamp
         )
     except QuestionView.DoesNotExist:
-        QuestionView(
-            who=self,
-            question=question,
-            when = timestamp
-        ).save()
+        QuestionView(who=self,
+                     question=question,
+                     when=timestamp).save()
 
     #filter memo objects on response activities directed to the qurrent user
     #that refer to the children of the currently
@@ -2496,16 +2495,17 @@ def user_visit_question(self, question = None, timestamp = None):
     ACTIVITY_TYPES += (const.TYPE_ACTIVITY_MENTION,)
 
     audit_records = ActivityAuditStatus.objects.filter(
-                        user = self,
-                        status = ActivityAuditStatus.STATUS_NEW,
-                        activity__question = question
+                        user=self,
+                        status=ActivityAuditStatus.STATUS_NEW,
+                        activity__question=question
                     )
 
     cleared_record_count = audit_records.filter(
-                                activity__activity_type__in = ACTIVITY_TYPES
+                                activity__activity_type__in=ACTIVITY_TYPES
                             ).update(
                                 status=ActivityAuditStatus.STATUS_SEEN
                             )
+
     if cleared_record_count > 0:
         self.update_response_counts()
 
@@ -2513,7 +2513,7 @@ def user_visit_question(self, question = None, timestamp = None):
     #the admin response counts are not denormalized b/c they are easy to obtain
     if self.is_moderator() or self.is_administrator():
         audit_records.filter(
-                activity__activity_type = const.TYPE_ACTIVITY_MARK_OFFENSIVE
+            activity__activity_type=const.TYPE_ACTIVITY_MARK_OFFENSIVE
         ).update(
             status=ActivityAuditStatus.STATUS_SEEN
         )
