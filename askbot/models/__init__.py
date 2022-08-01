@@ -1,9 +1,9 @@
+#pylint: disable=wrong-import-order
 from askbot import startup_procedures
 startup_procedures.run()
 
 from django.contrib.auth.models import User
 
-import askbot
 import collections
 import datetime
 import hashlib
@@ -31,6 +31,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core import exceptions as django_exceptions
 
+import askbot
 from askbot import exceptions as askbot_exceptions
 from askbot import const
 from askbot.const import message_keys
@@ -78,8 +79,8 @@ from askbot.utils.html import replace_links_with_text
 from askbot.utils import functions
 from askbot import mail
 from askbot import signals
-from jsonfield import JSONField
 
+from jsonfield import JSONField
 
 register_user_signal = partial(signals.register_generic_signal, sender=User)
 
@@ -4397,22 +4398,20 @@ def group_membership_changed(**kwargs):
             GROUP_MEMBERSHIP_LEVELS.pop(gm_key, None)
 
 
-def tweet_new_post(sender, user=None, question=None, answer=None, form_data=None, **kwargs):
+def tweet_new_post(sender, user=None, question=None, answer=None, **kwargs):
     """seends out tweets about the new post"""
     from askbot.tasks import tweet_new_post_task
     post = question or answer
     defer_celery_task(tweet_new_post_task, args=(post.id,))
 
-def autoapprove_reputable_user(user=None, reputation_before=None, *args, **kwargs):
+def autoapprove_reputable_user(*args, user=None, reputation_before=None, **kwargs):
     """if user is 'watched' we change status to 'approved'
     if user's rep crossed the auto-approval margin"""
     margin = askbot_settings.MIN_REP_TO_AUTOAPPROVE_USER
-    if user.is_watched() and reputation_before < margin and user.reputation >= margin:
+    if user.is_watched() and reputation_before < margin <= user.reputation:
         user.set_status('a')
 
-def record_spam_rejection(
-    sender, spam=None, text=None, user=None, ip_addr='unknown', **kwargs
-):
+def record_spam_rejection(sender, spam=None, text=None, user=None, ip_addr='unknown', **kwargs): #pylint: disable=unused-argument
     """Record spam autorejection activity
     Only one record per user kept
 
@@ -4420,9 +4419,7 @@ def record_spam_rejection(
     and data might be tracked in some other record
     """
     now = timezone.now()
-    summary = 'Found spam text: %s, posted from ip=%s in\n%s' % \
-                        (spam, ip_addr, text)
-
+    summary = f'Found spam text: {spam}, posted from ip={ip_addr} in\n{text}'
     spam_type = const.TYPE_ACTIVITY_FORBIDDEN_PHRASE_FOUND
     act_list = Activity.objects.filter(user=user, activity_type=spam_type)
     if len(act_list) == 0:
@@ -4522,7 +4519,7 @@ django_signals.post_save.connect(
 )
 django_signals.m2m_changed.connect(
     group_membership_changed,
-    sender=User.groups.through,
+    sender=User.groups.through, #pylint: disable=no-member
     dispatch_uid='record_group_membership_change_on_group_change'
 )
 
@@ -4582,13 +4579,11 @@ signals.user_logged_in.connect(
     post_anonymous_askbot_content,
     dispatch_uid='post_anon_content_on_login'
 )
-"""
-signals.post_save.connect(
-    reset_cached_post_data,
-    sender=Thread,
-    dispatch_uid='reset_cached_post_data',
-)
-"""
+#signals.post_save.connect(
+#    reset_cached_post_data,
+#    sender=Thread,
+#    dispatch_uid='reset_cached_post_data',
+#)
 signals.post_updated.connect(
     record_post_update_activity,
     dispatch_uid='record_post_update_activity'
