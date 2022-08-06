@@ -600,6 +600,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
   --clr-highlight-pale-90: hsla(var(--highlight-hue), 15%, 90%, var(--debug-transparency));
   --clr-highlight-pale-95: hsla(var(--highlight-hue), 15%, 95%, var(--debug-transparency));
   --clr-highlight-pale-89-05: hsla(var(--highlight-hue), 15%, 89%, 0.5);
+  --clr-highlight-100: hsla(var(--highlight-hue), 100%, 100%, var(--debug-transparency));
   --clr-highlight-90: hsla(var(--highlight-hue), 100%, 90%, var(--debug-transparency));
   --clr-highlight-70: hsla(var(--highlight-hue), 87%, 70%, var(--debug-transparency));
   --clr-highlight-pale: hsla(var(--highlight-hue), 70%, 91%, var(--debug-transparency));
@@ -678,7 +679,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
   --extra-large-font-size: 1.5rem;
   --action-link-color: var(--clr-neutral-50);
   --action-link-hover-color: var(--clr-neutral-20);
-  --editor-padding: 0.125rem 0.25rem;
+  --editor-padding: 0.5rem 0.75rem;
   --editor-border-color: var(--clr-neutral-60);
   --editor-border: var(--border-width) var(--border-style) var(--editor-border-color);
   --editor-box-shadow: inset 0 0 3px var(--clr-neutral-70);
@@ -855,7 +856,7 @@ body:not(.tags-page):not(.questions-page):not(.users-page) main {
   --wmd-spacer-background: var(--clr-neutral-50);
   --wmd-preview-block-margin: 0 0 0.5rem;
   --wmd-preview-list-padding: 0 0 0 1.5rem;
-  --wmd-preview-padding: 0.5rem;
+  --wmd-preview-padding: 0.5rem 0.75rem;
   --wmd-preview-margin: 0 0 0.5rem;
   --wmd-preview-background: var(--clr-neutral-95);
   --wmd-preview-border: var(--border-width) var(--border-style) var(--clr-neutral-80);
@@ -7795,6 +7796,10 @@ input[type=reset] input[type=button].action-link {
   min-width: var(--comment-votes-width);
 }
 
+.js-comment-content {
+  width: 100%;
+}
+
 .js-comments-list-title {
   margin: var(--comments-list-title-margin);
   font-size: var(--comments-list-title-font-size);
@@ -8098,6 +8103,7 @@ form.repost-comment-as-answer {
 
 .wmd-help {
   padding: 0.25rem 0 0.5rem 0.25rem;
+  margin-bottom: 0.25rem;
 }
 .wmd-help p {
   margin-bottom: 0.25rem;
@@ -9327,6 +9333,24 @@ ul.tags li {
   margin: 0 0 0.5rem;
 }
 
+.js-post-moderation-message {
+  padding: 0.5rem;
+  color: var(--bg-color);
+  background: var(--clr-danger);
+  margin: 0.5rem 0;
+}
+.js-post-moderation-message::before {
+  color: var(--clr-highlight-70);
+}
+
+.js-answer .js-post-moderation-message {
+  margin-bottom: 0;
+}
+
+.js-comment-content .js-post-moderation-message {
+  margin: 0.25rem 0 0.125rem !important;
+}
+
 .error-page main {
   display: flex;
   flex-direction: column;
@@ -10487,6 +10511,10 @@ a.badge-page-link {
 }
 .search-posts-page .search-posts-context-type {
   text-transform: capitalize;
+}
+
+.edit-answer-page h1, .edit-answer-page main {
+  margin-bottom: 1rem;
 }
 
 /*# sourceMappingURL=style.css.map */

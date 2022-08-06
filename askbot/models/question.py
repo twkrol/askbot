@@ -1173,7 +1173,7 @@ class Thread(models.Model):
         key = self.get_post_data_cache_key(sort_method)
         post_data = cache.cache.get(key)
         if not post_data:
-            post_data = self.get_post_data(sort_method)
+            post_data = self.get_post_data(sort_method=sort_method, user=user)
             cache.cache.set(key, post_data, const.LONG_TIME)
         return post_data
 
@@ -1187,7 +1187,9 @@ class Thread(models.Model):
         return self.posts.filter(**kwargs)
 
     def get_post_data(self, sort_method=None, user=None):
-        """returns a tuple of four values:
+        """
+        `user` is a current site visitor.
+        returns a tuple of four values:
         * question
         * answers as list
         * list of post ids 
@@ -1237,15 +1239,16 @@ class Thread(models.Model):
                 continue
 
             # precache some revision data
-            first_rev = post.get_earliest_revision()
-            last_rev = post.get_latest_revision()
+            first_rev = post.get_earliest_revision(user)
+            last_rev = post.get_latest_revision(user)
             first_rev.post = post
             last_rev.post = post
 
             # pass through only deleted question posts
             if post.deleted and post.post_type != 'question':
                 continue
-            if not post.is_approved():  # hide posts on the moderation queue
+
+            if not post.is_approved() and post.author_id != user.pk:  # hide posts on the moderation queue
                 continue
 
             post_to_author[post.id] = post.author_id

@@ -294,10 +294,11 @@ class PostManager(BaseQuerySetManager):
     def precache_comments(self, for_posts, visitor):
         """
         Fetches comments for given posts, and stores them in post._cached_comments
-        Additionally, annotates posts with ``upvoted_by_user`` parameter, if visitor is logged in
-
+        If visitor is authenticated, annotatets posts with ``upvoted_by_user`` parameter.
+        If visitor is authenticated, adds own comments that are in moderation.
         """
-        qs = Post.objects.get_comments().filter(parent__in=for_posts)\
+        qs = Post.objects.get_comments()\
+            .filter(parent__in=for_posts)\
             .select_related('author')
 
         if visitor.is_anonymous:
@@ -312,9 +313,15 @@ class PostManager(BaseQuerySetManager):
             comments = upvoted_by_user + not_upvoted_by_user
             comments.sort(key=operator.attrgetter('added_at'))
 
+        # filter out comments that user should not see
+        premoderation = askbot_settings.CONTENT_MODERATION_MODE == 'premoderation'
+        if premoderation and visitor.is_authenticated:
+            comments = [comment for comment in comments if (comment.approved or comment.author_id == visitor.pk)]
+            
         post_map = defaultdict(list)
         for cm in comments:
             post_map[cm.parent_id].append(cm)
+
         for post in for_posts:
             post.set_cached_comments(post_map[post.id])
 
@@ -349,6 +356,9 @@ class MockPost(object):
 
     def needs_moderation(self):
         return False
+
+    def get_post_type_display(self):
+        return self.post_type
 
 
 POST_RENDERERS_MAP = django_settings.ASKBOT_POST_RENDERERS
@@ -628,6 +638,11 @@ class Post(models.Model):
         self.html = self.parse_post_text()['html']
         self.summary = self.get_snippet()
 
+    def recount_comments(self):
+        """Updates denormalized value `Post.comment_count` according to the
+        number of comments in the database"""
+        self.comment_count = self.comments.filter(deleted=False, approved=True).count()
+
     def is_question(self):
         return self.post_type == 'question'
 
@@ -645,6 +660,14 @@ class Post(models.Model):
 
     def is_reject_reason(self):
         return self.post_type == 'reject_reason'
+
+    def get_comments_count(self, user):
+        """Returns number of comments under teh post that can be
+        seen by the user"""
+        if not user or user.is_anonymous:
+            return self.comment_count
+
+        return self.comment_count + int(self.has_moderated_comment(user))
 
     def get_flag_activity_object(self, user):
         """Returns flag activity object, preferrably initialized by the user,
@@ -696,6 +719,17 @@ class Post(models.Model):
         #                            )
         return User.objects.filter(user_filter).distinct()
 
+    def get_post_type_display(self):
+        """Returns localized post type"""
+        if self.is_comment():
+            return _('comment')
+        if self.is_answer():
+            return _('answer')
+        if self.is_question():
+            return _('question')
+
+        return _('piece of content')
+
     def get_previous_answer(self, user=None):
         """returns a previous answer to a given answer;
         only works on the "answer" post types"""
@@ -735,6 +769,29 @@ class Post(models.Model):
         """true if post belongs to the group"""
         return self.groups.filter(id=group.id).exists()
 
+    def has_moderated_comment(self, user):
+        """`True` if post has moderated comment authored by user"""
+        if not user:
+            return False
+
+        if user.is_anonymous:
+            return False
+
+        cached_comments = getattr(self, '_cached_comments', None)
+        if cached_comments:
+            for comment in cached_comments:
+                if comment.author_id == user.pk:
+                    if not comment.approved:
+                        return True
+            return False
+
+        return Post.objects.filter(
+            parent=self,
+            post_type='comment',
+            author=user,
+            approved=False
+        ).exists()
+    
     def add_to_groups(self, groups):
         """associates post with groups"""
         # this is likely to be temporary - we add
@@ -918,7 +975,7 @@ class Post(models.Model):
         if post.is_question() or post.is_answer():
             comments = Post.objects.get_comments().filter(parent=post)
             comments.update(parent=self)
-            self.comment_count = self.comments.filter(deleted=False).count()
+            self.recount_comments()
 
         # TODO: implement redirects
         if post.is_question():
@@ -1194,7 +1251,7 @@ class Post(models.Model):
                                                 ip_addr=ip_addr,
                                             )
         if comment_post.is_approved():
-            self.comment_count = self.comment_count + 1
+            self.recount_comments()
             self.save()
 
         if askbot_settings.COMMENT_EDITING_BUMPS_THREAD:
@@ -1533,19 +1590,27 @@ class Post(models.Model):
     def cache_latest_revision(self, rev):
         setattr(self, '_last_rev_cache', rev)
 
-    def get_latest_revision(self):
+    def get_latest_revision(self, visitor=None):
+        """Returns the latest revision the `visitor` is allowed to see."""
         if hasattr(self, '_last_rev_cache'):
             return self._last_rev_cache
-        rev = self.revisions.exclude(revision=0).order_by('-revision')[0]
+
+        rev = self.revisions.order_by('-id')[0]
+        if not rev.can_be_seen_by(visitor):
+            rev = self.revisions.exclude(revision=0).order_by('-id')[0]
+
         self.cache_latest_revision(rev)
         return rev
-#       # TODO: remove this method
-#       return self.current_revision
 
-    def get_earliest_revision(self):
+    def get_earliest_revision(self, visitor=None):
+        """Returns the earliest revision the `visitor` is allowed to see."""
         if hasattr(self, '_first_rev_cache'):
             return self._first_rev_cache
-        rev = self.revisions.exclude(revision=0).order_by('revision')[0]
+
+        rev = self.revisions.order_by('id')[0]
+        if not rev.can_be_seen_by(visitor):
+            rev = self.revisions.exclude(revision=0).order_by('id')[0]
+
         setattr(self, '_first_rev_cache', rev)
         return rev
 
@@ -1838,7 +1903,7 @@ class Post(models.Model):
                     suppress_email=False,
                     ip_addr=None,
                 ):
-        latest_rev = self.get_latest_revision()
+        latest_rev = self.get_latest_revision(edited_by)
 
         if text is None:
             text = latest_rev.text
@@ -1879,7 +1944,7 @@ class Post(models.Model):
                 is_anonymous=edit_anonymously
             )
 
-        if latest_rev.revision > 0:
+        if latest_rev.revision > 0 or not self.approved:
             parse_results = self.parse_and_save(author=edited_by,
                                                 is_private=is_private)
 
@@ -2204,6 +2269,27 @@ class PostRevision(models.Model):
         app_label = 'askbot'
         verbose_name = _("post revision")
         verbose_name_plural = _("post revisions")
+
+    def can_be_seen_by(self, user):
+        """Returns `True` if user can see revision.
+
+        Group membership checks are not done here,
+        because we want this method to not incur additional DB queries.
+
+        Therefore, this method  should not be used directly,
+        but only after the parent posts are filtered by groups.
+        """
+        is_published = self.revision != 0
+
+        if is_published:
+            return True
+        
+        if not user or user.is_anonymous:
+            return False
+
+        # revision is moderated, can be seen by mods or revision authors
+        return user.is_admin_or_mod() or self.author_id == user.pk
+        
 
     def place_on_moderation_queue(self):
         """Creates moderation queue

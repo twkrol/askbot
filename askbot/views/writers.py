@@ -388,10 +388,7 @@ def edit_answer(request, id):
     if askbot_settings.READ_ONLY_MODE_ENABLED:
         return HttpResponseRedirect(answer.get_absolute_url())
 
-    try:
-        revision = answer.revisions.get(revision=0)
-    except models.PostRevision.DoesNotExist:
-        revision = answer.get_latest_revision()
+    revision = answer.get_latest_revision(request.user)
 
     class_path = getattr(settings, 'ASKBOT_EDIT_ANSWER_FORM', None)
     if class_path:
@@ -606,6 +603,7 @@ def __generate_comments_json(obj, user, avatar_size):
             'user_is_moderator': comment_owner.is_moderator(),
             'is_deletable': is_deletable,
             'is_editable': is_editable,
+            'is_approved': comment.approved,
             'points': comment.points,
             'score': comment.points, #to support js
             'upvoted_by_user': getattr(comment, 'upvoted_by_user', False)
@@ -777,8 +775,7 @@ def delete_comment(request):
 
             parent = comment.parent
             comment.delete()
-            #attn: recalc denormalized field
-            parent.comment_count = parent.comments.count()
+            parent.recount_comments()
             parent.save()
             parent.thread.reset_cached_data()
 
@@ -854,7 +851,7 @@ def repost_answer_as_comment(request, destination=None):
             destination_post = answer.get_previous_answer(user=request.user)
         #todo: implement for comment under other answer
 
-        if destination_post is None:
+        if not destination_post:
             message = _('Error - could not find the destination post')
             request.user.message_set.create(message=message)
             return HttpResponseRedirect(answer.get_absolute_url())
@@ -863,7 +860,6 @@ def repost_answer_as_comment(request, destination=None):
             answer.post_type = 'comment'
             answer.parent = destination_post
 
-            new_comment_count = answer.comments.count() + 1
             answer.comment_count = 0
 
             answer_comments = models.Post.objects.get_comments().filter(parent=answer)
@@ -873,7 +869,7 @@ def repost_answer_as_comment(request, destination=None):
             answer.parse_and_save(author=answer.author)
             answer.thread.update_answer_count()
 
-            answer.parent.comment_count += new_comment_count
+            answer.parent.recount_comments()
             answer.parent.save()
 
             answer.thread.reset_cached_data()

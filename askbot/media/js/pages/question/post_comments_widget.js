@@ -150,6 +150,12 @@
     };
   };
 
+  PostCommentsWidget.prototype.userHasModeratedComment = function () {
+    if (!askbot.data.userIsAuthenticated) return false;
+    // below works under assumption that moderated comments are shown only to the authors
+    return this._element.find('.js-post-moderation-message').length > 0;
+  };
+
   PostCommentsWidget.prototype.getOpenEditorHandler = function (button) {
     var me = this;
     return function () {
@@ -157,6 +163,9 @@
       var message;
       if (askbot.settings.readOnlyModeEnabled === true) {
         message = askbot.messages.readOnlyMessage;
+        showMessage(button, message, 'after');
+      } else if (me.userHasModeratedComment()) {
+        message = gettext('Sorry, only one moderated comment per post is allowed');
         showMessage(button, message, 'after');
       } else if (askbot.data.userIsAuthenticated) {
         me.startNewComment();

@@ -599,13 +599,13 @@ def user_can_see_karma(user, karma_owner):
     """True, if user can see other users karma"""
     if askbot_settings.KARMA_MODE == 'public':
         return True
-    elif askbot_settings.KARMA_MODE == 'private':
-        if user.is_anonymous:
-            return False
-        elif user.is_administrator_or_moderator():
+
+    if askbot_settings.KARMA_MODE == 'private':
+        if user.is_administrator_or_moderator():
             return True
-        elif user.pk == karma_owner.pk:
+        if user.pk == karma_owner.pk:
             return True
+
     return False
 
 
@@ -1115,6 +1115,10 @@ def user_assert_can_post_comment(self, parent_post=None):
     if not self.has_group_permission('post_comments'):
         error_message_tpl = _('Sorry, you cannot %(perform_action)s')
         error_message = error_message_tpl % {'perform_action': _('post comments')}
+        raise django_exceptions.PermissionDenied(error_message)
+
+    if parent_post.has_moderated_comment(self):
+        error_message = _('Sorry, only one moderated comment per post is allowed')
         raise django_exceptions.PermissionDenied(error_message)
 
 
@@ -1796,15 +1800,10 @@ def user_repost_comment_as_answer(self, comment):
 
     comment.thread.update_answer_count()
 
-    comment.parent.comment_count += 1
+    comment.parent.recount_comments()
     comment.parent.save()
 
-    #to avoid db constraint error
-    if old_parent.comment_count >= 1:
-        old_parent.comment_count -= 1
-    else:
-        old_parent.comment_count = 0
-
+    old_parent.recount_comments()
     old_parent.save()
     comment.thread.reset_cached_data()
 
@@ -2251,7 +2250,7 @@ def user_edit_question(
         else:
             question.thread.make_public(recursive=False)
 
-    latest_revision = question.get_latest_revision()
+    latest_revision = question.get_latest_revision(self)
     #a hack to allow partial edits - important for SE loader
     if title is None:
         title = question.thread.title
@@ -3325,7 +3324,7 @@ def user_approve_post_revision(user, post_revision, timestamp = None):
 
         if post.approved == False:
             if post.is_comment():
-                post.parent.comment_count += 1
+                post.parent.recount_comments()
                 post.parent.save()
             elif post.is_answer():
                 post.thread.answer_count += 1

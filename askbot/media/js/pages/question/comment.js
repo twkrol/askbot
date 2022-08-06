@@ -205,6 +205,14 @@ Comment.prototype.setContent = function (data) {
         oldEditLink.dispose();
     }
 
+    // 9) if comment is moderated - add moderation warning
+    var hasModWarning = this._element.find('.js-post-moderation-message').length > 0;
+    if (!data.is_approved && !hasModWarning) {
+      var content = this._element.find('.js-comment-content');
+      var warning = getTemplate('.js-post-moderation-message');
+      content.prepend(warning);
+    }
+
     if (this._is_convertible) {
         var oldConvertLink = this._convert_link;
         this._convert_link = new CommentConvertLink(this._data.id);
@@ -255,12 +263,12 @@ Comment.prototype.dispose = function () {
 Comment.prototype.getElement = function () {
     Comment.superClass_.getElement.call(this);
     if (this.isBlank() && this.hasContent()) {
-        this.setContent();
+        this.setContent({is_approved: !askbot.data.userIsWatched});
     }
     return this._element;
 };
 
-Comment.prototype.loadText = function (on_load_handler) {
+Comment.prototype.loadText = function (onLoadHandler) {
     var me = this;
     $.ajax({
         type: 'GET',
@@ -269,7 +277,7 @@ Comment.prototype.loadText = function (on_load_handler) {
         success: function (json) {
             if (json.success) {
                 me._data.text = json.text;
-                on_load_handler();
+                onLoadHandler();
             } else {
                 showMessage(me.getElement(), json.message, 'after');
             }

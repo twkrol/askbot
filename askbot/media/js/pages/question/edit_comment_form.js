@@ -400,7 +400,8 @@ EditCommentForm.prototype.getSaveHandler = function () {
             'user_display_name': userName,
             'comment_added_at': timestamp,
             'user_profile_url': askbot.data.userProfileUrl,
-            'user_avatar_url': askbot.data.userCommentAvatarUrl
+            'user_avatar_url': askbot.data.userCommentAvatarUrl,
+            'is_approved': !askbot.data.userIsWatched
         });
         me._comment.setDraftStatus(true);
         var postCommentsWidget = me._comment.getContainerWidget();

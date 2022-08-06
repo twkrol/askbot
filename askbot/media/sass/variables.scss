@@ -52,7 +52,7 @@
   --action-link-color: var(--clr-neutral-50);
   --action-link-hover-color: var(--clr-neutral-20);
 
-  --editor-padding: 0.125rem 0.25rem;
+  --editor-padding: 0.5rem 0.75rem;
   --editor-border-color: var(--clr-neutral-60);
   --editor-border: var(--border-width) var(--border-style) var(--editor-border-color);
   --editor-box-shadow: inset 0 0 3px var(--clr-neutral-70);
@@ -260,7 +260,7 @@
 	--wmd-spacer-background: var(--clr-neutral-50);
   --wmd-preview-block-margin: 0 0 0.5rem;
   --wmd-preview-list-padding: 0 0 0 1.5rem;
-  --wmd-preview-padding: 0.5rem;
+  --wmd-preview-padding: 0.5rem 0.75rem;
   --wmd-preview-margin: 0 0 0.5rem;
   --wmd-preview-background: var(--clr-neutral-95);
   --wmd-preview-border: var(--border-width) var(--border-style) var(--clr-neutral-80);

@@ -27,9 +27,10 @@
 {% block sidebar %}
     {% include "question/sidebar.html" %}
 {% endblock %}
-{% from "macros.html" import comment_widget, tag_widget %}
+{% from "macros.html" import moderated_post_warning, comment_widget, tag_widget %}
 {% block js_templates %}
   {{ comment_widget(blank_comment) }}
+  {{ moderated_post_warning(blank_comment) }}
   {% include "editors/simple.html" %}
   {% if settings.EDITOR_TYPE == 'markdown' %}
     {% include "editors/wmd_help.html" %}

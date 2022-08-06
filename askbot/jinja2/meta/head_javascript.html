@@ -3,6 +3,7 @@
     var askbot = {};
     askbot['data'] = {};
     askbot['data']['userIsAuthenticated'] = {{ request.user.is_authenticated|as_js_bool }};
+    askbot['data']['userIsWatched'] = {{ (request.user.is_authenticated and request.user.status == 'w')|as_js_bool }};
     askbot['data']['languageCode'] = '{{ current_language_code|escapejs }}';
     {% if request.user.is_authenticated %}
         askbot['data']['userId'] = {{ request.user.id }};

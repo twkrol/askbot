@@ -8,8 +8,10 @@
     [<a href="{{ answer.get_absolute_url() }}">{% trans %}back{% endtrans %}</a>]
   </h1>
   <form id="fmedit" action="{{ url('edit_answer',  answer.id ) }}" method="post" >{{ csrf_input }}
-    {% if revision_form.revision.errors %}{{ revision_form.revision.errors.as_ul() }}{% endif %}
-    {{ revision_form.revision }}
+    {% if answer.revisions.count() > 1 %}
+      {% if revision_form.revision.errors %}{{ revision_form.revision.errors.as_ul() }}{% endif %}
+      {{ revision_form.revision }}
+    {% endif %}
     <input type="hidden" id="select_revision" name="select_revision" value="false"/>
     {{ macros.edit_post(form, settings, post_html=revision.text) }}
     <div class="answer-options">

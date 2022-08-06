@@ -45,6 +45,7 @@
 @use './components/used_count.scss';
 @use './components/action_status.scss';
 @use './components/flat_pages.scss';
+@use './components/post_moderation_message.scss';
 @use './error.scss';
 @use './questions/index.scss';
 @use './questions/questions_header.scss';
@@ -76,3 +77,4 @@
 @use './signin_page.scss';
 @use './feedback_page.scss';
 @use './search_posts_page.scss';
+@use './edit_answer_page.scss';

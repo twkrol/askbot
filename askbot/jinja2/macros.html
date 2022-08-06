@@ -1,3 +1,10 @@
+{%- macro moderated_post_warning(post) -%}
+  <div class="js-post-moderation-message with-warning-icon">
+    {% set post_type=post.get_post_type_display() %}
+    {% trans %}This {{ post_type }} is being moderated, please do not repost it!{% endtrans %}
+  </div>
+{%- endmacro -%}
+
 {%- macro used_count(count=0) -%}
   <span class="used-count">&#215;{{ count }}</span>
 {%- endmacro -%}
@@ -75,13 +82,13 @@
 </div>
 {%- endmacro -%}
 
-{%- macro post_last_updater_and_creator_info(post) -%}
+{%- macro post_last_updater_and_creator_info(post, visitor=None) -%}
   <div class='post-update-info-container'>
     {% if post.wiki %}
       <div class='post-update-info'>
         <div class="with-wiki-icon"></div>
         <div>
-          {% set last_rev = post.get_latest_revision() %}
+          {% set last_rev = post.get_latest_revision(visitor) %}
           <div>{{ timeago(post.added_at, action_performed=last_rev.get_action_label()) }}</div>
           {% set wiki_min_rep = settings.MIN_REP_TO_EDIT_WIKI %}
           <div class="tip">{% trans %}This post is a wiki.
@@ -89,8 +96,8 @@
         </div>
       </div>
     {% else %}
-      {% set first_rev = post.get_earliest_revision() %}
-      {% set last_rev = post.get_latest_revision() %}
+      {% set first_rev = post.get_earliest_revision(visitor) %}
+      {% set last_rev = post.get_latest_revision(visitor) %}
       {{ post_contributor_info(first_rev, last_rev) }}
       {% if first_rev != last_rev and first_rev.author_id != last_rev.author_id %}
         {{ post_contributor_info(last_rev) }}
@@ -351,8 +358,8 @@
 {# Warning! Any changes to the comment markup here must be duplicated in post.js
 for the purposes of the AJAX comment editor #}
 
-{%- macro comments_widget_buttons(post=None, max_comments=None) -%}
-  {% set more_comments = post.comment_count > max_comments %}
+{%- macro comments_widget_buttons(post=None, max_comments=None, user=None) -%}
+  {% set more_comments = post.get_comments_count(user) > max_comments %}
   <a id="js-add-comment-for-post-{{ post.id }}-btn" class="js-add-comment-btn action-link {% if more_comments %}js-hidden{% endif %}"
   >{% trans %}add a comment{% endtrans %}</a>
   <a class="js-load-comments-btn action-link {% if not more_comments %}js-hidden{% endif %}">{% trans %}see more comments{% endtrans %}</a>
@@ -383,9 +390,9 @@ for the purposes of the AJAX comment editor #}
       </script>
       {% endif %}
     </div>
-    <div class="comment-content">
+    <div class="js-comment-content">
       {% if comment.needs_moderation() %}
-        {% include "components/post_awaiting_moderation.html" %}
+        {{ moderated_post_warning(comment) }}
       {% endif %}
       <div class="js-comment-body">
         {{ comment.summary }}
@@ -456,9 +463,9 @@ for the purposes of the AJAX comment editor #}
     </div>
     <div class="comments-list-controls">
       {% if show_post == post and show_comment and show_comment_position > max_comments %}
-        {{ comments_widget_buttons(post=post, max_comments=show_comment_position) }}
+        {{ comments_widget_buttons(post=post, max_comments=show_comment_position, user=user) }}
       {% else %}
-        {{ comments_widget_buttons(post=post, max_comments=max_comments) }}
+        {{ comments_widget_buttons(post=post, max_comments=max_comments, user=user) }}
       {% endif %}
     </div>
   </div>

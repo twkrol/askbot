@@ -762,12 +762,7 @@ def get_comment(request):
     post_id = int(request.GET['id'])
     comment = models.Post.objects.get(post_type='comment', id=post_id)
     request.user.assert_can_edit_comment(comment)
-
-    try:
-        #try to get suggested edit
-        rev = comment.revisions.get(revision=0)
-    except models.PostRevision.DoesNotExist:
-        rev = comment.get_latest_revision()
+    rev = comment.get_latest_revision(request.user)
     return {'text': rev.text}
 
 

@@ -4,6 +4,9 @@
     {% include "question/share_buttons.html" %}
   </div>
   <div class="post-content{% if question.deleted %} js-post-deleted{% endif %}">
+    {% if question.needs_moderation() %}
+      {{ macros.moderated_post_warning(question) }}
+    {% endif %}
     {% include "question/title.html" %}
     {{
       macros.tag_list_widget(
@@ -30,10 +33,7 @@
       </div>
     </div>
     <div class="js-editable-hide-post-body-{{ question.pk }}">
-      {{ macros.post_last_updater_and_creator_info(question) }}
-      {% if question.needs_moderation() %}
-        {% include "components/post_awaiting_moderation.html" %}
-      {% endif %}
+      {{ macros.post_last_updater_and_creator_info(question, visitor=request.user) }}
       {% include "question/question_controls.html" %}
     </div>
     {% if thread.closed %}

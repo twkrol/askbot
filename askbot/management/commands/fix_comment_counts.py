@@ -30,5 +30,5 @@ class Command(BaseCommand):
         count = posts.count()
         message = 'Fixing comment counts'
         for post in ProgressBar(posts.iterator(), count, message):
-            new_count = post.comments.count();
-            Post.objects.filter(id=post.id).update(comment_count=new_count)
+            post.recount_comments()
+            Post.objects.filter(id=post.id).update(comment_count=post.comment_count)

@@ -21,6 +21,9 @@
   min-width: var(--comment-votes-width);
 }
 
+.js-comment-content {
+  width: 100%;
+}
 
 .js-comments-list-title {
   margin: var(--comments-list-title-margin);
