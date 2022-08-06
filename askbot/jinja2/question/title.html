@@ -9,9 +9,9 @@
   data-validator="askbot.validators.titleValidator"
 >
   <div class="js-editable-content">{{ thread.get_title()|escape }}</div>
+  <button id="js-edit-btn-question-title-{{ question.pk }}"
+    class="js-edit action-link"
+  >{% trans %}edit{% endtrans %}</button>
   <div class="js-editable-controls">
-    <button id="js-edit-btn-question-title-{{ question.pk }}"
-      class="js-edit action-link"
-    >{% trans %}edit{% endtrans %}</button>
   </div>
 </h1>
