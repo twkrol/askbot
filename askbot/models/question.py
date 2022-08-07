@@ -1045,8 +1045,11 @@ class Thread(models.Model):
         lang = lang or get_language()
         return 'thread-question-summary-%d-%s' % (self.id, lang)
 
-    def get_post_data_cache_key(self, sort_method=None):
-        return 'thread-data-%s-%s' % (self.id, sort_method)
+    def get_post_data_cache_key(self, sort_method=None, groups=None): #pylint: disable=missing-docstring
+        key = f'thread-data-{self.id}-{sort_method}'
+        if not groups:
+            return key
+        return key + '-' + '-'.join(sorted([group.id for group in groups]))
 
     def invalidate_cached_post_data(self):
         """needs to be called when anything notable
@@ -1065,9 +1068,19 @@ class Thread(models.Model):
         self.invalidate_cached_post_data()
         self.invalidate_cached_summary_html()
 
-    def get_post_data_for_question_view(self, user=None, sort_method=None):
-        """loads post data for use in the question details view
-        """
+    def get_public_posts(self):
+        kwargs = {
+            'deleted': False,
+            'post_type__in': ('question', 'answer', 'comment'),
+        }
+        if askbot.is_multilingual():
+            kwargs['language_code'] = self.language_code or get_language()
+        return self.posts.filter(**kwargs)
+
+    def get_personalized_post_data(self, post_data, user):
+        """Returns `post_data` data structure,
+        personalized for user"""
+
         def reverse_comments(post_data):
             question = post_data[0]
             answers = post_data[1]
@@ -1079,7 +1092,7 @@ class Thread(models.Model):
             """posts - is source list
             need_ids - set of post ids
             """
-            found = dict()
+            found = {}
             for post in posts:
                 if post.id in need_ids:
                     found[post.id] = post
@@ -1096,99 +1109,114 @@ class Thread(models.Model):
                 return 1
             return 2
 
+        post_data = list(post_data)
+        from askbot.models import PostRevision
+        suggested_revs = PostRevision.objects.filter(author=user, revision=0)
+
+        # users who don't have posts in moderation will incur
+        # quick query and exit
+        if not suggested_revs.count():
+            return post_data
+
+        # for the remaining users we'll try to patch the thread data
+        # with the users suggested edits
+        question = post_data[0]
+        answers = post_data[1]
+        post_to_author = post_data[2]
+
+        all_posts = copy(answers)
+        if question:
+            all_posts.append(question)
+
+        post_ids = [post.id for post in all_posts]
+
+        suggested_revs = suggested_revs.filter(post_id__in=post_ids)
+        suggested_post_ids = [rev.post_id for rev in suggested_revs]
+        post_id_set = set(suggested_post_ids)
+
+        # posts that we need to patch with user's suggested edits
+        posts = find_posts(all_posts, post_id_set)
+        rev_map = dict(list(zip(suggested_post_ids, suggested_revs)))
+
+        # patch approved posts with users's revisions pending moderation
+        for post_id, post in list(posts.items()):
+            rev = rev_map[post_id]
+            # patching work
+            post.text = rev.text
+            parse_data = post.parse_post_text()
+            post.html = parse_data['html']
+            post.summary = post.get_snippet()
+            post_to_author[post_id] = rev.author_id
+            post.set_runtime_needs_moderation()
+
+        # patch post data with users' posts pending moderation
+        pending_posts = list(self.posts.filter(approved=False, author=user))
+        suggested_revs = PostRevision.objects.filter(post_id__in=[post.id for post in pending_posts])
+        rev_map = {rev.post_id: rev for rev in suggested_revs}
+        for post in sorted(pending_posts, key=post_type_ord):
+            rev = rev_map[post.id]
+            post.text = rev.text
+            post.html = post.parse_post_text()['html']
+            post.summary = post.get_snippet()
+            post_to_author[post.id] = rev.author_id
+            if post.is_comment():
+                parents = find_posts(all_posts, set([post.parent_id]))
+                parent = list(parents.values())[0]
+                parent.add_cached_comment(post)
+            if post.is_answer():
+                answers.insert(0, post)
+                all_posts.append(post)# add b/c there may be self-comments
+            if post.is_question():
+                post_data[0] = post
+                all_posts.append(post)
+
+        return post_data
+
+    def get_post_data_for_question_view(self, user=None, sort_method=None):
+        """loads post data for use in the question details view
+        """
         post_data = self.get_cached_post_data(user=user, sort_method=sort_method)
         if user.is_anonymous:
             return post_data
 
-        if askbot_settings.CONTENT_MODERATION_MODE == 'premoderation' and user.is_watched():
-            # in this branch we patch post_data with the edits suggested by the
-            # watched user
-            post_data = list(post_data)
-            post_ids = self.posts.filter(author=user).values_list('id', flat=True)
-            from askbot.models import PostRevision
-            suggested_revs = PostRevision.objects.filter(
-                author=user, post__id__in=post_ids, revision=0)
+        if not (askbot_settings.CONTENT_MODERATION_MODE == 'premoderation' and user.is_watched()):
+            return post_data
 
-            # get ids of posts that we need to patch with suggested data
-            if len(suggested_revs):
-                # find posts that we need to patch
-                suggested_post_ids = [rev.post_id for rev in suggested_revs]
+        return self.get_personalized_post_data(post_data, user)
 
-                question = post_data[0]
-                answers = post_data[1]
-                post_to_author = post_data[2]
+    def get_groups_for_get_post_data(self, user):
+        """Returns groups necessary for `Thread.get_post_data`"""
+        if not askbot_settings.GROUPS_ENABLED:
+            return []
 
-                post_id_set = set(suggested_post_ids)
+        if not user or user.is_anonymous:
+            return [Group.objects.get_global_group(),]
 
-                all_posts = copy(answers)
-                if question:
-                    all_posts.append(question)
-                posts = find_posts(all_posts, post_id_set)
+        all_groups = set(user.get_groups())
+        personal = set([user.get_personal_group()])
+        return list(all_groups - personal)
 
-                rev_map = dict(list(zip(suggested_post_ids, suggested_revs)))
-
-                for post_id, post in list(posts.items()):
-                    rev = rev_map[post_id]
-                    # patching work
-                    post.text = rev.text
-                    parse_data = post.parse_post_text()
-                    post.html = parse_data['html']
-                    post.summary = post.get_snippet()
-
-                    post_to_author[post_id] = rev.author_id
-                    post.set_runtime_needs_moderation()
-
-                if len(post_id_set):
-                    # brand new suggested posts
-                    from askbot.models import Post
-                    # order by insures that
-                    posts = list(Post.objects.filter(id__in=post_id_set))
-                    for post in sorted(posts, key=post_type_ord):
-                        rev = rev_map[post.id]
-                        post.text = rev.text
-                        post.html = post.parse_post_text()['html']
-                        post.summary = post.get_snippet()
-                        post_to_author[post.id] = rev.author_id
-                        if post.is_comment():
-                            parents = find_posts(all_posts, set([post.parent_id]))
-                            parent = list(parents.values())[0]
-                            parent.add_cached_comment(post)
-                        if post.is_answer():
-                            answers.insert(0, post)
-                            all_posts.append(post)# add b/c there may be self-comments
-                        if post.is_question():
-                            post_data[0] = post
-                            all_posts.append(post)
-
-        return post_data
 
     def get_cached_post_data(self, user=None, sort_method=None):
         """returns cached post data, as calculated by
         the method get_post_data()"""
         sort_method = sort_method or askbot_settings.DEFAULT_ANSWER_SORT_METHOD
+        groups = self.get_groups_for_get_post_data(user)
+        if groups:
+            # A temporary hacky plug. 
+            # We could cache by groups as well, but in that case invalidation
+            # becomes an issue.
+            return self.get_post_data(sort_method=sort_method, groups=groups)
 
-        if askbot_settings.GROUPS_ENABLED:
-            # temporary plug: bypass cache where groups are enabled
-            return self.get_post_data(sort_method=sort_method, user=user)
-        key = self.get_post_data_cache_key(sort_method)
+        key = self.get_post_data_cache_key(sort_method, groups)
         post_data = cache.cache.get(key)
         if not post_data:
-            post_data = self.get_post_data(sort_method=sort_method, user=user)
+            post_data = self.get_post_data(sort_method=sort_method, groups=groups)
             cache.cache.set(key, post_data, const.LONG_TIME)
         return post_data
 
-    def get_public_posts(self):
-        kwargs = {
-            'deleted': False,
-            'post_type__in': ('question', 'answer', 'comment'),
-        }
-        if askbot.is_multilingual():
-            kwargs['language_code'] = self.language_code or get_language()
-        return self.posts.filter(**kwargs)
-
-    def get_post_data(self, sort_method=None, user=None):
+    def get_post_data(self, sort_method=None, groups=None):
         """
-        `user` is a current site visitor.
         returns a tuple of four values:
         * question
         * answers as list
@@ -1200,15 +1228,13 @@ class Thread(models.Model):
         """
         sort_method = sort_method or askbot_settings.DEFAULT_ANSWER_SORT_METHOD
 
-        thread_posts = self.posts.all()
-        if askbot_settings.GROUPS_ENABLED:
-            if user is None or user.is_anonymous:
-                groups = (Group.objects.get_global_group(),)
-            else:
-                groups = user.get_groups()
-
-            thread_posts = thread_posts.filter(groups__in=groups)
-            thread_posts = thread_posts.distinct()# important for >1 group
+        if groups:
+            posts = self.posts.filter(groups__in=groups, approved=True)
+            if len(groups) > 1:
+                # important for >1 group
+                posts = posts.distinct()
+        else:
+            posts = self.posts.filter(approved=True)
 
         order_by_method = {
                         'latest':'-added_at',
@@ -1226,21 +1252,22 @@ class Thread(models.Model):
         else:
             order_by = (order_by,)
 
-        thread_posts = thread_posts.order_by(*order_by)
+        posts = posts.order_by(*order_by)
         # 1) collect question, answer and comment posts and list of post id's
         answers = list()
         post_map = dict()
         comment_map = dict()
         post_to_author = dict()
         question_post = None
-        for post in thread_posts:
+
+        for post in posts:
 
             if post.post_type not in ('question', 'answer', 'comment'):
                 continue
 
             # precache some revision data
-            first_rev = post.get_earliest_revision(user)
-            last_rev = post.get_latest_revision(user)
+            first_rev = post.get_earliest_revision()
+            last_rev = post.get_latest_revision()
             first_rev.post = post
             last_rev.post = post
 
@@ -1248,7 +1275,7 @@ class Thread(models.Model):
             if post.deleted and post.post_type != 'question':
                 continue
 
-            if not post.is_approved() and post.author_id != user.pk:  # hide posts on the moderation queue
+            if not post.is_approved():
                 continue
 
             post_to_author[post.id] = post.author_id

@@ -1225,10 +1225,15 @@ class Post(models.Model):
             self._cached_comments = list()
             return self._cached_comments
 
-    def add_cached_comment(self, comment):
+    def add_cached_comment(self, comment): #pylint: disable=missing-docstring
         comments = self.get_cached_comments()
         if comment not in comments:
             comments.append(comment)
+
+        def get_timestamp(item): #pylint: disable=missing-docstring
+            return item.added_at
+
+        self.set_cached_comments(sorted(comments, key=get_timestamp))
 
     def reverse_cached_comments(self):
         self.get_cached_comments().reverse()
