@@ -1,0 +1,43 @@
+<div class="moderation-header">
+  <div class="tools">
+    <div class="js-approve-block">
+      <div class="js-label">
+        {% trans %}first post{% endtrans %}
+      </div>
+      <div class="buttons">
+        <button class="btn approve-posts">{% trans %}approve posts{% endtrans %}</button>
+        <button class="btn approve-posts-users" id="re_approve_posts_users">{% trans %}approve posts and users{% endtrans %}</button>
+      </div>
+    </div>
+    <div class="js-decline-block">
+      <div class="js-label">
+        {% trans %}visible posts{% endtrans %}
+      </div>
+      <div class="buttons">
+        <div class="select-decline-reason-btn js-dropdown-menu decline-reasons-menu">
+          <button class="btn js-dropdown-trigger">
+            {% trans %}decline and explain why{% endtrans %}
+            <span class="with-caret-down-icon"></span>
+          </button>
+          <ul class="js-dropdown-target">
+            {% for reason in post_reject_reasons %}
+              <li>
+                <a class="decline-with-reason" data-reason-id="{{ reason.id }}">{{ reason.title|escape }}</a>
+              </li>
+            {% endfor %}
+            <li>
+              <a class="manage-reasons">{% trans %}add/manage reject reasons{% endtrans %}</a>
+            </li>
+          </ul>
+        </div>
+        <button class="btn btn-danger decline-block-users">{% trans %}block spammers{% endtrans %}</button>
+        {% if settings.IP_MODERATION_ENABLED %}
+        <button class="btn btn-danger decline-block-users-ips">{% trans %}block spammers and IPs{% endtrans %}</button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% include "moderation/info_box.html" %}
+</div>
+{% include "moderation/manage_reject_reasons_dialog.html" %}
+<div class="action-status"><span></span></div>

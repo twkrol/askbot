@@ -1,23 +1,23 @@
-
+from collections import defaultdict
+import os
+import sys
+from tempfile import mkstemp
+from bs4 import BeautifulSoup
+from django.core.management.base import BaseCommand, CommandError
+from django.conf import settings as django_settings
+from django.core import serializers
+from django.utils.encoding import smart_str
+from django.utils.translation import activate as activate_language
 from askbot.models import Message
 from askbot.models import User
 from askbot.models import ImportedObjectInfo
 from askbot.models import ImportRun
-from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings as django_settings
-from bs4 import BeautifulSoup
-from collections import defaultdict
-from django.core import serializers
-from django.utils.encoding import smart_str
-from django.utils.translation import activate as activate_language
-import os
-import sys
-from tempfile import mkstemp
 
 class BaseImportXMLCommand(BaseCommand):
     help = 'Base command for adding XML data from other forums to Askbot'
 
-    def add_argument(self, parser):
+    def add_arguments(self, parser):
+        parser.add_argument('xml_file', type=str)
         parser.add_argument('--redirect-format',
             action='store',
             type=str,
@@ -34,7 +34,7 @@ class BaseImportXMLCommand(BaseCommand):
         self.redirect_format = self.get_redirect_format(kwargs['redirect_format'])
 
         self.setup_run()
-        self.read_xml_file(args[0])
+        self.read_xml_file(kwargs['xml_file'])
 
         self.remember_message_ids()
         self.handle_import()
@@ -72,8 +72,8 @@ class BaseImportXMLCommand(BaseCommand):
     def read_xml_file(self, filename):
         """reads xml data int BeautifulSoup instance"""
         if not os.path.isfile(filename):
-            raise CommandError('File %s does not exist') % filename
-        xml = open(filename, 'r').read()
+            raise CommandError(f'File {filename} does not exist') % filename
+        xml = open(filename, 'r', encoding='utf-8').read()
         self.soup = BeautifulSoup(xml, ['lxml', 'xml'])
 
     def remember_message_ids(self):
@@ -87,7 +87,7 @@ class BaseImportXMLCommand(BaseCommand):
         info.new_id = to_object.id
         info.model = str(to_object._meta)
         info.run = self.run
-        info.extra_info = extra_info or dict()
+        info.extra_info = extra_info or {}
         info.save()
 
     def log_action(self, from_object, to_object, extra_info=None):
@@ -133,7 +133,7 @@ class BaseImportXMLCommand(BaseCommand):
         if os.path.exists(name_hint):
             info = mkstemp(dir=os.getcwd(), prefix=name_hint + '_')
             name_hint = info[1]
-        print('saving file: %s' % name_hint)
+        print(f'saving file: {name_hint}')
         return open(name_hint, 'w')
 
     def write_redirect(self, from_url, to_url, redirects_file):
@@ -171,11 +171,11 @@ class BaseImportXMLCommand(BaseCommand):
     def get_m2m_ids_for_field(self, obj, field_name):
         xml = obj._source_xml
         soup = BeautifulSoup(xml, ['lxml', 'xml'])
-        ids = list()
+        ids = []
         for field in soup.findAll('field', attrs={'name': field_name}):
             objs = field.findAll('object')
-            for obj in objs:
-                ids.append(obj.attrs['pk'])
+            for obj_item in objs:
+                ids.append(obj_item.attrs['pk'])
         return ids
 
     def copy_string_parameter(self, from_obj, to_obj, from_param_name, to_param_name=None):
@@ -192,7 +192,8 @@ class BaseImportXMLCommand(BaseCommand):
         if from_par.strip() == '' and to_par.strip() != '':
             setattr(to_obj, to_param_name, from_par)
 
-    def copy_bool_parameter(self, from_obj, to_obj, from_param_name, to_param_name=None, operator='or'):
+    def copy_bool_parameter(self, from_obj, to_obj, from_param_name,
+                            to_param_name=None, operator='or'):
         """copy value of boolean parameter from old to new object"""
 
         to_param_name = to_param_name or from_param_name
@@ -204,7 +205,7 @@ class BaseImportXMLCommand(BaseCommand):
         elif operator == 'and':
             value = from_par and to_par
         else:
-            raise ValueError('unsupported operator "%s"' % operator)
+            raise ValueError(f'unsupported operator "{operator}"')
         setattr(to_obj, to_param_name, value)
 
     def merge_words_parameter(self, from_obj, to_obj, from_param_name, to_param_name=None):
@@ -217,7 +218,8 @@ class BaseImportXMLCommand(BaseCommand):
         value = ' '.join(set(from_words)|set(to_words))
         setattr(to_obj, to_param_name, value)
 
-    def copy_numeric_parameter(self, from_obj, to_obj, from_param_name, to_param_name=None, operator='max'):
+    def copy_numeric_parameter(self,from_obj, to_obj, from_param_name,
+                               to_param_name=None, operator='max'):
 
         to_param_name = to_param_name or from_param_name
 
@@ -225,9 +227,10 @@ class BaseImportXMLCommand(BaseCommand):
         to_par = getattr(to_obj, to_param_name)
 
         if from_par is None:
-            return to_par
-        elif to_par is None:
-            return from_par
+            return
+
+        if to_par is None:
+            return
 
         if operator == 'max':
             value = max(from_par, to_par)
@@ -236,5 +239,5 @@ class BaseImportXMLCommand(BaseCommand):
         elif operator == 'sum':
             value =  from_par + to_par
         else:
-            raise ValueError('unsupported operator "%s"' % operator)
+            raise ValueError(f'unsupported operator "{operator}"')
         setattr(to_obj, to_param_name, value)

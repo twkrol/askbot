@@ -54,11 +54,11 @@ ManageRejectReasonsDialog.prototype.setState = function (state) {
 };
 
 ManageRejectReasonsDialog.prototype.show = function () {
-    $(this._element).modal('show');
+    $(this._element).show();
 };
 
 ManageRejectReasonsDialog.prototype.hide = function () {
-    $(this._element).modal('hide');
+    $(this._element).hide();
 };
 
 ManageRejectReasonsDialog.prototype.resetInputs = function () {

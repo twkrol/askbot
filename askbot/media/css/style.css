@@ -10517,4 +10517,54 @@ a.badge-page-link {
   margin-bottom: 1rem;
 }
 
+.moderation-queue-page .moderation-header .tools {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+.moderation-queue-page .moderation-header .tools .js-label {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.moderation-queue-page .moderation-header .tools .buttons {
+  display: flex;
+}
+.moderation-queue-page .moderation-header .tools .btn {
+  margin-right: 0.25rem;
+}
+.moderation-queue-page .moderation-header .tools .btn:last-child {
+  margin: 0;
+}
+.moderation-queue-page .select-decline-reason-btn {
+  position: relative;
+  margin-right: 0.25rem;
+}
+.moderation-queue-page .select-decline-reason-btn .btn.js-dropdown-trigger {
+  margin-right: 0;
+}
+.moderation-queue-page .select-decline-reason-btn .js-dropdown-target {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border: var(--toolbar-dropdown-menu-border);
+  background: var(--bg-color);
+  border-top: none;
+  list-style: none;
+}
+.moderation-queue-page .select-decline-reason-btn .js-dropdown-target li {
+  padding: 0.5rem;
+}
+.moderation-queue-page .js-approve-block {
+  margin-right: 0.25rem;
+}
+.moderation-queue-page .info-box {
+  padding-left: 1.5rem;
+}
+.moderation-queue-page .messages {
+  margin-bottom: 1rem;
+}
+.moderation-queue-page .empty-content-box {
+  background: var(--clr-neutral-90);
+  margin-bottom: 1rem;
+}
+
 /*# sourceMappingURL=style.css.map */

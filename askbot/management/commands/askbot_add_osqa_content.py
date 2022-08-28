@@ -1,4 +1,11 @@
-
+from datetime import datetime
+from bs4 import BeautifulSoup
+from django.db.models import Q
+from django.utils import translation
+from django.conf import settings as django_settings
+from django.utils.http import urlquote  as django_urlquote
+from django.utils import timezone
+from django.template.defaultfilters import slugify
 from askbot.deps.django_authopenid.models import UserAssociation
 from askbot.management.commands.base import BaseImportXMLCommand
 from askbot.models import Award
@@ -10,15 +17,6 @@ from askbot.models import Tag
 from askbot.models import User
 from askbot.utils.slug import slugify_camelcase
 from askbot import const
-from bs4 import BeautifulSoup
-from datetime import datetime
-from django.db.models import Q
-from django.utils import translation
-from django.conf import settings as django_settings
-from django.utils.http import urlquote  as django_urlquote
-from django.utils import timezone
-from django.template.defaultfilters import slugify
-from html.parser import HTMLParser
 
 def decode_datetime(data):
     """Decodes formats:
@@ -32,42 +30,37 @@ def decode_datetime(data):
             return datetime.strptime(data, '%Y-%m-%d')
     return None
 
-class DataObject(object):
+class DataObject:
     def __init__(self, soup):
         """Initializes object based on the values passed
         via BeautifulSoup instance for that object"""
         self.soup = soup
-        self.data = dict()
+        self.data = {}
 
     def decode_typed_value(self, field):
         field_type = field['type']
         value = field.text.strip()
         if field_type == 'BooleanField':
-            if value == 'False':
-                return False
-            else:
-                return True
-        elif field_type in ('CharField', 'TextField'):
+            return value != 'False'
+        if field_type in ('CharField', 'TextField'):
             return value
-        elif 'Integer' in field_type:
+        if 'Integer' in field_type:
             return int(value)
-        elif field_type in ('DateField', 'DateTimeField'):
+        if field_type in ('DateField', 'DateTimeField'):
             return decode_datetime(value)
-        else:
-            raise ValueError('unknown field type: %s' % field_type)
+        raise ValueError(f'unknown field type: {field_type}')
 
     def decode_rel_value(self, field):
         rel_type = field['rel']
         if rel_type in ('ManyToOneRel', 'OneToOneRel'):
             try:
                 return int(field.text)
-            except:
+            except AttributeError:
                 return None
-        elif rel_type == 'ManyToManyRel':
+        if rel_type == 'ManyToManyRel':
             items = field.find_all('object')
             return [item['pk'] for item in items]
-        else:
-            raise ValueError('unknown relation type %s' % rel_type)
+        raise ValueError(f'unknown relation type {rel_type}')
 
     def decode_value(self, key):
         """
@@ -79,12 +72,11 @@ class DataObject(object):
         field = self.soup.find('field', attrs={'name': key})
         if field is None:
             raise ValueError('could not find field %s' % key)
-        if field.get('type') != None:
+        if field.get('type') is not None:
             return self.decode_typed_value(field)
-        elif field.get('rel') != None:
+        if field.get('rel') is not None:
             return self.decode_rel_value(field)
-        else:
-            raise ValueError('unknown field class %s - neither data nor relation')
+        raise ValueError('unknown field class - neither data nor relation')
 
 
     def __getattr__(self, key):
@@ -97,7 +89,6 @@ class DataObject(object):
 
 
 class Command(BaseImportXMLCommand):
-    args = '<xml file>'
     help = 'Adds XML OSQA data produced by the "dumpdata" command'
 
     def handle(self, *args, **options):
@@ -106,7 +97,7 @@ class Command(BaseImportXMLCommand):
         self.setup_run()
         self.redirect_format = self.get_redirect_format(options['redirect_format'])
 
-        dump_file_name = args[0]
+        dump_file_name = options['xml_file']
         xml = open(dump_file_name, 'r').read()
         self.soup = BeautifulSoup(xml, ['lxml', 'xml'])
 
@@ -153,8 +144,8 @@ class Command(BaseImportXMLCommand):
         self.import_badges()
         #self.import_badge_awards()
 
-    def get_objects_for_model(self, model):
-        objects_soup = self.soup.find_all(attrs={'model': model})
+    def get_objects_for_model(self, model_name):
+        objects_soup = self.soup.find_all(attrs={'model': model_name})
         for item_soup in objects_soup:
             yield DataObject(item_soup)
 
@@ -240,7 +231,7 @@ class Command(BaseImportXMLCommand):
             try:
                 askbot_badge = BadgeData.objects.get(slug=badge_slug)
             except BadgeData.DoesNotExist:
-                print('Could not find an equivalent to badge %s in Askbot' % osqa_badge.cls)
+                print(f'Could not find an equivalent to badge {osqa_badge.cls} in Askbot')
                 continue
             self.log_action(osqa_badge, askbot_badge)
         """
@@ -272,7 +263,7 @@ class Command(BaseImportXMLCommand):
             badge = self.get_imported_object_by_old_id(BadgeData, osqa_award.badge)
             if badge is None:
                 continue
-            print('awarding badge %s' % badge.slug)
+            print(f'awarding badge {badge.slug}')
             #if multiple or user does not have this badge, then award
             if badge.is_multiple() or (not user.has_badge(badge)):
                 award = Award()
@@ -315,6 +306,7 @@ class Command(BaseImportXMLCommand):
             count += 1
             #todo: there must be code lated to set the commented values
             lang = django_settings.LANGUAGE_CODE
+            last_actor = self.get_imported_object_by_old_id(User, osqa_thread.last_activity_by)
             thread = Thread(
                 title=osqa_thread.title,
                 tagnames=osqa_thread.tagnames,
@@ -322,7 +314,7 @@ class Command(BaseImportXMLCommand):
                 #favourite_count=thread.favourite_count,
                 #answer_count=thread.answer_count,
                 last_activity_at=osqa_thread.last_activity_at,
-                last_activity_by=self.get_imported_object_by_old_id(User, osqa_thread.last_activity_by),
+                last_activity_by=last_actor,
                 language_code=lang,
                 #"closed" data is stored differently in OSQA
                 #closed_by=self.get_imported_object_by_old_id(User, thread.closed_by_id),
@@ -399,7 +391,7 @@ class Command(BaseImportXMLCommand):
             if save_redirects:
                 slug = django_urlquote(slugify(osqa_node.title))
                 #todo: add i18n to the old url
-                old_url = '/questions/%d/%s/' % (osqa_node.id, slug)
+                old_url = f'/questions/{osqa_node.id}/{slug}/'
 
             post.author = self.get_imported_object_by_old_id(User, osqa_node.author)
             #html will de added with the revisions

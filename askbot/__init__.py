@@ -6,10 +6,12 @@ basic actions on behalf of the forum application
 """
 import os
 import platform
+import sys
+import traceback
 
 VERSION = (0, 11, 3)
 
-default_app_config = 'askbot.apps.AskbotConfig'
+default_app_config = 'askbot.apps.AskbotConfig' #pylint: disable=invalid-name
 
 #keys are module names used by python imports,
 #values - the package qualifier to use for pip
@@ -30,7 +32,7 @@ REQUIREMENTS = {
     'jsonfield': 'jsonfield>=2.0.0',
     'jwt': 'pyjwt<=1.7.1',
     'keyedcache': 'django-keyedcache3>=1.5.1',
-    'livesettings': 'django-livesettings3==1.5.0',
+    'livesettings': 'django-livesettings3==1.5.1',
     'markdown2': 'markdown2<=2.3.9',
     'mock': 'mock==3.0.5',
     'oauth2': 'oauth2<=1.9.0.post1',
@@ -80,18 +82,16 @@ def get_database_engine_name():
     independently of the version of django.
     This was required for the django 1.0 -> 1.1 migration
     """
-    from django.conf import settings as django_settings
+    from django.conf import settings as django_settings #pylint: disable=import-outside-toplevel
     return django_settings.DATABASES['default']['ENGINE']
 
 
 def get_lang_mode():
-    from django.conf import settings as django_settings
+    from django.conf import settings as django_settings #pylint: disable=import-outside-toplevel
     try:
         return django_settings.ASKBOT_LANGUAGE_MODE
-    except:
-        import traceback
+    except AttributeError:
         traceback.print_stack()
-        import sys
         sys.exit()
 
 
