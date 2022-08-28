@@ -25,7 +25,7 @@ def decode_datetime(data):
     """
     if data:
         try:
-            return datetime.strptime(data, '%Y-%m-%d %H:%M:%S')
+            return datetime.strptime(data, '%Y-%m-%dT%H:%M:%S')
         except ValueError:
             return datetime.strptime(data, '%Y-%m-%d')
     return None
