@@ -228,11 +228,15 @@ class Command(BaseImportXMLCommand):
         </object>
         """
         for osqa_tag in self.get_objects_for_model('forum.tag'):
-            tag = Tag()
-            tag.name = osqa_tag.name
-            tag.created_by = self.get_imported_object_by_old_id(User, osqa_tag.created_by)
-            tag.used_count = osqa_tag.used_count
-            tag.save()
+            try:
+                tag = Tag()
+                tag.name = osqa_tag.name
+                tag.created_by = self.get_imported_object_by_old_id(User, osqa_tag.created_by)
+                tag.used_count = osqa_tag.used_count
+                tag.save()
+            except django.db.utils.IntegrityError as e:
+                print(f"Non fatal error encountered import_tags: {e}")
+                pass
 
     def import_badges(self):
         """remembers relation of OSQA badges with Askbot badges"""
@@ -375,68 +379,73 @@ class Command(BaseImportXMLCommand):
         model_name = models_map[post_type]
 
         for osqa_node in self.get_objects_for_model(model_name):
-            #we iterate through all nodes, but pick only the ones we need
-            if osqa_node.node_type != post_type:
-                continue
+            try:
+                #we iterate through all nodes, but pick only the ones we need
+                if osqa_node.node_type != post_type:
+                    continue
 
-            #cheat: do not import deleted content
-            if '(deleted)' in osqa_node.state_string:
-                continue
+                #cheat: do not import deleted content
+                if '(deleted)' in osqa_node.state_string:
+                    continue
 
-            post = Post()
+                post = Post()
 
-            #this line is a bit risky, but should work if we import things in correct order
-            if osqa_node.parent:
-                post.parent = self.get_imported_object_by_old_id(Post, osqa_node.parent)
-                if post.parent is None:
-                    continue #deleted parent
-                post.thread = post.parent.thread
-            else:
-                post.thread = self.get_imported_object_by_old_id(Thread, osqa_node.id)
-                if post.thread is None:
-                    continue #deleted thread
+                #this line is a bit risky, but should work if we import things in correct order
+                if osqa_node.parent:
+                    post.parent = self.get_imported_object_by_old_id(Post, osqa_node.parent)
+                    if post.parent is None:
+                        continue #deleted parent
+                    post.thread = post.parent.thread
+                else:
+                    post.thread = self.get_imported_object_by_old_id(Thread, osqa_node.id)
+                    if post.thread is None:
+                        continue #deleted thread
 
-            post.post_type = osqa_node.node_type
-            post.added_at = osqa_node.added_at
+                post.post_type = osqa_node.node_type
+                post.added_at = osqa_node.added_at
 
-            if save_redirects:
-                slug = django_urlquote(slugify(osqa_node.title))
-                #todo: add i18n to the old url
-                old_url = f'/questions/{osqa_node.id}/{slug}/'
+                if save_redirects:
+                    slug = django_urlquote(slugify(osqa_node.title))
+                    #todo: add i18n to the old url
+                    old_url = f'/questions/{osqa_node.id}/{slug}/'
 
-            post.author = self.get_imported_object_by_old_id(User, osqa_node.author)
-            #html will de added with the revisions
-            #post.html = HTMLParser().unescape(osqa_node.body)
-            post.summary = post.get_snippet()
+                post.author = self.get_imported_object_by_old_id(User, osqa_node.author)
+                #html will de added with the revisions
+                #post.html = HTMLParser().unescape(osqa_node.body)
+                post.summary = post.get_snippet()
 
-            #these don't have direct equivalent in the OSQA Node object
-            #post.deleted_by - deleted nodes are not imported
-            #post.locked_by
-            #post.last_edited_by
+                #these don't have direct equivalent in the OSQA Node object
+                #post.deleted_by - deleted nodes are not imported
+                #post.locked_by
+                #post.last_edited_by
 
-            #these are to be set later with the real values
-            post.points = 0
-            post.vote_up_count = 0
-            post.vote_down_count = 0
-            post.offensive_flag_count = 0
+                #these are to be set later with the real values
+                post.points = 0
+                post.vote_up_count = 0
+                post.vote_down_count = 0
+                post.offensive_flag_count = 0
 
-            post.save()
+                post.save()
 
-            #mark accepted answer
-            now = timezone.now()
-            if osqa_node.node_type == 'answer':
-                if '(accepted)' in osqa_node.state_string:
-                    post.thread.accepted_answer = post
-                    post.endorsed = True
-                    post.endorsed_at = now
-                    post.thread.save()
+                #mark accepted answer
+                now = timezone.now()
+                if osqa_node.node_type == 'answer':
+                    if '(accepted)' in osqa_node.state_string:
+                        post.thread.accepted_answer = post
+                        post.endorsed = True
+                        post.endorsed_at = now
+                        post.thread.save()
 
 
-            if save_redirects:
-                new_url = post.get_absolute_url()
-                self.write_redirect(old_url, new_url, redirects_file)
+                if save_redirects:
+                    new_url = post.get_absolute_url()
+                    self.write_redirect(old_url, new_url, redirects_file)
 
-            self.log_action_with_old_id(osqa_node.id, post)
+                self.log_action_with_old_id(osqa_node.id, post)
+
+            except django.db.utils.IntegrityError as e:
+                print(f"Non fatal error encountered import_post: {e}")
+                pass
 
         if save_redirects:
             redirects_file.close()
