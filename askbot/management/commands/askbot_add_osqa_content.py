@@ -1,4 +1,6 @@
 from datetime import datetime
+
+import django.db.utils
 from bs4 import BeautifulSoup
 from django.db.models import Q
 from django.utils import translation
@@ -194,12 +196,15 @@ class Command(BaseImportXMLCommand):
     def import_user_logins(self):
         """import user's login methods from OSQA to Askbot"""
         for user_login in self.get_objects_for_model('forum.authkeyuserassociation'):
-            assoc = UserAssociation()
-            assoc.openid_url = user_login.key
-            assoc.user =  self.get_imported_object_by_old_id(User, user_login.user)
-            assoc.provider_name = user_login.provider
-            assoc.last_used_timestamp = user_login.added_at
-            assoc.save()
+            try:
+                assoc = UserAssociation()
+                assoc.openid_url = user_login.key
+                assoc.user =  self.get_imported_object_by_old_id(User, user_login.user)
+                assoc.provider_name = user_login.provider
+                assoc.last_used_timestamp = user_login.added_at
+            except django.db.utils.IntegrityError as e:
+                print(f"Error during import_user_logins: {e}")
+                pass
 
     def import_tags(self):
         """imports OSQA tags to Askbot tags"""
