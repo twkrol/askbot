@@ -59,7 +59,10 @@ class DataObject:
         rel_type = field['rel']
         if rel_type in ('ManyToOneRel', 'OneToOneRel'):
             try:
-                return int(field.text)
+                if field.text == '':
+                    return None
+                else:
+                    return int(field.text)
             except AttributeError:
                 return None
         if rel_type == 'ManyToManyRel':
