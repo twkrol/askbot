@@ -98,7 +98,8 @@ class DataObject:
 
 
 class Command(BaseImportXMLCommand):
-    help = 'Adds XML OSQA data produced by the "dumpdata" command'
+    help = 'Adds XML OSQA data produced by the "dumpdata" command \n ' \
+           'Potentially uses more than 20GB of RAM on import when importing large files.'
 
     def handle(self, *args, **options):
         translation.activate(django_settings.LANGUAGE_CODE)
