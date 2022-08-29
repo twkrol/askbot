@@ -107,7 +107,7 @@ class Command(BaseImportXMLCommand):
 
         dump_file_name = options['xml_file']
         xml = open(dump_file_name, 'r').read()
-        self.soup = BeautifulSoup(xml, ['lxml', 'xml'])
+        self.soup = BeautifulSoup(xml, ['lxml', 'xml', 'lxml-xml'])
 
         #site settings
         #forum.keyvalue
