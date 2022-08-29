@@ -27,9 +27,10 @@ def decode_datetime(data):
         try:
             return datetime.strptime(data, '%Y-%m-%dT%H:%M:%S.%f')
         except ValueError:
-            return datetime.strptime(data, '%Y-%m-%dT%H:%M:%S')
-        except ValueError:
-            return datetime.strptime(data, '%Y-%m-%d')
+            try:
+                return datetime.strptime(data, '%Y-%m-%dT%H:%M:%S')
+            except ValueError:
+                return datetime.strptime(data, '%Y-%m-%d')
     return None
 
 class DataObject:
