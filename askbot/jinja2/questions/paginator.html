@@ -1,4 +1,0 @@
-{% import "macros.html" as macros %}
-{% if questions_count > page_size %}
-  {{ macros.paginator_questions(context|setup_paginator, search_state) }}
-{% endif %}

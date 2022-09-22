@@ -1,1 +1,0 @@
-{% trans %}Your post at {{ site_name }} is now published{% endtrans %}

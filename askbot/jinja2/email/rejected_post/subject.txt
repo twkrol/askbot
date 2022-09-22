@@ -1,1 +1,0 @@
-{% trans %}your post was not accepted{% endtrans %}

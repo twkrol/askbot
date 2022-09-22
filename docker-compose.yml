@@ -1,0 +1,35 @@
+version: '3'
+
+volumes:
+  local_postgres_data: {}
+
+services:
+  postgres:
+    image: "postgres:12.3"
+    environment:
+      - POSTGRES_PASSWORD=askbot
+    ports:
+      - 5432
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data:Z
+      - ./askbot_site/askbot/container/postgres_init.sql:/docker-entrypoint-initdb.d/postgres_init.sql
+
+  redis:
+    image: redis:5
+    ports:
+     - 6397
+
+  askbot:
+    build: .
+    image: askbot:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    environment:
+    - DATABASE_URL=postgres://askbot:askbot@postgres/askbot
+    - ADMIN_PASSWORD=askbot
+    - SECRET_KEY=123456789
+    - WAIT_HOSTS=postgres:5432
+
+# vim:ts=2:sw=2:sts=2:expandtab

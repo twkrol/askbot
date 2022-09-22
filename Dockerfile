@@ -21,14 +21,13 @@
 #
 # User uploads are stored in **/askbot_site/askbot/upfiles** . I'd recommend to make it a kubernetes volume.
 
-FROM tiangolo/uwsgi-nginx:python3.6-alpine3.9
+FROM tiangolo/uwsgi-nginx:python3.8-alpine
 
-ARG SITE=askbot-site
-ARG ASKBOT=.
+ARG SITE=askbot_app
 ENV PYTHONUNBUFFERED 1
-ENV ASKBOT_SITE /${SITE}
+ENV ASKBOT_SITE /app/${SITE}
 
-ENV UWSGI_INI /${SITE}/askbot_app/uwsgi.ini
+ENV UWSGI_INI /app/${SITE}/uwsgi.ini
 # Not recognized by uwsgi-nginx, yet.
 # The file doesn't exist either!
 #ENV PRE_START_PATH /${SITE}/prestart.sh
@@ -50,16 +49,27 @@ RUN apk add --update --no-cache git py3-cffi \
     && pip install -r /askbot_requirements.txt \
     && pip install psycopg2
 
-ADD $ASKBOT /src
-RUN cd /src/ && python setup.py install \
-    && askbot-setup -n /${SITE} -e 1 -d postgres -u postgres -p askbotPW --db-host=postgres --db-port=5432 --logfile-name=stdout --no-secret-key --create-project container-uwsgi
+ADD ./askbot_site /app
+# RUN cd /src/ && python setup.py install
+# RUN askbot-setup --db-engine postgresql -u postgres -p askbotPW --db-host=postgres --db-port=5432
+# RUN askbot-setup -e postgresql --db-name askbot -u postgres -p askbotPW --db-host=postgres --db-port=5432 
+# RUN askbot-setup -n /${SITE} -e postgresql --db-name askbot -u postgres -p askbotPW --db-host=postgres --db-port=5432 --logfile-name=stdout --no-secret-key --create-project container-uwsgi
+# && askbot-setup -n /${SITE} -e 1 -d postgres -u postgres -p askbotPW --db-host=postgres --db-port=5432 --logfile-name=stdout --no-secret-key --create-project container-uwsgi
+
+# RUN cp /src/askbot/container/prestart.sh /app
 
 RUN true \
-    && cp /${SITE}/askbot_app/prestart.sh /app \
-    && /usr/bin/crontab /${SITE}/askbot_app/crontab \
-    && cd /${SITE} && SECRET_KEY=whatever DJANGO_SETTINGS_MODULE=askbot_app.settings python manage.py collectstatic --noinput
+    && cp /app/askbot/container/prestart.* /app \
+    && /usr/bin/crontab /app/askbot/container/crontab \
+    && cd /app && SECRET_KEY=whatever DJANGO_SETTINGS_MODULE=askbot_app.settings python manage.py collectstatic --noinput
+
+# RUN true \
+#     && cp /${SITE}/askbot_app/prestart.sh /app \
+#     && /usr/bin/crontab /${SITE}/askbot_app/crontab \
+#     && cd /${SITE} && SECRET_KEY=whatever DJANGO_SETTINGS_MODULE=askbot_app.settings python manage.py collectstatic --noinput
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.5.0/wait /wait
 RUN chmod +x /wait
 
-WORKDIR /${SITE}
+# WORKDIR /${SITE}
+WORKDIR /app
