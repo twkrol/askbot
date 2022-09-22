@@ -1,0 +1,28 @@
+{% import "macros.html" as macros %}
+{# 
+  thumbnail for the user - shown on the users listings
+  and elsewhere
+#}
+<div class="user-card">
+  {{ macros.gravatar(user, 32) }}
+  <div class="user-info">
+    <div class="user-name-and-country">
+        <a class="user-name-link" href="{{ user.get_profile_url() }}">{{ user.username|escape }}</a>
+        {{ macros.user_country_flag(user) }}
+    </div>
+    {% if settings.BADGES_MODE == 'public' %}
+    <span class="user-badges" title="{{ user.get_badge_summary() }}">
+      {% if user.gold %}
+        <span class="with-gold-badge-icon">{{ user.gold }}</span>
+      {% endif %}
+      {% if user.silver %}
+        <span class="with-silver-badge-icon">{{ user.silver }}</span>
+      {% endif %}
+      {% if user.bronze %}
+        <span class="with-bronze-badge-icon">{{ user.bronze }}</span>
+      {% endif %}
+    </span>
+    {% endif %}
+    {{ macros.user_website_link(user) }}
+  </div>
+</div>

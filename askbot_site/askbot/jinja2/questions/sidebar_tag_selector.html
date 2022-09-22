@@ -1,0 +1,105 @@
+{# todo - maybe disable navigation from ignored tags here when "hide" is on - with js? #}
+{% import "macros.html" as macros %}
+<div class="sidebar-box sidebar-tags-box">
+  <h2>{% trans %}Interesting tags{% endtrans %}</h2>
+  {{
+    macros.tag_list_widget(
+      interesting_tag_names,
+      deletable=True,
+      css_class='js-interesting-tags js-marked-tags',
+      search_state=search_state
+    )
+  }}
+  {# todo - add this via js
+      "remove '%(tag_name)s' from the list of interesting tags"|
+      format(tag_name=tag_name)
+  #}
+  <div class="input-with-button">
+    <input id="js-interesting-tag-input"
+      autocomplete="off"
+      placeholder="{% trans %}Enter tag{% endtrans %}"
+      type="text"
+    />
+    <input id="js-interesting-tag-add" class="btn btn-muted" type="submit" value="{% trans %}add{% endtrans %}"/>
+  </div>
+</div>
+<div class="sidebar-box sidebar-tags-box">
+  <h2>{% trans %}Ignored tags{% endtrans %}</h2>
+  {{
+    macros.tag_list_widget(
+      ignored_tag_names,
+      deletable=True,
+      css_class='js-ignored-tags js-marked-tags',
+      search_state=search_state
+    )
+  }}
+  {# todo: add this via javascript
+    "remove '%(tag_name)s' from the list of ignored tags"|
+    format(tag_name=tag_name)
+  #}
+  <div class="input-with-button">
+    <input id="js-ignored-tag-input"
+      autocomplete="off"
+      placeholder="{% trans %}Enter tag{% endtrans %}"
+      type="text"
+    />
+    <input id="js-ignored-tag-add" class="btn btn-muted" type="submit" value="{% trans %}add{% endtrans%}"/>
+  </div>
+</div>
+{% if settings.SUBSCRIBED_TAG_SELECTOR_ENABLED %}
+  <div class="sidebar-box sidebar-tags-box">
+    <h2>{% trans %}Subscribed tags{% endtrans %}</h2>
+    {{
+      macros.tag_list_widget(
+        subscribed_tag_names,
+        deletable=True,
+        css_class='js-subscribed-tags js-marked-tags',
+        search_state=search_state
+      )
+    }}
+    {# todo: add this via javascript
+        "remove '%(tag_name)s' from the list of ignored tags"|
+        format(tag_name = tag_name)
+    #}
+    <div class="input-with-button">
+      <input id="js-subscribed-tag-input"
+        placeholder="{% trans %}Enter tag{% endtrans %}"
+        autocomplete="off"
+        type="text"
+      />
+      <input class="btn btn-muted" id="js-subscribed-tag-add" type="submit" value="{% trans %}add{% endtrans%}"/>
+    </div>
+  </div>
+{% endif %}
+<div class="sidebar-box tag-filter-sidebar-box">
+  <h2>{{ settings.WORDS_SHOW_ONLY_QUESTIONS_FROM|escape }}</h2>
+  <div id="js-display-tag-filter-control">
+    {{
+      macros.radio_select(
+        name="display_tag_filter_strategy",
+        value=request.user.display_tag_filter_strategy,
+        choices=display_tag_filter_strategy_choices
+      )
+    }}
+  </div>
+</div>
+{% if settings.SUBSCRIBED_TAG_SELECTOR_ENABLED %}
+  <div class="sidebar-box tag-filter-sidebar-box">
+    <h2>{% trans %}Email me alerts for{% endtrans%}</h2>
+    <div id="js-email-tag-filter-control">
+      {{
+        macros.radio_select(
+          name="email_tag_filter_strategy",
+          value=request.user.email_tag_filter_strategy,
+          choices=email_tag_filter_strategy_choices
+        )
+      }}
+      {% if request.user.is_authenticated %}
+        <a 
+          class="small-font"
+          href="{{ url('user_profile', request.user.id, request.user.username|slugify) }}?sort=email_subscriptions"
+        >{% trans %}Change frequency of emails{% endtrans %}</a>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,10 @@
+{% for answer in top_answers %}
+  <div class="answer-summary">
+    <a href="{{ answer.get_absolute_url() }}">
+      <span class="answer-votes {% if answer.endorsed %}answer-accepted{% endif %}">
+        {{ answer.score }}
+      </span>
+      <span class="question-title">{{ answer.thread.title|escape }}</span>
+    </a>
+  </div>
+{% endfor %}

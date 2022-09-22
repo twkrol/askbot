@@ -1,0 +1,32 @@
+@use 'language_nav.scss';
+@use 'meta_nav.scss';
+@use 'user_nav.scss';
+
+header {
+  background: var(--header-bg-color);
+  color: var(--header-link-color);
+  height: var(--header-height);
+  a, a:active, a:visited {
+    color: var(--header-link-color);
+    text-decoration: none;
+    transition: var(--transition-color);
+  }
+  a:hover,
+  a.selected {
+    color: var(--header-link-color-hover);
+    transition: var(--transition-color);
+  }
+}
+
+header .content-wrapper {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+
+.header-block1 {
+  align-items: center;
+  display: flex;
+}

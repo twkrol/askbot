@@ -1,0 +1,28 @@
+{% extends "one_column_body.html" %}
+<!-- template close.html -->
+{% block title %}{% filter trim %}{{ settings.WORDS_CLOSE_QUESTION|escape }}{% endfilter %}{% endblock %}
+{% block content %}
+<h1>{{ settings.WORDS_CLOSE_QUESTION|escape }}</h1>
+<p class="row">{{ settings.WORDS_CLOSE_QUESTION|escape }}:
+  <a href="{{ question.get_absolute_url() }}">
+  <strong>{{ question.get_question_title()|escape }}</strong></a>
+</p>
+<form id="fmclose" action="{{ url('close',  question.id ) }}" method="post" >{{ csrf_input }}
+  <p class="row">
+    <strong>{% trans %}Reasons{% endtrans %}:</strong>
+    {{ form.reason }}
+  </p>
+  <p>
+    <input type="submit" class="btn" value="{% trans %}OK to close{% endtrans %}" />
+    <input type="button" class="js-back-btn btn btn-muted" value="{% trans %}Cancel{% endtrans %}" />
+  </p>
+</form>
+{% endblock %}
+{% block endjs %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.js-back-btn').bind('click', function(){ history.back(); });
+    });
+  </script>
+{% endblock %}
+<!-- end template close.html -->

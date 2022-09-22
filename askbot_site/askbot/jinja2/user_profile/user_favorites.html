@@ -1,0 +1,5 @@
+{% extends "user_profile/user.html" %}
+{% block profilesection %}{{ settings.WORDS_FOLLOWED_QUESTIONS|escape }}{% endblock %}
+{% block usercontent %}
+  {% include "user_profile/user_questions.html" %}
+{% endblock %}

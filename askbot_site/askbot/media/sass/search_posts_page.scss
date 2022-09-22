@@ -1,0 +1,98 @@
+.search-posts-page {
+  --nav-height: 1.25rem;
+  .post-body {
+    padding: 0;
+  }
+  .search-posts-form {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 1rem;
+  }
+  .search-posts-by-ord-form {
+    display: inline-block;
+    position: relative;
+    bottom: -1px;
+    & > * {
+      display: inline-block;
+    }
+    input[type="text"],
+    input.btn {
+      height: var(--nav-height);
+      font-size: 1rem !important;
+      font-weight: var(--font-weight-bold);
+    }
+    input.btn {
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+    input[type="text"] {
+      border-left: none;
+      border-right: none;
+      text-align: center;
+      width: 3rem;
+    }
+    .search-posts-total-count {
+      --local-bg-color: grey;
+      display: inline-block;
+      color: var(--bg-color);
+      background: var(--local-bg-color);
+      height: var(--nav-height);
+      border-top: 1px solid var(--local-bg-color);
+      border-bottom: 1px solid var(--local-bg-color);
+      padding: 0 0.25rem;
+      font-size: 1rem;
+    }
+  }
+  .search-posts-context-link {
+    margin-bottom: 0.5rem;
+  }
+  .search-posts-nav {
+    font-size: 1rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 1rem;
+    a {
+      display: inline-block;
+      text-decoration: none;
+      position: relative;
+      &::before {
+        position: absolute;
+        top: 3px;
+      }
+    }
+    .search-posts-current {
+      font-size: 0.875rem;
+      transition: font-size var(--transition-params);
+      &:active {
+        font-size: 0.75rem;
+        transition: font-size var(--transition-params);
+      }
+      position: relative;
+      bottom: -0.275rem;
+      border-radius: 0.5rem 0 0 0.5rem;
+      height: var(--nav-height);
+      width: 1.5rem;
+      &::before {
+        left: 0.3625rem;
+      }
+    }
+    .search-posts-prev,
+    .search-posts-next {
+      padding: 0 0.3625rem;
+      border-radius: 0.5rem;
+      height: var(--nav-height);
+    }
+    .search-posts-prev,
+    .search-posts-next,
+    .search-posts-current {
+      background: var(--link-color);
+      color: var(--bg-color);
+    }
+  }
+  .search-posts-context-link {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.75rem;
+  }
+  .search-posts-context-type {
+    text-transform: capitalize;
+  }
+}

@@ -1,0 +1,45 @@
+<div class="title-row">
+  {% set tag_query = stag|escape %}
+  {% if page_title %}
+    <h1>{{ page_title }}</h1>
+  {% else %}
+    {% if stag %}
+      <h1>{% trans %}Tags, matching "{{ tag_query }}"{% endtrans %}</h1>
+    {% else %}
+      <h1>{% trans %}Tags{% endtrans %}</h1>
+    {% endif %}
+  {% endif %}
+  <div class="components--sort-nav">
+    <span class="components--sort-nav--label">{% trans %}Sort by &raquo;{% endtrans %}</span>
+    <a
+      id="sort_name"
+      href="{{ url('tags') }}?sort=name{% if tag_query %}&query={{ tag_query }}{% endif %}"
+      {% if tab_id == 'name' %}class="js-selected"{% endif %}
+      title="{% trans %}sorted alphabetically{% endtrans %}"
+    >{% trans %}by name{% endtrans %}</a>
+    <a
+      id="sort_used"
+      href="{{ url('tags') }}?sort=used{% if tag_query %}&query={{ tag_query }}{% endif %}"
+      {% if tab_id == 'used' %}class="js-selected"{% endif %}
+      title="{% trans %}sorted by frequency of tag use{% endtrans %}"
+    >{% trans %}by popularity{% endtrans %}</a>
+    {% if settings.ENABLE_TAG_MODERATION
+      and request.user.is_authenticated
+      and request.user.is_administrator_or_moderator()
+    %}
+      <a
+        href="{{ url('list_suggested_tags') }}"
+        {% if tab_id == 'suggested' %}class="js-selected"{% endif %}
+        title="{% trans %}suggested{% endtrans %}"
+      >{% trans %}suggested{% endtrans %}</a>
+    {% endif %}
+    {% if settings.SUBSCRIBED_TAG_SELECTOR_ENABLED
+      and request.user.is_authenticated
+      and request.user.is_administrator()
+    %}
+      <a href="{{ url('list_bulk_tag_subscription') }}"
+        title="{% trans %}manage subscriptions{% endtrans %}"
+      >{% trans %}manage subscriptions{% endtrans %}</a>
+    {% endif %}
+  </div>
+</div>

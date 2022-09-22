@@ -1,0 +1,13 @@
+{% if settings.ASK_BUTTON_ENABLED and active_tab != "ask" %}
+  {% if not search_state %}  {#  get empty SearchState() if there's none #}
+    {% set search_state=search_state|get_empty_search_state %}
+  {% endif %}
+  <a class="ask-btn-main-narrow fa-stack" href="{{ search_state.full_ask_url() }}">
+    <i class="far fa-comment fa-stack-2x"></i>
+    <i class="fas fa-question fa-stack-1x"></i>
+  </a>
+  <a class="ask-btn js-ask-btn ask-btn-main" href="{{ search_state.full_ask_url() }}">
+    {{ settings.WORDS_ASK_YOUR_QUESTION|escape }}
+  </a>
+{% endif %}
+{#% if group %}{% if '?' in search_state.full_ask_url() %}&amp;{% else %}?{% endif %}group_id={{ group.id }}{% endif %#}

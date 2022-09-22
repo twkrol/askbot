@@ -1,0 +1,9 @@
+{% from "macros.html" import user_country_flag, tag_list_widget, timeago, user_primary_group %}
+<div class="question-summary">
+  <div class="question-summary-stats-user">
+    {% include "questions/question_summary_stats.html" %} {# 300ms #}
+    {% include "questions/question_summary_user_info.html" %} {# 900ms with groups enabled, 400ms disabled #}
+  </div>
+  <h2><a href="{{ question.get_absolute_url(thread=thread) }}">{{thread.get_title()|escape}}</a></h2> {# get_title - 200ms #}
+  {{ tag_list_widget(thread.get_tag_names(), search_state=search_state, css_class="question-summary-tags") }}
+</div>

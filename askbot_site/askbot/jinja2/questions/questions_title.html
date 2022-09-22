@@ -1,0 +1,5 @@
+<h1 class="js-questions-title">
+    {% set pluralized_item_term=settings.WORDS_QUESTIONS_COUNTABLE_FORMS|py_pluralize(questions_count)|escape %}
+    {% set item_count=questions_count %}
+    {% trans %}<span class="count">{{ item_count }}</span> {{ pluralized_item_term }}{% endtrans %}
+</h1>

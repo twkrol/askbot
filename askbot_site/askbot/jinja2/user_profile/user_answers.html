@@ -1,0 +1,19 @@
+{% import "macros.html" as macros %}
+<section id="answers" class="user-profile-answers">
+  <h2>
+    {% set pluralized_item_term=settings.WORDS_ANSWERS_COUNTABLE_FORMS|py_pluralize(top_answer_count)|capitalize|escape %}
+    {% set item_count=top_answer_count %}
+    {% trans %}<span class="count">{{ item_count }}</span> {{ pluralized_item_term }}{% endtrans %}
+  </h2>
+  <div class="js-user-answers">
+    {% include "user_profile/user_answers_list.html" %}
+  </div>
+  {% if top_answer_count > page_size %}
+    {{ macros.ajax_paginator(
+      a_paginator_context,
+      data_url=url('get_top_answers'),
+      request_params={'user_id': view_user.id},
+      result_placement_selector='.js-user-answers'
+    )}}
+  {% endif %}
+</section>

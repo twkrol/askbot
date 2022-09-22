@@ -1,0 +1,246 @@
+@use '../layout_mixins.scss';
+@use '../sass_variables.scss';
+@use '../icons.scss';
+
+.forum-header {
+  --search-bar-height: calc(var(--forum-header-height) - 2 * var(--search-bar-vertical-margin));
+  height: var(--forum-header-height);
+  background: var(--forum-header-bg-color);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  .with-home-icon {
+    color: var(--forum-header-fg-color);
+    font-size: 1.25rem;
+    line-height: var(--forum-header-height);
+    width: 2rem;
+    transition: var(--transition-color);
+    &:hover {
+      color: var(--forum-header-fg-hover-color);
+      transition: var(--transition-color);
+    }
+  }
+}
+
+.search-bar-container {
+  display: flex;
+}
+
+.search-bar-col {
+  display: flex;
+  justify-content: flex-start;
+  padding-right: 0 !important;
+  @include layout_mixins.layout-col1;
+  @media (max-width: #{sass_variables.$sidebar_breakpoint}) {
+    width: calc(100% - var(--search-bar-height));
+  }
+}
+
+.ask-btn-col {
+  @include layout_mixins.layout-col2;
+  @media (max-width: #{sass_variables.$sidebar_breakpoint}) {
+    display: block;
+    width: var(--search-bar-height);
+  }
+}
+
+
+.scope-nav {
+  align-items: center;
+  display: flex;
+  margin-left: 0.125rem;
+  a, a:active, a:visited {
+    color: var(--forum-header-fg-color);
+    line-height: var(--forum-header-height);
+    font-size: var(--scope-nav-font-size);
+    margin-right: 0.5rem;
+    position: relative;
+    text-decoration: none;
+    transition: var(--transition-color);
+    &:hover {
+      color: var(--forum-header-fg-hover-color);
+      transition: var(--transition-color);
+    }
+  }
+  @media (max-width: #{sass_variables.$scope_nav_breakpoint}) {
+    display: none;
+  }
+}
+
+.js-search-form {
+  flex-grow: 1;
+}
+
+.js-search-bar {
+  background: var(--bg-color);
+  display: flex;
+  height: var(--search-bar-height);
+  justify-content: flex-start;
+  margin: var(--search-bar-vertical-margin) 0;
+  position: relative;
+  width: 100%;
+  input[type="text"] {
+    border-color: var(--forum-header-input-border-color);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+    font-size: var(--search-bar-font-size);
+    height: var(--search-input-height);
+    padding: 0 calc(2 * var(--input-horizontal-padding));
+    outline: none;
+    width: 100%;
+    &:hover::placeholder {
+      color: var(--forum-header-fg-hover-color);
+    }
+  }
+}
+
+.js-cancel-search-btn {
+  color: var(--fg-color);
+  border-color: var(--forum-header-input-border-color);
+  background-color: var(--bg-color);
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  height: var(--search-input-height);
+  width: var(--search-bar-height);
+  &:hover {
+    background-color: var(--bg-color);
+    border-color: var(--forum-header-input-border-color);
+  }
+}
+
+.js-search-btn {
+  border-color: var(--forum-header-input-border-color);
+  background: var(--search-btn-bg-color);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-right: none;
+  color: var(--forum-header-fg-color);
+  height: var(--search-input-height);
+  min-width: var(--search-bar-height);
+  width: var(--search-bar-height);
+  transition: var(--transition-color), var(--transition-bg-color);
+  &:hover {
+    background: var(--search-btn-hover-bg-color);
+    border-color: var(--forum-header-input-border-color);
+    color: var(--forum-header-fg-hover-color);
+    transition: var(--transition-color), var(--transition-bg-color);
+  }
+}
+
+.js-with-drop-menu {
+  input[type="text"] {
+    border-bottom-left-radius: 0;
+  }
+  .js-search-btn {
+    border-bottom-right-radius: 0;
+  }
+}
+
+.js-search-drop-menu {
+  background: var(--search-drop-menu-bg-color);
+  border: var(--input-border-width) var(--input-border-style) var(--forum-header-input-border-color);
+  border-top: none;
+  border-bottom-left-radius: var(--input-border-radius);
+  border-bottom-right-radius: var(--input-border-radius);
+  min-width: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: var(--search-bar-height);
+  ul:not(.empty) {
+    overflow-y: scroll;
+    li {
+      padding: 0.25rem var(--input-horizontal-padding);
+      a {
+        color: black;
+        text-decoration: none;
+      }
+      &:hover,
+      &.selected {
+        background: var(--ask-btn-bg-color);
+        a {
+          color: var(--bg-color);
+        }
+      }
+    }
+  }
+  .footer {
+    background: var(--search-drop-menu-bg-color);
+    padding: var(--input-horizontal-padding) 0;
+    text-align: center;
+  }
+  .ask-btn {
+    margin: 0 auto;
+  }
+  .wait-icon-box {
+    margin: 0.5rem 0;
+    text-align: center;
+  }
+}
+
+.ask-btn {
+  align-items: center;
+  background: var(--ask-btn-bg-color);
+  border-color: var(--ask-btn-border-color);
+  border-radius: var(--input-border-radius);
+  border-style: var(--input-border-style);
+  border-width: var(--input-border-width);
+  color: var(--ask-btn-fg-color);
+  display: flex;
+  font-size: var(--ask-btn-font-size);
+  height: var(--search-bar-height);
+  justify-content: center;
+  margin: var(--search-bar-vertical-margin) 0;
+  padding: 0 calc(4 * var(--input-horizontal-padding));
+  position: relative;
+  text-decoration: none;
+  transition: color var(--transition-params),
+    background var(--transition-params);
+
+  white-space: nowrap;
+  &:hover {
+    background: var(--ask-btn-hover-bg-color);
+    border-color: var(--ask-btn-hover-border-color);
+    color: var(--ask-btn-fg-color);
+    transition: color var(--transition-params),
+      background var(--transition-params);
+  }
+}
+
+.ask-btn.ask-btn-main {
+  @media (max-width: #{sass_variables.$sidebar_breakpoint}) {
+    display: none;
+  }
+}
+
+.ask-btn-main-narrow {
+  color: var(--btn-fg-color);
+  background: var(--ask-btn-bg-color);
+  border-radius: var(--input-border-radius);
+  border-width: var(--input-border-width);
+  border-style: var(--input-border-style);
+  border-color: var(--ask-btn-border-color);
+  display: none;
+  font-size: 0.75rem;
+  width: var(--search-bar-height);
+  height: var(--search-bar-height);
+  text-decoration: none;
+  transition: var(--transition-border-color), var(--transition-bg-color);
+
+  .fa-comment {
+  }
+  .fa-question {
+  }
+
+  &:hover {
+    background: var(--ask-btn-hover-bg-color);
+    border-color: var(--ask-btn-hover-border-color);
+    color: var(--ask-btn-fg-color);
+    transition: var(--transition-color), var(--transition-bg-color);
+  }
+  @media (max-width: #{sass_variables.$sidebar_breakpoint}) {
+    display: flex;
+    align-items: center;
+  }
+}

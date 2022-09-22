@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>{% trans %}Internal server error{% endtrans %} - {{ settings.APP_TITLE|escape }}</title>
+    <meta name="description" content="{{settings.APP_DESCRIPTION|escape}}" />
+    <link rel="shortcut icon" href="{{ settings.SITE_FAVICON|media }}" />
+    {% include "meta/stylesheets.html" %}
+    {% include "meta/fonts.html" %} {# may contain external files #}
+    {% if settings.USE_CUSTOM_HTML_HEAD %}
+      {{ settings.CUSTOM_HTML_HEAD }}
+    {% endif %}
+  </head>
+  <body class="error-page error-500-page">
+    <main>
+      <h1>{% trans %}Sorry, something went wrong.{% endtrans %}</h1>
+      <p>
+        {% trans %}We are working to resolve the issue as soon as possible.{% endtrans %}
+      </p>
+    </main>
+  </body>
+</html>

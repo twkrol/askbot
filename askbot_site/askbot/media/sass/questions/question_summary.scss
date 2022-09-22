@@ -1,0 +1,107 @@
+.question-summary {
+  border-bottom: var(--border-width) var(--border-style) var(--sort-nav-sep-color);
+  margin-bottom: 0.25rem;
+  min-height: var(--question-summary-min-height);
+  h2 {
+    display: block;
+    font-size: var(--large-font-size) !important;
+    font-weight: normal;
+    line-height: 1em;
+    margin: 0 0 0.75rem;
+    a, a:active {
+      color: var(--fg-color);
+      text-decoration: none;
+    }
+  }
+  &:last-child {
+    border: none;
+    margin-bottom: 0;
+  }
+}
+
+.question-summary-tags {
+  display: block;
+  flex-wrap: wrap;
+  position: relative;
+  top: -0.125rem;
+}
+
+.question-summary-user-info {
+  font-size: var(--extra-small-font-size);
+  height: 1rem;
+  margin-bottom: 0.125rem;
+  padding-top: 1px;
+  text-align: right;
+  white-space: nowrap;
+  a, a:active, a:visited {
+    color: var(--fg-color);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+  }
+}
+
+.question-summary-stats-user {
+  float: right;
+  margin-left: 0.25rem;
+}
+
+.question-summary-stats {
+  display: flex;
+  flex-wrap: nowrap;
+  height: var(--question-summary-stats-height);
+  justify-content: flex-end;
+  text-align: center;
+  & > * {
+    margin-right: 0.5rem;
+    &:last-child {
+      margin: 0;
+    }
+  }
+}
+
+.question-views-count,
+.question-answers-count,
+.question-votes-count {
+  text-align: center;
+  border: var(--border-width) var(--border-style) var(--sort-nav-sep-color);
+  height: 100%;
+  width: var(--question-summary-count-box-width);
+  padding: var(--question-summary-count-box-padding);
+
+  .item-count {
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 3px;
+  }
+
+  .item-name {
+    font-size: var(--extra-small-font-size);
+    color: var(--fg-color);
+    line-height: 8px;
+  }
+}
+
+.question-views-count {
+  background: linear-gradient(to top, var(--clr-blue-pale), var(--bg-color));
+  color: var(--clr-blue-40);
+}
+
+.question-answers-count {
+  background: linear-gradient(to top, var(--clr-highlight-pale), var(--bg-color));
+  color: var(--answers-count-color);
+  position: relative;
+}
+
+.question-answers-count.with-accept-answer-icon {
+  &::before {
+    color: var(--accept-answer-btn-active-color);
+    font-size: 0.75rem;
+    position: absolute;
+    right: 3px;
+    top: 3px;
+  }
+}
+
+.question-votes-count {
+  background: linear-gradient(to top, var(--clr-danger-pale), var(--bg-color));
+  color: var(--clr-danger);
+}

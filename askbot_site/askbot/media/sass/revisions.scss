@@ -1,0 +1,35 @@
+.revisions-page {
+  .revisions-list {
+    margin-top: 1rem;
+  }
+  .js-revision {
+    margin: 0 0 1rem;
+  }
+  .revision-number {
+    margin-right: 1rem;
+  }
+  .revision-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: var(--large-font-size);
+    color: var(--clr-neutral-30);
+  }
+  .with-caret-right-icon::before {
+    transition: transform 0.25s ease;
+    margin-right: 0.25rem;
+  }
+  .js-revision.js-active {
+    .with-caret-right-icon::before {
+      transform: rotate(90deg);
+    }
+  }
+  .js-revision-body {
+    padding-top: 0.5rem;
+    display: none;
+  }
+  .post-update-info {
+    display: inline-flex;
+    margin: 0;
+  }
+}

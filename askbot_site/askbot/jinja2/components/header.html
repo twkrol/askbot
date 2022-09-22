@@ -1,0 +1,25 @@
+<!-- template header.html -->
+<header {% if settings.SHOW_LOGO %}class="with-logo"{% endif %}>
+  <div class="content-wrapper">
+    <div class="header-block1">
+      {% if settings.SHOW_LOGO %}
+          {% include "components/logo.html" %}
+          {% include "components/user_nav/index.html" %}
+      {% else %}
+        {% include "components/user_nav/index.html" %}
+      {% endif %}
+      {% if settings.MULTILINGUAL %}
+        {% include "components/language_nav.html" %}
+      {% endif %}
+    </div>
+    {% include "components/meta_nav.html" %}
+  </div>
+  {% if settings.READ_ONLY_MODE_ENABLED %}
+    <div class="content-wrapper">
+      <div class="read-only-message">
+        {{ settings.READ_ONLY_MESSAGE }}
+      </div>
+    </div>
+  {% endif %}
+</header>
+<!-- end template header.html -->

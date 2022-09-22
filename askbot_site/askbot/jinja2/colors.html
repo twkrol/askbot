@@ -1,0 +1,83 @@
+{% extends "one_column_body.html" %}
+{% block content %}
+    <style>
+        h2 {
+            margin-bottom: 0.25rem;
+        }
+        .colors {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+        }
+        .clr {
+            align-items: center;
+            display: flex;
+            font-size: 0.875rem;
+            height: 3rem;
+            justify-content: center;
+            line-height: 1rem;
+            text-align: center;
+            width: 100px;
+        }
+        .black {
+            color: black;
+        }
+        .white {
+            color: white;
+        }
+    </style>
+    <h1>Colors</h1>
+    <h2>Neutral</h2>
+    <div class="colors white">
+        <div class="clr" style="background: var(--clr-neutral-10)">--clr-neutral-10</div>
+        <div class="clr" style="background: var(--clr-neutral-20)">--clr-neutral-20</div>
+        <div class="clr" style="background: var(--clr-neutral-35)">--clr-neutral-35</div>
+        <div class="clr" style="background: var(--clr-neutral-50)">--clr-neutral-50</div>
+        <div class="clr" style="background: var(--clr-neutral-60)">--clr-neutral-60</div>
+        <div class="clr" style="background: var(--clr-neutral-65)">--clr-neutral-65</div>
+        <div class="clr black" style="background: var(--clr-neutral-80)">--clr-neutral-80</div>
+        <div class="clr black" style="background: var(--clr-neutral-90)">--clr-neutral-90</div>
+    </div>
+    <h2>Reds</h2>
+    <div class="colors white">
+        <div class="clr" style="background: var(--clr-danger-dark)">--clr-danger-dark</div>
+        <div class="clr" style="background: var(--clr-danger)">--clr-danger</div>
+        <div class="clr black" style="background: var(--clr-danger-pale)">--clr-danger-pale</div>
+    </div>
+    <h2>Yellows</h2>
+    <div class="colors" style="color: black">
+        <div class="clr" style="background: var(--clr-highlight-pale-95)">--clr-highlight-pale-95</div>
+        <div class="clr" style="background: var(--clr-highlight-pale-90)">--clr-highlight-pale-90</div>
+        <div class="clr" style="background: var(--clr-highlight-pale-80)">--clr-highlight-pale-80</div>
+        <div class="clr" style="background: var(--clr-highlight-pale-75)">--clr-highlight-pale-75</div>
+        <div class="clr" style="background: var(--clr-highlight-pale)">--clr-highlight-pale</div>
+        <div class="clr" style="background: var(--clr-highlight-90">--clr-highlight-90</div>
+        <div class="clr" style="background: var(--clr-highlight-70)">--clr-highlight-70</div>
+    </div>
+    <h2>Blues</h2>
+    <div class="colors" style="color: white">
+        <div class="clr black" style="background: var(--clr-blue-pale)">--clr-blue-pale</div>
+        <div class="clr" style="background: var(--clr-blue-65)">--clr-blue-65</div>
+        <div class="clr" style="background: var(--clr-blue-60)">--clr-blue-60</div>
+        <div class="clr" style="background: var(--clr-blue-50)">--clr-blue-50</div>
+        <div class="clr" style="background: var(--clr-blue-45)">--clr-blue-45</div>
+        <div class="clr" style="background: var(--clr-blue-40)">--clr-blue-40</div>
+        <div class="clr" style="background: var(--clr-blue-30)">--clr-blue-30</div>
+    </div>
+    <h2>Greens</h2>
+    <div class="colors" style="color: white">
+        <div class="clr" style="background: var(--clr-green-65)">--clr-green-65</div>
+        <div class="clr" style="background: var(--clr-green-60)">--clr-green-60</div>
+        <div class="clr" style="background: var(--clr-green-50)">--clr-green-50</div>
+        <div class="clr" style="background: var(--clr-green-45)">--clr-green-45</div>
+        <div class="clr" style="background: var(--clr-green-40)">--clr-green-40</div>
+        <div class="clr" style="background: var(--clr-green-30)">--clr-green-30</div>
+    </div>
+    <h2>Special Colors</h2>
+    <div class="colors white">
+        <div class="clr" style="background: var(--gold-badge-color)">--gold-badge-color</div>
+        <div class="clr white" style="background: var(--bronze-badge-color)">--bronze-badge-color</div>
+        <div class="clr white" style="background: var(--rss-link-color)">--rss-link-color</div>
+        <div class="clr white" style="background: var(--or-4)">--or-4<br/>answ. count</div>
+    </div>
+{% endblock %}

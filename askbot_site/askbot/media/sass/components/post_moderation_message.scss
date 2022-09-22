@@ -1,0 +1,18 @@
+.js-post-moderation-message {
+  padding: 0.5rem;
+  color: var(--bg-color);
+  background: var(--clr-danger);
+  margin: 0.5rem 0;
+  &::before {
+    color: var(--clr-highlight-70);
+  }
+}
+
+.js-answer .js-post-moderation-message {
+  margin-bottom: 0;
+}
+
+.js-comment-content .js-post-moderation-message {
+  margin: 0.25rem 0 0.125rem !important;
+}
+

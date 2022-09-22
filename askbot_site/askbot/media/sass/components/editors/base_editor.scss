@@ -1,0 +1,14 @@
+.js-editable,
+.js-simple-editor,
+.wmd-container {
+  textarea {
+    border-radius: var(--border-radius);
+    box-shadow: var(--editor-box-shadow);
+    padding: var(--editor-padding);
+    border: var(--editor-border);
+    width: 100%;
+    outline: none;
+    overflow: hidden;
+    resize: vertical;
+  }
+}

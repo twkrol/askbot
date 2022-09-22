@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block layout_class %}two-col{% endblock %}
+{% block body %}
+<div class='col-with-sidebar'>
+  <main>
+    {% block content%}
+    {% endblock%}
+  </main>
+  <aside class='js-sidebar-col'>
+    {% block sidebar%}
+    {% endblock%}
+  </aside>
+</div>
+<script>
+  (function() {
+    var toggleBtn = document.getElementsByClassName('js-toggle-sidebar-button')[0];
+    toggleBtn && toggleBtn.addEventListener('click', function() {
+      var sidebar = document.getElementsByClassName('js-sidebar-col')[0];
+      sidebar.classList.toggle('js-visible');
+      toggleBtn.classList.toggle('js-active')
+    });
+  })();
+</script>
+{% endblock %}

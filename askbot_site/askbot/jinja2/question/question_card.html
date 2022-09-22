@@ -1,0 +1,46 @@
+<div id="js-post-{{ question.id }}" class="js-post js-question" data-post-id="{{ question.id }}">
+  <div class="post-vote-controls">
+    {{ macros.post_vote_buttons(post=question) }}
+    {% include "question/share_buttons.html" %}
+  </div>
+  <div class="post-content{% if question.deleted %} js-post-deleted{% endif %}">
+    {% if question.needs_moderation() %}
+      {{ macros.moderated_post_warning(question) }}
+    {% endif %}
+    {% include "question/title.html" %}
+    {{
+      macros.tag_list_widget(
+        tags=thread.get_tag_names(),
+        css_class='tags js-question-tags',
+        with_edit_link=True,
+        question_id=question.pk
+      )
+    }}
+    <div class="post-body">
+      <div class="js-editable"
+        id="js-post-body-{{ question.pk }}"
+        data-get-text-url="{{ url('get_post_body') }}?post_id={{ question.pk }}"
+        data-save-text-url="{{ url('set_post_body') }}?post_id={{ question.pk }}"
+        data-save-text-param-name="body_text"
+        data-validated-text-param-name="body_html"
+        data-min-lines="10"
+        data-editor-type="{{ settings.EDITOR_TYPE }}"
+        data-validator="askbot.validators.questionDetailsValidator"
+        data-with-suppress-email-checkbox="true"
+      >
+        <div class="js-editable-content">{{ question.summary }}</div>
+        <div class="js-editable-controls"></div>
+      </div>
+    </div>
+    <div class="js-editable-hide-post-body-{{ question.pk }}">
+      {{ macros.post_last_updater_and_creator_info(question, visitor=request.user) }}
+      {% include "question/question_controls.html" %}
+    </div>
+    {% if thread.closed %}
+      {% include "question/closed_question_info.html" %}
+    {% endif %}
+    {% if settings.QUESTION_COMMENTS_ENABLED %}
+      {% include "question/question_comments.html" %}
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,55 @@
+.ask-page {
+  main {
+    padding: 1rem 0;
+  }
+  .forum-header .content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    font-size: var(--large-font-size);
+  }
+
+  label[for="id_title"] {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .question-tags {
+    margin: 0.75rem 0;
+  }
+
+  .tags-label {
+    margin-bottom: 0.25rem;
+  }
+
+  .search-bar {
+    margin: 0 0 0.75rem;
+    input {
+      height: var(--input-height);
+      margin-bottom: 0.25rem;
+      width: 100%
+    }
+  }
+
+  .help-text {
+    margin-bottom: 0.5rem;
+  }
+
+  .checkbox {
+    margin-bottom: 1rem;
+  }
+
+  .help-text {
+    font-size: var(--small-font-size);
+    color: var(--clr-neutral-60);
+  }
+
+  .js-error {
+    color: var(--clr-danger-dark);
+    font-size: var(--small-font-size);
+  }
+
+  .proxy-author-inputs {
+    margin-bottom: 1rem;
+  }
+}

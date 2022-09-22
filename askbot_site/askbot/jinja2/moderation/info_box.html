@@ -1,0 +1,8 @@
+<ul class="info-box">
+    <li>If necessary, select individual posts</li>
+    <li>Approval of users removes them from the queue and approves ALL of their posts.</li>
+    <li>Blocking spammers denies them future access and deletes ALL their posts.</li>
+    {% if settings.IP_MODERATION_ENABLED %}
+    <li>Blocking IPs denies access by IP address and blocks all accounts using those IPs (and mass deletes content as above).</li>
+    {% endif %}
+</ul>

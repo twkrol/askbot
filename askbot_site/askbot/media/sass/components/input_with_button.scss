@@ -1,0 +1,18 @@
+.input-with-button {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+
+  input[type="text"] {
+    width: 100%;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  button,
+  input[type="submit"],
+  input[type="button"] {
+    border-left: none;
+  }
+}

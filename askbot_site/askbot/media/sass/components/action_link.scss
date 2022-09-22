@@ -1,0 +1,29 @@
+.action-link {
+  display: inline-block;
+  color: var(--action-link-color);
+  cursor: pointer;
+  transition: color var(--transition-params);
+  text-decoration: none;
+  &:visited {
+    color: var(--action-link-color);
+    transition: color var(--transition-params);
+  }
+  &:hover,
+  &:active {
+    color: var(--action-link-hover-color);
+    transition: color var(--transition-params);
+  }
+}
+
+button,
+input[type="submit"],
+input[type="reset"]
+input[type="button"] {
+  &.action-link {
+    background: var(--bg-color);
+    border: none;
+    box-shadow: none;
+    outline: none !important;
+    padding: 0;
+  }
+}

@@ -1,0 +1,60 @@
+.moderation-queue-page {
+  .moderation-header .tools {
+    display: flex;
+    margin-bottom: 0.5rem;
+
+    .js-label {
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .buttons {
+      display: flex;
+    }
+
+    .btn {
+      margin-right: 0.25rem;
+      &:last-child {
+        margin: 0;
+      }
+    }
+
+  }
+
+  .select-decline-reason-btn {
+    position: relative;
+    margin-right: 0.25rem;
+    .btn.js-dropdown-trigger {
+      margin-right: 0;
+    }
+    .js-dropdown-target {
+      position: absolute;
+      left: 0;
+      right: 0;
+      border: var(--toolbar-dropdown-menu-border);
+      background: var(--bg-color);
+      border-top: none;
+      list-style: none;
+      li {
+        padding: 0.5rem;
+      }
+    }
+  }
+
+  .js-approve-block {
+    margin-right: 0.25rem;
+  }
+
+  .info-box {
+    padding-left: 1.5rem;
+  }
+
+  .messages {
+    margin-bottom: 1rem;
+  }
+
+  .empty-content-box {
+    background: var(--clr-neutral-90);
+    margin-bottom: 1rem;
+  }
+}

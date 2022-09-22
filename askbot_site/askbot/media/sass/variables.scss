@@ -1,0 +1,277 @@
+@use "./sass_variables.scss";
+@use "./colors.scss";
+
+:root {
+  --header-link-color: var(--clr-neutral-80);
+  --header-link-color-hover: white;
+  --system-messages-bg-color: var(--clr-highlight-70);
+  --system-messages-border-color: var(--clr-highlight-90);
+  --transition-duration: 0.1s;
+  --transition-timing-function: steps(2, jump-end);
+  --transition-params: var(--transition-duration) var(--transition-timing-function);
+  --border-width: 1px;
+  --border-style: solid;
+  --border-radius: 0px;
+  --box-shadow: 0 0 0.25rem var(--clr-neutral-90);
+  --bg-color: rgba(255, 255, 255, var(--debug-transparency));
+  --semi-transparent-bg-color: rgba(255, 255, 255, 0.9);
+  --text-decoration-thickness: 1px;
+
+  --avatar-size: 2rem;
+  --avatar-size-compact: 1rem;
+
+  --btn-fg-color: var(--bg-color);
+  --btn-bg: var(--clr-blue-65);
+  --btn-hover-bg: var(--clr-blue-60);
+  --btn-border-color: var(--clr-blue-50);
+  --btn-hover-border-color: var(--clr-blue-45);
+  --btn-font-size: var(--input-font-size);
+
+  --btn-muted-bg: var(--clr-neutral-70);
+  --btn-muted-border-color: var(--clr-neutral-65);
+  --btn-muted-fg-color: var(--bg-color);
+
+  --btn-muted-hover-bg: var(--clr-neutral-65);
+  --btn-muted-hover-border-color: var(--clr-neutral-60);
+
+  --font-family: 'Source Sans Pro', Arial, sans-serif;
+  --font-weight-normal: 300;
+  --font-weight-bold: 700;
+  --fg-color: var(--clr-neutral-20);
+  --layout-max-width: 1100px;
+  --layout-sidebar-width: 205px;
+  --layout-horizontal-padding: 0.75rem;
+
+  --font-size: 16px; //base font size must be in pixels
+  --2extra-small-font-size: 0.625rem;
+  --extra-small-font-size: 0.75rem;
+  --small-font-size: 0.875rem;
+  --large-font-size: 1.25rem;
+  --extra-large-font-size: 1.5rem;
+
+  --action-link-color: var(--clr-neutral-50);
+  --action-link-hover-color: var(--clr-neutral-20);
+
+  --editor-padding: 0.5rem 0.75rem;
+  --editor-border-color: var(--clr-neutral-60);
+  --editor-border: var(--border-width) var(--border-style) var(--editor-border-color);
+  --editor-box-shadow: inset 0 0 3px var(--clr-neutral-70);
+
+  --heading-font-weight: var(--font-weight-bold);
+
+  --input-height: 2rem;
+  --input-horizontal-padding: 0.5rem;
+  --input-border-radius: var(--border-radius);
+  --input-border-style: var(--border-style);
+  --input-border-width: var(--border-width);
+  --input-border-color: var(--clr-highlight-pale-75);
+  --input-bg-color: var(--bg-color);
+  --input-font-size: 1rem;
+  --input-type-file-padding: 3px 0.25rem 0;
+
+  --error-popup-padding: 1rem 1rem 1.3625rem;
+  --error-popup-border-radius: var(--border-radius);
+  --error-popup-bg: var(--clr-danger-dark);
+  --error-popup-color: var(--bg-color);
+  --error-popup-font-size: var(--font-size);
+
+  --header-height: 2.75rem; //login link, meta nav: tags, users, badges links
+  --header-bg-color: var(--clr-neutral-10);
+  --header-navs-padding-bottom: 0.125rem;
+
+  --scope-nav-font-size: var(--forum-header-font-size);
+
+  --forum-header-height: var(--header-height); //search bar and ask button
+  --forum-header-bg-color: var(--clr-highlight-pale-90);
+  --forum-header-fg-color: var(--clr-neutral-50); //icons, text on buttons
+  --forum-header-fg-hover-color: var(--clr-neutral-35); //icons, text on buttons
+  --forum-header-font-size: var(--font-size);
+  --forum-header-input-border-color: var(--input-border-color);
+
+  --footer-bg: var(--forum-header-bg-color);
+  --footer-padding: 1rem 0;
+  --footer-row-margin: 0 0 0.25rem;
+
+  --link-color: var(--clr-blue-40);
+  --link-hover-color: var(--clr-blue-30);
+
+  --meta-nav-dropdown-breakpoint: #{sass_variables.$meta_nav_dropdown_breakpoint};
+
+  --ask-btn-bg-color: var(--clr-blue-65);
+  --ask-btn-hover-bg-color: var(--clr-blue-60);
+  --ask-btn-border-color: var(--clr-blue-50);
+  --ask-btn-hover-border-color: var(--clr-blue-45);
+  --ask-btn-font-size: var(--forum-header-font-size);
+  --ask-btn-fg-color: var(--bg-color);
+
+  --paginator-font-size: 1.125rem;
+  --paginator-fg-color: var(--forum-header-fg-color);
+  --paginator-bg: unset;
+  --paginator-current-fg-color: var(--bg-color);
+  --paginator-current-bg: var(--forum-header-fg-color);
+  --paginator-disabled-color: var(--clr-neutral-70);
+  --paginator-page-height: calc(var(--paginator-font-size) + 0.125rem);
+  --paginator-margin: 0 0 1rem;
+  --paginator-page-margin: 0 1px;
+  --paginator-page-padding: 0 0.25rem;
+  --paginator-next-page-padding: 1px 0 0 0.125rem;
+  --paginator-prev-page-padding: 1px 0.125rem 0 0;
+
+  --search-bar-vertical-margin: 0px;
+  --search-bar-font-size: var(--forum-header-font-size);
+  --search-btn-bg-color: var(--clr-highlight-pale-95);
+  --search-btn-hover-bg-color: var(--clr-highlight-pale-90);
+  --search-drop-menu-bg-color: var(--bg-color);
+  --search-input-height: 100%;
+
+  --sidebar-heading-font-size: var(--large-font-size);
+  --sidebar-heading-font-weight: var(--font-weight-bold);
+  --sidebar-heading-font-style: normal;
+
+  --sort-nav-bg: var(--search-btn-bg-color);
+  --sort-nav-hover-bg: vac(--clr-neutral-85);
+  --sort-nav-selected-fg-color: var(--fg-color);
+  --sort-nav-fg-color: var(--forum-header-fg-color);
+  --sort-nav-height: 2rem;
+  --sort-nav-sep-color: var(--clr-highlight-pale-80);
+
+  --question-summary-count-box-padding: 0.125rem 0 0 0;
+  --question-summary-count-box-width: 3rem;
+  --question-summary-stats-gap: 0.5rem;
+  --question-summary-stats-height: 2.5rem;
+  --question-summary-min-height: 3.75rem;
+
+  --tag-bg: var(--search-btn-bg-color);
+  --tag-fg-color: var(--forum-header-fg-color);
+  --tag-border-color: var(--sort-nav-sep-color);
+  --tag-font-size: var(--small-font-size);
+  --tag-height: 1.25rem;
+  --tag-delete-btn-bg: var(--sort-nav-sep-color);
+  --tag-delete-btn-hover-bg: var(--clr-danger);
+  --tag-delete-btn-fg-color: var(--forum-header-fg-color);
+  --tag-delete-btn-fg-hover-color: var(--bg-color);
+  --tags-gap: 0.3625rem;
+  --tags-input-margin: 0 0 0.5rem;
+
+
+  --autocompleter-hover-bg: var(--clr-blue-65);
+
+  --post-vote-controls-width: 1.25rem;
+  --post-vote-controls-margin: 0 0.75rem 0 3px;
+  --post-vote-btn-width: 1rem;
+  --post-vote-btn-height: 1rem;
+  --post-vote-btn-group-margin: 0.25rem 0 0.5rem;
+  --post-vote-btn-inactive-color: var(--clr-neutral-50);
+  --post-vote-btn-inactive-hover-color: var(--clr-neutral-20);
+  --post-upvote-btn-active-color: var(--clr-orange);
+  --post-downvote-btn-active-color: var(--clr-orange);
+  --post-votes-font-size: 1rem;
+  --post-share-button-width: 1rem;
+
+  --post-update-info-details-color: var(--clr-neutral-40);
+  --post-update-info-bg: var(--clr-highlight-pale-95);
+  --post-update-info-accepted-answer-bg: white;
+  --post-update-info-details-hover-color: var(--clr-neutral-20);
+  --post-update-info-container-margin: 0;
+  --post-update-info-margin: 0 0.5rem 0.5rem 0;
+  --post-controls-icon-size: 0.75rem;
+  --post-controls-icon-margin: 0 0.125rem 0 0;
+  --post-body-margin: 0 0 0.5rem;
+  --post-controls-margin: 0 0 0.75rem;
+
+  --reputation-badge-font-size: var(--2extra-small-font-size);
+  --reputation-badge-color: var(--bg-color);
+  --reputation-badge-bg: var(--clr-neutral-60);
+  --reputation-badge-height: 0.75rem;
+  --reputation-badge-line-height: 0.75rem;
+  --reputation-badge-padding: 0 0.25rem;
+  --reputation-badge-border-radius: calc(0.5 * var(--reputation-badge-height));
+  --reputation-badge-box-shadow: 0 0 0 1px var(--bg-color);
+
+  --question-detail-title-font-size: var(--extra-large-font-size);
+  --question-detail-title-line-height: 1.75rem;
+  --question-detail-title-margin: 0 0 0.3625rem;
+  --question-padding: 0.5rem 0 0;
+  --question-margin: 0 0 1rem;
+
+  --answer-margin: 0 0 1.5rem;
+  --accept-answer-btn-size: 0.875rem;
+  --accept-answer-btn-margin: -0.25rem 0 0;
+  --accept-answer-btn-inactive-color: var(--clr-neutral-50);
+  --accept-answer-btn-inactive-hover-color: var(--clr-green-50);
+  --accept-answer-btn-active-color: var(--clr-green-50);
+  --accept-answer-btn-active-hover-color: var(--clr-danger);
+  --accepted-answer-bg: var(--clr-blue-pale);
+
+  --rss-link-color: var(--clr-orange);
+  --rss-link-hover-color: var(--clr-danger);
+
+  --toolbar-dropdown-menu-padding-left: 0;
+  --toolbar-dropdown-menu-padding: 0.3625rem 0 0.3625rem var(--toolbar-dropdown-menu-padding-left);
+  --toolbar-dropdown-menu-border-color: var(--clr-neutral-70);
+  --toolbar-dropdown-menu-border: var(--border-width) var(--border-style) var(--toolbar-dropdown-menu-border-color);
+  --toolbar-dropdown-menu-border-radius: 0.25rem;
+  --toolbar-dropdown-menu-box-shadow: var(--box-shadow);
+  --toolbar-dropdown-menu-item-padding: 0.25rem 0.75rem;
+  --toolbar-dropdown-menu-item-height: 1rem;
+  --toolbar-dropdown-menu-item-hover-bg: var(--clr-neutral-40);
+
+  --post-comments-margin: 0 0 0.5rem;
+  --comments-list-margin: 0 0 0.75rem;
+  --comments-list-title-margin: 0 0 0.5rem;
+  --comments-list-title-font-size: 1.125rem;
+  --comment-avatar-size: 1rem;
+  --comment-margin: 0 0 0.5rem;
+  --comment-votes-width: 1.75rem;
+  --comment-votes-font-size: 0.875rem;
+  --comment-upvote-btn-color: var(--clr-neutral-75);
+  --comment-upvote-btn-hover-color: var(--clr-danger);
+  --comment-upvote-active-btn-color: var(--clr-orange);
+  --comment-upvote-active-btn-hover-color: var(--clr-danger);
+  --comment-upvote-btn-icon-padding: 5px 0 0 0;
+
+  --info-box-bg: var(--clr-highlight-pale);
+  --info-box-border-radius: var(--border-radius);
+  --info-box-border: var(--border-width) var(--border-style) var(--clr-neutral-60);
+  --info-box-box-shadow: var(--box-shadow);
+  --info-box-color: var(--fg-color);
+  --info-box-font-size: 1rem;
+  --info-box-padding: 0.5rem 0.75rem 0.75rem;
+  --info-box-margin: 0 0 1rem;
+
+  --main-block-padding: 0;
+
+  --modal-bg: hsla(255, 255, 255, 0.3);
+
+  --new-answer-form-title-margin: 0 0 0.75rem;
+
+  --wmd-margin: 0.5rem 0 0;
+  --wmd-button-size: 1.5rem;
+  --wmd-button-margin: 0 0.125rem;
+  --wmd-button-color: var(--fg-color);
+  --wmd-button-bg: transparent;
+  --wmd-button-hover-color: var(--bg-color);
+  --wmd-button-hover-bg: var(--clr-neutral-50);
+  --wmd-button-row-padding: 0 0 0.25rem;
+  --wmd-button-row-margin: 0 -0.125rem;
+	--wmd-spacer-width: var(--border-width);
+	--wmd-spacer-height: 1.25rem;
+  --wmd-spacer-margin: 0 0.25rem;
+	--wmd-spacer-background: var(--clr-neutral-50);
+  --wmd-preview-block-margin: 0 0 0.5rem;
+  --wmd-preview-list-padding: 0 0 0 1.5rem;
+  --wmd-preview-padding: 0.5rem 0.75rem;
+  --wmd-preview-margin: 0 0 0.5rem;
+  --wmd-preview-background: var(--clr-neutral-95);
+  --wmd-preview-border: var(--border-width) var(--border-style) var(--clr-neutral-80);
+  --wmd-preview-toggle-padding: 0 0 0.5rem;
+  --wmd-preview-toggle-margin: 0;
+  --pre-padding: 0.5rem;
+
+  --badge-text-color: white;
+  --badge-bg: var(--clr-neutral-30);
+  --badge-height: 2rem;
+  --badge-padding: 0.125rem 0.5rem;
+  --badge-border: none;
+  --badge-border-radius: 0.25rem;
+}

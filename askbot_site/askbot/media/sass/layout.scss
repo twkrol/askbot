@@ -1,0 +1,54 @@
+@use './layout_mixins.scss';
+@use './sass_variables.scss';
+
+.js-toggle-sidebar-button {
+  display: none;
+  .with-arrow-left-icon {
+    font-size: 0.75rem;
+    height: 1em;
+    border-left: 2px solid grey;
+    position: relative;
+    transition: transform var(--transition-duration) ease-in-out;
+
+    &::before {
+      color: grey;
+      height: 100%;
+    }
+  }
+  transition: var(--transition-duration) ease-in-out;
+  &.js-active {
+    padding-right: 0.125rem;
+    transition: var(--transition-duration) ease-in-out;
+    .with-arrow-left-icon {
+      transform: rotate(180deg);
+      transition: transform var(--transition-duration) ease-in-out;
+    }
+  }
+
+  @media (max-width: #{sass_variables.$sidebar_breakpoint}) {
+    align-items: center;
+    background: var(--semi-transparent-bg-color);
+    cursor: pointer;
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
+}
+
+.content-wrapper {
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: 0 var(--layout-horizontal-padding);
+}
+
+.col-with-sidebar {
+  display: flex;
+  position:relative;
+  & > :first-child {
+    @include layout_mixins.layout-col1;
+  }
+  aside {
+    padding-top: 0.3625rem;
+    @include layout_mixins.layout-col2;
+  }
+}

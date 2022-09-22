@@ -1,0 +1,33 @@
+{% extends "user_profile/user.html" %}
+{% from "macros.html" import timeago %}
+{% block layout_class %}{{ super() }} user-profile-votes{% endblock %}
+{% block profilesection %}{% trans %}votes{% endtrans %}{% endblock %}
+{% block usercontent %}
+  <table class="user-votes-list">
+  {% for vote in votes %}
+    <tr>
+      <td class="timestamp">{{ timeago(vote.voted_at) }}</td>
+      <td>
+        {% if vote.vote==1 %}
+          <span class="with-upvote-icon"></span>
+        {% else %}
+          <span class="with-downvote-icon"></span>
+        {% endif %}
+        {% if vote.answer_id==0 %}
+          <a href="{{ url('question', vote.question_id) }}{{ vote.title|slugify }}">{{ vote.title|escape }}</a>
+        {% else %}
+          <a href="{{ url('question', vote.question_id) }}{{ vote.title|slugify }}#{{ vote.answer_id }}">{{ vote.title|escape}}</a>
+        {% endif %}
+      </td>
+    </tr>
+  {% else %}
+    <tr>
+      <td>
+        <div class='empty-content-box'>
+          {% trans %}There were no votes.{% endtrans %}
+        </div>
+      </td>
+    </tr>
+  {% endfor %}
+  </table>
+{% endblock %}

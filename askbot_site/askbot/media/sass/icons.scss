@@ -1,0 +1,422 @@
+@import '../fa-5.15.3/scss/fontawesome.scss';
+@import '../fa-5.15.3/scss/solid.scss';
+@import '../fa-5.15.3/scss/regular.scss';
+@import '../fa-5.15.3/scss/brands.scss';
+
+.with-warning-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-exclamation-triangle);
+}
+
+.inbox-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-envelope);
+}
+
+.inbox-icon-with-new-messages::before {
+  @extend %fa-icon;
+  @extend .far;
+  content: fa-content($fa-var-envelope);
+}
+
+.with-users-icon,
+.with-badges-icon,
+.with-settings-icon {
+  &::before {
+    @extend %fa-icon;
+    @extend .fas;
+  }
+}
+
+.with-tags-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-tags);
+}
+
+.with-users-icon::before {
+  content: fa-content($fa-var-users);
+}
+
+.with-badges-icon::before {
+  content: fa-content($fa-var-crown);
+}
+
+.with-settings-icon::before {
+  content: fa-content($fa-var-cog);
+  margin-right: 0.125rem;
+}
+
+.with-bronze-badge-icon,
+.with-silver-badge-icon,
+.with-gold-badge-icon {
+  &::before {
+    font-size: 0.825rem;
+    margin-right: 0.125rem;
+    @extend %fa-icon;
+    @extend .fas;
+  }
+}
+
+.with-bronze-badge-icon::before {
+  color: var(--bronze-badge-color);
+  content: fa-content($fa-var-circle);
+}
+
+.with-silver-badge-icon::before {
+  color: var(--silver-badge-color);
+  content: fa-content($fa-var-circle);
+}
+
+.with-gold-badge-icon::before {
+  color: var(--gold-badge-color);
+  content: fa-content($fa-var-circle);
+}
+
+.with-delete-icon,
+.with-times-icon {
+  &::before {
+    @extend %fa-icon;
+    @extend .fas;
+    content: fa-content($fa-var-times);
+  }
+}
+
+.with-times-circle-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-times-circle);
+}
+
+.with-home-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-home);
+}
+
+.with-search-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-search);
+}
+
+.with-selected-scope-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-caret-up);
+  position: absolute;
+  bottom: -5px;
+  left: calc(50% - 5px);
+}
+
+.with-rss-icon {
+  position: relative;
+  text-decoration: none;
+  &::before {
+    @extend %fa-icon;
+    @extend .fas;
+    content: fa-content($fa-var-rss);
+  }
+}
+
+.js-with-sort-descending-icon,
+.js-with-sort-ascending-icon {
+  padding-right: 1.25rem !important;
+  position: relative;
+  &::before {
+    position: absolute;
+    right: 0.3625rem;
+  }
+}
+
+.js-with-sort-descending-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-caret-up);
+}
+
+.js-with-sort-ascending-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-caret-down);
+}
+
+.with-bars-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-bars);
+}
+
+.with-globe-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-globe-europe);
+}
+
+.with-ellipsis-h-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-ellipsis-h);
+}
+
+.with-caret-left-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-caret-left);
+}
+
+.with-caret-right-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-caret-right);
+}
+
+.with-comment-icon::before {
+  @extend %fa-icon;
+  @extend .far;
+  content: fa-content($fa-var-comment);
+}
+
+.with-arrow-left-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-arrow-left);
+}
+
+.with-upvote-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-caret-up);
+}
+
+.with-caret-down-icon::before,
+.with-downvote-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-caret-down);
+}
+
+.with-facebook-icon::before {
+  @extend %fa-icon;
+  @extend .fab;
+  content: fa-content($fa-var-facebook-square);
+}
+
+.with-linkedin-icon::before {
+  @extend %fa-icon;
+  @extend .fab;
+  content: fa-content($fa-var-linkedin);
+}
+
+.with-twitter-icon::before {
+  @extend %fa-icon;
+  @extend .fab;
+  content: fa-content($fa-var-twitter);
+}
+
+.with-edit-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-pencil-alt);
+}
+
+.with-flag-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-flag);
+}
+
+.with-anchor-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-anchor);
+}
+
+.with-clone-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-clone);
+}
+
+.with-flag-icon.js-post-unflag-btn {
+  position: relative;
+  &::after {
+    position: absolute;
+    left: -0.125rem;
+    top: 0.25rem;
+    font-size: 0.75rem;
+    transform: rotate(30deg);
+    @extend %fa-icon;
+    @extend .fas;
+    content: fa-content($fa-var-slash);
+  }
+}
+
+.with-close-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-lock);
+}
+
+.with-reopen-icon {
+  position: relative;
+  &::before {
+    @extend %fa-icon;
+    @extend .fas;
+    content: fa-content($fa-var-lock);
+  }
+  &::after {
+    position: absolute;
+    left: -2.15px;
+    top: 4.5px;
+    font-size: 0.75rem;
+    transform: rotate(30deg);
+    @extend %fa-icon;
+    @extend .fas;
+    content: fa-content($fa-var-slash);
+  }
+}
+
+.with-merge-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-code-branch);
+}
+
+.with-comment-upvote-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-arrow-up);
+}
+
+.with-convert-post-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-retweet);
+}
+
+.with-link-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-link);
+}
+
+.with-accept-answer-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-check-circle);
+}
+
+.with-bullhorn-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-bullhorn);
+}
+
+.with-slashed-icon {
+  position: relative;
+  &::after {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    font-size: 0.75rem;
+    transform: rotate(30deg);
+    @extend %fa-icon;
+    @extend .fas;
+    content: fa-content($fa-var-slash);
+  }
+}
+
+.with-check-icon::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-check);
+}
+
+/* wmd editor button icons */
+.wmd-bold-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-bold);
+}
+  
+.wmd-italic-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-italic);
+}
+
+.wmd-link-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-link);
+}
+
+.wmd-quote-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-quote-right);
+}
+
+.wmd-code-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-code);
+}
+
+.wmd-image-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-image);
+}
+
+.wmd-attachment-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-paperclip);
+}
+
+.wmd-olist-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-list-ol);
+}
+
+.wmd-ulist-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-list);
+}
+
+.wmd-heading-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-heading);
+}
+
+.wmd-hr-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-divide);
+}
+
+.wmd-undo-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-undo);
+}
+
+.wmd-redo-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-redo);
+}
+
+.wmd-help-button::before {
+  @extend %fa-icon;
+  @extend .fas;
+  content: fa-content($fa-var-question);
+}
+/* end wmd icons */

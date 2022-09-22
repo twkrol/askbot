@@ -1,0 +1,12 @@
+{% import "macros.html" as macros %}
+{{ macros.post_vote_buttons(post = answer) }}
+{% if settings.ACCEPTING_ANSWERS_ENABLED %}
+<div class="js-accept-answer-btn {% if answer.endorsed %}js-active{% endif %} with-accept-answer-icon"
+  data-post-id="{{answer.id}}"
+  {% if answer.endorsed %}
+    title="{{ settings.WORDS_THIS_ANSWER_HAS_BEEN_SELECTED_AS_CORRECT|escape }}"
+  {% else %}
+    title="{{ settings.WORDS_MARK_THIS_ANSWER_AS_CORRECT|escape }} {% trans %}(click again to undo){% endtrans %}"
+  {% endif %}
+></div>
+{% endif %}

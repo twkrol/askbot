@@ -1,0 +1,97 @@
+{% if settings.GROUPS_ENABLED %}
+  {% extends "two_column_body.html" %}
+{% else %}
+  {% extends "one_column_body.html" %}
+{% endif %}
+{% import "macros.html" as macros %}
+<!-- users.html -->
+{% block title %}{% filter trim %}{% trans %}Users{% endtrans %}{% endfilter %}{% endblock %}
+{% block layout_class %}users-page{% endblock %}
+{% block content %}
+  {% include "users/title_row.html" %}
+  {% if search_query %}
+    <p>{% trans search_query=search_query|escape %}users matching query {{search_query}}:{% endtrans %}</p>
+  {% endif %}
+  {% if not users.object_list %}
+    <div>{% trans %}No users found.{% endtrans %}</div>
+  {% else %}
+    {{ macros.users_list(users.object_list) }}
+  {% endif %}
+  {{ macros.paginator(paginator_context) }}
+{% endblock %}
+
+{% block sidebar %}
+  {% if group %}
+    {# this widget takes variables: group, user_can_join_group, user_is_group_member #}
+    {% include "users/group_settings.html" %}
+  {% endif %}
+{% endblock %}
+
+{% block endjs %}
+  <script type="text/javascript">
+    var Attacklab = Attacklab || {};
+    Attacklab.wmd = 1;{# a trick to launch wmd manually #}
+    askbot['urls']['upload'] = '{{ url('upload') }}';
+    askbot['urls']['load_object_description'] = '{{ url('load_object_description') }}';
+    askbot['urls']['save_object_description'] = '{{ url('save_object_description') }}';
+    askbot['urls']['save_group_logo_url'] = '{{ url('save_group_logo_url') }}';
+    askbot['urls']['delete_group_logo_url'] = '{{ url('delete_group_logo') }}';
+    askbot['urls']['join_or_leave_group'] = '{{ url('join_or_leave_group') }}';
+  </script>
+  {% compress js %}
+    <script type="text/javascript" src="{{ '/jslib/editor.js'|media }}"></script>
+    <script src="{{ '/js/utils/expander_toggle.js'|media }}"></script>
+    {% include "meta/markdown_javascript.html" %}
+    <script src="{{ '/jslib/jquery.validate.min.js'|media }}"></script>
+    <script src="{{ '/jslib/highlight.min.js'|media }}"></script>
+    <script src="{{ '/js/utils/toggle.js'|media }}"></script>
+    <script src="{{ '/js/utils/image_changer.js'|media }}"></script>
+    <script src="{{ '/js/utils/dropdown_select.js'|media }}"></script>
+    <script src="{{ '/js/editors/simple_editor.js'|media }}"></script>
+    <script src="{{ '/js/utils/text_property_editor.js'|media }}"></script>
+    <script src="{{ '/js/editors/wmd.js'|media }}"></script>
+    <script src="{{ '/js/editors/tinymce.js'|media }}"></script>
+    <script src="{{ '/js/editors/object_description_editor.js'|media }}"></script>
+    <script src="{{ '/js/editors/group_settings_editor.js'|media }}"></script>
+    <script src="{{ '/js/utils/group_join_button.js'|media }}"></script>
+  {% endcompress %}
+  <script type="text/javascript">
+    //todo move javascript out
+    {% if group and request.user.is_authenticated %}
+      $(document).ready(function(){
+        var group_join_btn = new GroupJoinButton();
+        group_join_btn.decorate($('.group-join-btn'));
+        //setup WMD editor
+        if (askbot['data']['userIsAdminOrMod']){
+          //todo: this is kind of Attacklab.init ... should not be here
+          Attacklab.wmd = function(){
+            Attacklab.loadEnv = function(){
+              var mergeEnv = function(env){
+                if(!env){
+                  return;
+                }
+                for(var key in env){
+                  Attacklab.wmd_env[key] = env[key];
+                }
+              };
+
+              mergeEnv(Attacklab.wmd_defaults);
+              mergeEnv(Attacklab.account_options);
+              mergeEnv(top["wmd_options"]);
+              Attacklab.full = true;
+
+              var defaultButtons = "bold italic link blockquote code image ol ul heading hr";
+              Attacklab.wmd_env.buttons = Attacklab.wmd_env.buttons || defaultButtons;
+            };
+            Attacklab.loadEnv();
+          };
+          Attacklab.wmd();
+          Attacklab.wmdBase();
+          var groupSettings = new GroupSettingsEditor();
+          groupSettings.decorate($('.js-group-settings'));
+        }
+      });
+    {% endif %}
+  </script>
+{% endblock %}
+<!-- end users.html -->

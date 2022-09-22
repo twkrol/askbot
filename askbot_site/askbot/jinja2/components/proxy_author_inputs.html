@@ -1,0 +1,32 @@
+{% if user and user.is_authenticated and user.is_administrator() %}
+  {# admin can post answers or questions on behalf of anyone. #}
+  <div class="proxy-author-inputs">
+    <div class="proxy-author-help">
+      {% trans %}To post on behalf of someone else, enter user name <strong>and</strong> email below.{% endtrans %}
+    </div>
+    <div class="proxy-author-inputs-row">
+      <div>
+        <input
+          id="js-post-author-username"
+          name="post_author_username"
+          type="text"
+          placeholder="{% trans %}User name{% endtrans %}"
+          autocomplete="off"
+        />
+        <div class="form-error">{{ post_form.post_author_username.errors }}</div>
+      </div>
+      <div>
+        <input
+          id="js-post-author-email"
+          name="post_author_email"
+          type="text"
+          placeholder="{% trans %}Email address{% endtrans %}"
+        />
+        <div class="form-error">{{ post_form.post_author_email.errors }}</div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+      askbot['urls']['get_users_info'] = '{{ url('get_users_info') }}';
+  </script>
+{% endif %}

@@ -1,0 +1,26 @@
+{% import "macros.html" as macros %}
+{% include "tags/header.html" %}
+{% if tag_list_type == 'list' %}
+  {% if not tags.object_list %}
+    {% include "tags/no_tags.html" %}
+  {% endif %}
+  {% if tags.object_list %}
+    <ul class='tags'>
+      {% for tag in tags.object_list %}
+      <li>
+        {{ macros.tag_widget(
+          tag=tag.name,
+          truncate_long_tag=True,
+          extra_content='&nbsp;' ~ macros.used_count(tag.used_count)
+        )}}
+      </li>
+      {% endfor %}
+    </ul>
+    {{ macros.paginator(paginator_context) }}
+  {% endif %}
+{% else %}
+  {% if not tags %}
+    {% include "tags/no_tags.html" %}
+  {% endif %}
+  {{ macros.tag_cloud(tags=tags, font_sizes=font_size, search_state=search_state) }}
+{% endif %}

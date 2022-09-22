@@ -1,0 +1,26 @@
+.js-folded-editor-editor {
+  display: none;
+}
+
+.js-folded-editor {
+  cursor: pointer;
+  height: 5rem;
+  width: 100%;
+  border: var(--editor-border);
+  box-shadow: var(--editor-box-shadow);
+  border-radius: var(--border-radius);
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  &.js-active {
+    height: auto;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.js-folded-editor.js-active {
+  .js-folded-editor-editor {
+    display: block;
+  }
+}

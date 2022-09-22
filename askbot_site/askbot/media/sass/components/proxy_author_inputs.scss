@@ -1,0 +1,20 @@
+.proxy-author-help {
+  margin-bottom: 0.25rem;
+}
+.proxy-author-inputs-row {
+  max-width: 450px;
+  margin: 0 -0.125rem 0.5rem;
+  display: flex;
+  & > div {
+    width: calc(50% - 0.125rem);
+    margin: 0 0.125rem;
+  }
+  input {
+    width: 100%;
+  }
+  .form-error {
+    width: 100%;
+    color: var(--clr-danger);
+    font-size: var(--small-font-size);
+  }
+}

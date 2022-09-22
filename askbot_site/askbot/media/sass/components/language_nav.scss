@@ -1,0 +1,36 @@
+.language-nav {
+  padding-bottom: var(--header-navs-padding-bottom);
+  position:relative;
+  white-space: nowrap;
+
+  .current-language {
+    cursor: pointer;
+    display: inline;
+    padding-left: 0.5rem;
+    border-left: var(--border-width) var(--border-style) var(--header-link-color);
+  }
+
+  .current-language::before {
+    margin-right: 0.25rem;
+  }
+
+  ul {
+    background: var(--header-bg-color);
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    left: 1rem;
+    list-style: none;
+    padding: 0.75rem;
+    position: absolute;
+    top: calc(var(--header-height) / 2);
+    z-index: 10;
+  }
+
+  li:last-child {
+    margin: 0;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+}

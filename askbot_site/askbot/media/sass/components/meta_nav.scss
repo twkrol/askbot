@@ -1,0 +1,84 @@
+@use '../sass_variables.scss';
+
+.js-meta-nav {
+  height: var(--header-height);
+  padding-bottom: var(--header-navs-padding-bottom);
+  position: relative;
+  white-space: nowrap;
+}
+
+.js-meta-nav a {
+  margin-left: 0.75rem;
+}
+
+.meta-nav-trigger {
+  cursor: pointer;
+  display: none;
+}
+
+.js-meta-nav ul {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  list-style: none;
+}
+
+@media(max-width: #{sass_variables.$meta_nav_dropdown_breakpoint}) {
+  .js-meta-nav {
+    min-width: var(--forum-header-height);
+  }
+  .meta-nav-trigger {
+    cursor: pointer;
+    display: block;
+    height: var(--header-height);
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: var(--header-height);
+    &::before {
+      position: absolute;
+      top: calc(0.5 * var(--header-height) - 0.5rem);
+      right: 0.3625rem;
+    }
+  }
+  .js-meta-nav ul {
+    background: var(--header-bg-color);
+    display: none;
+    flex-direction: column;
+    height: auto;
+    padding: 1rem 0.75rem 0.75rem 0.625rem;
+    position: absolute;
+    right: -0.5rem;
+    top: calc(var(--header-height) - 0.75rem);
+    z-index: 1000;
+    a {
+      margin: 0 0 0.5rem;
+      width: 100%;
+      &:last-child {
+        margin: 0;
+      }
+      &::before {
+        width: 1.25rem;
+      }
+    }
+  }
+  .js-meta-nav li {
+    margin-bottom: 0.5rem;
+    width: 100%;
+    &:last-child {
+      margin: 0;
+    }
+  }
+}
+
+@media(max-width: #{sass_variables.$sidebar_breakpoint}) {
+  .meta-nav-trigger::before {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      top: unset;
+      right: unset;
+  }
+}

@@ -1,0 +1,109 @@
+{% extends "user_profile/user.html" %}
+{% block layout_class %}{{ super() }} moderate-user-page{% endblock %}
+{% block profilesection %}
+  {% trans %}moderation{% endtrans %}
+{% endblock %}
+{% block usercontent %}
+{% if request.user != view_user %}
+  <section class="change-account-status">
+    <h2>{% trans username=view_user.username|escape, status=view_user.get_status_display() %}{{username}}'s current status is "{{status}}"{% endtrans %}
+    </h2>
+    {% if user_status_changed %}
+      <div class="js-action-status">{{ user_status_changed_message }}</div>
+    {% endif %}
+    <form method="post">{{ csrf_input }}
+      <input type="hidden" name="sort" value="moderate"/>
+      <table>
+        {{ change_user_status_form.as_table() }}
+      </table>
+      <div id="id_user_status_info"></div>
+      <div>
+        <input class='btn' type="submit" name="change_status" value="{% trans %}Change status{% endtrans %}" />&nbsp;
+        {% if not view_user.is_blocked() %}
+        <input class='btn btn-muted' type="submit" name="hard_block" value="{% trans %}Block user and delete all content{% endtrans %}" />
+        {% endif %}
+      </div>
+    </form>
+  </section>
+{% endif %}
+<section class='change-reputation'>
+  <h2>
+    {% set reputation = view_user.get_localized_profile().get_reputation() %}
+    {% if request.user.pk == view_user.pk %}
+      {% trans %}Your current reputation is {{ reputation }} points{% endtrans %}
+    {% else %}
+      {% trans %}User's current reputation is {{ reputation }} points{% endtrans %}
+    {% endif %}
+  </h2>
+  {% if user_rep_changed %}
+    <div class="js-action-status">{% trans %}User reputation changed{% endtrans %}</div>
+  {% endif %}
+  <form method="post">{{ csrf_input }}
+    <input type="hidden" name="sort" value="moderate"/>
+    <table class="form-as-table">
+    {{ change_user_reputation_form.as_table() }}
+    </table>
+    <input class='btn' type="submit" name="subtract_reputation" value="{% trans %}Subtract{% endtrans %}" />&nbsp;
+    <input class='btn' type="submit" name="add_reputation" value="{% trans %}Add{% endtrans %}" />
+  </form>
+</section>
+{% if request.user != view_user %}
+<section class='send-email'>
+  <h2>{% trans username=view_user.username|escape %}Send message to {{username}}{% endtrans %}</h2>
+  <div class="info-box">
+    {% trans %}An email will be sent to the user with 'reply-to' field set to your email address. Please make sure that your address is entered correctly.{% endtrans %}
+  </div>
+  {% if message_sent %}
+    <div class="js-action-status">{% trans %}Message sent{% endtrans %}</div>
+  {% endif %}
+  <form method="post">{{ csrf_input }}
+    <input type="hidden" name="sort" value="moderate"/>
+    <div class="form-row-vertical">
+    <label for="id_subject_line">{{ send_message_form.subject_line.label}}</label>
+    {% if send_message_form.subject_line.errors %}
+      <div class="error">{{send_message_form.subject_line.errors|join(', ')}}</div>
+    {% endif %}
+    {{ send_message_form.subject_line}}
+    </div>
+    <div class="form-row-vertical">
+    <label for="id_body_text">{{ send_message_form.body_text.label}}</label>
+    {% if send_message_form.body_text.errors %}
+      <div class="error">{{send_message_form.body_text.errors|join(', ')}}</div>
+    {% endif %}
+    {{ send_message_form.body_text}}
+    </div>
+    <input class='btn' type="submit" name="send_message" value="{% trans %}Send message{% endtrans %}" />
+  </form>
+</section>
+{% endif %}
+{% endblock %}
+{% block endjs %}
+  <script type="text/javascript" >
+    $("#id_user_status_info").hide();
+    $("#id_user_status").change(function () {
+      var optionValue = $(this).attr('value');
+      if (optionValue == "d") {
+        $('#id_user_status_info').html("{% trans %}Administrators have privileges of normal users, but in addition they can assign/revoke any status to any user, and are exempt from the reputation limits.{% endtrans %}");
+        $('#id_user_status_info').show('slow');
+      } else if (optionValue == "m"){
+        $('#id_user_status_info').html("{% trans %}Moderators have the same privileges as administrators, but cannot add or remove user status of 'moderator' or 'administrator'.{% endtrans %}");
+        $('#id_user_status_info').show('slow');
+      } else if (optionValue == "a"){
+        $('#id_user_status_info').html("{% trans %}'Approved' status means the same as regular user.{% endtrans %}");
+        $('#id_user_status_info').show('slow');
+      } else if (optionValue == "s"){
+        $('#id_user_status_info').html("{% trans %}Suspended users can only edit or delete their own posts.{% endtrans %}");
+        $('#id_user_status_info').show('slow');
+      } else if (optionValue == "b"){
+        $('#id_user_status_info').html("{% trans %}Blocked users can only login and send feedback to the site administrators, their url and profile will also be hidden.{% endtrans %}");
+        $('#id_user_status_info').show('slow');
+      } else {
+        $('#id_user_status_info').hide('slow');
+      }
+    })
+    $('input[name="hard_block"]').click(function() {
+      $('input[name="delete_content"]').val('true');
+      $('select[name="user_status"]').val('b');
+    });
+  </script>
+{% endblock %}

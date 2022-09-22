@@ -1,0 +1,44 @@
+{% if settings.EDITOR_TYPE == 'tinymce' %}
+  {% include "editors/tinymce_scripts.html" %}
+{% endif %}
+{% compress js %}
+  <script src="{{ '/jslib/editor.js'|media }}"></script>
+  <script src="{{ '/jslib/jquery.validate.js'|media }}"></script>
+  <script src="{{ '/jslib/highlight.min.js'|media }}"></script>
+  <script src="{{ '/js/utils/toggle.js'|media }}"></script>
+  <script src="{{ '/js/utils/ajax_toggle.js'|media }}"></script>
+  <script src="{{ '/js/utils/expander_toggle.js'|media }}"></script>
+  <script src="{{ '/js/validators/question_validators.js'|media }}"></script>
+  <script src="{{ '/js/validators/tag_validators.js'|media }}"></script>
+  <script src="{{ '/js/validators/answer_validators.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/retagger.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/comment.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/edit_comment_form.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/comment_vote_button.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/social_sharing.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/post_comments_widget.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/accept_answer_button.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/vote.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/flag_offensive.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/post_vote.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/merge_questions_dialog.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/delete_post_link.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/publish_post.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/follow_question.js'|media }}"></script>
+  <script src="{{ '/js/utils/draft_post.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/draft_answer.js'|media }}"></script>
+  <script src="{{ '/js/pages/question/share_onsite.js'|media }}"></script>
+  <script src="{{ '/js/editors/simple_editor.js'|media }}"></script>
+  <script src="{{ '/js/editors/wmd_expander_toggle.js'|media }}"></script>
+  <script src="{{ '/js/editors/wmd.js'|media }}"></script>
+  <script src="{{ '/js/editors/tinymce.js'|media }}"></script>
+  <script src="{{ '/js/utils/editable.js'|media }}"></script>
+  <script src="{{ '/js/forms/form.js'|media }}"></script>
+  <script src="{{ '/js/editors/folded_editor.js'|media }}"></script>
+  <script src="{{ '/js/utils/proxy_author_inputs.js'|media }}"></script>
+  <script src="{{ '/js/forms/answer_form.js'|media }}"></script>
+  {% if settings.EDITOR_TYPE == 'markdown' %}
+    {% include "meta/markdown_javascript.html" %}
+  {% endif %}
+  <script src="{{ '/js/pages/question/init_page.js'|media }}"></script>
+{% endcompress %}

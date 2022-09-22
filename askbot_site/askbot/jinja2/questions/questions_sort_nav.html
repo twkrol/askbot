@@ -1,0 +1,34 @@
+<nav class="js-questions-sort-nav components--sort-nav">
+  <span class="components--sort-nav--label">{% trans %}Sort by{% endtrans %}</span>
+  {% if show_sort_by_relevance %}
+    {% include "questions/questions_sort_by_relevance.html" %}
+  {% endif %}
+
+  {{ macros.reversible_sort_button(sort_by='age',
+                                   label=gettext('by date'),
+                                   asc_tooltip=gettext('click to see the oldest questions'),
+                                   desc_tooltip=gettext('click to see the newest questions'),
+                                   current_sort_method=sort,
+                                   search_state=search_state)}}
+
+  {{macros.reversible_sort_button(sort_by='activity',
+                                  label = gettext('by activity'),
+                                  asc_tooltip = gettext('click to see the least recently updated questions'),
+                                  desc_tooltip = gettext('click to see the most recently updated questions'),
+                                  current_sort_method = sort,
+                                  search_state = search_state)}}
+
+  {{macros.reversible_sort_button(sort_by='answers',
+                                  label=gettext('by answers'),
+                                  asc_tooltip=gettext('click to see the least answered questions'),
+                                  desc_tooltip=gettext('click to see the most answered questions'),
+                                  current_sort_method=sort,
+                                  search_state=search_state)}}
+
+  {{macros.reversible_sort_button(sort_by='votes',
+                                  label=gettext('by votes'),
+                                  asc_tooltip=gettext('click to see least voted questions'),
+                                  desc_tooltip=gettext('click to see most voted questions'),
+                                  current_sort_method=sort,
+                                  search_state=search_state)}}
+</nav>

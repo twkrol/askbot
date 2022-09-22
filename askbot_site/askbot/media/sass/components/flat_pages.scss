@@ -1,0 +1,15 @@
+.about-page,
+.faq-page,
+.help-page,
+.privacy-page,
+.terms-page {
+  main {
+    padding: 0.5rem 0 1rem;
+  }
+  h2 {
+    font-size: var(--large-font-size);
+  }
+  h2, p {
+    margin: 0 0 0.5rem;
+  }
+}

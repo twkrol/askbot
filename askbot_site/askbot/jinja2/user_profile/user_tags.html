@@ -1,0 +1,26 @@
+{% if user_tags %}
+<section id="tags" class="user-profile-tags">
+  <h2>{% trans counter=user_tags|length %}<span class="count">{{counter}}</span> Tag{% pluralize %}<span class="count">{{counter}}</span> Tags{% endtrans %}</h2>
+  <ul class="tags">
+    {% for tag in user_tags %}
+      <li>
+        {{ macros.tag_widget(
+          tag.name,
+          search_state=search_state,
+          truncate_long_tag=True,
+          extra_content='&nbsp;' ~ macros.used_count(tag.user_tag_usage_count|intcomma)
+         )}}
+      </li>
+    {% endfor %}
+  </ul>
+  {% if interesting_tag_names %}
+    {{ user_profile_macros.tag_selection(interesting_tag_names, 'interesting') }}
+  {% endif %}
+  {% if ignored_tag_names %}
+    {{ user_profile_macros.tag_selection(ignored_tag_names, 'ignored') }}
+  {% endif %}
+  {% if subscribed_tag_names %}
+    {{ user_profile_macros.tag_selection(subscribed_tag_names, 'subscribed') }}
+  {% endif %}
+</section>
+{% endif %}

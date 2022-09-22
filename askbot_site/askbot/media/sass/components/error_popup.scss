@@ -1,0 +1,22 @@
+.js-error-popup {
+  background: var(--error-popup-bg);
+  border-radius: var(--error-popup-border-radius);
+  color: var(--error-popup-color);
+  padding: var(--error-popup-padding);
+  position: absolute;
+  width: 200px;
+  z-index: 10000;
+  .js-error-popup-hint {
+    font-size: var(--small-font-size);
+    padding-top: 0.25rem;
+  }
+  a, a:active, a:visited {
+    color: inherit;
+  }
+  p {
+    margin: 0 0 0.3625rem;
+    &:last-child {
+      margin: 0;
+    }
+  }
+}

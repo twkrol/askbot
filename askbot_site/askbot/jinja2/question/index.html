@@ -1,0 +1,49 @@
+{% extends "two_column_body.html" %}
+<!-- question.html -->
+{% block title %}{% filter trim %}{{ question.get_question_title()|escape }}{% endfilter %}{% endblock %}
+{% block meta_description %}
+  <meta name="description" content="{{ question.summary|striptags|escape }}" />
+{% endblock %}
+{% block keywords %}{{thread.tagname_meta_generator()}}{% endblock %}
+{% block forestyle %}
+  <link rel="canonical" href="{{ base_url }}{{ question.get_absolute_url() }}" />
+{% endblock %}
+{% block forejs %}
+  {% include "question/head_javascript.html" %}
+{% endblock %}
+{% block layout_class %}{{ super() }} question-detail-page{% endblock %}
+{% block content %}
+  {% if 'QUESTION_PAGE_TOP_BANNER'|show_block_to(request.user) %}
+    <div class="banner">{{ settings.QUESTION_PAGE_TOP_BANNER|safe }}</div>
+  {% endif %}
+  {% if is_cacheable %}
+    {% cache long_time "thread-content-html" thread.id %}
+      {% include "question/content.html" %}
+    {% endcache %}
+  {% else %}
+    {% include "question/content.html" %}
+  {% endif %}
+{% endblock %}
+{% block sidebar %}
+    {% include "question/sidebar.html" %}
+{% endblock %}
+{% from "macros.html" import moderated_post_warning, comment_widget, tag_widget %}
+{% block js_templates %}
+  {{ comment_widget(blank_comment) }}
+  {{ moderated_post_warning(blank_comment) }}
+  {% include "editors/simple.html" %}
+  {% if settings.EDITOR_TYPE == 'markdown' %}
+    {% include "editors/wmd_help.html" %}
+  {% endif %}
+  {% include "components/bent_arrow.html" %}
+  {{ tag_widget('none', deletable=True) }}
+{% endblock %}
+{% block endjs %}
+  {% include "question/bottom_js_data.html" %}
+  {% include "meta/editor_data.html" %}
+  {% include "question/javascript.html" %}
+  {% if settings.TAG_SOURCE == 'category-tree' %}
+    {% include "meta/category_tree_js.html" %}
+  {% endif %}
+  {% include "question/custom_javascript.html" ignore missing %}
+{% endblock %}

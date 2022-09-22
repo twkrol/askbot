@@ -1,0 +1,13 @@
+{% import "macros.html" as macros %}
+<section>
+  {% if show_moderation_warning %}
+  <div class="user-profile-memo">
+    {% trans %}Note: the homepage link and the about section won't be shown to other users until your profile is approved by the moderators.{% endtrans %}
+  </div>
+  {% endif %}
+  <div class="user-profile-info">
+    {% include "user_profile/user_info_avatar_block.html" %}
+    {% include "user_profile/user_info_table.html" %}
+    {% include "user_profile/user_info_about_text.html" %}
+  </div>
+</section>

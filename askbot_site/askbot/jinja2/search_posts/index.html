@@ -1,0 +1,51 @@
+{% extends "one_column_body.html" %}
+{% block title %}{% filter trim %}{% trans %}Post Search{% endtrans %}{% endfilter %}{% endblock %}
+{% block layout_class %}search-posts-page{% endblock %}
+{% block content %}
+  <h1>{% trans %}Post search{% endtrans %}</h1>
+  <form class="search-posts-form" method="POST">
+    {{ csrf_input }}
+    <input 
+      name="q"
+      placeholder="{% trans %}search by text{% endtrans %}"
+      type="text"
+      value="{{ query_string|escape }}"
+    /><input
+      class="btn"
+      type="submit"
+      value="{% trans %}search{% endtrans %}"
+    />
+  </form>
+  {% include "search_posts/posts_nav.html" %}
+  {% if post %}
+    {% include "search_posts/context_link.html" %}
+    <div class="post-body">
+      <div class="js-editable"
+        id="js-post-body-{{ post.pk }}"
+        data-get-text-url="{{ url('get_post_body') }}?post_id={{ post.pk }}"
+        data-save-text-url="{{ url('set_post_body') }}?post_id={{ post.pk }}"
+        data-save-text-param-name="body_text"
+        data-validated-text-param-name="body_html"
+        data-min-lines="10"
+        data-editor-type="{{ settings.EDITOR_TYPE }}"
+        data-validator="askbot.validators.questionDetailsValidator"
+        data-with-suppress-email-checkbox="true"
+        data-with-suppress-email-checkbox-checked="true"
+      >
+        <div class="js-editable-content">
+          {{ post.html }}
+        </div>
+        <div class="js-editable-controls"></div>
+      </div>
+    </div>
+    <div id="js-post-controls-{{ post.id }}" class="js-post-controls" data-post-id="{{ post.id }}">
+      <span id="js-edit-btn-post-body-{{ post.pk }}"
+        class="action-link js-edit with-edit-icon"
+      >{% trans %}edit{% endtrans %}</span>
+    </div>
+    {% include "search_posts/posts_nav.html" %}
+  {% endif %}
+{% endblock %}
+{% block endjs %}
+  {% include "search_posts/javascript.html" %}
+{% endblock %}

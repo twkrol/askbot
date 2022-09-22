@@ -1,0 +1,82 @@
+.paginator,
+.js-paginator {
+  display: flex;
+  font-size: var(--paginator-font-size);
+  margin: var(--paginator-margin);
+}
+
+.js-first-page-block {
+  padding-right: 0.25rem;
+}
+
+.js-last-page-block {
+  padding-left: 0.25rem;
+}
+
+.js-first-page-block,
+.js-last-page-block {
+  .with-ellipsis-h-icon {
+    font-size: 0.75rem;
+    position: relative;
+    top: 3px;
+    color: var(--paginator-fg-color);
+  }
+}
+
+.page,
+.js-page,
+.next-page,
+.js-next-page,
+.prev-page,
+.js-prev-page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--paginator-fg-color);
+  background: var(--paginator-bg);
+  height: var(--paginator-page-height);
+  min-width: var(--paginator-page-height);
+  margin: var(--paginator-page-margin);
+  line-height: var(--paginator-font-size);
+  padding: var(--paginator-page-padding);
+  text-align: center;
+  text-decoration: none !important;
+  transition: color var(--transition-params),
+    background var(--transition-params);
+}
+
+/*.page:hover,
+.js-page:hover,
+.next-page:hover,
+.js-next-page:hover,
+.prev-page:hover,
+.js-prev-page:hover {*/
+
+.current-page,
+.js-current-page {
+  color: var(--paginator-current-fg-color);
+  background: var(--paginator-current-bg);
+  transition: color var(--transition-params),
+    background var(--transition-params);
+}
+
+.prev-page,
+.js-prev-page,
+.next-page,
+.js-next-page {
+  font-size: var(--font-size);
+  &.js-disabled {
+    color: var(--paginator-disabled-color);
+    cursor: not-allowed;
+  }
+}
+
+.prev-page,
+.js-prev-page {
+  padding: var(--paginator-prev-page-padding);
+}
+
+.next-page,
+.js-next-page {
+  padding: var(--paginator-next-page-padding);
+}

@@ -3,7 +3,6 @@
 *.log
 *~
 the.diff
-askbot_site
 fetch
 push
 propagate

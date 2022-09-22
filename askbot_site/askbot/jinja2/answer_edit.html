@@ -1,0 +1,73 @@
+{% extends "two_column_body.html" %}
+{% import "macros.html" as macros %}
+{% block title %}{% filter trim %}{{ settings.WORDS_EDIT_ANSWER|escape }}{% endfilter %}{% endblock %}
+{% block layout_class %}edit-answer-page{% endblock %}
+{% block content %}
+  <h1>
+    {{ settings.WORDS_EDIT_ANSWER|escape }}
+    [<a href="{{ answer.get_absolute_url() }}">{% trans %}back{% endtrans %}</a>]
+  </h1>
+  <form id="fmedit" action="{{ url('edit_answer',  answer.id ) }}" method="post" >{{ csrf_input }}
+    {% if answer.revisions.count() > 1 %}
+      {% if revision_form.revision.errors %}{{ revision_form.revision.errors.as_ul() }}{% endif %}
+      {{ revision_form.revision }}
+    {% endif %}
+    <input type="hidden" id="select_revision" name="select_revision" value="false"/>
+    {{ macros.edit_post(form, settings, post_html=revision.text) }}
+    <div class="answer-options">
+      {% if settings.WIKI_ON and answer.wiki == False %}
+        {{ macros.checkbox_in_div(form.wiki) }}
+      {% endif %}
+      {% if settings.ENABLE_EMAIL_ALERTS %}
+        {{ macros.checkbox_in_div(form.suppress_email) }}
+      {% endif %}
+      {% if settings.GROUPS_ENABLED and
+        request.user.is_authenticated and
+        request.user.can_make_group_private_posts()
+      %}
+        {{ macros.checkbox_in_div(form.post_privately) }}
+      {% endif %}
+      {% set post_form=form %}
+      {% include "components/proxy_author_inputs.html" %}
+    </div>
+    {% if form.recaptcha %}
+      <div>{{ macros.form_field_with_errors(form.recaptcha) }}</div>
+    {% endif %}
+    <input
+      id="edit_post_form_submit_button"
+      class='btn'
+      type='submit'
+      value="{% trans %}Save edit{% endtrans %}"
+    />&nbsp;
+    <input
+      type="button"
+      value="{% trans %}Cancel{% endtrans %}"
+      class="btn btn-muted"
+      onclick="history.back(-1);"
+    />
+  </form>
+{% endblock %}
+
+{% block sidebar %}
+    {% if settings.EDITOR_TYPE == 'markdown' %}
+      {% include "components/markdown_help.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block endjs %}
+  {% include "meta/editor_data.html" %}
+  {% compress js %}
+    <script src="{{ '/jslib/editor.js'|media }}"></script>
+    <script src="{{ '/jslib/jquery.validate.min.js'|media }}"></script>
+    <script src="{{ '/jslib/highlight.min.js'|media }}"></script>
+    <script src="{{ '/js/utils/toggle.js'|media }}"></script>
+    <script src="{{ '/js/utils/expander_toggle.js'|media }}"></script>
+    <script src="{{ '/js/utils/proxy_author_inputs.js'|media }}"></script>
+    <script src="{{ '/js/pages/answer_edit.js'|media }}"></script>
+  {% endcompress %}
+  {% if settings.EDITOR_TYPE == 'markdown' %}
+    {% compress js %}
+      {% include "meta/markdown_javascript.html" %}
+    {% endcompress %}
+  {% endif %}
+{% endblock %}

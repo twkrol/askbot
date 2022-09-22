@@ -1,0 +1,34 @@
+<div class="sidebar-box">
+  <h2>{% trans %}Markdown basics{% endtrans %}</h2>
+  <ul>
+    {% if settings.MARKUP_CODE_FRIENDLY or settings.ENABLE_MATHJAX %}
+    <li>
+      {% trans %}*italic*{% endtrans %}
+    </li>
+    <li>
+      {% trans %}**bold**{% endtrans %}
+    </li>
+    {% else %}
+    <li>
+      {% trans %}*italic* or _italic_{% endtrans %}
+    </li>
+    <li>
+      {% trans %}**bold** or __bold__{% endtrans %}
+    </li>
+    {% endif %}
+    <li>
+      {% trans %}link{% endtrans %}:<br /> [{% trans %}text{% endtrans %}](http://example.com/ "{% trans %}title{% endtrans %}")
+    </li>
+    <li>
+      {% trans %}image{% endtrans %}:<br /> ![{% trans %}text{% endtrans %}](/path/img.jpg "{% trans %}title{% endtrans %}")
+    </li>
+    <li>
+    {% trans %}numbered list:{% endtrans %}<br />
+        1. {% trans %}One{% endtrans %}<br />
+        2. {% trans %}Two{% endtrans %}
+    </li>
+    <li>
+    {% trans %}basic HTML tags are also supported{% endtrans %}
+    </li>
+  </ul>
+</div>

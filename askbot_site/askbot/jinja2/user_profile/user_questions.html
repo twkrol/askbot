@@ -1,0 +1,32 @@
+{% import "macros.html" as macros %}
+<section id="questions" class="user-profile-questions">
+  {% if questions %}
+    <h2>
+      {% set pluralized_item_term=settings.WORDS_QUESTIONS_COUNTABLE_FORMS|py_pluralize(question_count)|capitalize|escape %}
+      {% set item_count=question_count %}
+      {% trans %}<span class="count">{{ item_count }}</span> {{ pluralized_item_term }}{% endtrans %}
+    </h2>
+  {% endif %}
+  <style>{# style hack, see #js-user-questions -> #js-questions structure below #}
+    #js-questions {
+      margin-bottom: 0 !important;
+    }
+  </style>
+  <div class="js-user-questions">
+    <div id="js-questions"> {# sub-container to match the response of the ajax query #}
+      {% for question in questions %}
+        {{ question.thread.get_summary_html(
+          search_state=search_state,
+          visitor=request.user
+        )}}
+      {% else %}
+        <div class="empty-content-box">
+          {% trans %}There are no questions.{% endtrans %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% if question_count > page_size %}
+    {{macros.ajax_paginator(q_paginator_context, class='paginator js-questions-paginator', result_placement_selector='.js-user-questions')}}
+  {% endif %}
+</section>

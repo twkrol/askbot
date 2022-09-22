@@ -1,0 +1,76 @@
+:root {
+  --debug-transparency: 1;
+  --neutral-hue: 0;
+  --neutral-saturation: 0%;
+  --danger-hue: 10;
+  --ok-hue: 200;
+  --green-hue: 150; //between 100 and 160
+  --highlight-hue: 50;
+
+  --clr-neutral-10: hsla(var(--neutral-hue), var(--neutral-saturation), 10%, var(--debug-transparency));
+  --clr-neutral-20: hsla(var(--neutral-hue), var(--neutral-saturation), 20%, var(--debug-transparency));
+  --clr-neutral-30: hsla(var(--neutral-hue), var(--neutral-saturation), 30%, var(--debug-transparency));
+  --clr-neutral-35: hsla(var(--neutral-hue), var(--neutral-saturation), 35%, var(--debug-transparency));
+  --clr-neutral-40: hsla(var(--neutral-hue), var(--neutral-saturation), 40%, var(--debug-transparency));
+  --clr-neutral-50: hsla(var(--neutral-hue), var(--neutral-saturation), 50%, var(--debug-transparency));
+  --clr-neutral-60: hsla(var(--neutral-hue), var(--neutral-saturation), 60%, var(--debug-transparency));
+  --clr-neutral-65: hsla(var(--neutral-hue), var(--neutral-saturation), 65%, var(--debug-transparency));
+  --clr-neutral-70: hsla(var(--neutral-hue), var(--neutral-saturation), 70%, var(--debug-transparency));
+  --clr-neutral-75: hsla(var(--neutral-hue), var(--neutral-saturation), 75%, var(--debug-transparency));
+  --clr-neutral-80: hsla(var(--neutral-hue), var(--neutral-saturation), 80%, var(--debug-transparency));
+  --clr-neutral-90: hsla(var(--neutral-hue), var(--neutral-saturation), 90%, var(--debug-transparency));
+  --clr-neutral-95: hsla(var(--neutral-hue), var(--neutral-saturation), 95%, var(--debug-transparency));
+
+  --clr-danger-pale: hsl(var(--danger-hue), 29%, 92%); //greyish
+  --clr-danger-dark: hsl(var(--danger-hue), 80%, 45%);
+  --clr-danger: hsl(var(--danger-hue), 100%, 50%);
+
+  //off-yellow-grays
+  --clr-highlight-pale-75: hsl(var(--highlight-hue), 16%, 75%, var(--debug-transparency));
+  --clr-highlight-pale-80: hsl(var(--highlight-hue), 15%, 80%, var(--debug-transparency));
+  --clr-highlight-pale-90: hsla(var(--highlight-hue), 15%, 90%, var(--debug-transparency));
+  --clr-highlight-pale-95: hsla(var(--highlight-hue), 15%, 95%, var(--debug-transparency));
+  --clr-highlight-pale-89-05: hsla(var(--highlight-hue), 15%, 89%, 0.5);
+  //light-yellowh - sys msg border
+  --clr-highlight-100: hsla(var(--highlight-hue), 100%, 100%, var(--debug-transparency));
+  --clr-highlight-90: hsla(var(--highlight-hue), 100%, 90%, var(--debug-transparency));
+  //yellow - sys msg bg
+  --clr-highlight-70: hsla(var(--highlight-hue), 87%, 70%, var(--debug-transparency));
+  //very-light-yellow
+  --clr-highlight-pale: hsla(var(--highlight-hue), 70%, 91%, var(--debug-transparency));
+
+  --clr-blue-pale: hsla(var(--ok-hue), 25%, 90%, var(--debug-transparency)); //off-grey
+  --clr-blue-65: hsla(var(--ok-hue), 75%, 62%, var(--debug-transparency));
+  --clr-blue-60: hsla(var(--ok-hue), 70%, 60%, var(--debug-transparency));
+  --clr-blue-50: hsla(var(--ok-hue), 62%, 50%, var(--debug-transparency));
+  --clr-blue-45: hsla(var(--ok-hue), 62%, 45%, var(--debug-transparency));
+  --clr-blue-40: hsla(var(--ok-hue), 75%, 40%, var(--debug-transparency));
+  --clr-blue-30: hsla(var(--ok-hue), 80%, 30%, var(--debug-transparency));
+
+  --clr-green-65: hsla(var(--green-hue), 75%, 62%, var(--debug-transparency));
+  --clr-green-60: hsla(var(--green-hue), 70%, 60%, var(--debug-transparency));
+  --clr-green-50: hsla(var(--green-hue), 62%, 50%, var(--debug-transparency));
+  --clr-green-45: hsla(var(--green-hue), 62%, 45%, var(--debug-transparency));
+  --clr-green-40: hsla(var(--green-hue), 75%, 40%, var(--debug-transparency));
+  --clr-green-30: hsla(var(--green-hue), 80%, 30%, var(--debug-transparency));
+
+  --clr-orange: hsl(28, 100%, 50%);
+
+  --twitter-blue: hsl(202, 89.5%, 40%);
+  --twitter-blue-dark: hsl(202, 89.5%, 56.6%);
+  --linkedin-blue: hsl(213, 63.3%, 42.7%);
+  --linkedin-blue-light: hsl(213, 63.3%, 57%);
+  --facebook-blue: hsl(220, 45.9%, 47.8%);
+  --facebook-blue-light: hsl(220, 45.9%, 55%);
+  --gold-badge-color: hsl(46, 100%, 50%);
+  --silver-badge-color: hsl(0, 0%, 80%);
+  --bronze-badge-color: hsl(30, 91%, 46%);
+  --answers-count-color: hsl(40, 100%, 50%);
+
+  /*
+  hsla(var(--highlight-hue) 19%, 7%);
+  rgba(255, 255, 255, 0.9);
+  rgba(255, 255, 255);
+  white;
+  */
+}

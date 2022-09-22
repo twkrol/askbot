@@ -1,0 +1,13 @@
+<div class="messages">
+  {% for mod_item in queue %}
+  <div class="js-message-container">
+    <div
+      class="message{% if mod_item.is_new %} highlight new{% else %} seen{% endif %}"
+      data-message-id="{{ mod_item.id }}"
+    >
+      {{ macros.moderation_queue_message(mod_item) }}
+    </div>
+    <div class="js-expander">expand</div>
+  </div>
+  {% endfor %}
+</div>

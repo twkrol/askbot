@@ -1,0 +1,59 @@
+<!-- user_tabs.html -->
+<div class="components--sort-nav">
+  <a class="{% if tab_name=='stats' %}js-selected{% endif %}"
+      href="{{ url('user_profile', view_user.id,  view_user.username|slugify) }}?sort=stats"
+  >{% trans %}overview{% endtrans %}</a>
+  {% if request.user.pk == view_user.pk or request.user|can_moderate_user(view_user) %}
+    <a {% if tab_name=="inbox" %}class="js-selected"{% endif %}
+      href="{{ url('user_profile', view_user.id,  view_user.username|slugify) }}?sort=inbox"
+    >{% trans %}notifications{% endtrans %}</a>
+    {#
+    <a {% if tab_name == "messages" %} class="js-selected"{% endif %} href="{{ request.user.get_absolute_url() }}?sort=inbox&section=messages"
+    ><span>{% trans %}private messages{% endtrans %}</span></a>
+    #}
+    {% if settings.MULTILINGUAL %}
+      <a {% if tab_name=="langs" %}class="js-selected"{% endif %}
+        href="{{ url('user_select_languages', view_user.id,  view_user.username|slugify) }}"
+      >{% trans %}languages{% endtrans %}</a>
+    {% endif %}
+    <a {% if tab_name=="email_subscriptions" %}class="js-selected"{% endif %}
+      href="{{ url('user_profile', view_user.id,  view_user.username|slugify) }}?sort=email_subscriptions"
+    >{% trans %}email alerts{% endtrans %}</a>
+  {% endif %}
+  {% if user_follow_feature_on %}
+    <a {% if tab_name=="network" %}class="js-selected"{% endif %}
+      href="{{ url('user_profile', view_user.id,  view_user.username|slugify) }}?sort=network"
+    >{% trans %}network{% endtrans %}</a>
+  {% endif %}
+  {% if can_show_karma %}
+    <a {% if tab_name=="reputation" %}class="js-selected"{% endif %}
+      href="{{ url('user_profile', view_user.id,  view_user.username|slugify) }}?sort=reputation"
+    >{% trans %}karma{% endtrans %}</a>
+  {% endif %}
+  <a {% if tab_name=="favorites" %}class="js-selected"{% endif %}
+    href="{{ url('user_profile', view_user.id,  view_user.username|slugify) }}?sort=favorites"
+  >{{ settings.WORDS_FOLLOWED_QUESTIONS|escape }}</a>
+  <a {% if tab_name=="recent" %}class="js-selected"{% endif %}
+    href="{{ url('user_profile', view_user.id,  view_user.username|slugify) }}?sort=recent"
+  >{% trans %}activity{% endtrans %}</a>
+  {% if request.user.pk == view_user.pk or request.user|can_moderate_user(view_user) %}
+    <a {% if tab_name=="votes" %}class="js-selected"{% endif %}
+        href="{{ url('user_profile', view_user.id,  view_user.username|slugify) }}?sort=votes"
+    >{% trans %}votes{% endtrans %}</a>
+  {% endif %}
+  {% if request.user|can_moderate_user(view_user) %}
+    <a {% if tab_name=="moderation" %}class="js-selected"{% endif %}
+      href="{{ url('user_profile', view_user.id,  view_user.username|slugify) }}?sort=moderation"
+    >{% trans %}moderation{% endtrans %}</a>
+  {% endif %}
+  {% if custom_tab_slug %}
+    <a {% if tab_name == custom_tab_slug %}class="js-selected"{% endif %}
+      href="{{ url('user_profile', view_user.id,  view_user.username|slugify) }}?sort={{ custom_tab_slug }}"
+    >{{ custom_tab_name }}</a>
+  {% endif %}
+  {% if request.user.is_authenticated and request.user.can_manage_account(view_user) %}
+    <a {% if tab_name=="manage_account" %}class="js-selected"{% endif %}
+     href="{{ url('user_profile', view_user.id,  view_user.username|slugify) }}?sort=manage-account"
+    >{% trans %}account{% endtrans %}</a>
+  {% endif %}
+</div>

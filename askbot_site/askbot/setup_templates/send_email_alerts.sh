@@ -1,0 +1,1 @@
+../cron/askbot_cron_job

@@ -1,0 +1,35 @@
+{% extends "two_column_body.html" %}
+
+{% import "macros.html" as macros %}
+
+{% block title %}
+  {% filter trim %}
+    {% trans name=badge.get_name() %}{{name}}{% endtrans %}
+    -
+    {% trans %}Badge{% endtrans %}
+  {% endfilter %}
+{% endblock %}
+
+{% block layout_class %}badge-detail-page{% endblock %}
+
+{% block content %}
+  <h1>{% trans name=badge.get_name() %}Badge "{{name}}"{% endtrans %}</h1>
+  <div class="badge-info">
+    <span class="{{ badge.get_css_class() }}">{% trans name=badge.get_name() %}{{name}}{% endtrans %}</span> 
+    {% trans level=badge.get_type_display() %}This {{ level }} badge is awarded for:{% endtrans %} <span class="badge-awarded-for">{{ badge.get_description() }}</span>.
+  </div>
+  <div class="badge-recipients-info">
+    {% if badge.awarded_count %}
+      <h2>
+        {% trans num_awardees=badge.awarded_count|intcomma %}{{ num_awardees }} user received this badge{% pluralize %}{{ num_awardees }} users received this badge{% endtrans %}
+      </h2>
+      {{ macros.users_list(badge_recipients) }}
+      {{ macros.paginator(paginator_context) }}
+    {% else %}
+      <p>{% trans %}Nobody yet received this badge.{% endtrans %}</p>
+    {% endif %}
+  </div>
+{% endblock %}
+{% block sidebar %}
+  {% include "badges/sidebar.html" %}
+{% endblock %}

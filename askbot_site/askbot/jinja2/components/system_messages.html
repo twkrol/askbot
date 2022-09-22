@@ -1,0 +1,16 @@
+<div class="js-system-messages" {% if not user_messages %}style="display:none"{% endif %}>
+  <div class='content-wrapper remove-messages-container'>
+    <span class="btn remove-system-messages-btn with-times-circle-icon" onclick="notify.close(true)"></span>
+  </div>
+  {% if user_messages %}
+    {% for message in user_messages %}
+        {% if message %}
+          <div class="js-system-message">
+            <div class="content-wrapper">
+            {{ message }}
+            </div>
+          </div>
+        {% endif %}
+    {% endfor %}
+  {% endif %}
+</div>

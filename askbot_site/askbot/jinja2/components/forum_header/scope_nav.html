@@ -1,0 +1,20 @@
+<nav class="scope-nav">
+  {% if not search_state %}  {#  get empty SearchState() if there's none #}
+    {% set search_state=search_state|get_empty_search_state %}
+  {% endif %}
+  {% if settings.ALL_SCOPE_ENABLED %}
+  <a class="js-scope-link {% if scope == 'all' %}selected with-selected-scope-icon{% endif %}"
+    href="{{ search_state.change_scope('all').full_url() }}"
+  >{% trans %}ALL{% endtrans %}</a>
+  {% endif %}
+  {% if settings.UNANSWERED_SCOPE_ENABLED %}
+  <a class="js-scope-link {% if scope == 'unanswered' %}selected with-selected-scope-icon{% endif %}"
+    href="{{ search_state.change_scope('unanswered').change_sort('answers-asc').full_url() }}"
+  >{{ settings.WORDS_UNANSWERED|escape }}</a>
+  {% endif %}
+  {% if request.user.is_authenticated and settings.FOLLOWED_SCOPE_ENABLED %}
+  <a class="js-scope-link {% if scope == 'followed' %}selected with-selected-scope-icon{% endif %}"
+    href="{{ search_state.change_scope('followed').full_url() }}"
+  >{% trans %}FOLLOWED{% endtrans %}</a>
+  {% endif %}
+</nav>

@@ -1,0 +1,10570 @@
+@charset "UTF-8";
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+/* Document
+   ========================================================================== */
+/**
+ * 1. Correct the line height in all browsers.
+ * 2. Prevent adjustments of font size after orientation changes in iOS.
+ */
+html {
+  line-height: 1.15;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+}
+
+/* Sections
+   ========================================================================== */
+/**
+ * Remove the margin in all browsers.
+ */
+body {
+  margin: 0;
+}
+
+/**
+ * Render the `main` element consistently in IE.
+ */
+main {
+  display: block;
+}
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* Grouping content
+   ========================================================================== */
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+hr {
+  box-sizing: content-box;
+  /* 1 */
+  height: 0;
+  /* 1 */
+  overflow: visible;
+  /* 2 */
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+pre {
+  font-family: monospace, monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */
+}
+
+/* Text-level semantics
+   ========================================================================== */
+/**
+ * Remove the gray background on active links in IE 10.
+ */
+a {
+  background-color: transparent;
+}
+
+/**
+ * 1. Remove the bottom border in Chrome 57-
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+abbr[title] {
+  border-bottom: none;
+  /* 1 */
+  text-decoration: underline;
+  /* 2 */
+  text-decoration: underline dotted;
+  /* 2 */
+}
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+code,
+kbd,
+samp {
+  font-family: monospace, monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Embedded content
+   ========================================================================== */
+/**
+ * Remove the border on images inside links in IE 10.
+ */
+img {
+  border-style: none;
+}
+
+/* Forms
+   ========================================================================== */
+/**
+ * 1. Change the font styles in all browsers.
+ * 2. Remove the margin in Firefox and Safari.
+ */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  line-height: 1.15;
+  /* 1 */
+  margin: 0;
+  /* 2 */
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+button,
+input {
+  /* 1 */
+  overflow: visible;
+}
+
+/**
+ * Remove the inheritance of text transform in Edge, Firefox, and IE.
+ * 1. Remove the inheritance of text transform in Firefox.
+ */
+button,
+select {
+  /* 1 */
+  text-transform: none;
+}
+
+/**
+ * Correct the inability to style clickable types in iOS and Safari.
+ */
+button,
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+button::-moz-focus-inner,
+[type=button]::-moz-focus-inner,
+[type=reset]::-moz-focus-inner,
+[type=submit]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+button:-moz-focusring,
+[type=button]:-moz-focusring,
+[type=reset]:-moz-focusring,
+[type=submit]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+ * Correct the padding in Firefox.
+ */
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+/**
+ * 1. Correct the text wrapping in Edge and IE.
+ * 2. Correct the color inheritance from `fieldset` elements in IE.
+ * 3. Remove the padding so developers are not caught out when they zero out
+ *    `fieldset` elements in all browsers.
+ */
+legend {
+  box-sizing: border-box;
+  /* 1 */
+  color: inherit;
+  /* 2 */
+  display: table;
+  /* 1 */
+  max-width: 100%;
+  /* 1 */
+  padding: 0;
+  /* 3 */
+  white-space: normal;
+  /* 1 */
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * Remove the default vertical scrollbar in IE 10+.
+ */
+textarea {
+  overflow: auto;
+}
+
+/**
+ * 1. Add the correct box sizing in IE 10.
+ * 2. Remove the padding in IE 10.
+ */
+[type=checkbox],
+[type=radio] {
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+[type=number]::-webkit-inner-spin-button,
+[type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+[type=search] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */
+}
+
+/**
+ * Remove the inner padding in Chrome and Safari on macOS.
+ */
+[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  /* 1 */
+  font: inherit;
+  /* 2 */
+}
+
+/* Interactive
+   ========================================================================== */
+/*
+ * Add the correct display in Edge, IE 10+, and Firefox.
+ */
+details {
+  display: block;
+}
+
+/*
+ * Add the correct display in all browsers.
+ */
+summary {
+  display: list-item;
+}
+
+/* Misc
+   ========================================================================== */
+/**
+ * Add the correct display in IE 10+.
+ */
+template {
+  display: none;
+}
+
+/**
+ * Add the correct display in IE 10.
+ */
+[hidden] {
+  display: none;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+html, body,
+h1, h2, h3, h4, h5, h6,
+a, p, span,
+em, small, strong,
+sub, sup,
+mark, del, ins, strike,
+abbr, dfn,
+blockquote, q, cite,
+code, pre,
+ol, ul, li, dl, dt, dd,
+div, section, article,
+main, aside, nav,
+header, hgroup, footer,
+img, figure, figcaption,
+address, time,
+audio, video,
+canvas, iframe,
+details, summary,
+fieldset, form, label, legend,
+table, caption,
+tbody, tfoot, thead,
+tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+html {
+  font-size: var(--font-size);
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-normal);
+  background: var(--bg-color);
+  color: var(--fg-color);
+}
+
+pre {
+  overflow-x: scroll;
+  padding: var(--pre-padding);
+}
+
+a,
+a:active,
+.btn-link {
+  color: var(--link-color);
+  cursor: pointer;
+  transition: color var(--transition-params);
+  text-decoration-thickness: var(--text-decoration-thickness);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--heading-font-weight);
+}
+
+.btn-link {
+  background: var(--bg-color);
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.btn-link,
+.a {
+  cursor: pointer;
+}
+.btn-link:hover,
+.a:hover {
+  color: var(--link-hover-color);
+  transition: color var(--transition-params);
+}
+
+abbr {
+  display: none;
+  text-decoration: none !important;
+}
+
+input,
+textarea,
+select {
+  background: var(--input-bg-color);
+  color: var(--fg-color);
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+input,
+select,
+textarea,
+.btn {
+  border-color: var(--input-border-color);
+  border-radius: var(--input-border-radius);
+  border-width: var(--input-border-width);
+  border-style: var(--input-border-style);
+}
+
+.btn {
+  background: var(--btn-bg);
+  border-color: var(--btn-border-color);
+  border-radius: var(--input-border-radius);
+  border-width: var(--input-border-width);
+  border-style: var(--input-border-style);
+  color: var(--btn-fg-color);
+  cursor: pointer;
+  font-size: var(--input-font-size);
+  transition: color var(--transition-timing) var(--transition-function), background var(--transition-timing) var(--transition-function), var(--transition-timing) var(--transition-function);
+}
+.btn:hover {
+  background: var(--btn-hover-bg);
+  border-color: var(--btn-hover-border-color);
+  transition: color var(--transition-timing) var(--transition-function), background var(--transition-timing) var(--transition-function), var(--transition-timing) var(--transition-function);
+}
+
+a.btn {
+  display: inline-block;
+  height: var(--input-height);
+  padding-top: 0.25rem;
+  text-decoration: none;
+}
+
+.btn.btn-muted {
+  background: var(--btn-muted-bg);
+  border-color: var(--btn-muted-border-color);
+  color: var(--btn-muted-fg-color);
+  transition: color var(--transition-timing) var(--transition-function), background var(--transition-timing) var(--transition-function), var(--transition-timing) var(--transition-function);
+}
+.btn.btn-muted:hover {
+  background: var(--btn-muted-hover-bg);
+  border-color: var(--btn-muted-hover-border-color);
+  transition: color var(--transition-timing) var(--transition-function), background var(--transition-timing) var(--transition-function), var(--transition-timing) var(--transition-function);
+}
+
+input[type=email],
+input[type=file],
+input[type=number],
+input[type=password],
+input[type=reset],
+input[type=submit],
+input[type=text],
+select,
+textarea,
+.btn {
+  font-size: var(--input-font-size);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-normal);
+  padding: 0 var(--input-horizontal-padding);
+}
+
+input[type=email],
+input[type=file],
+input[type=number],
+input[type=password],
+input[type=reset],
+input[type=submit],
+input[type=text],
+select,
+.btn {
+  height: var(--input-height);
+}
+
+input[type=file] {
+  padding: var(--input-type-file-padding);
+}
+
+.small-font {
+  font-size: var(--small-font-size);
+}
+
+.js-hidden {
+  display: none !important;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.js-inline-block {
+  display: inline-block !important;
+}
+
+.row {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+h1 {
+  font-size: var(--extra-large-font-size);
+  margin: 0 0 0.5rem;
+}
+
+input[type=checkbox],
+input[type=button],
+input[type=submit],
+input[type=reset],
+select,
+option {
+  cursor: pointer;
+}
+
+main {
+  padding: var(--main-block-padding);
+}
+
+body:not(.tags-page):not(.questions-page):not(.users-page) main {
+  padding-top: 0.5rem;
+}
+
+:root {
+  --debug-transparency: 1;
+  --neutral-hue: 0;
+  --neutral-saturation: 0%;
+  --danger-hue: 10;
+  --ok-hue: 200;
+  --green-hue: 150;
+  --highlight-hue: 50;
+  --clr-neutral-10: hsla(var(--neutral-hue), var(--neutral-saturation), 10%, var(--debug-transparency));
+  --clr-neutral-20: hsla(var(--neutral-hue), var(--neutral-saturation), 20%, var(--debug-transparency));
+  --clr-neutral-30: hsla(var(--neutral-hue), var(--neutral-saturation), 30%, var(--debug-transparency));
+  --clr-neutral-35: hsla(var(--neutral-hue), var(--neutral-saturation), 35%, var(--debug-transparency));
+  --clr-neutral-40: hsla(var(--neutral-hue), var(--neutral-saturation), 40%, var(--debug-transparency));
+  --clr-neutral-50: hsla(var(--neutral-hue), var(--neutral-saturation), 50%, var(--debug-transparency));
+  --clr-neutral-60: hsla(var(--neutral-hue), var(--neutral-saturation), 60%, var(--debug-transparency));
+  --clr-neutral-65: hsla(var(--neutral-hue), var(--neutral-saturation), 65%, var(--debug-transparency));
+  --clr-neutral-70: hsla(var(--neutral-hue), var(--neutral-saturation), 70%, var(--debug-transparency));
+  --clr-neutral-75: hsla(var(--neutral-hue), var(--neutral-saturation), 75%, var(--debug-transparency));
+  --clr-neutral-80: hsla(var(--neutral-hue), var(--neutral-saturation), 80%, var(--debug-transparency));
+  --clr-neutral-90: hsla(var(--neutral-hue), var(--neutral-saturation), 90%, var(--debug-transparency));
+  --clr-neutral-95: hsla(var(--neutral-hue), var(--neutral-saturation), 95%, var(--debug-transparency));
+  --clr-danger-pale: hsl(var(--danger-hue), 29%, 92%);
+  --clr-danger-dark: hsl(var(--danger-hue), 80%, 45%);
+  --clr-danger: hsl(var(--danger-hue), 100%, 50%);
+  --clr-highlight-pale-75: hsl(var(--highlight-hue), 16%, 75%, var(--debug-transparency));
+  --clr-highlight-pale-80: hsl(var(--highlight-hue), 15%, 80%, var(--debug-transparency));
+  --clr-highlight-pale-90: hsla(var(--highlight-hue), 15%, 90%, var(--debug-transparency));
+  --clr-highlight-pale-95: hsla(var(--highlight-hue), 15%, 95%, var(--debug-transparency));
+  --clr-highlight-pale-89-05: hsla(var(--highlight-hue), 15%, 89%, 0.5);
+  --clr-highlight-100: hsla(var(--highlight-hue), 100%, 100%, var(--debug-transparency));
+  --clr-highlight-90: hsla(var(--highlight-hue), 100%, 90%, var(--debug-transparency));
+  --clr-highlight-70: hsla(var(--highlight-hue), 87%, 70%, var(--debug-transparency));
+  --clr-highlight-pale: hsla(var(--highlight-hue), 70%, 91%, var(--debug-transparency));
+  --clr-blue-pale: hsla(var(--ok-hue), 25%, 90%, var(--debug-transparency));
+  --clr-blue-65: hsla(var(--ok-hue), 75%, 62%, var(--debug-transparency));
+  --clr-blue-60: hsla(var(--ok-hue), 70%, 60%, var(--debug-transparency));
+  --clr-blue-50: hsla(var(--ok-hue), 62%, 50%, var(--debug-transparency));
+  --clr-blue-45: hsla(var(--ok-hue), 62%, 45%, var(--debug-transparency));
+  --clr-blue-40: hsla(var(--ok-hue), 75%, 40%, var(--debug-transparency));
+  --clr-blue-30: hsla(var(--ok-hue), 80%, 30%, var(--debug-transparency));
+  --clr-green-65: hsla(var(--green-hue), 75%, 62%, var(--debug-transparency));
+  --clr-green-60: hsla(var(--green-hue), 70%, 60%, var(--debug-transparency));
+  --clr-green-50: hsla(var(--green-hue), 62%, 50%, var(--debug-transparency));
+  --clr-green-45: hsla(var(--green-hue), 62%, 45%, var(--debug-transparency));
+  --clr-green-40: hsla(var(--green-hue), 75%, 40%, var(--debug-transparency));
+  --clr-green-30: hsla(var(--green-hue), 80%, 30%, var(--debug-transparency));
+  --clr-orange: hsl(28, 100%, 50%);
+  --twitter-blue: hsl(202, 89.5%, 40%);
+  --twitter-blue-dark: hsl(202, 89.5%, 56.6%);
+  --linkedin-blue: hsl(213, 63.3%, 42.7%);
+  --linkedin-blue-light: hsl(213, 63.3%, 57%);
+  --facebook-blue: hsl(220, 45.9%, 47.8%);
+  --facebook-blue-light: hsl(220, 45.9%, 55%);
+  --gold-badge-color: hsl(46, 100%, 50%);
+  --silver-badge-color: hsl(0, 0%, 80%);
+  --bronze-badge-color: hsl(30, 91%, 46%);
+  --answers-count-color: hsl(40, 100%, 50%);
+  /*
+  hsla(var(--highlight-hue) 19%, 7%);
+  rgba(255, 255, 255, 0.9);
+  rgba(255, 255, 255);
+  white;
+  */
+}
+
+:root {
+  --header-link-color: var(--clr-neutral-80);
+  --header-link-color-hover: white;
+  --system-messages-bg-color: var(--clr-highlight-70);
+  --system-messages-border-color: var(--clr-highlight-90);
+  --transition-duration: 0.1s;
+  --transition-timing-function: steps(2, jump-end);
+  --transition-params: var(--transition-duration) var(--transition-timing-function);
+  --border-width: 1px;
+  --border-style: solid;
+  --border-radius: 0px;
+  --box-shadow: 0 0 0.25rem var(--clr-neutral-90);
+  --bg-color: rgba(255, 255, 255, var(--debug-transparency));
+  --semi-transparent-bg-color: rgba(255, 255, 255, 0.9);
+  --text-decoration-thickness: 1px;
+  --avatar-size: 2rem;
+  --avatar-size-compact: 1rem;
+  --btn-fg-color: var(--bg-color);
+  --btn-bg: var(--clr-blue-65);
+  --btn-hover-bg: var(--clr-blue-60);
+  --btn-border-color: var(--clr-blue-50);
+  --btn-hover-border-color: var(--clr-blue-45);
+  --btn-font-size: var(--input-font-size);
+  --btn-muted-bg: var(--clr-neutral-70);
+  --btn-muted-border-color: var(--clr-neutral-65);
+  --btn-muted-fg-color: var(--bg-color);
+  --btn-muted-hover-bg: var(--clr-neutral-65);
+  --btn-muted-hover-border-color: var(--clr-neutral-60);
+  --font-family: "Source Sans Pro", Arial, sans-serif;
+  --font-weight-normal: 300;
+  --font-weight-bold: 700;
+  --fg-color: var(--clr-neutral-20);
+  --layout-max-width: 1100px;
+  --layout-sidebar-width: 205px;
+  --layout-horizontal-padding: 0.75rem;
+  --font-size: 16px;
+  --2extra-small-font-size: 0.625rem;
+  --extra-small-font-size: 0.75rem;
+  --small-font-size: 0.875rem;
+  --large-font-size: 1.25rem;
+  --extra-large-font-size: 1.5rem;
+  --action-link-color: var(--clr-neutral-50);
+  --action-link-hover-color: var(--clr-neutral-20);
+  --editor-padding: 0.5rem 0.75rem;
+  --editor-border-color: var(--clr-neutral-60);
+  --editor-border: var(--border-width) var(--border-style) var(--editor-border-color);
+  --editor-box-shadow: inset 0 0 3px var(--clr-neutral-70);
+  --heading-font-weight: var(--font-weight-bold);
+  --input-height: 2rem;
+  --input-horizontal-padding: 0.5rem;
+  --input-border-radius: var(--border-radius);
+  --input-border-style: var(--border-style);
+  --input-border-width: var(--border-width);
+  --input-border-color: var(--clr-highlight-pale-75);
+  --input-bg-color: var(--bg-color);
+  --input-font-size: 1rem;
+  --input-type-file-padding: 3px 0.25rem 0;
+  --error-popup-padding: 1rem 1rem 1.3625rem;
+  --error-popup-border-radius: var(--border-radius);
+  --error-popup-bg: var(--clr-danger-dark);
+  --error-popup-color: var(--bg-color);
+  --error-popup-font-size: var(--font-size);
+  --header-height: 2.75rem;
+  --header-bg-color: var(--clr-neutral-10);
+  --header-navs-padding-bottom: 0.125rem;
+  --scope-nav-font-size: var(--forum-header-font-size);
+  --forum-header-height: var(--header-height);
+  --forum-header-bg-color: var(--clr-highlight-pale-90);
+  --forum-header-fg-color: var(--clr-neutral-50);
+  --forum-header-fg-hover-color: var(--clr-neutral-35);
+  --forum-header-font-size: var(--font-size);
+  --forum-header-input-border-color: var(--input-border-color);
+  --footer-bg: var(--forum-header-bg-color);
+  --footer-padding: 1rem 0;
+  --footer-row-margin: 0 0 0.25rem;
+  --link-color: var(--clr-blue-40);
+  --link-hover-color: var(--clr-blue-30);
+  --meta-nav-dropdown-breakpoint: 700px;
+  --ask-btn-bg-color: var(--clr-blue-65);
+  --ask-btn-hover-bg-color: var(--clr-blue-60);
+  --ask-btn-border-color: var(--clr-blue-50);
+  --ask-btn-hover-border-color: var(--clr-blue-45);
+  --ask-btn-font-size: var(--forum-header-font-size);
+  --ask-btn-fg-color: var(--bg-color);
+  --paginator-font-size: 1.125rem;
+  --paginator-fg-color: var(--forum-header-fg-color);
+  --paginator-bg: unset;
+  --paginator-current-fg-color: var(--bg-color);
+  --paginator-current-bg: var(--forum-header-fg-color);
+  --paginator-disabled-color: var(--clr-neutral-70);
+  --paginator-page-height: calc(var(--paginator-font-size) + 0.125rem);
+  --paginator-margin: 0 0 1rem;
+  --paginator-page-margin: 0 1px;
+  --paginator-page-padding: 0 0.25rem;
+  --paginator-next-page-padding: 1px 0 0 0.125rem;
+  --paginator-prev-page-padding: 1px 0.125rem 0 0;
+  --search-bar-vertical-margin: 0px;
+  --search-bar-font-size: var(--forum-header-font-size);
+  --search-btn-bg-color: var(--clr-highlight-pale-95);
+  --search-btn-hover-bg-color: var(--clr-highlight-pale-90);
+  --search-drop-menu-bg-color: var(--bg-color);
+  --search-input-height: 100%;
+  --sidebar-heading-font-size: var(--large-font-size);
+  --sidebar-heading-font-weight: var(--font-weight-bold);
+  --sidebar-heading-font-style: normal;
+  --sort-nav-bg: var(--search-btn-bg-color);
+  --sort-nav-hover-bg: vac(--clr-neutral-85);
+  --sort-nav-selected-fg-color: var(--fg-color);
+  --sort-nav-fg-color: var(--forum-header-fg-color);
+  --sort-nav-height: 2rem;
+  --sort-nav-sep-color: var(--clr-highlight-pale-80);
+  --question-summary-count-box-padding: 0.125rem 0 0 0;
+  --question-summary-count-box-width: 3rem;
+  --question-summary-stats-gap: 0.5rem;
+  --question-summary-stats-height: 2.5rem;
+  --question-summary-min-height: 3.75rem;
+  --tag-bg: var(--search-btn-bg-color);
+  --tag-fg-color: var(--forum-header-fg-color);
+  --tag-border-color: var(--sort-nav-sep-color);
+  --tag-font-size: var(--small-font-size);
+  --tag-height: 1.25rem;
+  --tag-delete-btn-bg: var(--sort-nav-sep-color);
+  --tag-delete-btn-hover-bg: var(--clr-danger);
+  --tag-delete-btn-fg-color: var(--forum-header-fg-color);
+  --tag-delete-btn-fg-hover-color: var(--bg-color);
+  --tags-gap: 0.3625rem;
+  --tags-input-margin: 0 0 0.5rem;
+  --autocompleter-hover-bg: var(--clr-blue-65);
+  --post-vote-controls-width: 1.25rem;
+  --post-vote-controls-margin: 0 0.75rem 0 3px;
+  --post-vote-btn-width: 1rem;
+  --post-vote-btn-height: 1rem;
+  --post-vote-btn-group-margin: 0.25rem 0 0.5rem;
+  --post-vote-btn-inactive-color: var(--clr-neutral-50);
+  --post-vote-btn-inactive-hover-color: var(--clr-neutral-20);
+  --post-upvote-btn-active-color: var(--clr-orange);
+  --post-downvote-btn-active-color: var(--clr-orange);
+  --post-votes-font-size: 1rem;
+  --post-share-button-width: 1rem;
+  --post-update-info-details-color: var(--clr-neutral-40);
+  --post-update-info-bg: var(--clr-highlight-pale-95);
+  --post-update-info-accepted-answer-bg: white;
+  --post-update-info-details-hover-color: var(--clr-neutral-20);
+  --post-update-info-container-margin: 0;
+  --post-update-info-margin: 0 0.5rem 0.5rem 0;
+  --post-controls-icon-size: 0.75rem;
+  --post-controls-icon-margin: 0 0.125rem 0 0;
+  --post-body-margin: 0 0 0.5rem;
+  --post-controls-margin: 0 0 0.75rem;
+  --reputation-badge-font-size: var(--2extra-small-font-size);
+  --reputation-badge-color: var(--bg-color);
+  --reputation-badge-bg: var(--clr-neutral-60);
+  --reputation-badge-height: 0.75rem;
+  --reputation-badge-line-height: 0.75rem;
+  --reputation-badge-padding: 0 0.25rem;
+  --reputation-badge-border-radius: calc(0.5 * var(--reputation-badge-height));
+  --reputation-badge-box-shadow: 0 0 0 1px var(--bg-color);
+  --question-detail-title-font-size: var(--extra-large-font-size);
+  --question-detail-title-line-height: 1.75rem;
+  --question-detail-title-margin: 0 0 0.3625rem;
+  --question-padding: 0.5rem 0 0;
+  --question-margin: 0 0 1rem;
+  --answer-margin: 0 0 1.5rem;
+  --accept-answer-btn-size: 0.875rem;
+  --accept-answer-btn-margin: -0.25rem 0 0;
+  --accept-answer-btn-inactive-color: var(--clr-neutral-50);
+  --accept-answer-btn-inactive-hover-color: var(--clr-green-50);
+  --accept-answer-btn-active-color: var(--clr-green-50);
+  --accept-answer-btn-active-hover-color: var(--clr-danger);
+  --accepted-answer-bg: var(--clr-blue-pale);
+  --rss-link-color: var(--clr-orange);
+  --rss-link-hover-color: var(--clr-danger);
+  --toolbar-dropdown-menu-padding-left: 0;
+  --toolbar-dropdown-menu-padding: 0.3625rem 0 0.3625rem var(--toolbar-dropdown-menu-padding-left);
+  --toolbar-dropdown-menu-border-color: var(--clr-neutral-70);
+  --toolbar-dropdown-menu-border: var(--border-width) var(--border-style) var(--toolbar-dropdown-menu-border-color);
+  --toolbar-dropdown-menu-border-radius: 0.25rem;
+  --toolbar-dropdown-menu-box-shadow: var(--box-shadow);
+  --toolbar-dropdown-menu-item-padding: 0.25rem 0.75rem;
+  --toolbar-dropdown-menu-item-height: 1rem;
+  --toolbar-dropdown-menu-item-hover-bg: var(--clr-neutral-40);
+  --post-comments-margin: 0 0 0.5rem;
+  --comments-list-margin: 0 0 0.75rem;
+  --comments-list-title-margin: 0 0 0.5rem;
+  --comments-list-title-font-size: 1.125rem;
+  --comment-avatar-size: 1rem;
+  --comment-margin: 0 0 0.5rem;
+  --comment-votes-width: 1.75rem;
+  --comment-votes-font-size: 0.875rem;
+  --comment-upvote-btn-color: var(--clr-neutral-75);
+  --comment-upvote-btn-hover-color: var(--clr-danger);
+  --comment-upvote-active-btn-color: var(--clr-orange);
+  --comment-upvote-active-btn-hover-color: var(--clr-danger);
+  --comment-upvote-btn-icon-padding: 5px 0 0 0;
+  --info-box-bg: var(--clr-highlight-pale);
+  --info-box-border-radius: var(--border-radius);
+  --info-box-border: var(--border-width) var(--border-style) var(--clr-neutral-60);
+  --info-box-box-shadow: var(--box-shadow);
+  --info-box-color: var(--fg-color);
+  --info-box-font-size: 1rem;
+  --info-box-padding: 0.5rem 0.75rem 0.75rem;
+  --info-box-margin: 0 0 1rem;
+  --main-block-padding: 0;
+  --modal-bg: hsla(255, 255, 255, 0.3);
+  --new-answer-form-title-margin: 0 0 0.75rem;
+  --wmd-margin: 0.5rem 0 0;
+  --wmd-button-size: 1.5rem;
+  --wmd-button-margin: 0 0.125rem;
+  --wmd-button-color: var(--fg-color);
+  --wmd-button-bg: transparent;
+  --wmd-button-hover-color: var(--bg-color);
+  --wmd-button-hover-bg: var(--clr-neutral-50);
+  --wmd-button-row-padding: 0 0 0.25rem;
+  --wmd-button-row-margin: 0 -0.125rem;
+  --wmd-spacer-width: var(--border-width);
+  --wmd-spacer-height: 1.25rem;
+  --wmd-spacer-margin: 0 0.25rem;
+  --wmd-spacer-background: var(--clr-neutral-50);
+  --wmd-preview-block-margin: 0 0 0.5rem;
+  --wmd-preview-list-padding: 0 0 0 1.5rem;
+  --wmd-preview-padding: 0.5rem 0.75rem;
+  --wmd-preview-margin: 0 0 0.5rem;
+  --wmd-preview-background: var(--clr-neutral-95);
+  --wmd-preview-border: var(--border-width) var(--border-style) var(--clr-neutral-80);
+  --wmd-preview-toggle-padding: 0 0 0.5rem;
+  --wmd-preview-toggle-margin: 0;
+  --pre-padding: 0.5rem;
+  --badge-text-color: white;
+  --badge-bg: var(--clr-neutral-30);
+  --badge-height: 2rem;
+  --badge-padding: 0.125rem 0.5rem;
+  --badge-border: none;
+  --badge-border-radius: 0.25rem;
+}
+
+.js-toggle-sidebar-button {
+  display: none;
+  transition: var(--transition-duration) ease-in-out;
+}
+.js-toggle-sidebar-button .with-arrow-left-icon {
+  font-size: 0.75rem;
+  height: 1em;
+  border-left: 2px solid grey;
+  position: relative;
+  transition: transform var(--transition-duration) ease-in-out;
+}
+.js-toggle-sidebar-button .with-arrow-left-icon::before {
+  color: grey;
+  height: 100%;
+}
+.js-toggle-sidebar-button.js-active {
+  padding-right: 0.125rem;
+  transition: var(--transition-duration) ease-in-out;
+}
+.js-toggle-sidebar-button.js-active .with-arrow-left-icon {
+  transform: rotate(180deg);
+  transition: transform var(--transition-duration) ease-in-out;
+}
+@media (max-width: 570px) {
+  .js-toggle-sidebar-button {
+    align-items: center;
+    background: var(--semi-transparent-bg-color);
+    cursor: pointer;
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
+}
+
+.content-wrapper {
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: 0 var(--layout-horizontal-padding);
+}
+
+.col-with-sidebar {
+  display: flex;
+  position: relative;
+}
+.col-with-sidebar > :first-child {
+  padding-right: var(--layout-horizontal-padding);
+  width: calc(100% - var(--layout-sidebar-width));
+}
+@media (max-width: 570px) {
+  .col-with-sidebar > :first-child {
+    padding-right: 0;
+    width: 100%;
+  }
+}
+.col-with-sidebar aside {
+  padding-top: 0.3625rem;
+  width: var(--layout-sidebar-width);
+}
+@media (max-width: 570px) {
+  .col-with-sidebar aside {
+    display: none;
+  }
+  .col-with-sidebar aside:not(.ask-btn-col).js-visible {
+    background: var(--bg-color);
+    display: block;
+    height: calc(100% - var(--sort-nav-height));
+    position: absolute;
+    right: 0;
+    top: var(--sort-nav-height);
+    width: 100%;
+  }
+}
+
+/*!
+ * Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */
+.fa,
+.fas,
+.wmd-help-button::before,
+.wmd-redo-button::before,
+.wmd-undo-button::before,
+.wmd-hr-button::before,
+.wmd-heading-button::before,
+.wmd-ulist-button::before,
+.wmd-olist-button::before,
+.wmd-attachment-button::before,
+.wmd-image-button::before,
+.wmd-code-button::before,
+.wmd-quote-button::before,
+.wmd-link-button::before,
+.wmd-italic-button::before,
+.wmd-bold-button::before,
+.with-check-icon::before,
+.with-slashed-icon::after,
+.with-bullhorn-icon::before,
+.with-accept-answer-icon::before,
+.with-link-icon::before,
+.with-convert-post-icon::before,
+.with-comment-upvote-icon::before,
+.with-merge-icon::before,
+.with-reopen-icon::after,
+.with-reopen-icon::before,
+.with-close-icon::before,
+.with-flag-icon.js-post-unflag-btn::after,
+.with-clone-icon::before,
+.with-anchor-icon::before,
+.with-flag-icon::before,
+.with-edit-icon::before,
+.with-caret-down-icon::before,
+.with-downvote-icon::before,
+.with-upvote-icon::before,
+.with-arrow-left-icon::before,
+.with-caret-right-icon::before,
+.with-caret-left-icon::before,
+.with-ellipsis-h-icon::before,
+.with-globe-icon::before,
+.with-bars-icon::before,
+.js-with-sort-ascending-icon::before,
+.js-with-sort-descending-icon::before,
+.with-rss-icon::before,
+.with-selected-scope-icon::before,
+.with-search-icon::before,
+.with-home-icon::before,
+.with-times-circle-icon::before,
+.with-delete-icon::before,
+.with-times-icon::before,
+.with-bronze-badge-icon::before,
+.with-silver-badge-icon::before,
+.with-gold-badge-icon::before,
+.with-tags-icon::before,
+.with-users-icon::before,
+.with-badges-icon::before,
+.with-settings-icon::before,
+.inbox-icon::before,
+.with-warning-icon::before,
+.far,
+.with-comment-icon::before,
+.inbox-icon-with-new-messages::before,
+.fal,
+.fad,
+.fab,
+.with-twitter-icon::before,
+.with-linkedin-icon::before,
+.with-facebook-icon::before {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.wmd-help-button::before, .wmd-redo-button::before, .wmd-undo-button::before, .wmd-hr-button::before, .wmd-heading-button::before, .wmd-ulist-button::before, .wmd-olist-button::before, .wmd-attachment-button::before, .wmd-image-button::before, .wmd-code-button::before, .wmd-quote-button::before, .wmd-link-button::before, .wmd-italic-button::before, .wmd-bold-button::before, .with-check-icon::before, .with-slashed-icon::after, .with-bullhorn-icon::before, .with-accept-answer-icon::before, .with-link-icon::before, .with-convert-post-icon::before, .with-comment-upvote-icon::before, .with-merge-icon::before, .with-reopen-icon::after, .with-reopen-icon::before, .with-close-icon::before, .with-flag-icon.js-post-unflag-btn::after, .with-clone-icon::before, .with-anchor-icon::before, .with-flag-icon::before, .with-edit-icon::before, .with-twitter-icon::before, .with-linkedin-icon::before, .with-facebook-icon::before, .with-caret-down-icon::before,
+.with-downvote-icon::before, .with-upvote-icon::before, .with-arrow-left-icon::before, .with-comment-icon::before, .with-caret-right-icon::before, .with-caret-left-icon::before, .with-ellipsis-h-icon::before, .with-globe-icon::before, .with-bars-icon::before, .js-with-sort-ascending-icon::before, .js-with-sort-descending-icon::before, .with-rss-icon::before, .with-selected-scope-icon::before, .with-search-icon::before, .with-home-icon::before, .with-times-circle-icon::before, .with-delete-icon::before,
+.with-times-icon::before, .with-bronze-badge-icon::before,
+.with-silver-badge-icon::before,
+.with-gold-badge-icon::before, .with-tags-icon::before, .with-users-icon::before,
+.with-badges-icon::before,
+.with-settings-icon::before, .inbox-icon-with-new-messages::before, .inbox-icon::before, .with-warning-icon::before {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: 1;
+}
+
+.fa-lg {
+  font-size: 1.3333333333em;
+  line-height: 0.75em;
+  vertical-align: -0.0667em;
+}
+
+.fa-xs {
+  font-size: 0.75em;
+}
+
+.fa-sm {
+  font-size: 0.875em;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-6x {
+  font-size: 6em;
+}
+
+.fa-7x {
+  font-size: 7em;
+}
+
+.fa-8x {
+  font-size: 8em;
+}
+
+.fa-9x {
+  font-size: 9em;
+}
+
+.fa-10x {
+  font-size: 10em;
+}
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: 2.5em;
+  padding-left: 0;
+}
+.fa-ul > li {
+  position: relative;
+}
+
+.fa-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
+.fa-border {
+  border: solid 0.08em #eee;
+  border-radius: 0.1em;
+  padding: 0.2em 0.25em 0.15em;
+}
+
+.fa-pull-left {
+  float: left;
+}
+
+.fa-pull-right {
+  float: right;
+}
+
+.fa.fa-pull-left,
+.fas.fa-pull-left,
+.fa-pull-left.wmd-help-button::before,
+.fa-pull-left.wmd-redo-button::before,
+.fa-pull-left.wmd-undo-button::before,
+.fa-pull-left.wmd-hr-button::before,
+.fa-pull-left.wmd-heading-button::before,
+.fa-pull-left.wmd-ulist-button::before,
+.fa-pull-left.wmd-olist-button::before,
+.fa-pull-left.wmd-attachment-button::before,
+.fa-pull-left.wmd-image-button::before,
+.fa-pull-left.wmd-code-button::before,
+.fa-pull-left.wmd-quote-button::before,
+.fa-pull-left.wmd-link-button::before,
+.fa-pull-left.wmd-italic-button::before,
+.fa-pull-left.wmd-bold-button::before,
+.fa-pull-left.with-check-icon::before,
+.fa-pull-left.with-slashed-icon::after,
+.fa-pull-left.with-bullhorn-icon::before,
+.fa-pull-left.with-accept-answer-icon::before,
+.fa-pull-left.with-link-icon::before,
+.fa-pull-left.with-convert-post-icon::before,
+.fa-pull-left.with-comment-upvote-icon::before,
+.fa-pull-left.with-merge-icon::before,
+.fa-pull-left.with-reopen-icon::after,
+.fa-pull-left.with-reopen-icon::before,
+.fa-pull-left.with-close-icon::before,
+.fa-pull-left.with-flag-icon.js-post-unflag-btn::after,
+.fa-pull-left.with-clone-icon::before,
+.fa-pull-left.with-anchor-icon::before,
+.fa-pull-left.with-flag-icon::before,
+.fa-pull-left.with-edit-icon::before,
+.fa-pull-left.with-caret-down-icon::before,
+.fa-pull-left.with-downvote-icon::before,
+.fa-pull-left.with-upvote-icon::before,
+.fa-pull-left.with-arrow-left-icon::before,
+.fa-pull-left.with-caret-right-icon::before,
+.fa-pull-left.with-caret-left-icon::before,
+.fa-pull-left.with-ellipsis-h-icon::before,
+.fa-pull-left.with-globe-icon::before,
+.fa-pull-left.with-bars-icon::before,
+.fa-pull-left.js-with-sort-ascending-icon::before,
+.fa-pull-left.js-with-sort-descending-icon::before,
+.fa-pull-left.with-rss-icon::before,
+.fa-pull-left.with-selected-scope-icon::before,
+.fa-pull-left.with-search-icon::before,
+.fa-pull-left.with-home-icon::before,
+.fa-pull-left.with-times-circle-icon::before,
+.fa-pull-left.with-delete-icon::before,
+.fa-pull-left.with-times-icon::before,
+.fa-pull-left.with-bronze-badge-icon::before,
+.fa-pull-left.with-silver-badge-icon::before,
+.fa-pull-left.with-gold-badge-icon::before,
+.fa-pull-left.with-tags-icon::before,
+.fa-pull-left.with-users-icon::before,
+.fa-pull-left.with-badges-icon::before,
+.fa-pull-left.with-settings-icon::before,
+.fa-pull-left.inbox-icon::before,
+.fa-pull-left.with-warning-icon::before,
+.far.fa-pull-left,
+.fa-pull-left.with-comment-icon::before,
+.fa-pull-left.inbox-icon-with-new-messages::before,
+.fal.fa-pull-left,
+.fab.fa-pull-left,
+.fa-pull-left.with-twitter-icon::before,
+.fa-pull-left.with-linkedin-icon::before,
+.fa-pull-left.with-facebook-icon::before {
+  margin-right: 0.3em;
+}
+.fa.fa-pull-right,
+.fas.fa-pull-right,
+.fa-pull-right.wmd-help-button::before,
+.fa-pull-right.wmd-redo-button::before,
+.fa-pull-right.wmd-undo-button::before,
+.fa-pull-right.wmd-hr-button::before,
+.fa-pull-right.wmd-heading-button::before,
+.fa-pull-right.wmd-ulist-button::before,
+.fa-pull-right.wmd-olist-button::before,
+.fa-pull-right.wmd-attachment-button::before,
+.fa-pull-right.wmd-image-button::before,
+.fa-pull-right.wmd-code-button::before,
+.fa-pull-right.wmd-quote-button::before,
+.fa-pull-right.wmd-link-button::before,
+.fa-pull-right.wmd-italic-button::before,
+.fa-pull-right.wmd-bold-button::before,
+.fa-pull-right.with-check-icon::before,
+.fa-pull-right.with-slashed-icon::after,
+.fa-pull-right.with-bullhorn-icon::before,
+.fa-pull-right.with-accept-answer-icon::before,
+.fa-pull-right.with-link-icon::before,
+.fa-pull-right.with-convert-post-icon::before,
+.fa-pull-right.with-comment-upvote-icon::before,
+.fa-pull-right.with-merge-icon::before,
+.fa-pull-right.with-reopen-icon::after,
+.fa-pull-right.with-reopen-icon::before,
+.fa-pull-right.with-close-icon::before,
+.fa-pull-right.with-flag-icon.js-post-unflag-btn::after,
+.fa-pull-right.with-clone-icon::before,
+.fa-pull-right.with-anchor-icon::before,
+.fa-pull-right.with-flag-icon::before,
+.fa-pull-right.with-edit-icon::before,
+.fa-pull-right.with-caret-down-icon::before,
+.fa-pull-right.with-downvote-icon::before,
+.fa-pull-right.with-upvote-icon::before,
+.fa-pull-right.with-arrow-left-icon::before,
+.fa-pull-right.with-caret-right-icon::before,
+.fa-pull-right.with-caret-left-icon::before,
+.fa-pull-right.with-ellipsis-h-icon::before,
+.fa-pull-right.with-globe-icon::before,
+.fa-pull-right.with-bars-icon::before,
+.fa-pull-right.js-with-sort-ascending-icon::before,
+.fa-pull-right.js-with-sort-descending-icon::before,
+.fa-pull-right.with-rss-icon::before,
+.fa-pull-right.with-selected-scope-icon::before,
+.fa-pull-right.with-search-icon::before,
+.fa-pull-right.with-home-icon::before,
+.fa-pull-right.with-times-circle-icon::before,
+.fa-pull-right.with-delete-icon::before,
+.fa-pull-right.with-times-icon::before,
+.fa-pull-right.with-bronze-badge-icon::before,
+.fa-pull-right.with-silver-badge-icon::before,
+.fa-pull-right.with-gold-badge-icon::before,
+.fa-pull-right.with-tags-icon::before,
+.fa-pull-right.with-users-icon::before,
+.fa-pull-right.with-badges-icon::before,
+.fa-pull-right.with-settings-icon::before,
+.fa-pull-right.inbox-icon::before,
+.fa-pull-right.with-warning-icon::before,
+.far.fa-pull-right,
+.fa-pull-right.with-comment-icon::before,
+.fa-pull-right.inbox-icon-with-new-messages::before,
+.fal.fa-pull-right,
+.fab.fa-pull-right,
+.fa-pull-right.with-twitter-icon::before,
+.fa-pull-right.with-linkedin-icon::before,
+.fa-pull-right.with-facebook-icon::before {
+  margin-left: 0.3em;
+}
+
+.fa-spin {
+  animation: fa-spin 2s infinite linear;
+}
+
+.fa-pulse {
+  animation: fa-spin 1s infinite steps(8);
+}
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.fa-rotate-90 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  transform: scale(-1, 1);
+}
+
+.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  transform: scale(1, -1);
+}
+
+.fa-flip-both, .fa-flip-horizontal.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  transform: scale(-1, -1);
+}
+
+:root .fa-rotate-90,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical,
+:root .fa-flip-both {
+  filter: none;
+}
+
+.fa-stack {
+  display: inline-block;
+  height: 2em;
+  line-height: 2em;
+  position: relative;
+  vertical-align: middle;
+  width: 2.5em;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  left: 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+.fa-stack-1x {
+  line-height: inherit;
+}
+
+.fa-stack-2x {
+  font-size: 2em;
+}
+
+.fa-inverse {
+  color: #fff;
+}
+
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+readers do not read off random characters that represent icons */
+.fa-500px:before {
+  content: "";
+}
+
+.fa-accessible-icon:before {
+  content: "";
+}
+
+.fa-accusoft:before {
+  content: "";
+}
+
+.fa-acquisitions-incorporated:before {
+  content: "";
+}
+
+.fa-ad:before {
+  content: "";
+}
+
+.fa-address-book:before {
+  content: "";
+}
+
+.fa-address-card:before {
+  content: "";
+}
+
+.fa-adjust:before {
+  content: "";
+}
+
+.fa-adn:before {
+  content: "";
+}
+
+.fa-adversal:before {
+  content: "";
+}
+
+.fa-affiliatetheme:before {
+  content: "";
+}
+
+.fa-air-freshener:before {
+  content: "";
+}
+
+.fa-airbnb:before {
+  content: "";
+}
+
+.fa-algolia:before {
+  content: "";
+}
+
+.fa-align-center:before {
+  content: "";
+}
+
+.fa-align-justify:before {
+  content: "";
+}
+
+.fa-align-left:before {
+  content: "";
+}
+
+.fa-align-right:before {
+  content: "";
+}
+
+.fa-alipay:before {
+  content: "";
+}
+
+.fa-allergies:before {
+  content: "";
+}
+
+.fa-amazon:before {
+  content: "";
+}
+
+.fa-amazon-pay:before {
+  content: "";
+}
+
+.fa-ambulance:before {
+  content: "";
+}
+
+.fa-american-sign-language-interpreting:before {
+  content: "";
+}
+
+.fa-amilia:before {
+  content: "";
+}
+
+.fa-anchor:before {
+  content: "";
+}
+
+.fa-android:before {
+  content: "";
+}
+
+.fa-angellist:before {
+  content: "";
+}
+
+.fa-angle-double-down:before {
+  content: "";
+}
+
+.fa-angle-double-left:before {
+  content: "";
+}
+
+.fa-angle-double-right:before {
+  content: "";
+}
+
+.fa-angle-double-up:before {
+  content: "";
+}
+
+.fa-angle-down:before {
+  content: "";
+}
+
+.fa-angle-left:before {
+  content: "";
+}
+
+.fa-angle-right:before {
+  content: "";
+}
+
+.fa-angle-up:before {
+  content: "";
+}
+
+.fa-angry:before {
+  content: "";
+}
+
+.fa-angrycreative:before {
+  content: "";
+}
+
+.fa-angular:before {
+  content: "";
+}
+
+.fa-ankh:before {
+  content: "";
+}
+
+.fa-app-store:before {
+  content: "";
+}
+
+.fa-app-store-ios:before {
+  content: "";
+}
+
+.fa-apper:before {
+  content: "";
+}
+
+.fa-apple:before {
+  content: "";
+}
+
+.fa-apple-alt:before {
+  content: "";
+}
+
+.fa-apple-pay:before {
+  content: "";
+}
+
+.fa-archive:before {
+  content: "";
+}
+
+.fa-archway:before {
+  content: "";
+}
+
+.fa-arrow-alt-circle-down:before {
+  content: "";
+}
+
+.fa-arrow-alt-circle-left:before {
+  content: "";
+}
+
+.fa-arrow-alt-circle-right:before {
+  content: "";
+}
+
+.fa-arrow-alt-circle-up:before {
+  content: "";
+}
+
+.fa-arrow-circle-down:before {
+  content: "";
+}
+
+.fa-arrow-circle-left:before {
+  content: "";
+}
+
+.fa-arrow-circle-right:before {
+  content: "";
+}
+
+.fa-arrow-circle-up:before {
+  content: "";
+}
+
+.fa-arrow-down:before {
+  content: "";
+}
+
+.fa-arrow-left:before {
+  content: "";
+}
+
+.fa-arrow-right:before {
+  content: "";
+}
+
+.fa-arrow-up:before {
+  content: "";
+}
+
+.fa-arrows-alt:before {
+  content: "";
+}
+
+.fa-arrows-alt-h:before {
+  content: "";
+}
+
+.fa-arrows-alt-v:before {
+  content: "";
+}
+
+.fa-artstation:before {
+  content: "";
+}
+
+.fa-assistive-listening-systems:before {
+  content: "";
+}
+
+.fa-asterisk:before {
+  content: "";
+}
+
+.fa-asymmetrik:before {
+  content: "";
+}
+
+.fa-at:before {
+  content: "";
+}
+
+.fa-atlas:before {
+  content: "";
+}
+
+.fa-atlassian:before {
+  content: "";
+}
+
+.fa-atom:before {
+  content: "";
+}
+
+.fa-audible:before {
+  content: "";
+}
+
+.fa-audio-description:before {
+  content: "";
+}
+
+.fa-autoprefixer:before {
+  content: "";
+}
+
+.fa-avianex:before {
+  content: "";
+}
+
+.fa-aviato:before {
+  content: "";
+}
+
+.fa-award:before {
+  content: "";
+}
+
+.fa-aws:before {
+  content: "";
+}
+
+.fa-baby:before {
+  content: "";
+}
+
+.fa-baby-carriage:before {
+  content: "";
+}
+
+.fa-backspace:before {
+  content: "";
+}
+
+.fa-backward:before {
+  content: "";
+}
+
+.fa-bacon:before {
+  content: "";
+}
+
+.fa-bacteria:before {
+  content: "";
+}
+
+.fa-bacterium:before {
+  content: "";
+}
+
+.fa-bahai:before {
+  content: "";
+}
+
+.fa-balance-scale:before {
+  content: "";
+}
+
+.fa-balance-scale-left:before {
+  content: "";
+}
+
+.fa-balance-scale-right:before {
+  content: "";
+}
+
+.fa-ban:before {
+  content: "";
+}
+
+.fa-band-aid:before {
+  content: "";
+}
+
+.fa-bandcamp:before {
+  content: "";
+}
+
+.fa-barcode:before {
+  content: "";
+}
+
+.fa-bars:before {
+  content: "";
+}
+
+.fa-baseball-ball:before {
+  content: "";
+}
+
+.fa-basketball-ball:before {
+  content: "";
+}
+
+.fa-bath:before {
+  content: "";
+}
+
+.fa-battery-empty:before {
+  content: "";
+}
+
+.fa-battery-full:before {
+  content: "";
+}
+
+.fa-battery-half:before {
+  content: "";
+}
+
+.fa-battery-quarter:before {
+  content: "";
+}
+
+.fa-battery-three-quarters:before {
+  content: "";
+}
+
+.fa-battle-net:before {
+  content: "";
+}
+
+.fa-bed:before {
+  content: "";
+}
+
+.fa-beer:before {
+  content: "";
+}
+
+.fa-behance:before {
+  content: "";
+}
+
+.fa-behance-square:before {
+  content: "";
+}
+
+.fa-bell:before {
+  content: "";
+}
+
+.fa-bell-slash:before {
+  content: "";
+}
+
+.fa-bezier-curve:before {
+  content: "";
+}
+
+.fa-bible:before {
+  content: "";
+}
+
+.fa-bicycle:before {
+  content: "";
+}
+
+.fa-biking:before {
+  content: "";
+}
+
+.fa-bimobject:before {
+  content: "";
+}
+
+.fa-binoculars:before {
+  content: "";
+}
+
+.fa-biohazard:before {
+  content: "";
+}
+
+.fa-birthday-cake:before {
+  content: "";
+}
+
+.fa-bitbucket:before {
+  content: "";
+}
+
+.fa-bitcoin:before {
+  content: "";
+}
+
+.fa-bity:before {
+  content: "";
+}
+
+.fa-black-tie:before {
+  content: "";
+}
+
+.fa-blackberry:before {
+  content: "";
+}
+
+.fa-blender:before {
+  content: "";
+}
+
+.fa-blender-phone:before {
+  content: "";
+}
+
+.fa-blind:before {
+  content: "";
+}
+
+.fa-blog:before {
+  content: "";
+}
+
+.fa-blogger:before {
+  content: "";
+}
+
+.fa-blogger-b:before {
+  content: "";
+}
+
+.fa-bluetooth:before {
+  content: "";
+}
+
+.fa-bluetooth-b:before {
+  content: "";
+}
+
+.fa-bold:before {
+  content: "";
+}
+
+.fa-bolt:before {
+  content: "";
+}
+
+.fa-bomb:before {
+  content: "";
+}
+
+.fa-bone:before {
+  content: "";
+}
+
+.fa-bong:before {
+  content: "";
+}
+
+.fa-book:before {
+  content: "";
+}
+
+.fa-book-dead:before {
+  content: "";
+}
+
+.fa-book-medical:before {
+  content: "";
+}
+
+.fa-book-open:before {
+  content: "";
+}
+
+.fa-book-reader:before {
+  content: "";
+}
+
+.fa-bookmark:before {
+  content: "";
+}
+
+.fa-bootstrap:before {
+  content: "";
+}
+
+.fa-border-all:before {
+  content: "";
+}
+
+.fa-border-none:before {
+  content: "";
+}
+
+.fa-border-style:before {
+  content: "";
+}
+
+.fa-bowling-ball:before {
+  content: "";
+}
+
+.fa-box:before {
+  content: "";
+}
+
+.fa-box-open:before {
+  content: "";
+}
+
+.fa-box-tissue:before {
+  content: "";
+}
+
+.fa-boxes:before {
+  content: "";
+}
+
+.fa-braille:before {
+  content: "";
+}
+
+.fa-brain:before {
+  content: "";
+}
+
+.fa-bread-slice:before {
+  content: "";
+}
+
+.fa-briefcase:before {
+  content: "";
+}
+
+.fa-briefcase-medical:before {
+  content: "";
+}
+
+.fa-broadcast-tower:before {
+  content: "";
+}
+
+.fa-broom:before {
+  content: "";
+}
+
+.fa-brush:before {
+  content: "";
+}
+
+.fa-btc:before {
+  content: "";
+}
+
+.fa-buffer:before {
+  content: "";
+}
+
+.fa-bug:before {
+  content: "";
+}
+
+.fa-building:before {
+  content: "";
+}
+
+.fa-bullhorn:before {
+  content: "";
+}
+
+.fa-bullseye:before {
+  content: "";
+}
+
+.fa-burn:before {
+  content: "";
+}
+
+.fa-buromobelexperte:before {
+  content: "";
+}
+
+.fa-bus:before {
+  content: "";
+}
+
+.fa-bus-alt:before {
+  content: "";
+}
+
+.fa-business-time:before {
+  content: "";
+}
+
+.fa-buy-n-large:before {
+  content: "";
+}
+
+.fa-buysellads:before {
+  content: "";
+}
+
+.fa-calculator:before {
+  content: "";
+}
+
+.fa-calendar:before {
+  content: "";
+}
+
+.fa-calendar-alt:before {
+  content: "";
+}
+
+.fa-calendar-check:before {
+  content: "";
+}
+
+.fa-calendar-day:before {
+  content: "";
+}
+
+.fa-calendar-minus:before {
+  content: "";
+}
+
+.fa-calendar-plus:before {
+  content: "";
+}
+
+.fa-calendar-times:before {
+  content: "";
+}
+
+.fa-calendar-week:before {
+  content: "";
+}
+
+.fa-camera:before {
+  content: "";
+}
+
+.fa-camera-retro:before {
+  content: "";
+}
+
+.fa-campground:before {
+  content: "";
+}
+
+.fa-canadian-maple-leaf:before {
+  content: "";
+}
+
+.fa-candy-cane:before {
+  content: "";
+}
+
+.fa-cannabis:before {
+  content: "";
+}
+
+.fa-capsules:before {
+  content: "";
+}
+
+.fa-car:before {
+  content: "";
+}
+
+.fa-car-alt:before {
+  content: "";
+}
+
+.fa-car-battery:before {
+  content: "";
+}
+
+.fa-car-crash:before {
+  content: "";
+}
+
+.fa-car-side:before {
+  content: "";
+}
+
+.fa-caravan:before {
+  content: "";
+}
+
+.fa-caret-down:before {
+  content: "";
+}
+
+.fa-caret-left:before {
+  content: "";
+}
+
+.fa-caret-right:before {
+  content: "";
+}
+
+.fa-caret-square-down:before {
+  content: "";
+}
+
+.fa-caret-square-left:before {
+  content: "";
+}
+
+.fa-caret-square-right:before {
+  content: "";
+}
+
+.fa-caret-square-up:before {
+  content: "";
+}
+
+.fa-caret-up:before {
+  content: "";
+}
+
+.fa-carrot:before {
+  content: "";
+}
+
+.fa-cart-arrow-down:before {
+  content: "";
+}
+
+.fa-cart-plus:before {
+  content: "";
+}
+
+.fa-cash-register:before {
+  content: "";
+}
+
+.fa-cat:before {
+  content: "";
+}
+
+.fa-cc-amazon-pay:before {
+  content: "";
+}
+
+.fa-cc-amex:before {
+  content: "";
+}
+
+.fa-cc-apple-pay:before {
+  content: "";
+}
+
+.fa-cc-diners-club:before {
+  content: "";
+}
+
+.fa-cc-discover:before {
+  content: "";
+}
+
+.fa-cc-jcb:before {
+  content: "";
+}
+
+.fa-cc-mastercard:before {
+  content: "";
+}
+
+.fa-cc-paypal:before {
+  content: "";
+}
+
+.fa-cc-stripe:before {
+  content: "";
+}
+
+.fa-cc-visa:before {
+  content: "";
+}
+
+.fa-centercode:before {
+  content: "";
+}
+
+.fa-centos:before {
+  content: "";
+}
+
+.fa-certificate:before {
+  content: "";
+}
+
+.fa-chair:before {
+  content: "";
+}
+
+.fa-chalkboard:before {
+  content: "";
+}
+
+.fa-chalkboard-teacher:before {
+  content: "";
+}
+
+.fa-charging-station:before {
+  content: "";
+}
+
+.fa-chart-area:before {
+  content: "";
+}
+
+.fa-chart-bar:before {
+  content: "";
+}
+
+.fa-chart-line:before {
+  content: "";
+}
+
+.fa-chart-pie:before {
+  content: "";
+}
+
+.fa-check:before {
+  content: "";
+}
+
+.fa-check-circle:before {
+  content: "";
+}
+
+.fa-check-double:before {
+  content: "";
+}
+
+.fa-check-square:before {
+  content: "";
+}
+
+.fa-cheese:before {
+  content: "";
+}
+
+.fa-chess:before {
+  content: "";
+}
+
+.fa-chess-bishop:before {
+  content: "";
+}
+
+.fa-chess-board:before {
+  content: "";
+}
+
+.fa-chess-king:before {
+  content: "";
+}
+
+.fa-chess-knight:before {
+  content: "";
+}
+
+.fa-chess-pawn:before {
+  content: "";
+}
+
+.fa-chess-queen:before {
+  content: "";
+}
+
+.fa-chess-rook:before {
+  content: "";
+}
+
+.fa-chevron-circle-down:before {
+  content: "";
+}
+
+.fa-chevron-circle-left:before {
+  content: "";
+}
+
+.fa-chevron-circle-right:before {
+  content: "";
+}
+
+.fa-chevron-circle-up:before {
+  content: "";
+}
+
+.fa-chevron-down:before {
+  content: "";
+}
+
+.fa-chevron-left:before {
+  content: "";
+}
+
+.fa-chevron-right:before {
+  content: "";
+}
+
+.fa-chevron-up:before {
+  content: "";
+}
+
+.fa-child:before {
+  content: "";
+}
+
+.fa-chrome:before {
+  content: "";
+}
+
+.fa-chromecast:before {
+  content: "";
+}
+
+.fa-church:before {
+  content: "";
+}
+
+.fa-circle:before {
+  content: "";
+}
+
+.fa-circle-notch:before {
+  content: "";
+}
+
+.fa-city:before {
+  content: "";
+}
+
+.fa-clinic-medical:before {
+  content: "";
+}
+
+.fa-clipboard:before {
+  content: "";
+}
+
+.fa-clipboard-check:before {
+  content: "";
+}
+
+.fa-clipboard-list:before {
+  content: "";
+}
+
+.fa-clock:before {
+  content: "";
+}
+
+.fa-clone:before {
+  content: "";
+}
+
+.fa-closed-captioning:before {
+  content: "";
+}
+
+.fa-cloud:before {
+  content: "";
+}
+
+.fa-cloud-download-alt:before {
+  content: "";
+}
+
+.fa-cloud-meatball:before {
+  content: "";
+}
+
+.fa-cloud-moon:before {
+  content: "";
+}
+
+.fa-cloud-moon-rain:before {
+  content: "";
+}
+
+.fa-cloud-rain:before {
+  content: "";
+}
+
+.fa-cloud-showers-heavy:before {
+  content: "";
+}
+
+.fa-cloud-sun:before {
+  content: "";
+}
+
+.fa-cloud-sun-rain:before {
+  content: "";
+}
+
+.fa-cloud-upload-alt:before {
+  content: "";
+}
+
+.fa-cloudflare:before {
+  content: "";
+}
+
+.fa-cloudscale:before {
+  content: "";
+}
+
+.fa-cloudsmith:before {
+  content: "";
+}
+
+.fa-cloudversify:before {
+  content: "";
+}
+
+.fa-cocktail:before {
+  content: "";
+}
+
+.fa-code:before {
+  content: "";
+}
+
+.fa-code-branch:before {
+  content: "";
+}
+
+.fa-codepen:before {
+  content: "";
+}
+
+.fa-codiepie:before {
+  content: "";
+}
+
+.fa-coffee:before {
+  content: "";
+}
+
+.fa-cog:before {
+  content: "";
+}
+
+.fa-cogs:before {
+  content: "";
+}
+
+.fa-coins:before {
+  content: "";
+}
+
+.fa-columns:before {
+  content: "";
+}
+
+.fa-comment:before {
+  content: "";
+}
+
+.fa-comment-alt:before {
+  content: "";
+}
+
+.fa-comment-dollar:before {
+  content: "";
+}
+
+.fa-comment-dots:before {
+  content: "";
+}
+
+.fa-comment-medical:before {
+  content: "";
+}
+
+.fa-comment-slash:before {
+  content: "";
+}
+
+.fa-comments:before {
+  content: "";
+}
+
+.fa-comments-dollar:before {
+  content: "";
+}
+
+.fa-compact-disc:before {
+  content: "";
+}
+
+.fa-compass:before {
+  content: "";
+}
+
+.fa-compress:before {
+  content: "";
+}
+
+.fa-compress-alt:before {
+  content: "";
+}
+
+.fa-compress-arrows-alt:before {
+  content: "";
+}
+
+.fa-concierge-bell:before {
+  content: "";
+}
+
+.fa-confluence:before {
+  content: "";
+}
+
+.fa-connectdevelop:before {
+  content: "";
+}
+
+.fa-contao:before {
+  content: "";
+}
+
+.fa-cookie:before {
+  content: "";
+}
+
+.fa-cookie-bite:before {
+  content: "";
+}
+
+.fa-copy:before {
+  content: "";
+}
+
+.fa-copyright:before {
+  content: "";
+}
+
+.fa-cotton-bureau:before {
+  content: "";
+}
+
+.fa-couch:before {
+  content: "";
+}
+
+.fa-cpanel:before {
+  content: "";
+}
+
+.fa-creative-commons:before {
+  content: "";
+}
+
+.fa-creative-commons-by:before {
+  content: "";
+}
+
+.fa-creative-commons-nc:before {
+  content: "";
+}
+
+.fa-creative-commons-nc-eu:before {
+  content: "";
+}
+
+.fa-creative-commons-nc-jp:before {
+  content: "";
+}
+
+.fa-creative-commons-nd:before {
+  content: "";
+}
+
+.fa-creative-commons-pd:before {
+  content: "";
+}
+
+.fa-creative-commons-pd-alt:before {
+  content: "";
+}
+
+.fa-creative-commons-remix:before {
+  content: "";
+}
+
+.fa-creative-commons-sa:before {
+  content: "";
+}
+
+.fa-creative-commons-sampling:before {
+  content: "";
+}
+
+.fa-creative-commons-sampling-plus:before {
+  content: "";
+}
+
+.fa-creative-commons-share:before {
+  content: "";
+}
+
+.fa-creative-commons-zero:before {
+  content: "";
+}
+
+.fa-credit-card:before {
+  content: "";
+}
+
+.fa-critical-role:before {
+  content: "";
+}
+
+.fa-crop:before {
+  content: "";
+}
+
+.fa-crop-alt:before {
+  content: "";
+}
+
+.fa-cross:before {
+  content: "";
+}
+
+.fa-crosshairs:before {
+  content: "";
+}
+
+.fa-crow:before {
+  content: "";
+}
+
+.fa-crown:before {
+  content: "";
+}
+
+.fa-crutch:before {
+  content: "";
+}
+
+.fa-css3:before {
+  content: "";
+}
+
+.fa-css3-alt:before {
+  content: "";
+}
+
+.fa-cube:before {
+  content: "";
+}
+
+.fa-cubes:before {
+  content: "";
+}
+
+.fa-cut:before {
+  content: "";
+}
+
+.fa-cuttlefish:before {
+  content: "";
+}
+
+.fa-d-and-d:before {
+  content: "";
+}
+
+.fa-d-and-d-beyond:before {
+  content: "";
+}
+
+.fa-dailymotion:before {
+  content: "";
+}
+
+.fa-dashcube:before {
+  content: "";
+}
+
+.fa-database:before {
+  content: "";
+}
+
+.fa-deaf:before {
+  content: "";
+}
+
+.fa-deezer:before {
+  content: "";
+}
+
+.fa-delicious:before {
+  content: "";
+}
+
+.fa-democrat:before {
+  content: "";
+}
+
+.fa-deploydog:before {
+  content: "";
+}
+
+.fa-deskpro:before {
+  content: "";
+}
+
+.fa-desktop:before {
+  content: "";
+}
+
+.fa-dev:before {
+  content: "";
+}
+
+.fa-deviantart:before {
+  content: "";
+}
+
+.fa-dharmachakra:before {
+  content: "";
+}
+
+.fa-dhl:before {
+  content: "";
+}
+
+.fa-diagnoses:before {
+  content: "";
+}
+
+.fa-diaspora:before {
+  content: "";
+}
+
+.fa-dice:before {
+  content: "";
+}
+
+.fa-dice-d20:before {
+  content: "";
+}
+
+.fa-dice-d6:before {
+  content: "";
+}
+
+.fa-dice-five:before {
+  content: "";
+}
+
+.fa-dice-four:before {
+  content: "";
+}
+
+.fa-dice-one:before {
+  content: "";
+}
+
+.fa-dice-six:before {
+  content: "";
+}
+
+.fa-dice-three:before {
+  content: "";
+}
+
+.fa-dice-two:before {
+  content: "";
+}
+
+.fa-digg:before {
+  content: "";
+}
+
+.fa-digital-ocean:before {
+  content: "";
+}
+
+.fa-digital-tachograph:before {
+  content: "";
+}
+
+.fa-directions:before {
+  content: "";
+}
+
+.fa-discord:before {
+  content: "";
+}
+
+.fa-discourse:before {
+  content: "";
+}
+
+.fa-disease:before {
+  content: "";
+}
+
+.fa-divide:before {
+  content: "";
+}
+
+.fa-dizzy:before {
+  content: "";
+}
+
+.fa-dna:before {
+  content: "";
+}
+
+.fa-dochub:before {
+  content: "";
+}
+
+.fa-docker:before {
+  content: "";
+}
+
+.fa-dog:before {
+  content: "";
+}
+
+.fa-dollar-sign:before {
+  content: "";
+}
+
+.fa-dolly:before {
+  content: "";
+}
+
+.fa-dolly-flatbed:before {
+  content: "";
+}
+
+.fa-donate:before {
+  content: "";
+}
+
+.fa-door-closed:before {
+  content: "";
+}
+
+.fa-door-open:before {
+  content: "";
+}
+
+.fa-dot-circle:before {
+  content: "";
+}
+
+.fa-dove:before {
+  content: "";
+}
+
+.fa-download:before {
+  content: "";
+}
+
+.fa-draft2digital:before {
+  content: "";
+}
+
+.fa-drafting-compass:before {
+  content: "";
+}
+
+.fa-dragon:before {
+  content: "";
+}
+
+.fa-draw-polygon:before {
+  content: "";
+}
+
+.fa-dribbble:before {
+  content: "";
+}
+
+.fa-dribbble-square:before {
+  content: "";
+}
+
+.fa-dropbox:before {
+  content: "";
+}
+
+.fa-drum:before {
+  content: "";
+}
+
+.fa-drum-steelpan:before {
+  content: "";
+}
+
+.fa-drumstick-bite:before {
+  content: "";
+}
+
+.fa-drupal:before {
+  content: "";
+}
+
+.fa-dumbbell:before {
+  content: "";
+}
+
+.fa-dumpster:before {
+  content: "";
+}
+
+.fa-dumpster-fire:before {
+  content: "";
+}
+
+.fa-dungeon:before {
+  content: "";
+}
+
+.fa-dyalog:before {
+  content: "";
+}
+
+.fa-earlybirds:before {
+  content: "";
+}
+
+.fa-ebay:before {
+  content: "";
+}
+
+.fa-edge:before {
+  content: "";
+}
+
+.fa-edge-legacy:before {
+  content: "";
+}
+
+.fa-edit:before {
+  content: "";
+}
+
+.fa-egg:before {
+  content: "";
+}
+
+.fa-eject:before {
+  content: "";
+}
+
+.fa-elementor:before {
+  content: "";
+}
+
+.fa-ellipsis-h:before {
+  content: "";
+}
+
+.fa-ellipsis-v:before {
+  content: "";
+}
+
+.fa-ello:before {
+  content: "";
+}
+
+.fa-ember:before {
+  content: "";
+}
+
+.fa-empire:before {
+  content: "";
+}
+
+.fa-envelope:before {
+  content: "";
+}
+
+.fa-envelope-open:before {
+  content: "";
+}
+
+.fa-envelope-open-text:before {
+  content: "";
+}
+
+.fa-envelope-square:before {
+  content: "";
+}
+
+.fa-envira:before {
+  content: "";
+}
+
+.fa-equals:before {
+  content: "";
+}
+
+.fa-eraser:before {
+  content: "";
+}
+
+.fa-erlang:before {
+  content: "";
+}
+
+.fa-ethereum:before {
+  content: "";
+}
+
+.fa-ethernet:before {
+  content: "";
+}
+
+.fa-etsy:before {
+  content: "";
+}
+
+.fa-euro-sign:before {
+  content: "";
+}
+
+.fa-evernote:before {
+  content: "";
+}
+
+.fa-exchange-alt:before {
+  content: "";
+}
+
+.fa-exclamation:before {
+  content: "";
+}
+
+.fa-exclamation-circle:before {
+  content: "";
+}
+
+.fa-exclamation-triangle:before {
+  content: "";
+}
+
+.fa-expand:before {
+  content: "";
+}
+
+.fa-expand-alt:before {
+  content: "";
+}
+
+.fa-expand-arrows-alt:before {
+  content: "";
+}
+
+.fa-expeditedssl:before {
+  content: "";
+}
+
+.fa-external-link-alt:before {
+  content: "";
+}
+
+.fa-external-link-square-alt:before {
+  content: "";
+}
+
+.fa-eye:before {
+  content: "";
+}
+
+.fa-eye-dropper:before {
+  content: "";
+}
+
+.fa-eye-slash:before {
+  content: "";
+}
+
+.fa-facebook:before {
+  content: "";
+}
+
+.fa-facebook-f:before {
+  content: "";
+}
+
+.fa-facebook-messenger:before {
+  content: "";
+}
+
+.fa-facebook-square:before {
+  content: "";
+}
+
+.fa-fan:before {
+  content: "";
+}
+
+.fa-fantasy-flight-games:before {
+  content: "";
+}
+
+.fa-fast-backward:before {
+  content: "";
+}
+
+.fa-fast-forward:before {
+  content: "";
+}
+
+.fa-faucet:before {
+  content: "";
+}
+
+.fa-fax:before {
+  content: "";
+}
+
+.fa-feather:before {
+  content: "";
+}
+
+.fa-feather-alt:before {
+  content: "";
+}
+
+.fa-fedex:before {
+  content: "";
+}
+
+.fa-fedora:before {
+  content: "";
+}
+
+.fa-female:before {
+  content: "";
+}
+
+.fa-fighter-jet:before {
+  content: "";
+}
+
+.fa-figma:before {
+  content: "";
+}
+
+.fa-file:before {
+  content: "";
+}
+
+.fa-file-alt:before {
+  content: "";
+}
+
+.fa-file-archive:before {
+  content: "";
+}
+
+.fa-file-audio:before {
+  content: "";
+}
+
+.fa-file-code:before {
+  content: "";
+}
+
+.fa-file-contract:before {
+  content: "";
+}
+
+.fa-file-csv:before {
+  content: "";
+}
+
+.fa-file-download:before {
+  content: "";
+}
+
+.fa-file-excel:before {
+  content: "";
+}
+
+.fa-file-export:before {
+  content: "";
+}
+
+.fa-file-image:before {
+  content: "";
+}
+
+.fa-file-import:before {
+  content: "";
+}
+
+.fa-file-invoice:before {
+  content: "";
+}
+
+.fa-file-invoice-dollar:before {
+  content: "";
+}
+
+.fa-file-medical:before {
+  content: "";
+}
+
+.fa-file-medical-alt:before {
+  content: "";
+}
+
+.fa-file-pdf:before {
+  content: "";
+}
+
+.fa-file-powerpoint:before {
+  content: "";
+}
+
+.fa-file-prescription:before {
+  content: "";
+}
+
+.fa-file-signature:before {
+  content: "";
+}
+
+.fa-file-upload:before {
+  content: "";
+}
+
+.fa-file-video:before {
+  content: "";
+}
+
+.fa-file-word:before {
+  content: "";
+}
+
+.fa-fill:before {
+  content: "";
+}
+
+.fa-fill-drip:before {
+  content: "";
+}
+
+.fa-film:before {
+  content: "";
+}
+
+.fa-filter:before {
+  content: "";
+}
+
+.fa-fingerprint:before {
+  content: "";
+}
+
+.fa-fire:before {
+  content: "";
+}
+
+.fa-fire-alt:before {
+  content: "";
+}
+
+.fa-fire-extinguisher:before {
+  content: "";
+}
+
+.fa-firefox:before {
+  content: "";
+}
+
+.fa-firefox-browser:before {
+  content: "";
+}
+
+.fa-first-aid:before {
+  content: "";
+}
+
+.fa-first-order:before {
+  content: "";
+}
+
+.fa-first-order-alt:before {
+  content: "";
+}
+
+.fa-firstdraft:before {
+  content: "";
+}
+
+.fa-fish:before {
+  content: "";
+}
+
+.fa-fist-raised:before {
+  content: "";
+}
+
+.fa-flag:before {
+  content: "";
+}
+
+.fa-flag-checkered:before {
+  content: "";
+}
+
+.fa-flag-usa:before {
+  content: "";
+}
+
+.fa-flask:before {
+  content: "";
+}
+
+.fa-flickr:before {
+  content: "";
+}
+
+.fa-flipboard:before {
+  content: "";
+}
+
+.fa-flushed:before {
+  content: "";
+}
+
+.fa-fly:before {
+  content: "";
+}
+
+.fa-folder:before {
+  content: "";
+}
+
+.fa-folder-minus:before {
+  content: "";
+}
+
+.fa-folder-open:before {
+  content: "";
+}
+
+.fa-folder-plus:before {
+  content: "";
+}
+
+.fa-font:before {
+  content: "";
+}
+
+.fa-font-awesome:before {
+  content: "";
+}
+
+.fa-font-awesome-alt:before {
+  content: "";
+}
+
+.fa-font-awesome-flag:before {
+  content: "";
+}
+
+.fa-font-awesome-logo-full:before {
+  content: "";
+}
+
+.fa-fonticons:before {
+  content: "";
+}
+
+.fa-fonticons-fi:before {
+  content: "";
+}
+
+.fa-football-ball:before {
+  content: "";
+}
+
+.fa-fort-awesome:before {
+  content: "";
+}
+
+.fa-fort-awesome-alt:before {
+  content: "";
+}
+
+.fa-forumbee:before {
+  content: "";
+}
+
+.fa-forward:before {
+  content: "";
+}
+
+.fa-foursquare:before {
+  content: "";
+}
+
+.fa-free-code-camp:before {
+  content: "";
+}
+
+.fa-freebsd:before {
+  content: "";
+}
+
+.fa-frog:before {
+  content: "";
+}
+
+.fa-frown:before {
+  content: "";
+}
+
+.fa-frown-open:before {
+  content: "";
+}
+
+.fa-fulcrum:before {
+  content: "";
+}
+
+.fa-funnel-dollar:before {
+  content: "";
+}
+
+.fa-futbol:before {
+  content: "";
+}
+
+.fa-galactic-republic:before {
+  content: "";
+}
+
+.fa-galactic-senate:before {
+  content: "";
+}
+
+.fa-gamepad:before {
+  content: "";
+}
+
+.fa-gas-pump:before {
+  content: "";
+}
+
+.fa-gavel:before {
+  content: "";
+}
+
+.fa-gem:before {
+  content: "";
+}
+
+.fa-genderless:before {
+  content: "";
+}
+
+.fa-get-pocket:before {
+  content: "";
+}
+
+.fa-gg:before {
+  content: "";
+}
+
+.fa-gg-circle:before {
+  content: "";
+}
+
+.fa-ghost:before {
+  content: "";
+}
+
+.fa-gift:before {
+  content: "";
+}
+
+.fa-gifts:before {
+  content: "";
+}
+
+.fa-git:before {
+  content: "";
+}
+
+.fa-git-alt:before {
+  content: "";
+}
+
+.fa-git-square:before {
+  content: "";
+}
+
+.fa-github:before {
+  content: "";
+}
+
+.fa-github-alt:before {
+  content: "";
+}
+
+.fa-github-square:before {
+  content: "";
+}
+
+.fa-gitkraken:before {
+  content: "";
+}
+
+.fa-gitlab:before {
+  content: "";
+}
+
+.fa-gitter:before {
+  content: "";
+}
+
+.fa-glass-cheers:before {
+  content: "";
+}
+
+.fa-glass-martini:before {
+  content: "";
+}
+
+.fa-glass-martini-alt:before {
+  content: "";
+}
+
+.fa-glass-whiskey:before {
+  content: "";
+}
+
+.fa-glasses:before {
+  content: "";
+}
+
+.fa-glide:before {
+  content: "";
+}
+
+.fa-glide-g:before {
+  content: "";
+}
+
+.fa-globe:before {
+  content: "";
+}
+
+.fa-globe-africa:before {
+  content: "";
+}
+
+.fa-globe-americas:before {
+  content: "";
+}
+
+.fa-globe-asia:before {
+  content: "";
+}
+
+.fa-globe-europe:before {
+  content: "";
+}
+
+.fa-gofore:before {
+  content: "";
+}
+
+.fa-golf-ball:before {
+  content: "";
+}
+
+.fa-goodreads:before {
+  content: "";
+}
+
+.fa-goodreads-g:before {
+  content: "";
+}
+
+.fa-google:before {
+  content: "";
+}
+
+.fa-google-drive:before {
+  content: "";
+}
+
+.fa-google-pay:before {
+  content: "";
+}
+
+.fa-google-play:before {
+  content: "";
+}
+
+.fa-google-plus:before {
+  content: "";
+}
+
+.fa-google-plus-g:before {
+  content: "";
+}
+
+.fa-google-plus-square:before {
+  content: "";
+}
+
+.fa-google-wallet:before {
+  content: "";
+}
+
+.fa-gopuram:before {
+  content: "";
+}
+
+.fa-graduation-cap:before {
+  content: "";
+}
+
+.fa-gratipay:before {
+  content: "";
+}
+
+.fa-grav:before {
+  content: "";
+}
+
+.fa-greater-than:before {
+  content: "";
+}
+
+.fa-greater-than-equal:before {
+  content: "";
+}
+
+.fa-grimace:before {
+  content: "";
+}
+
+.fa-grin:before {
+  content: "";
+}
+
+.fa-grin-alt:before {
+  content: "";
+}
+
+.fa-grin-beam:before {
+  content: "";
+}
+
+.fa-grin-beam-sweat:before {
+  content: "";
+}
+
+.fa-grin-hearts:before {
+  content: "";
+}
+
+.fa-grin-squint:before {
+  content: "";
+}
+
+.fa-grin-squint-tears:before {
+  content: "";
+}
+
+.fa-grin-stars:before {
+  content: "";
+}
+
+.fa-grin-tears:before {
+  content: "";
+}
+
+.fa-grin-tongue:before {
+  content: "";
+}
+
+.fa-grin-tongue-squint:before {
+  content: "";
+}
+
+.fa-grin-tongue-wink:before {
+  content: "";
+}
+
+.fa-grin-wink:before {
+  content: "";
+}
+
+.fa-grip-horizontal:before {
+  content: "";
+}
+
+.fa-grip-lines:before {
+  content: "";
+}
+
+.fa-grip-lines-vertical:before {
+  content: "";
+}
+
+.fa-grip-vertical:before {
+  content: "";
+}
+
+.fa-gripfire:before {
+  content: "";
+}
+
+.fa-grunt:before {
+  content: "";
+}
+
+.fa-guilded:before {
+  content: "";
+}
+
+.fa-guitar:before {
+  content: "";
+}
+
+.fa-gulp:before {
+  content: "";
+}
+
+.fa-h-square:before {
+  content: "";
+}
+
+.fa-hacker-news:before {
+  content: "";
+}
+
+.fa-hacker-news-square:before {
+  content: "";
+}
+
+.fa-hackerrank:before {
+  content: "";
+}
+
+.fa-hamburger:before {
+  content: "";
+}
+
+.fa-hammer:before {
+  content: "";
+}
+
+.fa-hamsa:before {
+  content: "";
+}
+
+.fa-hand-holding:before {
+  content: "";
+}
+
+.fa-hand-holding-heart:before {
+  content: "";
+}
+
+.fa-hand-holding-medical:before {
+  content: "";
+}
+
+.fa-hand-holding-usd:before {
+  content: "";
+}
+
+.fa-hand-holding-water:before {
+  content: "";
+}
+
+.fa-hand-lizard:before {
+  content: "";
+}
+
+.fa-hand-middle-finger:before {
+  content: "";
+}
+
+.fa-hand-paper:before {
+  content: "";
+}
+
+.fa-hand-peace:before {
+  content: "";
+}
+
+.fa-hand-point-down:before {
+  content: "";
+}
+
+.fa-hand-point-left:before {
+  content: "";
+}
+
+.fa-hand-point-right:before {
+  content: "";
+}
+
+.fa-hand-point-up:before {
+  content: "";
+}
+
+.fa-hand-pointer:before {
+  content: "";
+}
+
+.fa-hand-rock:before {
+  content: "";
+}
+
+.fa-hand-scissors:before {
+  content: "";
+}
+
+.fa-hand-sparkles:before {
+  content: "";
+}
+
+.fa-hand-spock:before {
+  content: "";
+}
+
+.fa-hands:before {
+  content: "";
+}
+
+.fa-hands-helping:before {
+  content: "";
+}
+
+.fa-hands-wash:before {
+  content: "";
+}
+
+.fa-handshake:before {
+  content: "";
+}
+
+.fa-handshake-alt-slash:before {
+  content: "";
+}
+
+.fa-handshake-slash:before {
+  content: "";
+}
+
+.fa-hanukiah:before {
+  content: "";
+}
+
+.fa-hard-hat:before {
+  content: "";
+}
+
+.fa-hashtag:before {
+  content: "";
+}
+
+.fa-hat-cowboy:before {
+  content: "";
+}
+
+.fa-hat-cowboy-side:before {
+  content: "";
+}
+
+.fa-hat-wizard:before {
+  content: "";
+}
+
+.fa-hdd:before {
+  content: "";
+}
+
+.fa-head-side-cough:before {
+  content: "";
+}
+
+.fa-head-side-cough-slash:before {
+  content: "";
+}
+
+.fa-head-side-mask:before {
+  content: "";
+}
+
+.fa-head-side-virus:before {
+  content: "";
+}
+
+.fa-heading:before {
+  content: "";
+}
+
+.fa-headphones:before {
+  content: "";
+}
+
+.fa-headphones-alt:before {
+  content: "";
+}
+
+.fa-headset:before {
+  content: "";
+}
+
+.fa-heart:before {
+  content: "";
+}
+
+.fa-heart-broken:before {
+  content: "";
+}
+
+.fa-heartbeat:before {
+  content: "";
+}
+
+.fa-helicopter:before {
+  content: "";
+}
+
+.fa-highlighter:before {
+  content: "";
+}
+
+.fa-hiking:before {
+  content: "";
+}
+
+.fa-hippo:before {
+  content: "";
+}
+
+.fa-hips:before {
+  content: "";
+}
+
+.fa-hire-a-helper:before {
+  content: "";
+}
+
+.fa-history:before {
+  content: "";
+}
+
+.fa-hive:before {
+  content: "";
+}
+
+.fa-hockey-puck:before {
+  content: "";
+}
+
+.fa-holly-berry:before {
+  content: "";
+}
+
+.fa-home:before {
+  content: "";
+}
+
+.fa-hooli:before {
+  content: "";
+}
+
+.fa-hornbill:before {
+  content: "";
+}
+
+.fa-horse:before {
+  content: "";
+}
+
+.fa-horse-head:before {
+  content: "";
+}
+
+.fa-hospital:before {
+  content: "";
+}
+
+.fa-hospital-alt:before {
+  content: "";
+}
+
+.fa-hospital-symbol:before {
+  content: "";
+}
+
+.fa-hospital-user:before {
+  content: "";
+}
+
+.fa-hot-tub:before {
+  content: "";
+}
+
+.fa-hotdog:before {
+  content: "";
+}
+
+.fa-hotel:before {
+  content: "";
+}
+
+.fa-hotjar:before {
+  content: "";
+}
+
+.fa-hourglass:before {
+  content: "";
+}
+
+.fa-hourglass-end:before {
+  content: "";
+}
+
+.fa-hourglass-half:before {
+  content: "";
+}
+
+.fa-hourglass-start:before {
+  content: "";
+}
+
+.fa-house-damage:before {
+  content: "";
+}
+
+.fa-house-user:before {
+  content: "";
+}
+
+.fa-houzz:before {
+  content: "";
+}
+
+.fa-hryvnia:before {
+  content: "";
+}
+
+.fa-html5:before {
+  content: "";
+}
+
+.fa-hubspot:before {
+  content: "";
+}
+
+.fa-i-cursor:before {
+  content: "";
+}
+
+.fa-ice-cream:before {
+  content: "";
+}
+
+.fa-icicles:before {
+  content: "";
+}
+
+.fa-icons:before {
+  content: "";
+}
+
+.fa-id-badge:before {
+  content: "";
+}
+
+.fa-id-card:before {
+  content: "";
+}
+
+.fa-id-card-alt:before {
+  content: "";
+}
+
+.fa-ideal:before {
+  content: "";
+}
+
+.fa-igloo:before {
+  content: "";
+}
+
+.fa-image:before {
+  content: "";
+}
+
+.fa-images:before {
+  content: "";
+}
+
+.fa-imdb:before {
+  content: "";
+}
+
+.fa-inbox:before {
+  content: "";
+}
+
+.fa-indent:before {
+  content: "";
+}
+
+.fa-industry:before {
+  content: "";
+}
+
+.fa-infinity:before {
+  content: "";
+}
+
+.fa-info:before {
+  content: "";
+}
+
+.fa-info-circle:before {
+  content: "";
+}
+
+.fa-innosoft:before {
+  content: "";
+}
+
+.fa-instagram:before {
+  content: "";
+}
+
+.fa-instagram-square:before {
+  content: "";
+}
+
+.fa-instalod:before {
+  content: "";
+}
+
+.fa-intercom:before {
+  content: "";
+}
+
+.fa-internet-explorer:before {
+  content: "";
+}
+
+.fa-invision:before {
+  content: "";
+}
+
+.fa-ioxhost:before {
+  content: "";
+}
+
+.fa-italic:before {
+  content: "";
+}
+
+.fa-itch-io:before {
+  content: "";
+}
+
+.fa-itunes:before {
+  content: "";
+}
+
+.fa-itunes-note:before {
+  content: "";
+}
+
+.fa-java:before {
+  content: "";
+}
+
+.fa-jedi:before {
+  content: "";
+}
+
+.fa-jedi-order:before {
+  content: "";
+}
+
+.fa-jenkins:before {
+  content: "";
+}
+
+.fa-jira:before {
+  content: "";
+}
+
+.fa-joget:before {
+  content: "";
+}
+
+.fa-joint:before {
+  content: "";
+}
+
+.fa-joomla:before {
+  content: "";
+}
+
+.fa-journal-whills:before {
+  content: "";
+}
+
+.fa-js:before {
+  content: "";
+}
+
+.fa-js-square:before {
+  content: "";
+}
+
+.fa-jsfiddle:before {
+  content: "";
+}
+
+.fa-kaaba:before {
+  content: "";
+}
+
+.fa-kaggle:before {
+  content: "";
+}
+
+.fa-key:before {
+  content: "";
+}
+
+.fa-keybase:before {
+  content: "";
+}
+
+.fa-keyboard:before {
+  content: "";
+}
+
+.fa-keycdn:before {
+  content: "";
+}
+
+.fa-khanda:before {
+  content: "";
+}
+
+.fa-kickstarter:before {
+  content: "";
+}
+
+.fa-kickstarter-k:before {
+  content: "";
+}
+
+.fa-kiss:before {
+  content: "";
+}
+
+.fa-kiss-beam:before {
+  content: "";
+}
+
+.fa-kiss-wink-heart:before {
+  content: "";
+}
+
+.fa-kiwi-bird:before {
+  content: "";
+}
+
+.fa-korvue:before {
+  content: "";
+}
+
+.fa-landmark:before {
+  content: "";
+}
+
+.fa-language:before {
+  content: "";
+}
+
+.fa-laptop:before {
+  content: "";
+}
+
+.fa-laptop-code:before {
+  content: "";
+}
+
+.fa-laptop-house:before {
+  content: "";
+}
+
+.fa-laptop-medical:before {
+  content: "";
+}
+
+.fa-laravel:before {
+  content: "";
+}
+
+.fa-lastfm:before {
+  content: "";
+}
+
+.fa-lastfm-square:before {
+  content: "";
+}
+
+.fa-laugh:before {
+  content: "";
+}
+
+.fa-laugh-beam:before {
+  content: "";
+}
+
+.fa-laugh-squint:before {
+  content: "";
+}
+
+.fa-laugh-wink:before {
+  content: "";
+}
+
+.fa-layer-group:before {
+  content: "";
+}
+
+.fa-leaf:before {
+  content: "";
+}
+
+.fa-leanpub:before {
+  content: "";
+}
+
+.fa-lemon:before {
+  content: "";
+}
+
+.fa-less:before {
+  content: "";
+}
+
+.fa-less-than:before {
+  content: "";
+}
+
+.fa-less-than-equal:before {
+  content: "";
+}
+
+.fa-level-down-alt:before {
+  content: "";
+}
+
+.fa-level-up-alt:before {
+  content: "";
+}
+
+.fa-life-ring:before {
+  content: "";
+}
+
+.fa-lightbulb:before {
+  content: "";
+}
+
+.fa-line:before {
+  content: "";
+}
+
+.fa-link:before {
+  content: "";
+}
+
+.fa-linkedin:before {
+  content: "";
+}
+
+.fa-linkedin-in:before {
+  content: "";
+}
+
+.fa-linode:before {
+  content: "";
+}
+
+.fa-linux:before {
+  content: "";
+}
+
+.fa-lira-sign:before {
+  content: "";
+}
+
+.fa-list:before {
+  content: "";
+}
+
+.fa-list-alt:before {
+  content: "";
+}
+
+.fa-list-ol:before {
+  content: "";
+}
+
+.fa-list-ul:before {
+  content: "";
+}
+
+.fa-location-arrow:before {
+  content: "";
+}
+
+.fa-lock:before {
+  content: "";
+}
+
+.fa-lock-open:before {
+  content: "";
+}
+
+.fa-long-arrow-alt-down:before {
+  content: "";
+}
+
+.fa-long-arrow-alt-left:before {
+  content: "";
+}
+
+.fa-long-arrow-alt-right:before {
+  content: "";
+}
+
+.fa-long-arrow-alt-up:before {
+  content: "";
+}
+
+.fa-low-vision:before {
+  content: "";
+}
+
+.fa-luggage-cart:before {
+  content: "";
+}
+
+.fa-lungs:before {
+  content: "";
+}
+
+.fa-lungs-virus:before {
+  content: "";
+}
+
+.fa-lyft:before {
+  content: "";
+}
+
+.fa-magento:before {
+  content: "";
+}
+
+.fa-magic:before {
+  content: "";
+}
+
+.fa-magnet:before {
+  content: "";
+}
+
+.fa-mail-bulk:before {
+  content: "";
+}
+
+.fa-mailchimp:before {
+  content: "";
+}
+
+.fa-male:before {
+  content: "";
+}
+
+.fa-mandalorian:before {
+  content: "";
+}
+
+.fa-map:before {
+  content: "";
+}
+
+.fa-map-marked:before {
+  content: "";
+}
+
+.fa-map-marked-alt:before {
+  content: "";
+}
+
+.fa-map-marker:before {
+  content: "";
+}
+
+.fa-map-marker-alt:before {
+  content: "";
+}
+
+.fa-map-pin:before {
+  content: "";
+}
+
+.fa-map-signs:before {
+  content: "";
+}
+
+.fa-markdown:before {
+  content: "";
+}
+
+.fa-marker:before {
+  content: "";
+}
+
+.fa-mars:before {
+  content: "";
+}
+
+.fa-mars-double:before {
+  content: "";
+}
+
+.fa-mars-stroke:before {
+  content: "";
+}
+
+.fa-mars-stroke-h:before {
+  content: "";
+}
+
+.fa-mars-stroke-v:before {
+  content: "";
+}
+
+.fa-mask:before {
+  content: "";
+}
+
+.fa-mastodon:before {
+  content: "";
+}
+
+.fa-maxcdn:before {
+  content: "";
+}
+
+.fa-mdb:before {
+  content: "";
+}
+
+.fa-medal:before {
+  content: "";
+}
+
+.fa-medapps:before {
+  content: "";
+}
+
+.fa-medium:before {
+  content: "";
+}
+
+.fa-medium-m:before {
+  content: "";
+}
+
+.fa-medkit:before {
+  content: "";
+}
+
+.fa-medrt:before {
+  content: "";
+}
+
+.fa-meetup:before {
+  content: "";
+}
+
+.fa-megaport:before {
+  content: "";
+}
+
+.fa-meh:before {
+  content: "";
+}
+
+.fa-meh-blank:before {
+  content: "";
+}
+
+.fa-meh-rolling-eyes:before {
+  content: "";
+}
+
+.fa-memory:before {
+  content: "";
+}
+
+.fa-mendeley:before {
+  content: "";
+}
+
+.fa-menorah:before {
+  content: "";
+}
+
+.fa-mercury:before {
+  content: "";
+}
+
+.fa-meteor:before {
+  content: "";
+}
+
+.fa-microblog:before {
+  content: "";
+}
+
+.fa-microchip:before {
+  content: "";
+}
+
+.fa-microphone:before {
+  content: "";
+}
+
+.fa-microphone-alt:before {
+  content: "";
+}
+
+.fa-microphone-alt-slash:before {
+  content: "";
+}
+
+.fa-microphone-slash:before {
+  content: "";
+}
+
+.fa-microscope:before {
+  content: "";
+}
+
+.fa-microsoft:before {
+  content: "";
+}
+
+.fa-minus:before {
+  content: "";
+}
+
+.fa-minus-circle:before {
+  content: "";
+}
+
+.fa-minus-square:before {
+  content: "";
+}
+
+.fa-mitten:before {
+  content: "";
+}
+
+.fa-mix:before {
+  content: "";
+}
+
+.fa-mixcloud:before {
+  content: "";
+}
+
+.fa-mixer:before {
+  content: "";
+}
+
+.fa-mizuni:before {
+  content: "";
+}
+
+.fa-mobile:before {
+  content: "";
+}
+
+.fa-mobile-alt:before {
+  content: "";
+}
+
+.fa-modx:before {
+  content: "";
+}
+
+.fa-monero:before {
+  content: "";
+}
+
+.fa-money-bill:before {
+  content: "";
+}
+
+.fa-money-bill-alt:before {
+  content: "";
+}
+
+.fa-money-bill-wave:before {
+  content: "";
+}
+
+.fa-money-bill-wave-alt:before {
+  content: "";
+}
+
+.fa-money-check:before {
+  content: "";
+}
+
+.fa-money-check-alt:before {
+  content: "";
+}
+
+.fa-monument:before {
+  content: "";
+}
+
+.fa-moon:before {
+  content: "";
+}
+
+.fa-mortar-pestle:before {
+  content: "";
+}
+
+.fa-mosque:before {
+  content: "";
+}
+
+.fa-motorcycle:before {
+  content: "";
+}
+
+.fa-mountain:before {
+  content: "";
+}
+
+.fa-mouse:before {
+  content: "";
+}
+
+.fa-mouse-pointer:before {
+  content: "";
+}
+
+.fa-mug-hot:before {
+  content: "";
+}
+
+.fa-music:before {
+  content: "";
+}
+
+.fa-napster:before {
+  content: "";
+}
+
+.fa-neos:before {
+  content: "";
+}
+
+.fa-network-wired:before {
+  content: "";
+}
+
+.fa-neuter:before {
+  content: "";
+}
+
+.fa-newspaper:before {
+  content: "";
+}
+
+.fa-nimblr:before {
+  content: "";
+}
+
+.fa-node:before {
+  content: "";
+}
+
+.fa-node-js:before {
+  content: "";
+}
+
+.fa-not-equal:before {
+  content: "";
+}
+
+.fa-notes-medical:before {
+  content: "";
+}
+
+.fa-npm:before {
+  content: "";
+}
+
+.fa-ns8:before {
+  content: "";
+}
+
+.fa-nutritionix:before {
+  content: "";
+}
+
+.fa-object-group:before {
+  content: "";
+}
+
+.fa-object-ungroup:before {
+  content: "";
+}
+
+.fa-octopus-deploy:before {
+  content: "";
+}
+
+.fa-odnoklassniki:before {
+  content: "";
+}
+
+.fa-odnoklassniki-square:before {
+  content: "";
+}
+
+.fa-oil-can:before {
+  content: "";
+}
+
+.fa-old-republic:before {
+  content: "";
+}
+
+.fa-om:before {
+  content: "";
+}
+
+.fa-opencart:before {
+  content: "";
+}
+
+.fa-openid:before {
+  content: "";
+}
+
+.fa-opera:before {
+  content: "";
+}
+
+.fa-optin-monster:before {
+  content: "";
+}
+
+.fa-orcid:before {
+  content: "";
+}
+
+.fa-osi:before {
+  content: "";
+}
+
+.fa-otter:before {
+  content: "";
+}
+
+.fa-outdent:before {
+  content: "";
+}
+
+.fa-page4:before {
+  content: "";
+}
+
+.fa-pagelines:before {
+  content: "";
+}
+
+.fa-pager:before {
+  content: "";
+}
+
+.fa-paint-brush:before {
+  content: "";
+}
+
+.fa-paint-roller:before {
+  content: "";
+}
+
+.fa-palette:before {
+  content: "";
+}
+
+.fa-palfed:before {
+  content: "";
+}
+
+.fa-pallet:before {
+  content: "";
+}
+
+.fa-paper-plane:before {
+  content: "";
+}
+
+.fa-paperclip:before {
+  content: "";
+}
+
+.fa-parachute-box:before {
+  content: "";
+}
+
+.fa-paragraph:before {
+  content: "";
+}
+
+.fa-parking:before {
+  content: "";
+}
+
+.fa-passport:before {
+  content: "";
+}
+
+.fa-pastafarianism:before {
+  content: "";
+}
+
+.fa-paste:before {
+  content: "";
+}
+
+.fa-patreon:before {
+  content: "";
+}
+
+.fa-pause:before {
+  content: "";
+}
+
+.fa-pause-circle:before {
+  content: "";
+}
+
+.fa-paw:before {
+  content: "";
+}
+
+.fa-paypal:before {
+  content: "";
+}
+
+.fa-peace:before {
+  content: "";
+}
+
+.fa-pen:before {
+  content: "";
+}
+
+.fa-pen-alt:before {
+  content: "";
+}
+
+.fa-pen-fancy:before {
+  content: "";
+}
+
+.fa-pen-nib:before {
+  content: "";
+}
+
+.fa-pen-square:before {
+  content: "";
+}
+
+.fa-pencil-alt:before {
+  content: "";
+}
+
+.fa-pencil-ruler:before {
+  content: "";
+}
+
+.fa-penny-arcade:before {
+  content: "";
+}
+
+.fa-people-arrows:before {
+  content: "";
+}
+
+.fa-people-carry:before {
+  content: "";
+}
+
+.fa-pepper-hot:before {
+  content: "";
+}
+
+.fa-perbyte:before {
+  content: "";
+}
+
+.fa-percent:before {
+  content: "";
+}
+
+.fa-percentage:before {
+  content: "";
+}
+
+.fa-periscope:before {
+  content: "";
+}
+
+.fa-person-booth:before {
+  content: "";
+}
+
+.fa-phabricator:before {
+  content: "";
+}
+
+.fa-phoenix-framework:before {
+  content: "";
+}
+
+.fa-phoenix-squadron:before {
+  content: "";
+}
+
+.fa-phone:before {
+  content: "";
+}
+
+.fa-phone-alt:before {
+  content: "";
+}
+
+.fa-phone-slash:before {
+  content: "";
+}
+
+.fa-phone-square:before {
+  content: "";
+}
+
+.fa-phone-square-alt:before {
+  content: "";
+}
+
+.fa-phone-volume:before {
+  content: "";
+}
+
+.fa-photo-video:before {
+  content: "";
+}
+
+.fa-php:before {
+  content: "";
+}
+
+.fa-pied-piper:before {
+  content: "";
+}
+
+.fa-pied-piper-alt:before {
+  content: "";
+}
+
+.fa-pied-piper-hat:before {
+  content: "";
+}
+
+.fa-pied-piper-pp:before {
+  content: "";
+}
+
+.fa-pied-piper-square:before {
+  content: "";
+}
+
+.fa-piggy-bank:before {
+  content: "";
+}
+
+.fa-pills:before {
+  content: "";
+}
+
+.fa-pinterest:before {
+  content: "";
+}
+
+.fa-pinterest-p:before {
+  content: "";
+}
+
+.fa-pinterest-square:before {
+  content: "";
+}
+
+.fa-pizza-slice:before {
+  content: "";
+}
+
+.fa-place-of-worship:before {
+  content: "";
+}
+
+.fa-plane:before {
+  content: "";
+}
+
+.fa-plane-arrival:before {
+  content: "";
+}
+
+.fa-plane-departure:before {
+  content: "";
+}
+
+.fa-plane-slash:before {
+  content: "";
+}
+
+.fa-play:before {
+  content: "";
+}
+
+.fa-play-circle:before {
+  content: "";
+}
+
+.fa-playstation:before {
+  content: "";
+}
+
+.fa-plug:before {
+  content: "";
+}
+
+.fa-plus:before {
+  content: "";
+}
+
+.fa-plus-circle:before {
+  content: "";
+}
+
+.fa-plus-square:before {
+  content: "";
+}
+
+.fa-podcast:before {
+  content: "";
+}
+
+.fa-poll:before {
+  content: "";
+}
+
+.fa-poll-h:before {
+  content: "";
+}
+
+.fa-poo:before {
+  content: "";
+}
+
+.fa-poo-storm:before {
+  content: "";
+}
+
+.fa-poop:before {
+  content: "";
+}
+
+.fa-portrait:before {
+  content: "";
+}
+
+.fa-pound-sign:before {
+  content: "";
+}
+
+.fa-power-off:before {
+  content: "";
+}
+
+.fa-pray:before {
+  content: "";
+}
+
+.fa-praying-hands:before {
+  content: "";
+}
+
+.fa-prescription:before {
+  content: "";
+}
+
+.fa-prescription-bottle:before {
+  content: "";
+}
+
+.fa-prescription-bottle-alt:before {
+  content: "";
+}
+
+.fa-print:before {
+  content: "";
+}
+
+.fa-procedures:before {
+  content: "";
+}
+
+.fa-product-hunt:before {
+  content: "";
+}
+
+.fa-project-diagram:before {
+  content: "";
+}
+
+.fa-pump-medical:before {
+  content: "";
+}
+
+.fa-pump-soap:before {
+  content: "";
+}
+
+.fa-pushed:before {
+  content: "";
+}
+
+.fa-puzzle-piece:before {
+  content: "";
+}
+
+.fa-python:before {
+  content: "";
+}
+
+.fa-qq:before {
+  content: "";
+}
+
+.fa-qrcode:before {
+  content: "";
+}
+
+.fa-question:before {
+  content: "";
+}
+
+.fa-question-circle:before {
+  content: "";
+}
+
+.fa-quidditch:before {
+  content: "";
+}
+
+.fa-quinscape:before {
+  content: "";
+}
+
+.fa-quora:before {
+  content: "";
+}
+
+.fa-quote-left:before {
+  content: "";
+}
+
+.fa-quote-right:before {
+  content: "";
+}
+
+.fa-quran:before {
+  content: "";
+}
+
+.fa-r-project:before {
+  content: "";
+}
+
+.fa-radiation:before {
+  content: "";
+}
+
+.fa-radiation-alt:before {
+  content: "";
+}
+
+.fa-rainbow:before {
+  content: "";
+}
+
+.fa-random:before {
+  content: "";
+}
+
+.fa-raspberry-pi:before {
+  content: "";
+}
+
+.fa-ravelry:before {
+  content: "";
+}
+
+.fa-react:before {
+  content: "";
+}
+
+.fa-reacteurope:before {
+  content: "";
+}
+
+.fa-readme:before {
+  content: "";
+}
+
+.fa-rebel:before {
+  content: "";
+}
+
+.fa-receipt:before {
+  content: "";
+}
+
+.fa-record-vinyl:before {
+  content: "";
+}
+
+.fa-recycle:before {
+  content: "";
+}
+
+.fa-red-river:before {
+  content: "";
+}
+
+.fa-reddit:before {
+  content: "";
+}
+
+.fa-reddit-alien:before {
+  content: "";
+}
+
+.fa-reddit-square:before {
+  content: "";
+}
+
+.fa-redhat:before {
+  content: "";
+}
+
+.fa-redo:before {
+  content: "";
+}
+
+.fa-redo-alt:before {
+  content: "";
+}
+
+.fa-registered:before {
+  content: "";
+}
+
+.fa-remove-format:before {
+  content: "";
+}
+
+.fa-renren:before {
+  content: "";
+}
+
+.fa-reply:before {
+  content: "";
+}
+
+.fa-reply-all:before {
+  content: "";
+}
+
+.fa-replyd:before {
+  content: "";
+}
+
+.fa-republican:before {
+  content: "";
+}
+
+.fa-researchgate:before {
+  content: "";
+}
+
+.fa-resolving:before {
+  content: "";
+}
+
+.fa-restroom:before {
+  content: "";
+}
+
+.fa-retweet:before {
+  content: "";
+}
+
+.fa-rev:before {
+  content: "";
+}
+
+.fa-ribbon:before {
+  content: "";
+}
+
+.fa-ring:before {
+  content: "";
+}
+
+.fa-road:before {
+  content: "";
+}
+
+.fa-robot:before {
+  content: "";
+}
+
+.fa-rocket:before {
+  content: "";
+}
+
+.fa-rocketchat:before {
+  content: "";
+}
+
+.fa-rockrms:before {
+  content: "";
+}
+
+.fa-route:before {
+  content: "";
+}
+
+.fa-rss:before {
+  content: "";
+}
+
+.fa-rss-square:before {
+  content: "";
+}
+
+.fa-ruble-sign:before {
+  content: "";
+}
+
+.fa-ruler:before {
+  content: "";
+}
+
+.fa-ruler-combined:before {
+  content: "";
+}
+
+.fa-ruler-horizontal:before {
+  content: "";
+}
+
+.fa-ruler-vertical:before {
+  content: "";
+}
+
+.fa-running:before {
+  content: "";
+}
+
+.fa-rupee-sign:before {
+  content: "";
+}
+
+.fa-rust:before {
+  content: "";
+}
+
+.fa-sad-cry:before {
+  content: "";
+}
+
+.fa-sad-tear:before {
+  content: "";
+}
+
+.fa-safari:before {
+  content: "";
+}
+
+.fa-salesforce:before {
+  content: "";
+}
+
+.fa-sass:before {
+  content: "";
+}
+
+.fa-satellite:before {
+  content: "";
+}
+
+.fa-satellite-dish:before {
+  content: "";
+}
+
+.fa-save:before {
+  content: "";
+}
+
+.fa-schlix:before {
+  content: "";
+}
+
+.fa-school:before {
+  content: "";
+}
+
+.fa-screwdriver:before {
+  content: "";
+}
+
+.fa-scribd:before {
+  content: "";
+}
+
+.fa-scroll:before {
+  content: "";
+}
+
+.fa-sd-card:before {
+  content: "";
+}
+
+.fa-search:before {
+  content: "";
+}
+
+.fa-search-dollar:before {
+  content: "";
+}
+
+.fa-search-location:before {
+  content: "";
+}
+
+.fa-search-minus:before {
+  content: "";
+}
+
+.fa-search-plus:before {
+  content: "";
+}
+
+.fa-searchengin:before {
+  content: "";
+}
+
+.fa-seedling:before {
+  content: "";
+}
+
+.fa-sellcast:before {
+  content: "";
+}
+
+.fa-sellsy:before {
+  content: "";
+}
+
+.fa-server:before {
+  content: "";
+}
+
+.fa-servicestack:before {
+  content: "";
+}
+
+.fa-shapes:before {
+  content: "";
+}
+
+.fa-share:before {
+  content: "";
+}
+
+.fa-share-alt:before {
+  content: "";
+}
+
+.fa-share-alt-square:before {
+  content: "";
+}
+
+.fa-share-square:before {
+  content: "";
+}
+
+.fa-shekel-sign:before {
+  content: "";
+}
+
+.fa-shield-alt:before {
+  content: "";
+}
+
+.fa-shield-virus:before {
+  content: "";
+}
+
+.fa-ship:before {
+  content: "";
+}
+
+.fa-shipping-fast:before {
+  content: "";
+}
+
+.fa-shirtsinbulk:before {
+  content: "";
+}
+
+.fa-shoe-prints:before {
+  content: "";
+}
+
+.fa-shopify:before {
+  content: "";
+}
+
+.fa-shopping-bag:before {
+  content: "";
+}
+
+.fa-shopping-basket:before {
+  content: "";
+}
+
+.fa-shopping-cart:before {
+  content: "";
+}
+
+.fa-shopware:before {
+  content: "";
+}
+
+.fa-shower:before {
+  content: "";
+}
+
+.fa-shuttle-van:before {
+  content: "";
+}
+
+.fa-sign:before {
+  content: "";
+}
+
+.fa-sign-in-alt:before {
+  content: "";
+}
+
+.fa-sign-language:before {
+  content: "";
+}
+
+.fa-sign-out-alt:before {
+  content: "";
+}
+
+.fa-signal:before {
+  content: "";
+}
+
+.fa-signature:before {
+  content: "";
+}
+
+.fa-sim-card:before {
+  content: "";
+}
+
+.fa-simplybuilt:before {
+  content: "";
+}
+
+.fa-sink:before {
+  content: "";
+}
+
+.fa-sistrix:before {
+  content: "";
+}
+
+.fa-sitemap:before {
+  content: "";
+}
+
+.fa-sith:before {
+  content: "";
+}
+
+.fa-skating:before {
+  content: "";
+}
+
+.fa-sketch:before {
+  content: "";
+}
+
+.fa-skiing:before {
+  content: "";
+}
+
+.fa-skiing-nordic:before {
+  content: "";
+}
+
+.fa-skull:before {
+  content: "";
+}
+
+.fa-skull-crossbones:before {
+  content: "";
+}
+
+.fa-skyatlas:before {
+  content: "";
+}
+
+.fa-skype:before {
+  content: "";
+}
+
+.fa-slack:before {
+  content: "";
+}
+
+.fa-slack-hash:before {
+  content: "";
+}
+
+.fa-slash:before {
+  content: "";
+}
+
+.fa-sleigh:before {
+  content: "";
+}
+
+.fa-sliders-h:before {
+  content: "";
+}
+
+.fa-slideshare:before {
+  content: "";
+}
+
+.fa-smile:before {
+  content: "";
+}
+
+.fa-smile-beam:before {
+  content: "";
+}
+
+.fa-smile-wink:before {
+  content: "";
+}
+
+.fa-smog:before {
+  content: "";
+}
+
+.fa-smoking:before {
+  content: "";
+}
+
+.fa-smoking-ban:before {
+  content: "";
+}
+
+.fa-sms:before {
+  content: "";
+}
+
+.fa-snapchat:before {
+  content: "";
+}
+
+.fa-snapchat-ghost:before {
+  content: "";
+}
+
+.fa-snapchat-square:before {
+  content: "";
+}
+
+.fa-snowboarding:before {
+  content: "";
+}
+
+.fa-snowflake:before {
+  content: "";
+}
+
+.fa-snowman:before {
+  content: "";
+}
+
+.fa-snowplow:before {
+  content: "";
+}
+
+.fa-soap:before {
+  content: "";
+}
+
+.fa-socks:before {
+  content: "";
+}
+
+.fa-solar-panel:before {
+  content: "";
+}
+
+.fa-sort:before {
+  content: "";
+}
+
+.fa-sort-alpha-down:before {
+  content: "";
+}
+
+.fa-sort-alpha-down-alt:before {
+  content: "";
+}
+
+.fa-sort-alpha-up:before {
+  content: "";
+}
+
+.fa-sort-alpha-up-alt:before {
+  content: "";
+}
+
+.fa-sort-amount-down:before {
+  content: "";
+}
+
+.fa-sort-amount-down-alt:before {
+  content: "";
+}
+
+.fa-sort-amount-up:before {
+  content: "";
+}
+
+.fa-sort-amount-up-alt:before {
+  content: "";
+}
+
+.fa-sort-down:before {
+  content: "";
+}
+
+.fa-sort-numeric-down:before {
+  content: "";
+}
+
+.fa-sort-numeric-down-alt:before {
+  content: "";
+}
+
+.fa-sort-numeric-up:before {
+  content: "";
+}
+
+.fa-sort-numeric-up-alt:before {
+  content: "";
+}
+
+.fa-sort-up:before {
+  content: "";
+}
+
+.fa-soundcloud:before {
+  content: "";
+}
+
+.fa-sourcetree:before {
+  content: "";
+}
+
+.fa-spa:before {
+  content: "";
+}
+
+.fa-space-shuttle:before {
+  content: "";
+}
+
+.fa-speakap:before {
+  content: "";
+}
+
+.fa-speaker-deck:before {
+  content: "";
+}
+
+.fa-spell-check:before {
+  content: "";
+}
+
+.fa-spider:before {
+  content: "";
+}
+
+.fa-spinner:before {
+  content: "";
+}
+
+.fa-splotch:before {
+  content: "";
+}
+
+.fa-spotify:before {
+  content: "";
+}
+
+.fa-spray-can:before {
+  content: "";
+}
+
+.fa-square:before {
+  content: "";
+}
+
+.fa-square-full:before {
+  content: "";
+}
+
+.fa-square-root-alt:before {
+  content: "";
+}
+
+.fa-squarespace:before {
+  content: "";
+}
+
+.fa-stack-exchange:before {
+  content: "";
+}
+
+.fa-stack-overflow:before {
+  content: "";
+}
+
+.fa-stackpath:before {
+  content: "";
+}
+
+.fa-stamp:before {
+  content: "";
+}
+
+.fa-star:before {
+  content: "";
+}
+
+.fa-star-and-crescent:before {
+  content: "";
+}
+
+.fa-star-half:before {
+  content: "";
+}
+
+.fa-star-half-alt:before {
+  content: "";
+}
+
+.fa-star-of-david:before {
+  content: "";
+}
+
+.fa-star-of-life:before {
+  content: "";
+}
+
+.fa-staylinked:before {
+  content: "";
+}
+
+.fa-steam:before {
+  content: "";
+}
+
+.fa-steam-square:before {
+  content: "";
+}
+
+.fa-steam-symbol:before {
+  content: "";
+}
+
+.fa-step-backward:before {
+  content: "";
+}
+
+.fa-step-forward:before {
+  content: "";
+}
+
+.fa-stethoscope:before {
+  content: "";
+}
+
+.fa-sticker-mule:before {
+  content: "";
+}
+
+.fa-sticky-note:before {
+  content: "";
+}
+
+.fa-stop:before {
+  content: "";
+}
+
+.fa-stop-circle:before {
+  content: "";
+}
+
+.fa-stopwatch:before {
+  content: "";
+}
+
+.fa-stopwatch-20:before {
+  content: "";
+}
+
+.fa-store:before {
+  content: "";
+}
+
+.fa-store-alt:before {
+  content: "";
+}
+
+.fa-store-alt-slash:before {
+  content: "";
+}
+
+.fa-store-slash:before {
+  content: "";
+}
+
+.fa-strava:before {
+  content: "";
+}
+
+.fa-stream:before {
+  content: "";
+}
+
+.fa-street-view:before {
+  content: "";
+}
+
+.fa-strikethrough:before {
+  content: "";
+}
+
+.fa-stripe:before {
+  content: "";
+}
+
+.fa-stripe-s:before {
+  content: "";
+}
+
+.fa-stroopwafel:before {
+  content: "";
+}
+
+.fa-studiovinari:before {
+  content: "";
+}
+
+.fa-stumbleupon:before {
+  content: "";
+}
+
+.fa-stumbleupon-circle:before {
+  content: "";
+}
+
+.fa-subscript:before {
+  content: "";
+}
+
+.fa-subway:before {
+  content: "";
+}
+
+.fa-suitcase:before {
+  content: "";
+}
+
+.fa-suitcase-rolling:before {
+  content: "";
+}
+
+.fa-sun:before {
+  content: "";
+}
+
+.fa-superpowers:before {
+  content: "";
+}
+
+.fa-superscript:before {
+  content: "";
+}
+
+.fa-supple:before {
+  content: "";
+}
+
+.fa-surprise:before {
+  content: "";
+}
+
+.fa-suse:before {
+  content: "";
+}
+
+.fa-swatchbook:before {
+  content: "";
+}
+
+.fa-swift:before {
+  content: "";
+}
+
+.fa-swimmer:before {
+  content: "";
+}
+
+.fa-swimming-pool:before {
+  content: "";
+}
+
+.fa-symfony:before {
+  content: "";
+}
+
+.fa-synagogue:before {
+  content: "";
+}
+
+.fa-sync:before {
+  content: "";
+}
+
+.fa-sync-alt:before {
+  content: "";
+}
+
+.fa-syringe:before {
+  content: "";
+}
+
+.fa-table:before {
+  content: "";
+}
+
+.fa-table-tennis:before {
+  content: "";
+}
+
+.fa-tablet:before {
+  content: "";
+}
+
+.fa-tablet-alt:before {
+  content: "";
+}
+
+.fa-tablets:before {
+  content: "";
+}
+
+.fa-tachometer-alt:before {
+  content: "";
+}
+
+.fa-tag:before {
+  content: "";
+}
+
+.fa-tags:before {
+  content: "";
+}
+
+.fa-tape:before {
+  content: "";
+}
+
+.fa-tasks:before {
+  content: "";
+}
+
+.fa-taxi:before {
+  content: "";
+}
+
+.fa-teamspeak:before {
+  content: "";
+}
+
+.fa-teeth:before {
+  content: "";
+}
+
+.fa-teeth-open:before {
+  content: "";
+}
+
+.fa-telegram:before {
+  content: "";
+}
+
+.fa-telegram-plane:before {
+  content: "";
+}
+
+.fa-temperature-high:before {
+  content: "";
+}
+
+.fa-temperature-low:before {
+  content: "";
+}
+
+.fa-tencent-weibo:before {
+  content: "";
+}
+
+.fa-tenge:before {
+  content: "";
+}
+
+.fa-terminal:before {
+  content: "";
+}
+
+.fa-text-height:before {
+  content: "";
+}
+
+.fa-text-width:before {
+  content: "";
+}
+
+.fa-th:before {
+  content: "";
+}
+
+.fa-th-large:before {
+  content: "";
+}
+
+.fa-th-list:before {
+  content: "";
+}
+
+.fa-the-red-yeti:before {
+  content: "";
+}
+
+.fa-theater-masks:before {
+  content: "";
+}
+
+.fa-themeco:before {
+  content: "";
+}
+
+.fa-themeisle:before {
+  content: "";
+}
+
+.fa-thermometer:before {
+  content: "";
+}
+
+.fa-thermometer-empty:before {
+  content: "";
+}
+
+.fa-thermometer-full:before {
+  content: "";
+}
+
+.fa-thermometer-half:before {
+  content: "";
+}
+
+.fa-thermometer-quarter:before {
+  content: "";
+}
+
+.fa-thermometer-three-quarters:before {
+  content: "";
+}
+
+.fa-think-peaks:before {
+  content: "";
+}
+
+.fa-thumbs-down:before {
+  content: "";
+}
+
+.fa-thumbs-up:before {
+  content: "";
+}
+
+.fa-thumbtack:before {
+  content: "";
+}
+
+.fa-ticket-alt:before {
+  content: "";
+}
+
+.fa-tiktok:before {
+  content: "";
+}
+
+.fa-times:before {
+  content: "";
+}
+
+.fa-times-circle:before {
+  content: "";
+}
+
+.fa-tint:before {
+  content: "";
+}
+
+.fa-tint-slash:before {
+  content: "";
+}
+
+.fa-tired:before {
+  content: "";
+}
+
+.fa-toggle-off:before {
+  content: "";
+}
+
+.fa-toggle-on:before {
+  content: "";
+}
+
+.fa-toilet:before {
+  content: "";
+}
+
+.fa-toilet-paper:before {
+  content: "";
+}
+
+.fa-toilet-paper-slash:before {
+  content: "";
+}
+
+.fa-toolbox:before {
+  content: "";
+}
+
+.fa-tools:before {
+  content: "";
+}
+
+.fa-tooth:before {
+  content: "";
+}
+
+.fa-torah:before {
+  content: "";
+}
+
+.fa-torii-gate:before {
+  content: "";
+}
+
+.fa-tractor:before {
+  content: "";
+}
+
+.fa-trade-federation:before {
+  content: "";
+}
+
+.fa-trademark:before {
+  content: "";
+}
+
+.fa-traffic-light:before {
+  content: "";
+}
+
+.fa-trailer:before {
+  content: "";
+}
+
+.fa-train:before {
+  content: "";
+}
+
+.fa-tram:before {
+  content: "";
+}
+
+.fa-transgender:before {
+  content: "";
+}
+
+.fa-transgender-alt:before {
+  content: "";
+}
+
+.fa-trash:before {
+  content: "";
+}
+
+.fa-trash-alt:before {
+  content: "";
+}
+
+.fa-trash-restore:before {
+  content: "";
+}
+
+.fa-trash-restore-alt:before {
+  content: "";
+}
+
+.fa-tree:before {
+  content: "";
+}
+
+.fa-trello:before {
+  content: "";
+}
+
+.fa-tripadvisor:before {
+  content: "";
+}
+
+.fa-trophy:before {
+  content: "";
+}
+
+.fa-truck:before {
+  content: "";
+}
+
+.fa-truck-loading:before {
+  content: "";
+}
+
+.fa-truck-monster:before {
+  content: "";
+}
+
+.fa-truck-moving:before {
+  content: "";
+}
+
+.fa-truck-pickup:before {
+  content: "";
+}
+
+.fa-tshirt:before {
+  content: "";
+}
+
+.fa-tty:before {
+  content: "";
+}
+
+.fa-tumblr:before {
+  content: "";
+}
+
+.fa-tumblr-square:before {
+  content: "";
+}
+
+.fa-tv:before {
+  content: "";
+}
+
+.fa-twitch:before {
+  content: "";
+}
+
+.fa-twitter:before {
+  content: "";
+}
+
+.fa-twitter-square:before {
+  content: "";
+}
+
+.fa-typo3:before {
+  content: "";
+}
+
+.fa-uber:before {
+  content: "";
+}
+
+.fa-ubuntu:before {
+  content: "";
+}
+
+.fa-uikit:before {
+  content: "";
+}
+
+.fa-umbraco:before {
+  content: "";
+}
+
+.fa-umbrella:before {
+  content: "";
+}
+
+.fa-umbrella-beach:before {
+  content: "";
+}
+
+.fa-uncharted:before {
+  content: "";
+}
+
+.fa-underline:before {
+  content: "";
+}
+
+.fa-undo:before {
+  content: "";
+}
+
+.fa-undo-alt:before {
+  content: "";
+}
+
+.fa-uniregistry:before {
+  content: "";
+}
+
+.fa-unity:before {
+  content: "";
+}
+
+.fa-universal-access:before {
+  content: "";
+}
+
+.fa-university:before {
+  content: "";
+}
+
+.fa-unlink:before {
+  content: "";
+}
+
+.fa-unlock:before {
+  content: "";
+}
+
+.fa-unlock-alt:before {
+  content: "";
+}
+
+.fa-unsplash:before {
+  content: "";
+}
+
+.fa-untappd:before {
+  content: "";
+}
+
+.fa-upload:before {
+  content: "";
+}
+
+.fa-ups:before {
+  content: "";
+}
+
+.fa-usb:before {
+  content: "";
+}
+
+.fa-user:before {
+  content: "";
+}
+
+.fa-user-alt:before {
+  content: "";
+}
+
+.fa-user-alt-slash:before {
+  content: "";
+}
+
+.fa-user-astronaut:before {
+  content: "";
+}
+
+.fa-user-check:before {
+  content: "";
+}
+
+.fa-user-circle:before {
+  content: "";
+}
+
+.fa-user-clock:before {
+  content: "";
+}
+
+.fa-user-cog:before {
+  content: "";
+}
+
+.fa-user-edit:before {
+  content: "";
+}
+
+.fa-user-friends:before {
+  content: "";
+}
+
+.fa-user-graduate:before {
+  content: "";
+}
+
+.fa-user-injured:before {
+  content: "";
+}
+
+.fa-user-lock:before {
+  content: "";
+}
+
+.fa-user-md:before {
+  content: "";
+}
+
+.fa-user-minus:before {
+  content: "";
+}
+
+.fa-user-ninja:before {
+  content: "";
+}
+
+.fa-user-nurse:before {
+  content: "";
+}
+
+.fa-user-plus:before {
+  content: "";
+}
+
+.fa-user-secret:before {
+  content: "";
+}
+
+.fa-user-shield:before {
+  content: "";
+}
+
+.fa-user-slash:before {
+  content: "";
+}
+
+.fa-user-tag:before {
+  content: "";
+}
+
+.fa-user-tie:before {
+  content: "";
+}
+
+.fa-user-times:before {
+  content: "";
+}
+
+.fa-users:before {
+  content: "";
+}
+
+.fa-users-cog:before {
+  content: "";
+}
+
+.fa-users-slash:before {
+  content: "";
+}
+
+.fa-usps:before {
+  content: "";
+}
+
+.fa-ussunnah:before {
+  content: "";
+}
+
+.fa-utensil-spoon:before {
+  content: "";
+}
+
+.fa-utensils:before {
+  content: "";
+}
+
+.fa-vaadin:before {
+  content: "";
+}
+
+.fa-vector-square:before {
+  content: "";
+}
+
+.fa-venus:before {
+  content: "";
+}
+
+.fa-venus-double:before {
+  content: "";
+}
+
+.fa-venus-mars:before {
+  content: "";
+}
+
+.fa-vest:before {
+  content: "";
+}
+
+.fa-vest-patches:before {
+  content: "";
+}
+
+.fa-viacoin:before {
+  content: "";
+}
+
+.fa-viadeo:before {
+  content: "";
+}
+
+.fa-viadeo-square:before {
+  content: "";
+}
+
+.fa-vial:before {
+  content: "";
+}
+
+.fa-vials:before {
+  content: "";
+}
+
+.fa-viber:before {
+  content: "";
+}
+
+.fa-video:before {
+  content: "";
+}
+
+.fa-video-slash:before {
+  content: "";
+}
+
+.fa-vihara:before {
+  content: "";
+}
+
+.fa-vimeo:before {
+  content: "";
+}
+
+.fa-vimeo-square:before {
+  content: "";
+}
+
+.fa-vimeo-v:before {
+  content: "";
+}
+
+.fa-vine:before {
+  content: "";
+}
+
+.fa-virus:before {
+  content: "";
+}
+
+.fa-virus-slash:before {
+  content: "";
+}
+
+.fa-viruses:before {
+  content: "";
+}
+
+.fa-vk:before {
+  content: "";
+}
+
+.fa-vnv:before {
+  content: "";
+}
+
+.fa-voicemail:before {
+  content: "";
+}
+
+.fa-volleyball-ball:before {
+  content: "";
+}
+
+.fa-volume-down:before {
+  content: "";
+}
+
+.fa-volume-mute:before {
+  content: "";
+}
+
+.fa-volume-off:before {
+  content: "";
+}
+
+.fa-volume-up:before {
+  content: "";
+}
+
+.fa-vote-yea:before {
+  content: "";
+}
+
+.fa-vr-cardboard:before {
+  content: "";
+}
+
+.fa-vuejs:before {
+  content: "";
+}
+
+.fa-walking:before {
+  content: "";
+}
+
+.fa-wallet:before {
+  content: "";
+}
+
+.fa-warehouse:before {
+  content: "";
+}
+
+.fa-watchman-monitoring:before {
+  content: "";
+}
+
+.fa-water:before {
+  content: "";
+}
+
+.fa-wave-square:before {
+  content: "";
+}
+
+.fa-waze:before {
+  content: "";
+}
+
+.fa-weebly:before {
+  content: "";
+}
+
+.fa-weibo:before {
+  content: "";
+}
+
+.fa-weight:before {
+  content: "";
+}
+
+.fa-weight-hanging:before {
+  content: "";
+}
+
+.fa-weixin:before {
+  content: "";
+}
+
+.fa-whatsapp:before {
+  content: "";
+}
+
+.fa-whatsapp-square:before {
+  content: "";
+}
+
+.fa-wheelchair:before {
+  content: "";
+}
+
+.fa-whmcs:before {
+  content: "";
+}
+
+.fa-wifi:before {
+  content: "";
+}
+
+.fa-wikipedia-w:before {
+  content: "";
+}
+
+.fa-wind:before {
+  content: "";
+}
+
+.fa-window-close:before {
+  content: "";
+}
+
+.fa-window-maximize:before {
+  content: "";
+}
+
+.fa-window-minimize:before {
+  content: "";
+}
+
+.fa-window-restore:before {
+  content: "";
+}
+
+.fa-windows:before {
+  content: "";
+}
+
+.fa-wine-bottle:before {
+  content: "";
+}
+
+.fa-wine-glass:before {
+  content: "";
+}
+
+.fa-wine-glass-alt:before {
+  content: "";
+}
+
+.fa-wix:before {
+  content: "";
+}
+
+.fa-wizards-of-the-coast:before {
+  content: "";
+}
+
+.fa-wodu:before {
+  content: "";
+}
+
+.fa-wolf-pack-battalion:before {
+  content: "";
+}
+
+.fa-won-sign:before {
+  content: "";
+}
+
+.fa-wordpress:before {
+  content: "";
+}
+
+.fa-wordpress-simple:before {
+  content: "";
+}
+
+.fa-wpbeginner:before {
+  content: "";
+}
+
+.fa-wpexplorer:before {
+  content: "";
+}
+
+.fa-wpforms:before {
+  content: "";
+}
+
+.fa-wpressr:before {
+  content: "";
+}
+
+.fa-wrench:before {
+  content: "";
+}
+
+.fa-x-ray:before {
+  content: "";
+}
+
+.fa-xbox:before {
+  content: "";
+}
+
+.fa-xing:before {
+  content: "";
+}
+
+.fa-xing-square:before {
+  content: "";
+}
+
+.fa-y-combinator:before {
+  content: "";
+}
+
+.fa-yahoo:before {
+  content: "";
+}
+
+.fa-yammer:before {
+  content: "";
+}
+
+.fa-yandex:before {
+  content: "";
+}
+
+.fa-yandex-international:before {
+  content: "";
+}
+
+.fa-yarn:before {
+  content: "";
+}
+
+.fa-yelp:before {
+  content: "";
+}
+
+.fa-yen-sign:before {
+  content: "";
+}
+
+.fa-yin-yang:before {
+  content: "";
+}
+
+.fa-yoast:before {
+  content: "";
+}
+
+.fa-youtube:before {
+  content: "";
+}
+
+.fa-youtube-square:before {
+  content: "";
+}
+
+.fa-zhihu:before {
+  content: "";
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+/*!
+ * Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */
+@font-face {
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url("../fa-5.15.3/webfonts/fa-solid-900.eot");
+  src: url("../fa-5.15.3/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../fa-5.15.3/webfonts/fa-solid-900.woff2") format("woff2"), url("../fa-5.15.3/webfonts/fa-solid-900.woff") format("woff"), url("../fa-5.15.3/webfonts/fa-solid-900.ttf") format("truetype"), url("../fa-5.15.3/webfonts/fa-solid-900.svg#fontawesome") format("svg");
+}
+.fa,
+.fas,
+.wmd-help-button::before,
+.wmd-redo-button::before,
+.wmd-undo-button::before,
+.wmd-hr-button::before,
+.wmd-heading-button::before,
+.wmd-ulist-button::before,
+.wmd-olist-button::before,
+.wmd-attachment-button::before,
+.wmd-image-button::before,
+.wmd-code-button::before,
+.wmd-quote-button::before,
+.wmd-link-button::before,
+.wmd-italic-button::before,
+.wmd-bold-button::before,
+.with-check-icon::before,
+.with-slashed-icon::after,
+.with-bullhorn-icon::before,
+.with-accept-answer-icon::before,
+.with-link-icon::before,
+.with-convert-post-icon::before,
+.with-comment-upvote-icon::before,
+.with-merge-icon::before,
+.with-reopen-icon::after,
+.with-reopen-icon::before,
+.with-close-icon::before,
+.with-flag-icon.js-post-unflag-btn::after,
+.with-clone-icon::before,
+.with-anchor-icon::before,
+.with-flag-icon::before,
+.with-edit-icon::before,
+.with-caret-down-icon::before,
+.with-downvote-icon::before,
+.with-upvote-icon::before,
+.with-arrow-left-icon::before,
+.with-caret-right-icon::before,
+.with-caret-left-icon::before,
+.with-ellipsis-h-icon::before,
+.with-globe-icon::before,
+.with-bars-icon::before,
+.js-with-sort-ascending-icon::before,
+.js-with-sort-descending-icon::before,
+.with-rss-icon::before,
+.with-selected-scope-icon::before,
+.with-search-icon::before,
+.with-home-icon::before,
+.with-times-circle-icon::before,
+.with-delete-icon::before,
+.with-times-icon::before,
+.with-bronze-badge-icon::before,
+.with-silver-badge-icon::before,
+.with-gold-badge-icon::before,
+.with-tags-icon::before,
+.with-users-icon::before,
+.with-badges-icon::before,
+.with-settings-icon::before,
+.inbox-icon::before,
+.with-warning-icon::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+/*!
+ * Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */
+@font-face {
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("../fa-5.15.3/webfonts/fa-regular-400.eot");
+  src: url("../fa-5.15.3/webfonts/fa-regular-400.eot?#iefix") format("embedded-opentype"), url("../fa-5.15.3/webfonts/fa-regular-400.woff2") format("woff2"), url("../fa-5.15.3/webfonts/fa-regular-400.woff") format("woff"), url("../fa-5.15.3/webfonts/fa-regular-400.ttf") format("truetype"), url("../fa-5.15.3/webfonts/fa-regular-400.svg#fontawesome") format("svg");
+}
+.far, .with-comment-icon::before, .inbox-icon-with-new-messages::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+}
+
+/*!
+ * Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */
+@font-face {
+  font-family: "Font Awesome 5 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("../fa-5.15.3/webfonts/fa-brands-400.eot");
+  src: url("../fa-5.15.3/webfonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("../fa-5.15.3/webfonts/fa-brands-400.woff2") format("woff2"), url("../fa-5.15.3/webfonts/fa-brands-400.woff") format("woff"), url("../fa-5.15.3/webfonts/fa-brands-400.ttf") format("truetype"), url("../fa-5.15.3/webfonts/fa-brands-400.svg#fontawesome") format("svg");
+}
+.fab, .with-twitter-icon::before, .with-linkedin-icon::before, .with-facebook-icon::before {
+  font-family: "Font Awesome 5 Brands";
+  font-weight: 400;
+}
+
+.with-warning-icon::before {
+  content: "";
+}
+
+.inbox-icon::before {
+  content: "";
+}
+
+.inbox-icon-with-new-messages::before {
+  content: "";
+}
+
+.with-tags-icon::before {
+  content: "";
+}
+
+.with-users-icon::before {
+  content: "";
+}
+
+.with-badges-icon::before {
+  content: "";
+}
+
+.with-settings-icon::before {
+  content: "";
+  margin-right: 0.125rem;
+}
+
+.with-bronze-badge-icon::before,
+.with-silver-badge-icon::before,
+.with-gold-badge-icon::before {
+  font-size: 0.825rem;
+  margin-right: 0.125rem;
+}
+
+.with-bronze-badge-icon::before {
+  color: var(--bronze-badge-color);
+  content: "";
+}
+
+.with-silver-badge-icon::before {
+  color: var(--silver-badge-color);
+  content: "";
+}
+
+.with-gold-badge-icon::before {
+  color: var(--gold-badge-color);
+  content: "";
+}
+
+.with-delete-icon::before,
+.with-times-icon::before {
+  content: "";
+}
+
+.with-times-circle-icon::before {
+  content: "";
+}
+
+.with-home-icon::before {
+  content: "";
+}
+
+.with-search-icon::before {
+  content: "";
+}
+
+.with-selected-scope-icon::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: calc(50% - 5px);
+}
+
+.with-rss-icon {
+  position: relative;
+  text-decoration: none;
+}
+.with-rss-icon::before {
+  content: "";
+}
+
+.js-with-sort-descending-icon,
+.js-with-sort-ascending-icon {
+  padding-right: 1.25rem !important;
+  position: relative;
+}
+.js-with-sort-descending-icon::before,
+.js-with-sort-ascending-icon::before {
+  position: absolute;
+  right: 0.3625rem;
+}
+
+.js-with-sort-descending-icon::before {
+  content: "";
+}
+
+.js-with-sort-ascending-icon::before {
+  content: "";
+}
+
+.with-bars-icon::before {
+  content: "";
+}
+
+.with-globe-icon::before {
+  content: "";
+}
+
+.with-ellipsis-h-icon::before {
+  content: "";
+}
+
+.with-caret-left-icon::before {
+  content: "";
+}
+
+.with-caret-right-icon::before {
+  content: "";
+}
+
+.with-comment-icon::before {
+  content: "";
+}
+
+.with-arrow-left-icon::before {
+  content: "";
+}
+
+.with-upvote-icon::before {
+  content: "";
+}
+
+.with-caret-down-icon::before,
+.with-downvote-icon::before {
+  content: "";
+}
+
+.with-facebook-icon::before {
+  content: "";
+}
+
+.with-linkedin-icon::before {
+  content: "";
+}
+
+.with-twitter-icon::before {
+  content: "";
+}
+
+.with-edit-icon::before {
+  content: "";
+}
+
+.with-flag-icon::before {
+  content: "";
+}
+
+.with-anchor-icon::before {
+  content: "";
+}
+
+.with-clone-icon::before {
+  content: "";
+}
+
+.with-flag-icon.js-post-unflag-btn {
+  position: relative;
+}
+.with-flag-icon.js-post-unflag-btn::after {
+  position: absolute;
+  left: -0.125rem;
+  top: 0.25rem;
+  font-size: 0.75rem;
+  transform: rotate(30deg);
+  content: "";
+}
+
+.with-close-icon::before {
+  content: "";
+}
+
+.with-reopen-icon {
+  position: relative;
+}
+.with-reopen-icon::before {
+  content: "";
+}
+.with-reopen-icon::after {
+  position: absolute;
+  left: -2.15px;
+  top: 4.5px;
+  font-size: 0.75rem;
+  transform: rotate(30deg);
+  content: "";
+}
+
+.with-merge-icon::before {
+  content: "";
+}
+
+.with-comment-upvote-icon::before {
+  content: "";
+}
+
+.with-convert-post-icon::before {
+  content: "";
+}
+
+.with-link-icon::before {
+  content: "";
+}
+
+.with-accept-answer-icon::before {
+  content: "";
+}
+
+.with-bullhorn-icon::before {
+  content: "";
+}
+
+.with-slashed-icon {
+  position: relative;
+}
+.with-slashed-icon::after {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  font-size: 0.75rem;
+  transform: rotate(30deg);
+  content: "";
+}
+
+.with-check-icon::before {
+  content: "";
+}
+
+/* wmd editor button icons */
+.wmd-bold-button::before {
+  content: "";
+}
+
+.wmd-italic-button::before {
+  content: "";
+}
+
+.wmd-link-button::before {
+  content: "";
+}
+
+.wmd-quote-button::before {
+  content: "";
+}
+
+.wmd-code-button::before {
+  content: "";
+}
+
+.wmd-image-button::before {
+  content: "";
+}
+
+.wmd-attachment-button::before {
+  content: "";
+}
+
+.wmd-olist-button::before {
+  content: "";
+}
+
+.wmd-ulist-button::before {
+  content: "";
+}
+
+.wmd-heading-button::before {
+  content: "";
+}
+
+.wmd-hr-button::before {
+  content: "";
+}
+
+.wmd-undo-button::before {
+  content: "";
+}
+
+.wmd-redo-button::before {
+  content: "";
+}
+
+.wmd-help-button::before {
+  content: "";
+}
+
+/* end wmd icons */
+.btn {
+  cursor: pointer;
+}
+
+.blocker {
+  z-index: 10000 !important;
+}
+
+.action-link {
+  display: inline-block;
+  color: var(--action-link-color);
+  cursor: pointer;
+  transition: color var(--transition-params);
+  text-decoration: none;
+}
+.action-link:visited {
+  color: var(--action-link-color);
+  transition: color var(--transition-params);
+}
+.action-link:hover, .action-link:active {
+  color: var(--action-link-hover-color);
+  transition: color var(--transition-params);
+}
+
+button.action-link,
+input[type=submit].action-link,
+input[type=reset] input[type=button].action-link {
+  background: var(--bg-color);
+  border: none;
+  box-shadow: none;
+  outline: none !important;
+  padding: 0;
+}
+
+.js-ac-results {
+  background: var(--input-bg-color);
+  border-bottom-left-radius: var(--input-border-radius);
+  border-bottom-right-radius: var(--input-border-radius);
+  border-style: var(--input-border-style);
+  border-color: var(--input-border-color);
+  border-width: var(--input-border-width);
+  border-top: none;
+  width: 100%;
+}
+.js-ac-results ul {
+  list-style: none;
+}
+.js-ac-results li {
+  cursor: pointer;
+  color: var(--fg-color);
+  padding: 0.25rem 0.5rem;
+  transition: color var(--transition-duration) var(--transition-timing-function), background var(--transition-duration) var(--transition-timing-function);
+}
+.js-ac-results li:hover {
+  background: var(--autocompleter-hover-bg);
+  color: var(--input-bg-color);
+  transition: color var(--transition-duration) var(--transition-timing-function), background var(--transition-duration) var(--transition-timing-function);
+}
+
+.js-avatar-box {
+  position: relative;
+  text-decoration: none;
+}
+
+.js-avatar {
+  border-radius: 50%;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+}
+
+.reputation-badge {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: 0;
+}
+
+.bent-arrow {
+  --height: 0.5rem;
+  --width: 0.575rem;
+  --border-width: 2px;
+  --tip-length: 7px;
+  --tip-translate-y: 4.625px;
+  --radius: 6px;
+  --color: var(--comment-upvote-btn-color);
+  height: var(--height);
+  width: var(--width);
+}
+
+.bent-arrow-borders {
+  height: var(--height);
+  width: var(--width);
+  border-left: var(--border-width) solid var(--color);
+  border-bottom: var(--border-width) solid var(--color);
+  border-bottom-left-radius: var(--radius);
+  position: relative;
+}
+
+.bent-arrow-tip {
+  position: absolute;
+  width: var(--tip-length);
+  height: var(--tip-length);
+  right: 0;
+  bottom: 0;
+  transform: translateY(var(--tip-translate-y)) rotate(315deg);
+  border-right: var(--border-width) solid var(--color);
+  border-bottom: var(--border-width) solid var(--color);
+}
+
+.js-category-selector {
+  height: 12rem;
+  margin-bottom: 0.5rem;
+  table-layout: fixed;
+  width: 100%;
+}
+.js-category-selector tbody td {
+  border: 1px solid var(--input-border-color);
+  width: calc(33.3333% - 4px);
+  vertical-align: top;
+}
+.js-category-selector th {
+  padding-bottom: 0.25rem;
+  text-align: left;
+}
+.js-category-selector ul {
+  list-style: none;
+}
+.js-category-selector li {
+  cursor: pointer;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  padding: 0 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  text-overflow: ellipsis;
+}
+.js-category-selector li.js-active {
+  color: white;
+  background: var(--clr-neutral-60);
+}
+.js-category-selector li input[type=text] {
+  height: 100%;
+}
+
+.js-category-btns {
+  position: absolute;
+  right: 0;
+}
+
+.js-save-category-btn {
+  margin-right: 0.5rem;
+}
+
+.js-new-tags-input {
+  margin-bottom: 0.5rem;
+}
+
+.js-post-comments {
+  margin: var(--post-comments-margin);
+}
+
+.js-post-comments:not(.js-empty) .comments-list-controls {
+  margin-left: var(--comment-votes-width);
+}
+
+.js-comments-list {
+  margin: var(--comments-list-margin);
+}
+
+.js-comment {
+  display: flex;
+}
+
+.comment-votes {
+  width: var(--comment-votes-width);
+  min-width: var(--comment-votes-width);
+}
+
+.js-comment-content {
+  width: 100%;
+}
+
+.js-comments-list-title {
+  margin: var(--comments-list-title-margin);
+  font-size: var(--comments-list-title-font-size);
+}
+
+.js-comments-list .js-comment {
+  margin: var(--comment-margin);
+}
+
+.js-comment-controls .js-avatar-box {
+  vertical-align: middle;
+  margin-right: 0.125rem;
+}
+.js-comment-controls .js-avatar {
+  height: var(--comment-avatar-size);
+  width: var(--comment-avatar-size);
+}
+.js-comment-controls .action-link::before {
+  font-size: var(--post-controls-icon-size);
+  margin: var(--post-controls-icon-margin);
+}
+
+.js-comment .js-post-upvote-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--comment-votes-font-size);
+}
+.js-comment .js-post-upvote-btn::before {
+  font-size: 0.75rem;
+  color: var(--comment-upvote-btn-color);
+  transition: color var(--transition-params);
+  padding: var(--comment-upvote-btn-icon-padding);
+}
+.js-comment .js-post-upvote-btn.js-active {
+  color: var(--comment-upvote-active-btn-color);
+  transition: color var(--transition-params);
+}
+.js-comment .js-post-upvote-btn.js-active::before {
+  color: var(--comment-upvote-active-btn-color);
+  transition: color var(--transition-params);
+}
+.js-comment .js-post-upvote-btn.js-active::before:hover {
+  color: var(--comment-upvote-active-btn-hover-color);
+  transition: color var(--transition-params);
+}
+
+body:not(.anon) .js-comment .js-post-upvote-btn {
+  cursor: pointer;
+}
+body:not(.anon) .js-comment .js-post-upvote-btn:hover::before {
+  color: var(--comment-upvote-btn-hover-color);
+  transition: color var(--transition-params);
+}
+body:not(.anon) .js-comment .js-post-upvote-btn.js-active::before:hover {
+  color: var(--comment-upvote-active-btn-hover-color);
+  transition: color var(--transition-params);
+}
+
+form.repost-comment-as-answer {
+  display: inline-block;
+}
+
+.js-comment-edit-btn {
+  margin-right: 0.125rem;
+}
+
+.js-comment-author {
+  text-decoration: none;
+}
+
+.js-post-comment-form {
+  padding-left: var(--comment-votes-width);
+  position: relative;
+  margin: 0.75rem 0;
+}
+.js-post-comment-form .bent-arrow {
+  position: absolute;
+  left: 0.5rem;
+  top: 1.45rem;
+}
+.js-post-comment-form .js-simple-editor {
+  display: flex;
+}
+.js-post-comment-form textarea {
+  border-radius: var(--border-radius);
+  margin-bottom: 0.25rem;
+  outline: none;
+  width: 100%;
+}
+
+.js-edit-comment-controls {
+  margin-bottom: 0.5rem;
+}
+.js-edit-comment-controls .btn {
+  margin-right: 0.5rem;
+}
+
+.js-minor-edit {
+  align-items: center;
+  display: flex;
+  margin-top: 0.25rem;
+}
+.js-minor-edit > :first-child {
+  margin-right: 0.25rem;
+}
+
+.js-comment-length-counter {
+  transition: color var(--transition-params);
+}
+
+.js-comment-length-counter-too-short,
+.js-comment-length-counter-too-long {
+  color: var(--clr-danger);
+}
+
+.js-comment-length-counter-almost-too-long {
+  color: var(--clr-orange);
+}
+
+.js-dropdown-menu {
+  user-select: none;
+}
+.js-dropdown-menu .js-dropdown-target {
+  display: none !important;
+}
+.js-dropdown-menu .js-dropdown-target.js-dropdown-active {
+  display: block !important;
+}
+
+.js-editable textarea,
+.js-simple-editor textarea,
+.wmd-container textarea {
+  border-radius: var(--border-radius);
+  box-shadow: var(--editor-box-shadow);
+  padding: var(--editor-padding);
+  border: var(--editor-border);
+  width: 100%;
+  outline: none;
+  overflow: hidden;
+  resize: vertical;
+}
+
+.js-editable .js-editable-controls .btn {
+  margin-right: 0.5rem;
+  padding-bottom: 0.125rem;
+}
+
+.js-editable-controls input[type=checkbox] {
+  position: relative;
+  top: 0.125rem;
+  margin-right: 0.25rem;
+}
+
+.js-folded-editor-editor {
+  display: none;
+}
+
+.js-folded-editor {
+  cursor: pointer;
+  height: 5rem;
+  width: 100%;
+  border: var(--editor-border);
+  box-shadow: var(--editor-box-shadow);
+  border-radius: var(--border-radius);
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.js-folded-editor.js-active {
+  height: auto;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.js-folded-editor.js-active .js-folded-editor-editor {
+  display: block;
+}
+
+.wmd-container {
+  margin: var(--wmd-margin);
+}
+
+.wmd-input {
+  height: 500px;
+  background-color: Gainsboro;
+  border: 1px solid DarkGray;
+  margin-top: -20px;
+}
+
+.wmd-output {
+  background-color: Pink;
+}
+
+.wmd-button-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: var(--wmd-button-row-margin) !important;
+  padding: var(--wmd-button-row-padding) !important;
+}
+
+.wmd-spacer {
+  width: var(--wmd-spacer-width);
+  height: var(--wmd-spacer-height);
+  margin: var(--wmd-spacer-margin);
+  background: var(--wmd-spacer-background);
+  display: inline-block;
+  list-style: none;
+}
+
+.wmd-button {
+  cursor: pointer;
+  width: var(--wmd-button-size);
+  height: var(--wmd-button-size);
+  margin: var(--wmd-button-margin);
+  display: inline-block;
+  list-style: none;
+}
+
+.wmd-button::before {
+  align-items: center;
+  color: var(--wmd-button-color);
+  background: var(--wmd-button-bg);
+  display: flex !important;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  transition: color var(--transition-params), background var(--transition-params);
+}
+
+.wmd-button:hover::before {
+  transition: color var(--transition-params), background var(--transition-params);
+  color: var(--wmd-button-hover-color);
+  background: var(--wmd-button-hover-bg);
+}
+
+.wmd-prompt-background {
+  background-color: Black;
+}
+
+.wmd-prompt-dialog {
+  border: 1px solid #999999;
+  background-color: #F5F5F5;
+}
+
+.wmd-prompt-dialog > div {
+  font-size: 1em;
+  font-family: arial, helvetica, sans-serif;
+}
+
+.wmd-prompt-dialog > form > input[type=text] {
+  border: 1px solid #999999;
+  color: black;
+}
+
+.wmd-prompt-dialog > form > input[type=button] {
+  border: 1px solid #888888;
+  font-family: trebuchet MS, helvetica, sans-serif;
+  font-size: 1em;
+  font-weight: var(--font-weight-bold);
+}
+
+.wmd-previewer-toggle {
+  cursor: pointer;
+  padding: var(--wmd-preview-toggle-padding);
+  margin: var(--wmd-preview-toggle-margin);
+}
+
+.wmd-preview,
+.js-editable-content {
+  padding: var(--wmd-preview-padding);
+  margin: var(--wmd-preview-margin);
+}
+.wmd-preview ul, .wmd-preview ol,
+.js-editable-content ul,
+.js-editable-content ol {
+  padding: var(--wmd-preview-list-padding);
+}
+.wmd-preview ul, .wmd-preview ol, .wmd-preview p, .wmd-preview pre,
+.js-editable-content ul,
+.js-editable-content ol,
+.js-editable-content p,
+.js-editable-content pre {
+  margin: var(--wmd-preview-block-margin);
+}
+.wmd-preview > :last-child,
+.js-editable-content > :last-child {
+  margin-bottom: 0;
+}
+
+.js-editable-content {
+  padding-left: 0;
+}
+
+.wmd-preview {
+  background: var(--wmd-preview-background) !important;
+  border: var(--wmd-preview-border);
+}
+
+.wmd-help {
+  padding: 0.25rem 0 0.5rem 0.25rem;
+  margin-bottom: 0.25rem;
+}
+.wmd-help p {
+  margin-bottom: 0.25rem;
+}
+.wmd-help ul {
+  padding-left: 1rem;
+}
+
+.empty-content-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10rem;
+}
+
+.js-error-popup {
+  background: var(--error-popup-bg);
+  border-radius: var(--error-popup-border-radius);
+  color: var(--error-popup-color);
+  padding: var(--error-popup-padding);
+  position: absolute;
+  width: 200px;
+  z-index: 10000;
+}
+.js-error-popup .js-error-popup-hint {
+  font-size: var(--small-font-size);
+  padding-top: 0.25rem;
+}
+.js-error-popup a, .js-error-popup a:active, .js-error-popup a:visited {
+  color: inherit;
+}
+.js-error-popup p {
+  margin: 0 0 0.3625rem;
+}
+.js-error-popup p:last-child {
+  margin: 0;
+}
+
+footer {
+  background: var(--footer-bg);
+  color: var(--footer-fg-color);
+  padding: var(--footer-padding);
+}
+footer .footer-row {
+  margin: var(--footer-row-margin);
+}
+footer .footer-row:last-child {
+  margin-bottom: 0;
+}
+footer a {
+  text-decoration: none;
+}
+
+.forum-header {
+  --search-bar-height: calc(var(--forum-header-height) - 2 * var(--search-bar-vertical-margin));
+  height: var(--forum-header-height);
+  background: var(--forum-header-bg-color);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.forum-header .with-home-icon {
+  color: var(--forum-header-fg-color);
+  font-size: 1.25rem;
+  line-height: var(--forum-header-height);
+  width: 2rem;
+  transition: var(--transition-color);
+}
+.forum-header .with-home-icon:hover {
+  color: var(--forum-header-fg-hover-color);
+  transition: var(--transition-color);
+}
+
+.search-bar-container {
+  display: flex;
+}
+
+.search-bar-col {
+  display: flex;
+  justify-content: flex-start;
+  padding-right: 0 !important;
+  padding-right: var(--layout-horizontal-padding);
+  width: calc(100% - var(--layout-sidebar-width));
+}
+@media (max-width: 570px) {
+  .search-bar-col {
+    padding-right: 0;
+    width: 100%;
+  }
+}
+@media (max-width: 570px) {
+  .search-bar-col {
+    width: calc(100% - var(--search-bar-height));
+  }
+}
+
+.ask-btn-col {
+  width: var(--layout-sidebar-width);
+}
+@media (max-width: 570px) {
+  .ask-btn-col {
+    display: none;
+  }
+  .ask-btn-col:not(.ask-btn-col).js-visible {
+    background: var(--bg-color);
+    display: block;
+    height: calc(100% - var(--sort-nav-height));
+    position: absolute;
+    right: 0;
+    top: var(--sort-nav-height);
+    width: 100%;
+  }
+}
+@media (max-width: 570px) {
+  .ask-btn-col {
+    display: block;
+    width: var(--search-bar-height);
+  }
+}
+
+.scope-nav {
+  align-items: center;
+  display: flex;
+  margin-left: 0.125rem;
+}
+.scope-nav a, .scope-nav a:active, .scope-nav a:visited {
+  color: var(--forum-header-fg-color);
+  line-height: var(--forum-header-height);
+  font-size: var(--scope-nav-font-size);
+  margin-right: 0.5rem;
+  position: relative;
+  text-decoration: none;
+  transition: var(--transition-color);
+}
+.scope-nav a:hover, .scope-nav a:active:hover, .scope-nav a:visited:hover {
+  color: var(--forum-header-fg-hover-color);
+  transition: var(--transition-color);
+}
+@media (max-width: 650px) {
+  .scope-nav {
+    display: none;
+  }
+}
+
+.js-search-form {
+  flex-grow: 1;
+}
+
+.js-search-bar {
+  background: var(--bg-color);
+  display: flex;
+  height: var(--search-bar-height);
+  justify-content: flex-start;
+  margin: var(--search-bar-vertical-margin) 0;
+  position: relative;
+  width: 100%;
+}
+.js-search-bar input[type=text] {
+  border-color: var(--forum-header-input-border-color);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+  font-size: var(--search-bar-font-size);
+  height: var(--search-input-height);
+  padding: 0 calc(2 * var(--input-horizontal-padding));
+  outline: none;
+  width: 100%;
+}
+.js-search-bar input[type=text]:hover::placeholder {
+  color: var(--forum-header-fg-hover-color);
+}
+
+.js-cancel-search-btn {
+  color: var(--fg-color);
+  border-color: var(--forum-header-input-border-color);
+  background-color: var(--bg-color);
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  height: var(--search-input-height);
+  width: var(--search-bar-height);
+}
+.js-cancel-search-btn:hover {
+  background-color: var(--bg-color);
+  border-color: var(--forum-header-input-border-color);
+}
+
+.js-search-btn {
+  border-color: var(--forum-header-input-border-color);
+  background: var(--search-btn-bg-color);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-right: none;
+  color: var(--forum-header-fg-color);
+  height: var(--search-input-height);
+  min-width: var(--search-bar-height);
+  width: var(--search-bar-height);
+  transition: var(--transition-color), var(--transition-bg-color);
+}
+.js-search-btn:hover {
+  background: var(--search-btn-hover-bg-color);
+  border-color: var(--forum-header-input-border-color);
+  color: var(--forum-header-fg-hover-color);
+  transition: var(--transition-color), var(--transition-bg-color);
+}
+
+.js-with-drop-menu input[type=text] {
+  border-bottom-left-radius: 0;
+}
+.js-with-drop-menu .js-search-btn {
+  border-bottom-right-radius: 0;
+}
+
+.js-search-drop-menu {
+  background: var(--search-drop-menu-bg-color);
+  border: var(--input-border-width) var(--input-border-style) var(--forum-header-input-border-color);
+  border-top: none;
+  border-bottom-left-radius: var(--input-border-radius);
+  border-bottom-right-radius: var(--input-border-radius);
+  min-width: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: var(--search-bar-height);
+}
+.js-search-drop-menu ul:not(.empty) {
+  overflow-y: scroll;
+}
+.js-search-drop-menu ul:not(.empty) li {
+  padding: 0.25rem var(--input-horizontal-padding);
+}
+.js-search-drop-menu ul:not(.empty) li a {
+  color: black;
+  text-decoration: none;
+}
+.js-search-drop-menu ul:not(.empty) li:hover, .js-search-drop-menu ul:not(.empty) li.selected {
+  background: var(--ask-btn-bg-color);
+}
+.js-search-drop-menu ul:not(.empty) li:hover a, .js-search-drop-menu ul:not(.empty) li.selected a {
+  color: var(--bg-color);
+}
+.js-search-drop-menu .footer {
+  background: var(--search-drop-menu-bg-color);
+  padding: var(--input-horizontal-padding) 0;
+  text-align: center;
+}
+.js-search-drop-menu .ask-btn {
+  margin: 0 auto;
+}
+.js-search-drop-menu .wait-icon-box {
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.ask-btn {
+  align-items: center;
+  background: var(--ask-btn-bg-color);
+  border-color: var(--ask-btn-border-color);
+  border-radius: var(--input-border-radius);
+  border-style: var(--input-border-style);
+  border-width: var(--input-border-width);
+  color: var(--ask-btn-fg-color);
+  display: flex;
+  font-size: var(--ask-btn-font-size);
+  height: var(--search-bar-height);
+  justify-content: center;
+  margin: var(--search-bar-vertical-margin) 0;
+  padding: 0 calc(4 * var(--input-horizontal-padding));
+  position: relative;
+  text-decoration: none;
+  transition: color var(--transition-params), background var(--transition-params);
+  white-space: nowrap;
+}
+.ask-btn:hover {
+  background: var(--ask-btn-hover-bg-color);
+  border-color: var(--ask-btn-hover-border-color);
+  color: var(--ask-btn-fg-color);
+  transition: color var(--transition-params), background var(--transition-params);
+}
+
+@media (max-width: 570px) {
+  .ask-btn.ask-btn-main {
+    display: none;
+  }
+}
+
+.ask-btn-main-narrow {
+  color: var(--btn-fg-color);
+  background: var(--ask-btn-bg-color);
+  border-radius: var(--input-border-radius);
+  border-width: var(--input-border-width);
+  border-style: var(--input-border-style);
+  border-color: var(--ask-btn-border-color);
+  display: none;
+  font-size: 0.75rem;
+  width: var(--search-bar-height);
+  height: var(--search-bar-height);
+  text-decoration: none;
+  transition: var(--transition-border-color), var(--transition-bg-color);
+}
+.ask-btn-main-narrow:hover {
+  background: var(--ask-btn-hover-bg-color);
+  border-color: var(--ask-btn-hover-border-color);
+  color: var(--ask-btn-fg-color);
+  transition: var(--transition-color), var(--transition-bg-color);
+}
+@media (max-width: 570px) {
+  .ask-btn-main-narrow {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.language-nav {
+  padding-bottom: var(--header-navs-padding-bottom);
+  position: relative;
+  white-space: nowrap;
+}
+.language-nav .current-language {
+  cursor: pointer;
+  display: inline;
+  padding-left: 0.5rem;
+  border-left: var(--border-width) var(--border-style) var(--header-link-color);
+}
+.language-nav .current-language::before {
+  margin-right: 0.25rem;
+}
+.language-nav ul {
+  background: var(--header-bg-color);
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  left: 1rem;
+  list-style: none;
+  padding: 0.75rem;
+  position: absolute;
+  top: calc(var(--header-height) / 2);
+  z-index: 10;
+}
+.language-nav li:last-child {
+  margin: 0;
+}
+.language-nav li {
+  margin-bottom: 0.5rem;
+}
+
+.js-meta-nav {
+  height: var(--header-height);
+  padding-bottom: var(--header-navs-padding-bottom);
+  position: relative;
+  white-space: nowrap;
+}
+
+.js-meta-nav a {
+  margin-left: 0.75rem;
+}
+
+.meta-nav-trigger {
+  cursor: pointer;
+  display: none;
+}
+
+.js-meta-nav ul {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  list-style: none;
+}
+
+@media (max-width: 700px) {
+  .js-meta-nav {
+    min-width: var(--forum-header-height);
+  }
+
+  .meta-nav-trigger {
+    cursor: pointer;
+    display: block;
+    height: var(--header-height);
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: var(--header-height);
+  }
+  .meta-nav-trigger::before {
+    position: absolute;
+    top: calc(0.5 * var(--header-height) - 0.5rem);
+    right: 0.3625rem;
+  }
+
+  .js-meta-nav ul {
+    background: var(--header-bg-color);
+    display: none;
+    flex-direction: column;
+    height: auto;
+    padding: 1rem 0.75rem 0.75rem 0.625rem;
+    position: absolute;
+    right: -0.5rem;
+    top: calc(var(--header-height) - 0.75rem);
+    z-index: 1000;
+  }
+  .js-meta-nav ul a {
+    margin: 0 0 0.5rem;
+    width: 100%;
+  }
+  .js-meta-nav ul a:last-child {
+    margin: 0;
+  }
+  .js-meta-nav ul a::before {
+    width: 1.25rem;
+  }
+
+  .js-meta-nav li {
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+  .js-meta-nav li:last-child {
+    margin: 0;
+  }
+}
+@media (max-width: 570px) {
+  .meta-nav-trigger::before {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    top: unset;
+    right: unset;
+  }
+}
+header.with-logo .user-nav > :first-child {
+  border-left: 1px solid var(--header-link-color);
+  margin-left: 0.5rem;
+  padding-left: calc(0.5rem - 2px);
+}
+
+.user-nav {
+  padding-bottom: var(--header-navs-padding-bottom);
+  white-space: nowrap;
+}
+.user-nav .badges,
+.user-nav .inbox-icon,
+.user-nav .login-link,
+.user-nav .profile-link,
+.user-nav .read-only-label {
+  margin-right: 0.5rem;
+}
+
+header {
+  background: var(--header-bg-color);
+  color: var(--header-link-color);
+  height: var(--header-height);
+}
+header a, header a:active, header a:visited {
+  color: var(--header-link-color);
+  text-decoration: none;
+  transition: var(--transition-color);
+}
+header a:hover,
+header a.selected {
+  color: var(--header-link-color-hover);
+  transition: var(--transition-color);
+}
+
+header .content-wrapper {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+
+.header-block1 {
+  align-items: center;
+  display: flex;
+}
+
+/*!
+  Theme: Default
+  Description: Original highlight.js style
+  Author: (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
+  Maintainer: @highlightjs/core-team
+  Website: https://highlightjs.org/
+  License: see project LICENSE
+  Touched: 2021
+*/
+pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+}
+
+code.hljs {
+  padding: 3px 5px;
+}
+
+.hljs {
+  background: #f0f0f0;
+  color: #444;
+}
+
+.hljs-comment {
+  color: #888;
+}
+
+.hljs-punctuation, .hljs-tag {
+  color: #444a;
+}
+
+.hljs-tag .hljs-attr, .hljs-tag .hljs-name {
+  color: #444;
+}
+
+.hljs-attribute, .hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-name, .hljs-selector-tag {
+  font-weight: 700;
+}
+
+.hljs-deletion, .hljs-number, .hljs-quote, .hljs-selector-class, .hljs-selector-id, .hljs-string, .hljs-template-tag, .hljs-type {
+  color: #800;
+}
+
+.hljs-section, .hljs-title {
+  color: #800;
+  font-weight: 700;
+}
+
+.hljs-link, .hljs-operator, .hljs-regexp, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-symbol, .hljs-template-variable, .hljs-variable {
+  color: #bc6060;
+}
+
+.hljs-literal {
+  color: #78a960;
+}
+
+.hljs-addition, .hljs-built_in, .hljs-bullet, .hljs-code {
+  color: #397300;
+}
+
+.hljs-meta {
+  color: #1f7199;
+}
+
+.hljs-meta .hljs-string {
+  color: #4d99bf;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 700;
+}
+
+.info-box {
+  background: var(--info-box-bg);
+  border-radius: var(--border-radius);
+  border: var(--info-box-border);
+  box-shadow: var(--info-box-box-shadow);
+  color: var(--info-box-color);
+  font-size: var(--info-box-font-size);
+  padding: var(--info-box-padding);
+  margin: var(--info-box-margin);
+}
+
+.info-box ul {
+  list-style: disc;
+  padding-left: 1rem;
+}
+
+.input-with-button {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+.input-with-button input[type=text] {
+  width: 100%;
+}
+.input-with-button input[type=text]:focus {
+  outline: none;
+}
+.input-with-button button,
+.input-with-button input[type=submit],
+.input-with-button input[type=button] {
+  border-left: none;
+}
+
+.js-modal-header,
+.js-modal-body {
+  margin: 0 0 0.75rem;
+}
+
+.js-modal-footer .btn {
+  margin-left: 0.5rem;
+}
+.js-modal-footer .btn:first-child {
+  margin: 0;
+}
+
+.blocker {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  z-index: 10;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.75);
+  text-align: center;
+}
+
+.blocker::before {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.05em;
+}
+
+.blocker.behind {
+  background-color: transparent;
+}
+
+.modal {
+  display: none;
+  vertical-align: middle;
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+  box-sizing: border-box;
+  width: 90%;
+  background: #fff;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 10px #000;
+  text-align: left;
+}
+
+.modal a.close-modal {
+  position: absolute;
+  top: -12.5px;
+  right: -12.5px;
+  display: block;
+  width: 30px;
+  height: 30px;
+  text-indent: -9999px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAAXNSR0IArs4c6QAAA3hJREFUaAXlm8+K00Acx7MiCIJH/yw+gA9g25O49SL4AO3Bp1jw5NvktC+wF88qevK4BU97EmzxUBCEolK/n5gp3W6TTJPfpNPNF37MNsl85/vN/DaTmU6PknC4K+pniqeKJ3k8UnkvDxXJzzy+q/yaxxeVHxW/FNHjgRSeKt4rFoplzaAuHHDBGR2eS9G54reirsmienDCTRt7xwsp+KAoEmt9nLaGitZxrBbPFNaGfPloGw2t4JVamSt8xYW6Dg1oCYo3Yv+rCGViV160oMkcd8SYKnYV1Nb1aEOjCe6L5ZOiLfF120EjWhuBu3YIZt1NQmujnk5F4MgOpURzLfAwOBSTmzp3fpDxuI/pabxpqOoz2r2HLAb0GMbZKlNV5/Hg9XJypguryA7lPF5KMdTZQzHjqxNPhWhzIuAruOl1eNqKEx1tSh5rfbxdw7mOxCq4qS68ZTjKS1YVvilu559vWvFHhh4rZrdyZ69Vmpgdj8fJbDZLJpNJ0uv1cnr/gjrUhQMuI+ANjyuwftQ0bbL6Erp0mM/ny8Fg4M3LtdRxgMtKl3jwmIHVxYXChFy94/Rmpa/pTbNUhstKV+4Rr8lLQ9KlUvJKLyG8yvQ2s9SBy1Jb7jV5a0yapfF6apaZLjLLcWtd4sNrmJUMHyM+1xibTjH82Zh01TNlhsrOhdKTe00uAzZQmN6+KW+sDa/JD2PSVQ873m29yf+1Q9VDzfEYlHi1G5LKBBWZbtEsHbFwb1oYDwr1ZiF/2bnCSg1OBE/pfr9/bWx26UxJL3ONPISOLKUvQza0LZUxSKyjpdTGa/vDEr25rddbMM0Q3O6Lx3rqFvU+x6UrRKQY7tyrZecmD9FODy8uLizTmilwNj0kraNcAJhOp5aGVwsAGD5VmJBrWWbJSgWT9zrzWepQF47RaGSiKfeGx6Szi3gzmX/HHbihwBser4B9UJYpFBNX4R6vTn3VQnez0SymnrHQMsRYGTr1dSk34ljRqS/EMd2pLQ8YBp3a1PLfcqCpo8gtHkZFHKkTX6fs3MY0blKnth66rKCnU0VRGu37ONrQaA4eZDFtWAu2fXj9zjFkxTBOo8F7t926gTp/83Kyzzcy2kZD6xiqxTYnHLRFm3vHiRSwNSjkz3hoIzo8lCKWUlg/YtGs7tObunDAZfpDLbfEI15zsEIY3U/x/gHHc/G1zltnAgAAAABJRU5ErkJggg==");
+}
+
+.modal-spinner {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  padding: 12px 16px;
+  border-radius: 5px;
+  background-color: #111;
+  height: 20px;
+}
+
+.modal-spinner > div {
+  border-radius: 100px;
+  background-color: #fff;
+  height: 20px;
+  width: 2px;
+  margin: 0 1px;
+  display: inline-block;
+  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.modal-spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.modal-spinner .rect3 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+
+.modal-spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+  0%, 40%, 100% {
+    -webkit-transform: scaleY(0.5);
+  }
+  20% {
+    -webkit-transform: scaleY(1);
+  }
+}
+@keyframes sk-stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.5);
+    -webkit-transform: scaleY(0.5);
+  }
+  20% {
+    transform: scaleY(1);
+    -webkit-transform: scaleY(1);
+  }
+}
+.paginator,
+.js-paginator {
+  display: flex;
+  font-size: var(--paginator-font-size);
+  margin: var(--paginator-margin);
+}
+
+.js-first-page-block {
+  padding-right: 0.25rem;
+}
+
+.js-last-page-block {
+  padding-left: 0.25rem;
+}
+
+.js-first-page-block .with-ellipsis-h-icon,
+.js-last-page-block .with-ellipsis-h-icon {
+  font-size: 0.75rem;
+  position: relative;
+  top: 3px;
+  color: var(--paginator-fg-color);
+}
+
+.page,
+.js-page,
+.next-page,
+.js-next-page,
+.prev-page,
+.js-prev-page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--paginator-fg-color);
+  background: var(--paginator-bg);
+  height: var(--paginator-page-height);
+  min-width: var(--paginator-page-height);
+  margin: var(--paginator-page-margin);
+  line-height: var(--paginator-font-size);
+  padding: var(--paginator-page-padding);
+  text-align: center;
+  text-decoration: none !important;
+  transition: color var(--transition-params), background var(--transition-params);
+}
+
+/*.page:hover,
+.js-page:hover,
+.next-page:hover,
+.js-next-page:hover,
+.prev-page:hover,
+.js-prev-page:hover {*/
+.current-page,
+.js-current-page {
+  color: var(--paginator-current-fg-color);
+  background: var(--paginator-current-bg);
+  transition: color var(--transition-params), background var(--transition-params);
+}
+
+.prev-page,
+.js-prev-page,
+.next-page,
+.js-next-page {
+  font-size: var(--font-size);
+}
+.prev-page.js-disabled,
+.js-prev-page.js-disabled,
+.next-page.js-disabled,
+.js-next-page.js-disabled {
+  color: var(--paginator-disabled-color);
+  cursor: not-allowed;
+}
+
+.prev-page,
+.js-prev-page {
+  padding: var(--paginator-prev-page-padding);
+}
+
+.next-page,
+.js-next-page {
+  padding: var(--paginator-next-page-padding);
+}
+
+.proxy-author-help {
+  margin-bottom: 0.25rem;
+}
+
+.proxy-author-inputs-row {
+  max-width: 450px;
+  margin: 0 -0.125rem 0.5rem;
+  display: flex;
+}
+.proxy-author-inputs-row > div {
+  width: calc(50% - 0.125rem);
+  margin: 0 0.125rem;
+}
+.proxy-author-inputs-row input {
+  width: 100%;
+}
+.proxy-author-inputs-row .form-error {
+  width: 100%;
+  color: var(--clr-danger);
+  font-size: var(--small-font-size);
+}
+
+.radio-button-choice {
+  align-items: center;
+  display: flex;
+  margin-bottom: 0.125rem;
+}
+.radio-button-choice input[type=radio] {
+  margin: 0.25rem 0.25rem 0 0;
+}
+
+.reputation-badge {
+  background: var(--reputation-badge-bg);
+  border-radius: var(--reputation-badge-border-radius);
+  box-shadow: var(--reputation-badge-box-shadow);
+  color: var(--reputation-badge-color);
+  font-size: var(--reputation-badge-font-size);
+  height: var(--reputation-badge-height);
+  line-height: var(--reputation-badge-line-height);
+  padding: var(--reputation-badge-padding);
+}
+
+.share-btn {
+  cursor: pointer;
+  font-size: var(--post-share-btn-width);
+  margin-bottom: 0.125rem;
+}
+
+.js-twitter-share {
+  color: #2dabf3;
+}
+.js-twitter-share:hover {
+  color: #0b7ec1;
+}
+
+.js-facebook-share {
+  color: #4267b2;
+}
+.js-facebook-share:hover {
+  color: #587bc1;
+}
+
+.js-linkedin-share {
+  color: #2866b2;
+}
+.js-linkedin-share:hover {
+  color: #4c8ad7;
+}
+
+.sidebar-box {
+  margin-bottom: 0.75rem;
+}
+.sidebar-box h2 {
+  font-size: var(--sidebar-heading-font-size);
+  font-weight: var(--sidebar-heading-font-weight);
+  font-style: var(--sidebar-heading-font-style);
+  line-height: 1em;
+  margin-bottom: 0.3625rem;
+}
+.sidebar-box ul {
+  list-style: none;
+}
+.sidebar-box li {
+  margin: 0 0 0.25rem;
+}
+
+.components--sort-nav {
+  align-items: center;
+  background: var(--sort-nav-bg);
+  border-radius: var(--border-radius);
+  height: var(--sort-nav-height);
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  position: sticky;
+  top: var(--forum-header-height);
+  z-index: 100;
+}
+.components--sort-nav span {
+  cursor: default;
+}
+.components--sort-nav span, .components--sort-nav a, .components--sort-nav a:active {
+  color: var(--sort-nav-fg-color);
+}
+.components--sort-nav a {
+  text-decoration: none;
+  transition: var(--transition-color), var(--transition-bg-color);
+}
+.components--sort-nav a.js-selected {
+  color: var(--sort-nav-selected-fg-color);
+  background: var(--forum-header-bg-color);
+}
+.components--sort-nav a:hover {
+  color: var(--sort-nav-selected-fg-color);
+  background: var(--sort-nav-hover-bg);
+  transition: var(--transition-color), var(--transition-bg-color);
+}
+.components--sort-nav span, .components--sort-nav a {
+  border-right: var(--input-border-width) var(--input-border-style) var(--sort-nav-sep-color);
+  display: flex;
+  align-items: center;
+  font-size: var(--small-font-size);
+  height: 100%;
+  padding: 0 0.5rem 2px;
+}
+.components--sort-nav a:last-of-type {
+  border: none;
+}
+
+.js-system-messages {
+  background: var(--system-messages-bg-color);
+}
+.js-system-messages .remove-messages-container {
+  height: 0;
+  position: relative;
+}
+.js-system-messages .remove-system-messages-btn {
+  background: none;
+  border: none;
+  color: var(--clr-danger-dark);
+  font-weight: var(--font-weight-bold);
+  position: absolute;
+  right: 0.5rem;
+  top: 0.575rem;
+  transition: var(--transition-color);
+}
+.js-system-messages .remove-system-messages-btn:hover {
+  color: var(--clr-danger);
+  transition: var(--transition-color);
+}
+
+.js-system-message {
+  border-bottom: var(--border-width) solid var(--system-messages-border-color);
+  line-height: 1.25em;
+  padding: 0.5rem 0 calc(0.5rem - var(--border-width));
+}
+.js-system-message:nth-child(2) > .content-wrapper {
+  padding-right: 2rem;
+}
+.js-system-message a, .js-system-message a:active {
+  color: var(--clr-danger-dark);
+  transition: var(--color-transition);
+}
+.js-system-message a:hover, .js-system-message a:active:hover {
+  color: var(--clr-danger);
+  transition: var(--color-transition);
+}
+
+ul.tags {
+  list-style: none;
+}
+ul.tags li {
+  display: inline-block;
+  margin: 0 var(--tags-gap) var(--tags-gap) 0;
+}
+
+.js-tag {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  height: var(--tag-height);
+}
+.js-tag .js-tag-name {
+  background: var(--tag-bg);
+  border: var(--input-border-width) var(--input-border-style) var(--tag-border-color);
+  color: var(--tag-fg-color);
+  cursor: pointer;
+  display: inline-block;
+  font-size: var(--tag-font-size);
+  height: 100%;
+  padding: 0 0.25rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.js-tag .js-tag-extra-content {
+  font-size: var(--tag-font-size);
+  padding-bottom: 0.125rem;
+}
+
+.js-related-tags .js-tag {
+  margin-right: calc(0.5 * var(--tags-gap));
+}
+
+.js-tag.js-deletable-tag .js-tag-name {
+  border-right: none;
+}
+
+.js-deletable-tag .js-delete-icon {
+  background: var(--tag-delete-btn-bg);
+  border-bottom-right-radius: var(--input-border-radius);
+  border-top-right-radius: var(--input-border-radius);
+  border: var(--input-border-width) var(--input-border-style) var(--tag-delete-btn-bg);
+  color: var(--bg-color);
+  cursor: pointer;
+  display: inline-block;
+  height: 100%;
+  padding: 0 0.3rem 0 0.25rem;
+  transition: var(--transition-bg-color), var(--transition-border-color), var(--transition-color);
+}
+.js-deletable-tag .js-delete-icon:hover {
+  color: var(--tag-delete-btn-fg-hover-color);
+  background: var(--tag-delete-btn-hover-bg);
+  border: var(--input-border-width) var(--input-border-style) var(--tag-delete-btn-hover-bg);
+  transition: var(--transition-bg-color), var(--transition-border-color), var(--transition-color);
+}
+
+.js-retag-btn.with-tags-icon::before {
+  font-size: 0.75rem;
+}
+
+.js-timeago {
+  display: none;
+}
+
+.js-toolbar-dropdown-menu {
+  display: inline-block;
+  position: relative;
+}
+.js-toolbar-dropdown-menu .js-dropdown-trigger {
+  padding-right: 0.75rem;
+}
+.js-toolbar-dropdown-menu .js-dropdown-trigger::before {
+  position: absolute;
+  right: 0;
+  top: 0.125rem;
+}
+.js-toolbar-dropdown-menu .js-dropdown-target {
+  position: absolute;
+  background: var(--bg-color);
+  border-radius: var(--toolbar-dropdown-menu-border-radius);
+  box-shadow: var(--toolbar-dropdown-menu-box-shadow);
+  border: var(--toolbar-dropdown-menu-border);
+  left: calc(-1 * var(--toolbar-dropdown-menu-padding-left));
+  top: 1.25rem;
+  list-style: none;
+  padding: var(--toolbar-dropdown-menu-padding);
+  z-index: 10000;
+}
+.js-toolbar-dropdown-menu .action-link {
+  display: block;
+  height: var(--toolbar-dropdown-menu-item-height);
+}
+.js-toolbar-dropdown-menu .action-link:last-child {
+  margin-bottom: 0;
+}
+.js-toolbar-dropdown-menu li {
+  padding: var(--toolbar-dropdown-menu-item-padding);
+  color: var(--fg-color) !important;
+}
+.js-toolbar-dropdown-menu li input {
+  background: transparent;
+  color: var(--fg-color);
+  transition: none;
+}
+.js-toolbar-dropdown-menu li:hover {
+  color: var(--bg-color) !important;
+  background: var(--toolbar-dropdown-menu-item-hover-bg);
+}
+.js-toolbar-dropdown-menu li:hover input {
+  background: transparent;
+  color: var(--bg-color);
+  transition: none;
+}
+
+.js-post-vote-btn-group {
+  position: relative;
+  text-align: center;
+  margin: var(--post-vote-btn-group-margin);
+}
+.js-post-vote-btn-group .js-error-popup {
+  left: calc(1.5 * var(--post-vote-btn-width));
+  top: 0;
+}
+
+.js-post-vote-btn {
+  font-size: calc(1.5 * var(--post-vote-btn-width));
+  width: var(--post-vote-btn-width);
+  height: var(--post-vote-btn-height);
+  cursor: pointer;
+  color: var(--post-vote-btn-inactive-color);
+  transition: color var(--transition-params);
+}
+.js-post-vote-btn::before {
+  display: flex;
+  align-items: center;
+  width: var(--post-vote-btn-width);
+  height: var(--post-vote-btn-height);
+}
+.js-post-vote-btn:hover {
+  color: var(--post-vote-btn-inactive-hover-color);
+}
+
+.js-post-upvote-btn.js-active {
+  color: var(--post-upvote-btn-active-color);
+}
+
+.js-post-downvote-btn.js-active {
+  color: var(--post-downvote-btn-active-color);
+}
+
+.js-post-vote-number {
+  font-size: var(--post-votes-font-size);
+}
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.title-row h1 {
+  font-size: var(--large-font-size);
+  padding-top: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.tags-page .title-row,
+.users-page .title-row {
+  background: var(--semi-transparent-bg-color);
+  position: sticky;
+  top: var(--forum-header-height);
+  z-index: 100;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 12rem;
+  height: 3.25rem;
+}
+.user-card .js-avatar-box {
+  height: 2.25rem;
+  margin-right: 0.5rem;
+}
+.user-card .user-info {
+  font-size: var(--small-font-size);
+}
+.user-card a, .user-card a:visited {
+  text-decoration: none;
+  color: var(--fg-color);
+}
+.user-card .with-gold-badge-icon::before,
+.user-card .with-silver-badge-icon::before,
+.user-card .with-bronze-badge-icon::before {
+  font-size: var(--2extra-small-font-size);
+}
+.user-card .user-name-and-country {
+  white-space: nowrap;
+}
+.user-card .user-name-and-country > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+.user-card .user-name-link {
+  max-width: calc(12rem - 2.25rem - 0.5rem - 1rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-card .user-website-link {
+  display: inline-block;
+  max-width: calc(12rem - 2.75rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.users-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+.users-list li {
+  margin: 0 1rem 0.75rem 0;
+}
+
+.badges-page .sidebar-box h2, .badges-page .sidebar-box p,
+.badge-detail-page .sidebar-box h2,
+.badge-detail-page .sidebar-box p {
+  margin-bottom: 1rem;
+}
+.badges-page .sidebar-box .badge,
+.badge-detail-page .sidebar-box .badge {
+  margin-bottom: 0.5rem;
+}
+
+.js-action-status {
+  padding: 0.125rem 0.5rem 0.25rem;
+  background: var(--clr-highlight-70);
+  width: fit-content;
+  margin: 0 auto 0.5rem;
+}
+
+.about-page main,
+.faq-page main,
+.help-page main,
+.privacy-page main,
+.terms-page main {
+  padding: 0.5rem 0 1rem;
+}
+.about-page h2,
+.faq-page h2,
+.help-page h2,
+.privacy-page h2,
+.terms-page h2 {
+  font-size: var(--large-font-size);
+}
+.about-page h2, .about-page p,
+.faq-page h2,
+.faq-page p,
+.help-page h2,
+.help-page p,
+.privacy-page h2,
+.privacy-page p,
+.terms-page h2,
+.terms-page p {
+  margin: 0 0 0.5rem;
+}
+
+.js-post-moderation-message {
+  padding: 0.5rem;
+  color: var(--bg-color);
+  background: var(--clr-danger);
+  margin: 0.5rem 0;
+}
+.js-post-moderation-message::before {
+  color: var(--clr-highlight-70);
+}
+
+.js-answer .js-post-moderation-message {
+  margin-bottom: 0;
+}
+
+.js-comment-content .js-post-moderation-message {
+  margin: 0.25rem 0 0.125rem !important;
+}
+
+.error-page main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+}
+.error-page main h1 {
+  margin: 0 0 0.5rem;
+}
+
+#js-questions {
+  margin-bottom: 0.5rem;
+}
+
+.questions-blank-state {
+  text-align: center;
+  margin: 4rem 0 4.5rem;
+}
+
+.js-questions-header {
+  margin-bottom: 0.5rem;
+  position: sticky;
+  top: var(--forum-header-height);
+  z-index: 1;
+}
+
+.js-questions-header-top {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 0 calc(-1 * var(--layout-horizontal-padding)) 0.125rem;
+  padding: 0 var(--layout-horizontal-padding);
+  position: relative;
+  /* removed b/c it interferes with the .js-search-tags
+  &.js-scrolled::after {
+    --shadow-height: 0.3625rem;
+    background: linear-gradient(to bottom, hsl(0 0 0 / 0.04), hsl(0 0 0 / 0));
+    border-top: 1px solid var(--crl-neutral-90);
+    border-bottom-left-radius: calc(2 * var(--shadow-height));
+    border-bottom-right-radius: calc(2 * var(--shadow-height));
+    bottom: calc(-1 * var(--shadow-height));
+    left: calc(0.5 * var(--layout-horizontal-padding));
+    content: '';
+    height: var(--shadow-height);
+    position: absolute;
+    width: calc(100% - var(--layout-horizontal-padding));
+  }
+  */
+}
+@media (max-width: 690px) {
+  .js-questions-header-top {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.questions-header-top-controls {
+  display: flex;
+}
+@media (max-width: 570px) {
+  .questions-header-top-controls {
+    width: 100%;
+  }
+}
+
+.js-questions-title {
+  background: var(--semi-transparent-bg-color);
+  flex-grow: 1;
+  font-weight: normal;
+  font-size: var(--large-font-size);
+  height: var(--sort-nav-height);
+  padding: 3px 1rem 0 0;
+  margin: 0;
+}
+@media (max-width: 690px) {
+  .js-questions-title {
+    display: none;
+  }
+}
+
+.js-rss-link {
+  align-items: center;
+  color: var(--rss-link-color);
+  display: flex;
+  font-size: var(--small-font-size);
+  padding: 0 0.75rem 2px 0.25rem;
+  background: var(--semi-transparent-bg-color);
+  transition: color var(--transition-params);
+}
+.js-rss-link:hover {
+  color: var(--rss-link-hover-color);
+  transition: color var(--transition-params);
+}
+.js-rss-link::before {
+  font-size: 0.65rem;
+  position: absolute;
+  left: 2.75em;
+}
+@media (max-width: 570px) {
+  .js-rss-link {
+    flex-grow: 1;
+  }
+}
+
+.js-search-tags-label {
+  font-size: var(--large-font-size);
+  position: relative;
+  top: 0.125rem;
+}
+
+.js-search-tags {
+  background: var(--semi-transparent-bg-color);
+  display: inline-block;
+  margin: -0.125rem 0 0.25rem;
+  padding: 0.25rem 0;
+}
+.js-search-tags li {
+  margin-bottom: 0;
+}
+
+.question-summary {
+  border-bottom: var(--border-width) var(--border-style) var(--sort-nav-sep-color);
+  margin-bottom: 0.25rem;
+  min-height: var(--question-summary-min-height);
+}
+.question-summary h2 {
+  display: block;
+  font-size: var(--large-font-size) !important;
+  font-weight: normal;
+  line-height: 1em;
+  margin: 0 0 0.75rem;
+}
+.question-summary h2 a, .question-summary h2 a:active {
+  color: var(--fg-color);
+  text-decoration: none;
+}
+.question-summary:last-child {
+  border: none;
+  margin-bottom: 0;
+}
+
+.question-summary-tags {
+  display: block;
+  flex-wrap: wrap;
+  position: relative;
+  top: -0.125rem;
+}
+
+.question-summary-user-info {
+  font-size: var(--extra-small-font-size);
+  height: 1rem;
+  margin-bottom: 0.125rem;
+  padding-top: 1px;
+  text-align: right;
+  white-space: nowrap;
+}
+.question-summary-user-info a, .question-summary-user-info a:active, .question-summary-user-info a:visited {
+  color: var(--fg-color);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+}
+
+.question-summary-stats-user {
+  float: right;
+  margin-left: 0.25rem;
+}
+
+.question-summary-stats {
+  display: flex;
+  flex-wrap: nowrap;
+  height: var(--question-summary-stats-height);
+  justify-content: flex-end;
+  text-align: center;
+}
+.question-summary-stats > * {
+  margin-right: 0.5rem;
+}
+.question-summary-stats > *:last-child {
+  margin: 0;
+}
+
+.question-views-count,
+.question-answers-count,
+.question-votes-count {
+  text-align: center;
+  border: var(--border-width) var(--border-style) var(--sort-nav-sep-color);
+  height: 100%;
+  width: var(--question-summary-count-box-width);
+  padding: var(--question-summary-count-box-padding);
+}
+.question-views-count .item-count,
+.question-answers-count .item-count,
+.question-votes-count .item-count {
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 3px;
+}
+.question-views-count .item-name,
+.question-answers-count .item-name,
+.question-votes-count .item-name {
+  font-size: var(--extra-small-font-size);
+  color: var(--fg-color);
+  line-height: 8px;
+}
+
+.question-views-count {
+  background: linear-gradient(to top, var(--clr-blue-pale), var(--bg-color));
+  color: var(--clr-blue-40);
+}
+
+.question-answers-count {
+  background: linear-gradient(to top, var(--clr-highlight-pale), var(--bg-color));
+  color: var(--answers-count-color);
+  position: relative;
+}
+
+.question-answers-count.with-accept-answer-icon::before {
+  color: var(--accept-answer-btn-active-color);
+  font-size: 0.75rem;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+}
+
+.question-votes-count {
+  background: linear-gradient(to top, var(--clr-danger-pale), var(--bg-color));
+  color: var(--clr-danger);
+}
+
+.contrib-avatars {
+  display: flex;
+  flex-wrap: wrap;
+}
+.contrib-avatars .js-avatar-box,
+.contrib-avatars .js-avatar {
+  border-radius: var(--border-radius);
+  display: inline-block;
+  height: 40px;
+  margin: 0 1px 1px 0;
+  width: 40px;
+}
+
+.sidebar-box.tag-filter-sidebar-box h2 {
+  margin-bottom: 0.125rem;
+}
+
+.answers-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.new-answer-form-title {
+  margin: var(--new-answer-form-title-margin);
+}
+
+.new-answer-form .info-box {
+  margin-bottom: 0.5rem;
+}
+
+.answer-options .checkbox {
+  margin-bottom: 0.5rem;
+}
+
+.js-post {
+  display: flex;
+}
+
+.js-post.js-question {
+  padding: var(--question-padding);
+  margin: var(--question-margin);
+}
+.js-post.js-question h1 {
+  font-size: var(--question-detail-title-font-size);
+  line-height: var(--question-detail-title-line-height);
+  margin: var(--question-detail-title-margin);
+}
+.js-post.js-question h1 .js-editable-content,
+.js-post.js-question h1 .js-editable-controls,
+.js-post.js-question h1 .js-edit {
+  display: inline;
+}
+.js-post.js-question h1 .js-editable-content {
+  padding-right: 0;
+}
+.js-post.js-question h1 .js-edit {
+  font-size: var(--large-font-size);
+  text-decoration-thickness: var(--text-decoration-thickness);
+}
+.js-post.js-question h1 textarea {
+  font-weight: var(--heading-font-weight);
+  font-size: var(--question-detail-title-font-size);
+  line-height: var(--question-detail-title-line-height);
+  padding: 3px var(--input-horizontal-padding);
+}
+
+.js-post.js-answer {
+  margin: var(--answer-margin);
+}
+
+.js-accepted-answer {
+  background: var(--accepted-answer-bg);
+}
+
+.post-body {
+  margin: var(--post-body-margin);
+}
+.post-body img {
+  max-width: 100%;
+}
+
+.post-vote-controls {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: var(--post-vote-controls-margin);
+  width: var(--post-vote-controls-width);
+}
+
+.post-content {
+  flex-grow: 1;
+  max-width: calc(100% - var(--post-vote-controls-width) - var(--layout-horizontal-padding));
+}
+.post-content .js-editable-content {
+  margin-bottom: 0.75rem;
+}
+
+.js-post-controls {
+  margin: var(--post-controls-margin);
+}
+.js-post-controls .action-link {
+  margin-right: 0.3625rem;
+}
+.js-post-controls .action-link:last-child {
+  margin-right: 0;
+}
+.js-post-controls .action-link::before {
+  font-size: var(--post-controls-icon-size);
+  margin: var(--post-controls-icon-margin);
+}
+
+.js-accept-answer-btn {
+  cursor: pointer;
+  margin: var(--accept-answer-btn-margin);
+}
+.js-accept-answer-btn::before {
+  color: var(--accept-answer-btn-inactive-color);
+  font-size: var(--accept-answer-btn-size);
+  transition: color var(--transition-params);
+}
+.js-accept-answer-btn:hover::before {
+  color: var(--accept-answer-btn-inactive-hover-color);
+  transition: color var(--transition-params);
+}
+.js-accept-answer-btn.js-active::before {
+  color: var(--accept-answer-btn-active-color);
+  transition: color var(--transition-params);
+}
+.js-accept-answer-btn.js-active:hover::before {
+  color: var(--accept-answer-btn-active-hover-color);
+  transition: color var(--transition-params);
+}
+
+.js-post-unflag-btn::before,
+.js-post-reopen::before {
+  color: var(--clr-neutral-60);
+}
+
+.js-post-flag-count::before {
+  content: "(";
+}
+
+.js-post-flag-count::after {
+  content: ")";
+}
+
+.js-tags-input {
+  margin: var(--tags-input-margin);
+}
+
+.post-update-info-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: var(--post-update-info-container-margin);
+}
+
+.post-update-info {
+  border-radius: 0.25rem;
+  display: flex;
+  margin: var(--post-update-info-margin);
+  min-width: 11rem;
+  padding: 0.3625rem;
+  background: var(--post-update-info-bg);
+}
+.post-update-info:last-child {
+  margin-right: 0;
+}
+@media (max-width: 414px) {
+  .post-update-info {
+    align-items: center;
+    margin-right: 0;
+    width: 100%;
+  }
+}
+
+.js-accepted-answer .post-update-info {
+  background: var(--post-update-info-accepted-answer-bg);
+}
+
+.post-update-info-avatar {
+  margin-right: 0.25rem;
+}
+@media (max-width: 414px) {
+  .post-update-info-avatar {
+    height: var(--avatar-size-compact);
+  }
+  .post-update-info-avatar .js-avatar {
+    height: var(--avatar-size-compact);
+    width: var(--avatar-size-compact);
+  }
+  .post-update-info-avatar .reputation-badge {
+    display: none;
+  }
+}
+
+.post-update-info-details {
+  display: flex;
+  font-size: var(--small-font-size);
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 0.125rem 0;
+}
+.post-update-info-details a,
+.post-update-info-details a:active,
+.post-update-info-details a:visited {
+  color: var(--post-update-info-details-color);
+  text-decoration: none;
+}
+.post-update-info-details a:hover,
+.post-update-info-details a:active:hover,
+.post-update-info-details a:visited:hover {
+  color: var(--post-update-info-details-hover-color);
+}
+@media (max-width: 414px) {
+  .post-update-info-details {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+  .post-update-info-details .post-update-info-author-name {
+    margin-right: 0.25rem;
+  }
+}
+
+.js-merge-questions {
+  margin-bottom: 0.5rem;
+}
+.js-merge-questions .js-merge-questions-search,
+.js-merge-questions .js-tags,
+.js-merge-questions .js-question-title {
+  margin-bottom: 0.5rem;
+}
+.js-merge-questions .js-question-title {
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+}
+.js-merge-questions label {
+  margin-right: 0.5rem;
+}
+.js-merge-questions .js-tags {
+  display: flex;
+}
+.js-merge-questions .js-tag {
+  margin-right: var(--tags-gap);
+}
+
+.question-detail-page .sidebar-box h2 {
+  margin-bottom: 0.5rem;
+}
+.question-detail-page .sidebar-box p {
+  margin-bottom: 0.25rem;
+}
+.question-detail-page .related-questions p {
+  margin-bottom: 0.5rem;
+}
+.question-detail-page .related-questions a {
+  text-decoration: none;
+}
+.question-detail-page .follow-question {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 3rem);
+  align-items: center;
+}
+.question-detail-page .js-follow-question-btn {
+  display: block;
+  height: 1.875rem;
+  margin: 0.5rem auto 0.25rem 0;
+  width: 100%;
+}
+.question-detail-page .js-question-follower-count {
+  display: block;
+  margin: 0 0 0.5rem;
+}
+.question-detail-page .js-rss-link {
+  display: inline-block;
+  position: relative;
+  padding-left: 1rem;
+  margin: 0 auto;
+  font-size: var(--font-size);
+}
+.question-detail-page .js-rss-link::before {
+  font-size: 0.75rem;
+  bottom: 0.25rem;
+  left: 0;
+  transform: rotate(270deg);
+}
+
+.ask-page main {
+  padding: 1rem 0;
+}
+.ask-page .forum-header .content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  font-size: var(--large-font-size);
+}
+.ask-page label[for=id_title] {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.ask-page .question-tags {
+  margin: 0.75rem 0;
+}
+.ask-page .tags-label {
+  margin-bottom: 0.25rem;
+}
+.ask-page .search-bar {
+  margin: 0 0 0.75rem;
+}
+.ask-page .search-bar input {
+  height: var(--input-height);
+  margin-bottom: 0.25rem;
+  width: 100%;
+}
+.ask-page .help-text {
+  margin-bottom: 0.5rem;
+}
+.ask-page .checkbox {
+  margin-bottom: 1rem;
+}
+.ask-page .help-text {
+  font-size: var(--small-font-size);
+  color: var(--clr-neutral-60);
+}
+.ask-page .js-error {
+  color: var(--clr-danger-dark);
+  font-size: var(--small-font-size);
+}
+.ask-page .proxy-author-inputs {
+  margin-bottom: 1rem;
+}
+
+.tags-page .tags {
+  margin-bottom: 0.75rem;
+}
+.tags-page .tags li {
+  margin-bottom: calc(1.5 * var(--tags-gap));
+}
+
+.js-group-settings label[for=group-openness-selector] {
+  display: block;
+  margin-bottom: 0.125rem;
+}
+.js-group-settings .row.with-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.js-group-settings .row.with-checkbox input[type=checkbox] {
+  margin: 1px 0.25rem 0 0;
+}
+
+a.badge-page-link {
+  text-decoration: none;
+}
+
+.badges-list .with-times-icon::before {
+  font-size: 0.875rem;
+  margin-right: 1px;
+}
+.badges-list .with-check-icon {
+  color: var(--clr-green-40);
+  margin-right: 0.25rem;
+}
+.badges-list .badge {
+  margin-right: 0.125rem;
+}
+.badges-list td {
+  padding: 0.125rem 0 0.25rem;
+}
+
+.badge {
+  align-items: center;
+  background: var(--badge-bg);
+  border-radius: var(--badge-border-radius);
+  border: var(--badge-border);
+  color: var(--badge-text-color);
+  display: inline-flex;
+  height: var(--badge-height);
+  padding: var(--badge-padding);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.badge::before {
+  margin-right: 0.25rem;
+}
+
+.badges-page p {
+  margin: 0 0 0.25rem;
+}
+.badges-page table {
+  margin: 0.5rem 0;
+}
+
+.badge-detail-page h1 {
+  margin-bottom: 0.5rem;
+}
+.badge-detail-page main h2 {
+  font-size: var(--large-font-size);
+  margin-bottom: 0.5rem;
+}
+.badge-detail-page .badge {
+  margin-right: 0.5rem;
+}
+.badge-detail-page .badge-awarded-for {
+  text-transform: lowercase;
+}
+.badge-detail-page .badge-info,
+.badge-detail-page .badge-recipients-info {
+  margin-bottom: 1rem;
+}
+
+.revisions-page .revisions-list {
+  margin-top: 1rem;
+}
+.revisions-page .js-revision {
+  margin: 0 0 1rem;
+}
+.revisions-page .revision-number {
+  margin-right: 1rem;
+}
+.revisions-page .revision-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: var(--large-font-size);
+  color: var(--clr-neutral-30);
+}
+.revisions-page .with-caret-right-icon::before {
+  transition: transform 0.25s ease;
+  margin-right: 0.25rem;
+}
+.revisions-page .js-revision.js-active .with-caret-right-icon::before {
+  transform: rotate(90deg);
+}
+.revisions-page .js-revision-body {
+  padding-top: 0.5rem;
+  display: none;
+}
+.revisions-page .post-update-info {
+  display: inline-flex;
+  margin: 0;
+}
+
+.user-profile-page h1 {
+  margin-bottom: 0.5rem;
+}
+.user-profile-page h2 {
+  font-size: var(--extra-large-font-size);
+  margin-bottom: 0.5rem;
+}
+.user-profile-page table {
+  width: 100%;
+}
+.user-profile-page .components--sort-nav {
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  height: auto;
+  line-height: var(--sort-nav-height);
+}
+.user-profile-page .js-editable-content {
+  padding: 0.25rem 0 0;
+}
+.user-profile-page section {
+  margin-bottom: 1rem;
+}
+.user-profile-page .badges-list > * {
+  display: inline-block;
+  margin: 0 0.5rem 0.5rem 0;
+}
+
+.user-profile-info {
+  display: flex;
+  flex-wrap: wrap;
+}
+.user-profile-info > * {
+  margin-bottom: 1rem;
+}
+
+.user-info-avatar-block {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-right: 2rem;
+  min-width: 8rem;
+  padding-top: 0.5rem;
+  width: 8rem;
+  --avatar-size: 8rem;
+}
+
+.js-follow-user {
+  margin-top: 0.5rem;
+}
+
+.user-info-table {
+  margin-right: 2rem;
+  max-width: 20rem;
+}
+.user-info-table th, .user-info-table td {
+  text-align: left;
+  padding: 0 1rem 0.3625rem;
+}
+.user-info-table th:first-child, .user-info-table td:first-child {
+  text-transform: capitalize;
+}
+.user-info-table th:nth-child(2) {
+  font-weight: normal;
+}
+.user-info-table .with-upvote-icon::before,
+.user-info-table .with-downvote-icon::before {
+  margin-right: 0.125rem;
+}
+
+.user-info-about-text {
+  max-width: 28rem;
+}
+
+.user-profile-answers {
+  margin-bottom: 1rem;
+}
+.user-profile-answers .answer-votes {
+  color: var(--clr-danger);
+  background: linear-gradient(to top, var(--clr-danger-pale), var(--bg-color));
+  border: var(--border-width) var(--border-style) var(--sort-nav-sep-color);
+  display: inline-block;
+  font-weight: var(--font-weight-bold);
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.25rem;
+}
+.user-profile-answers .answer-summary {
+  margin-bottom: 0.25rem;
+}
+.user-profile-answers .answer-summary a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+.user-profile-answers .paginator {
+  margin-top: 1rem;
+}
+
+.js-user-answers {
+  margin-bottom: 0.75rem;
+}
+
+.js-user-questions {
+  margin-bottom: 0.25rem;
+}
+
+.js-inbox-forum .js-manage-messages {
+  margin-bottom: 0.5rem;
+}
+.js-inbox-forum .js-action-status {
+  display: none;
+}
+.js-inbox-forum .message-meta {
+  display: flex;
+  align-items: center;
+}
+.js-inbox-forum .message-meta > * {
+  margin-right: 0.25rem;
+}
+.js-inbox-forum .js-message-group {
+  margin-bottom: 1rem;
+}
+.js-inbox-forum .js-message {
+  margin: 0 0 0.5rem 1.5rem;
+}
+.js-inbox-forum .js-messages .js-avatar-box,
+.js-inbox-forum .js-messages .js-avatar {
+  width: 1rem;
+  height: 1rem;
+}
+.js-inbox-forum .js-messages input[type=checkbox] {
+  margin-right: 0.25rem;
+}
+
+.js-no-notifications {
+  margin-top: -1rem;
+}
+
+.subscription-settings th {
+  text-align: left;
+}
+.subscription-settings th, .subscription-settings td {
+  padding: 0.25rem 0.5rem 0.25rem 0;
+}
+.subscription-settings td {
+  text-align: center;
+}
+.subscription-settings .tag-filter-settings {
+  margin-bottom: 0.5rem;
+}
+.subscription-settings .tag-filter-settings ul {
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+.subscription-settings .tag-filter-settings label {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+.subscription-settings .tag-filter-settings input {
+  margin-right: 0.25rem;
+}
+
+.user-profile-activity .components--sort-nav {
+  margin-bottom: 0.5rem;
+}
+.user-profile-activity .action-type {
+  width: 13rem;
+}
+
+.user-profile-votes .empty-content-box {
+  margin-top: -1rem;
+}
+
+.user-profile-activity table,
+.user-profile-votes table {
+  margin-bottom: 1rem;
+}
+.user-profile-activity th, .user-profile-activity td,
+.user-profile-votes th,
+.user-profile-votes td {
+  padding: 0.25rem 1rem 0.25rem 0;
+  vertical-align: top;
+}
+.user-profile-activity .timestamp,
+.user-profile-votes .timestamp {
+  width: 7rem;
+}
+
+.user-info-table .with-upvote-icon,
+.user-info-table .with-downvote-icon,
+.user-votes-list .with-upvote-icon,
+.user-votes-list .with-downvote-icon {
+  color: var(--bg-color);
+  display: inline-block;
+  height: 1.5rem;
+  padding: 0.125rem 0.25rem;
+}
+.user-info-table .with-upvote-icon,
+.user-votes-list .with-upvote-icon {
+  background: var(--clr-green-40);
+}
+.user-info-table .with-downvote-icon,
+.user-votes-list .with-downvote-icon {
+  background: var(--clr-danger);
+}
+
+.moderate-user-page h2 {
+  font-size: var(--large-font-size);
+}
+.moderate-user-page table {
+  max-width: 30rem;
+  margin-bottom: 0.5rem;
+}
+.moderate-user-page th {
+  font-weight: normal;
+}
+.moderate-user-page th, .moderate-user-page td {
+  text-align: left;
+  padding-bottom: 0.3625rem;
+}
+.moderate-user-page section {
+  margin-bottom: 1.25rem;
+}
+.moderate-user-page .send-email {
+  max-width: 30rem;
+}
+.moderate-user-page .send-email label {
+  display: block;
+  margin-bottom: 0.125rem;
+}
+.moderate-user-page .send-email input,
+.moderate-user-page .send-email textarea {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+.moderate-user-page .send-email input.btn {
+  width: fit-content;
+}
+.moderate-user-page .change-account-status input[type=number],
+.moderate-user-page .change-account-status input[type=text],
+.moderate-user-page .change-account-status select,
+.moderate-user-page .change-reputation input[type=number],
+.moderate-user-page .change-reputation input[type=text],
+.moderate-user-page .change-reputation select {
+  width: 10rem;
+}
+
+.user-profile-page ul.avatars {
+  list-style: none;
+}
+.user-profile-page ul.avatars li {
+  margin: 0 1rem 1rem 0;
+}
+.user-profile-page ul.avatars img {
+  margin-bottom: 0.5rem;
+}
+.user-profile-page ul.avatars .avatar-primary-label,
+.user-profile-page ul.avatars input[type=submit] {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+.user-profile-page ul.avatars input[type=file] {
+  margin-bottom: 0.5rem;
+}
+.user-profile-page .avatars {
+  display: flex;
+}
+.user-profile-page .avatar-label {
+  text-align: center;
+  font-weight: var(--font-weight-bold);
+  margin: 0 0 0.5rem;
+}
+
+.edit-user-profile-page main {
+  margin-bottom: 1rem;
+  --avatar-size: 128px;
+}
+.edit-user-profile-page td {
+  text-align: left;
+  padding-bottom: 0.25rem;
+}
+.edit-user-profile-page td:first-child {
+  padding-right: 1rem;
+}
+.edit-user-profile-page table {
+  margin-bottom: 0.25rem;
+}
+.edit-user-profile-page table input:not([type=checkbox]),
+.edit-user-profile-page table select,
+.edit-user-profile-page table textarea {
+  width: 100%;
+}
+.edit-user-profile-page .avatar {
+  display: inline-block;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.signin-page main,
+.verify-email-page main,
+.signup-page main {
+  padding: 0.5rem 0 1.5rem;
+}
+.signin-page ul,
+.verify-email-page ul,
+.signup-page ul {
+  list-style: none;
+  display: flex;
+}
+.signin-page li,
+.verify-email-page li,
+.signup-page li {
+  margin: 0 0.25rem 0.25rem 0;
+}
+.signin-page h2,
+.verify-email-page h2,
+.signup-page h2 {
+  margin-bottom: 0.5rem;
+}
+.signin-page .errorlist,
+.verify-email-page .errorlist,
+.signup-page .errorlist {
+  color: var(--clr-danger-dark);
+  font-size: var(--small-font-size);
+}
+.signin-page .errorlist li,
+.verify-email-page .errorlist li,
+.signup-page .errorlist li {
+  margin-bottom: 0.125rem;
+}
+.signin-page .email-recovery-email,
+.verify-email-page .email-recovery-email,
+.signup-page .email-recovery-email {
+  border-right: none;
+}
+.signin-page .login-icons-block,
+.verify-email-page .login-icons-block,
+.signup-page .login-icons-block {
+  margin-bottom: 0.5rem;
+}
+.signin-page .login-icons.large input,
+.verify-email-page .login-icons.large input,
+.signup-page .login-icons.large input {
+  width: 88px;
+  height: 38px;
+}
+.signin-page .password-login-inputs,
+.verify-email-page .password-login-inputs,
+.signup-page .password-login-inputs {
+  margin-bottom: 0.5rem;
+}
+.signin-page .password-login-inputs input,
+.verify-email-page .password-login-inputs input,
+.signup-page .password-login-inputs input {
+  margin-bottom: 0.25rem;
+}
+.signin-page .password-login-inputs .btn,
+.verify-email-page .password-login-inputs .btn,
+.signup-page .password-login-inputs .btn {
+  margin-right: 0.5rem;
+}
+
+.verify-email-page .info-box {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+.verify-email-page input[type=text] {
+  border-right: 0;
+}
+.verify-email-page form {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.feedback-page div {
+  margin-bottom: 0.5rem;
+}
+.feedback-page .error {
+  color: var(--clr-danger);
+}
+.feedback-page input[type=checkbox] {
+  position: relative;
+  bottom: -0.125rem;
+  margin-left: 0.125rem;
+}
+
+.search-posts-page {
+  --nav-height: 1.25rem;
+}
+.search-posts-page .post-body {
+  padding: 0;
+}
+.search-posts-page .search-posts-form {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: 1rem;
+}
+.search-posts-page .search-posts-by-ord-form {
+  display: inline-block;
+  position: relative;
+  bottom: -1px;
+}
+.search-posts-page .search-posts-by-ord-form > * {
+  display: inline-block;
+}
+.search-posts-page .search-posts-by-ord-form input[type=text],
+.search-posts-page .search-posts-by-ord-form input.btn {
+  height: var(--nav-height);
+  font-size: 1rem !important;
+  font-weight: var(--font-weight-bold);
+}
+.search-posts-page .search-posts-by-ord-form input.btn {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.search-posts-page .search-posts-by-ord-form input[type=text] {
+  border-left: none;
+  border-right: none;
+  text-align: center;
+  width: 3rem;
+}
+.search-posts-page .search-posts-by-ord-form .search-posts-total-count {
+  --local-bg-color: grey;
+  display: inline-block;
+  color: var(--bg-color);
+  background: var(--local-bg-color);
+  height: var(--nav-height);
+  border-top: 1px solid var(--local-bg-color);
+  border-bottom: 1px solid var(--local-bg-color);
+  padding: 0 0.25rem;
+  font-size: 1rem;
+}
+.search-posts-page .search-posts-context-link {
+  margin-bottom: 0.5rem;
+}
+.search-posts-page .search-posts-nav {
+  font-size: 1rem;
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 1rem;
+}
+.search-posts-page .search-posts-nav a {
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+}
+.search-posts-page .search-posts-nav a::before {
+  position: absolute;
+  top: 3px;
+}
+.search-posts-page .search-posts-nav .search-posts-current {
+  font-size: 0.875rem;
+  transition: font-size var(--transition-params);
+  position: relative;
+  bottom: -0.275rem;
+  border-radius: 0.5rem 0 0 0.5rem;
+  height: var(--nav-height);
+  width: 1.5rem;
+}
+.search-posts-page .search-posts-nav .search-posts-current:active {
+  font-size: 0.75rem;
+  transition: font-size var(--transition-params);
+}
+.search-posts-page .search-posts-nav .search-posts-current::before {
+  left: 0.3625rem;
+}
+.search-posts-page .search-posts-nav .search-posts-prev,
+.search-posts-page .search-posts-nav .search-posts-next {
+  padding: 0 0.3625rem;
+  border-radius: 0.5rem;
+  height: var(--nav-height);
+}
+.search-posts-page .search-posts-nav .search-posts-prev,
+.search-posts-page .search-posts-nav .search-posts-next,
+.search-posts-page .search-posts-nav .search-posts-current {
+  background: var(--link-color);
+  color: var(--bg-color);
+}
+.search-posts-page .search-posts-context-link {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 0.75rem;
+}
+.search-posts-page .search-posts-context-type {
+  text-transform: capitalize;
+}
+
+.edit-answer-page h1, .edit-answer-page main {
+  margin-bottom: 1rem;
+}
+
+.moderation-queue-page .moderation-header .tools {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+.moderation-queue-page .moderation-header .tools .js-label {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.moderation-queue-page .moderation-header .tools .buttons {
+  display: flex;
+}
+.moderation-queue-page .moderation-header .tools .btn {
+  margin-right: 0.25rem;
+}
+.moderation-queue-page .moderation-header .tools .btn:last-child {
+  margin: 0;
+}
+.moderation-queue-page .select-decline-reason-btn {
+  position: relative;
+  margin-right: 0.25rem;
+}
+.moderation-queue-page .select-decline-reason-btn .btn.js-dropdown-trigger {
+  margin-right: 0;
+}
+.moderation-queue-page .select-decline-reason-btn .js-dropdown-target {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border: var(--toolbar-dropdown-menu-border);
+  background: var(--bg-color);
+  border-top: none;
+  list-style: none;
+}
+.moderation-queue-page .select-decline-reason-btn .js-dropdown-target li {
+  padding: 0.5rem;
+}
+.moderation-queue-page .js-approve-block {
+  margin-right: 0.25rem;
+}
+.moderation-queue-page .info-box {
+  padding-left: 1.5rem;
+}
+.moderation-queue-page .messages {
+  margin-bottom: 1rem;
+}
+.moderation-queue-page .empty-content-box {
+  background: var(--clr-neutral-90);
+  margin-bottom: 1rem;
+}
+
+/*# sourceMappingURL=style.css.map */

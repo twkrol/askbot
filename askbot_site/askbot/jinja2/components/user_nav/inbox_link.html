@@ -1,0 +1,5 @@
+{% if user.new_response_count + user.seen_response_count %}
+  <a class="{% if user.new_response_count %}inbox-icon-with-alert{% elif user.seen_response_count %}inbox-icon{% endif %}"
+     title="{% trans response_count=user.new_response_count %}you have {{response_count}} new response{% pluralize %}you have {{response_count}} new responses{% endtrans %}"
+     href="{{user.get_absolute_url()}}?sort=inbox&section=forum"></a>
+{% endif %}

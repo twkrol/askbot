@@ -1,0 +1,21 @@
+.js-merge-questions {
+  margin-bottom: 0.5rem;
+  .js-merge-questions-search,
+  .js-tags,
+  .js-question-title {
+    margin-bottom: 0.5rem;
+  }
+  .js-question-title {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+  }
+  label {
+    margin-right: 0.5rem;
+  }
+  .js-tags {
+    display: flex;
+  }
+  .js-tag {
+    margin-right: var(--tags-gap);
+  }
+}

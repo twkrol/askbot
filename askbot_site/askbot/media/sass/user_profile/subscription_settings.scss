@@ -1,0 +1,27 @@
+.subscription-settings {
+  th {
+    text-align: left;
+  }
+  th, td {
+    padding: 0.25rem 0.5rem 0.25rem 0;
+  }
+  td {
+    text-align: center;
+  }
+  .tag-filter-settings {
+    margin-bottom: 0.5rem;
+    ul {
+      display: flex;
+      list-style: none;
+      align-items: center;
+    }
+    label {
+      display: flex;
+      align-items: center;
+      margin-right: 1rem;
+    }
+    input {
+      margin-right: 0.25rem;
+    }
+  }
+}

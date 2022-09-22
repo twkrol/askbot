@@ -1,0 +1,18 @@
+{% extends "one_column_body.html" %}
+{% import "macros.html" as macros %}
+{% block title %}
+  {% trans %}Moderation queue{% endtrans %}
+{% endblock %}
+{% block layout_class %}moderation-queue-page{% endblock %}
+{% block content %}
+  <h1>{% trans %}Moderation queue{% endtrans %}</h1>
+  {% if queue %}
+    {% include "moderation/moderation_header.html" %}
+    {% include "moderation/messages.html" %}
+  {% else %}
+    {% include "moderation/blank_state.html" %}
+  {% endif %}
+{% endblock %}
+{% block endjs %}
+  {% include "moderation/javascript.html" %}
+{% endblock %}

@@ -1,0 +1,115 @@
+.js-post {
+  display: flex;
+}
+
+.js-post.js-question {
+  padding: var(--question-padding);
+  margin: var(--question-margin);
+  h1 {
+    font-size: var(--question-detail-title-font-size);
+    line-height: var(--question-detail-title-line-height);
+    margin: var(--question-detail-title-margin);
+    .js-editable-content,
+    .js-editable-controls,
+    .js-edit {
+      display: inline;
+    }
+    .js-editable-content {
+      padding-right: 0;
+    }
+    .js-edit {
+      font-size: var(--large-font-size);
+      text-decoration-thickness: var(--text-decoration-thickness);
+    }
+    textarea {
+      font-weight: var(--heading-font-weight);
+      font-size: var(--question-detail-title-font-size);
+      line-height: var(--question-detail-title-line-height);
+      padding: 3px var(--input-horizontal-padding);
+    }
+  }
+}
+
+.js-post.js-answer {
+  margin: var(--answer-margin);
+}
+
+.js-accepted-answer {
+  background: var(--accepted-answer-bg);
+}
+
+.post-body {
+  margin: var(--post-body-margin);
+  img {
+    max-width: 100%;
+  }
+}
+
+.post-vote-controls {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: var(--post-vote-controls-margin);
+  width: var(--post-vote-controls-width);
+}
+
+.post-content {
+  flex-grow: 1;
+  max-width: calc(100% - var(--post-vote-controls-width) - var(--layout-horizontal-padding));
+  .js-editable-content {
+    margin-bottom: 0.75rem;
+  }
+}
+
+.js-post-controls {
+  margin: var(--post-controls-margin);
+  .action-link {
+    margin-right: 0.3625rem;
+    &:last-child {
+      margin-right: 0;
+    }
+    &::before {
+      font-size: var(--post-controls-icon-size);
+      margin: var(--post-controls-icon-margin);
+    }
+  }
+}
+
+.js-accept-answer-btn {
+  cursor: pointer;
+  margin: var(--accept-answer-btn-margin);
+  &::before {
+    color: var(--accept-answer-btn-inactive-color);
+    font-size: var(--accept-answer-btn-size);
+    transition: color var(--transition-params);
+  }
+  &:hover::before {
+    color: var(--accept-answer-btn-inactive-hover-color);
+    transition: color var(--transition-params);
+  }
+  &.js-active::before {
+    color: var(--accept-answer-btn-active-color);
+    transition: color var(--transition-params);
+  }
+  &.js-active:hover::before {
+    color: var(--accept-answer-btn-active-hover-color);
+    transition: color var(--transition-params);
+  }
+}
+
+.js-post-unflag-btn::before,
+.js-post-reopen::before {
+  color: var(--clr-neutral-60);
+}
+
+.js-post-flag-count::before {
+  content: '(';
+}
+
+.js-post-flag-count::after {
+  content: ')';
+}
+
+.js-tags-input {
+  margin: var(--tags-input-margin);
+}

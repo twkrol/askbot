@@ -1,0 +1,7 @@
+<h2 class="new-answer-form-title">
+  {% if answers or not show_answer_form %}
+    {{ settings.WORDS_YOUR_ANSWER|escape }}
+  {% else %}
+    {{ settings.WORDS_BE_THE_FIRST_TO_ANSWER_THIS_QUESTION|escape }}
+  {% endif %}
+</h2>

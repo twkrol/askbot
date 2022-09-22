@@ -1,0 +1,16 @@
+.sidebar-box {
+  h2 {
+    font-size: var(--sidebar-heading-font-size);
+    font-weight: var(--sidebar-heading-font-weight);
+    font-style: var(--sidebar-heading-font-style);
+    line-height: 1em;
+    margin-bottom: 0.3625rem;
+  }
+  ul {
+    list-style: none;
+  }
+  li {
+    margin: 0 0 0.25rem;
+  }
+  margin-bottom: 0.75rem;
+}

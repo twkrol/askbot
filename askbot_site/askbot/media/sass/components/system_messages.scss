@@ -1,0 +1,38 @@
+.js-system-messages {
+  background: var(--system-messages-bg-color);
+  .remove-messages-container {
+    height: 0;
+    position: relative;
+  }
+  .remove-system-messages-btn {
+    background: none;
+    border: none;
+    color: var(--clr-danger-dark);
+    font-weight: var(--font-weight-bold);
+    position: absolute;
+    right: 0.5rem;
+    top: 0.575rem;
+    transition: var(--transition-color);
+    &:hover {
+      color: var(--clr-danger);
+      transition: var(--transition-color);
+    }
+  }
+}
+
+.js-system-message {
+  border-bottom: var(--border-width) solid var(--system-messages-border-color);
+  line-height: 1.25em;
+  padding: 0.5rem 0 calc(0.5rem - var(--border-width));
+  &:nth-child(2) > .content-wrapper {
+    padding-right: 2rem;
+  }
+  a, a:active {
+    color: var(--clr-danger-dark);
+    transition: var(--color-transition);
+    &:hover {
+      color: var(--clr-danger);
+      transition: var(--color-transition);
+    }
+  }
+}
