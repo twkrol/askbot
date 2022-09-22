@@ -3,7 +3,7 @@ Jinja2>=2.10,<3.1
 akismet==1.0.1
 beautifulsoup4<=4.7.1
 bleach==5.0.1
-celery==5.1.2
+celery==5.2.2
 django-appconf==1.0.3
 django-avatar==5.0
 django-compressor>=2.0,<=2.4
