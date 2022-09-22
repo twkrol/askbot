@@ -53,3 +53,4 @@ bower_components/
 .tox
 coverage_html_report
 Pipfile.lock
+askbot_site/askbot/setup_templates/send_email_alerts.sh
