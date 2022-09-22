@@ -58,6 +58,10 @@ ADD ./askbot_site /app
 
 # RUN cp /src/askbot/container/prestart.sh /app
 
+RUN mkdir -p /app/log
+RUN mkdir -p /app/static
+RUN mkdir -p /app/upfiles
+
 RUN true \
     && cp /app/askbot/container/prestart.* /app \
     && /usr/bin/crontab /app/askbot/container/crontab \
