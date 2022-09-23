@@ -1317,7 +1317,8 @@ def verify_email_and_register(request):
             email_verifier.save()
             cleanup_post_register_session(request)
 
-            return HttpResponseRedirect(get_next_url(request))
+            return HttpResponseRedirect(reverse('index'))
+            # return HttpResponseRedirect(get_next_url(request))
         except Exception as error: #pylint: disable=broad-except
             logging.critical('Could not verify account: %s', str(error).encode('utf-8'))
             message = _(
@@ -1359,7 +1360,8 @@ def signup_with_password(request):
                 )
                 login(request, user)
                 cleanup_post_register_session(request)
-                return HttpResponseRedirect(get_next_url(request))
+                return HttpResponseRedirect(reverse('index'))
+                # return HttpResponseRedirect(get_next_url(request))
 
             email_verifier = UserEmailVerifier(key=generate_random_key())
             email_verifier.value = {'username': username,
